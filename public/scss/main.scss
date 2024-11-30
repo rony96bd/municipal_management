@@ -1,0 +1,130 @@
+@import 'resets';
+@import 'colors';
+// Flex Classes
+.flex{
+    display: flex;
+}
+@each $direction in (row, column) {
+    .#{$direction} {
+        flex-direction: $direction;
+    }
+}
+.wrap {
+    flex-wrap: wrap;
+}
+.center {
+    justify-content: center;
+    align-items: center;
+}
+
+// Map justify-content values to their short forms
+$justify-map: (
+  center: "cc",           // center -> jcc
+  space-between: "sb",    // space-between -> jsb
+  stretch: "st"           // stretch -> jst (added stretch for justify-content)
+);
+
+// Map align-items values to their short forms
+$align-map: (
+  flex-start: "is",  // flex-start -> ais
+  flex-end: "ie",    // flex-end -> aie
+  center: "ce",      // center -> ace
+  stretch: "st"      // stretch -> ast (added stretch for align-items)
+);
+
+// Dynamically generate class names for justify-content and align-items combinations
+@each $justify, $justify-short in $justify-map {
+  @each $align, $align-short in $align-map {
+    .j#{$justify-short}-a#{$align-short} {
+      justify-content: $justify;
+      align-items: $align;
+    }
+  }
+}
+
+// Generate classes dynamically using the maps
+@each $justify, $justify-short in $justify-map {
+  @each $align, $align-short in $align-map {
+    .j#{$justify-short}-a#{$align-short} {
+      justify-content: $justify;
+      align-items: $align;
+    }
+  }
+}
+
+// Grid Classes
+// Grid Classes
+.grid {
+    display: grid;
+}
+// Mixin for generating column layouts
+@mixin repeat-columns($count: 1) {
+    grid-template-columns: repeat($count, minmax(100px, 1fr));
+}
+
+// Generate classes from grid-columns-1 to grid-columns-8
+@for $i from 1 through 10 {
+    .grid-columns-#{$i} {
+        @include repeat-columns($i);
+    }
+}
+
+
+// Define the possible row-gap and column-gap values
+$row-gaps: (5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100);
+$column-gaps: (5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100);
+
+// Mixin to generate classes for gaps
+@mixin generate-gap-classes($gap-values, $property, $class-prefix) {
+  @each $gap in $gap-values {
+    .#{$class-prefix}-#{$gap} {
+      #{$property}: #{$gap}px;
+    }
+  }
+}
+
+// Generate row-gap classes (with "rg" as class prefix)
+@include generate-gap-classes($row-gaps, 'row-gap', 'rg');
+
+// Generate column-gap classes (with "cg" as class prefix)
+@include generate-gap-classes($column-gaps, 'column-gap', 'cg');
+
+
+// Define the container width values from 1120px to 3920px with a 10px increment
+$container-widths: 1120, 1340, 1440, 1540, 1640, 1920;
+
+
+// Loop through the width values and generate classes
+@each $width in $container-widths {
+  .container-#{$width}px {
+    max-width: #{$width}px;
+    width: 100%;
+  }
+}
+
+
+// Define padding values from 5px to 100px with a 5px increment
+$padding-values: 5, 10, 20, 40, 60, 80;
+
+
+// Loop to generate padding classes
+// Loop to generate individual padding classes
+@each $padding in $padding-values {
+    .pt-#{$padding} { padding-top: #{$padding}px; }
+    .pb-#{$padding} { padding-bottom: #{$padding}px; }
+    .pl-#{$padding} { padding-left: #{$padding}px; }
+    .pr-#{$padding} { padding-right: #{$padding}px; }
+    .p-#{$padding} { padding: #{$padding}px; }
+  }
+
+
+  // Generate classes for text colors and background colors
+  @each $name, $color in $colors {
+    .color-#{$name} {
+      color: #{$color};
+    }
+
+    .background-#{$name} {
+      background-color: #{$color};
+    }
+  }

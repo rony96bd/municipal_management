@@ -1,0 +1,27 @@
+:root{
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --paragraph-color: #333333;
+    --link-color: $primary-color;
+    --button-color: $primary-color;
+    --danger-color: #e74c3c;
+    --alert-color: #f39c12;
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+    --black-color: #000000;
+    --white-color: #ffffff;
+}
+
+$colors: (
+  primary: --primary-color,
+  secondary: --secondary-color,
+  paragraph: --paragraph-color,
+  link: --link-color,
+  button: --button-color,
+  danger: --danger-color,
+  alert: --alert-color,
+  success: --success-color,
+  warning: --warning-color,
+  black: --black-color,
+  white: --white-color
+);
