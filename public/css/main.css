@@ -20,6 +20,36 @@
   --white-color: #ffffff;
 }
 
+.fs-base {
+  font-size: 16px;
+}
+.fs-16-20 {
+  font-size: clamp(16px, 1.1vw, 20px);
+}
+.fs-24-32 {
+  font-size: clamp(24px, 1.7vw, 32px);
+}
+.fs-32-42 {
+  font-size: clamp(32px, 2.1875vw, 42px);
+}
+.fs-34-55 {
+  font-size: clamp(37px, 2.88vw, 55px);
+}
+.fs-40-60 {
+  font-size: clamp(40px, 3.125vw, 60px);
+}
+.fs-32-80 {
+  font-size: clamp(32px, 4.17vw, 80px);
+}
+
+body {
+  font-size: 16px;
+}
+
+.containner {
+  max-width: 1240px;
+}
+
 .flex {
   display: flex;
 }
@@ -306,6 +336,11 @@
 
 .container-1120px {
   max-width: 1120px;
+  width: 100%;
+}
+
+.container-1240px {
+  max-width: 1240px;
   width: 100%;
 }
 

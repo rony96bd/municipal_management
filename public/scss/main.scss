@@ -1,6 +1,21 @@
 @import 'resets';
 @import 'colors';
+@import 'fonts';
+body{
+    font-size: $base-font;
+}
 // Flex Classes
+.section{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.containner{
+    max-width: $page_width;
+    width: 100%;
+}
+
 .flex{
     display: flex;
 }
@@ -91,7 +106,7 @@ $column-gaps: (5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100);
 
 
 // Define the container width values from 1120px to 3920px with a 10px increment
-$container-widths: 1120, 1340, 1440, 1540, 1640, 1920;
+$container-widths: 1120, 1240, 1340, 1440, 1540, 1640, 1920;
 
 
 // Loop through the width values and generate classes

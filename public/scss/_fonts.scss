@@ -1,0 +1,30 @@
+$base-font: 16px;
+$font-16-20: clamp(16px, 1.1vw, 20px); // VW based on 1920px
+$font-24-32: clamp(24px, 1.7vw, 32px); // VW based on 1920px
+$font-32-42: clamp(32px, 2.1875vw, 42px); // VW based on 1920px
+$font-34-55: clamp(37px, 2.88vw, 55px); // VW based on 1920px
+$font-40-60: clamp(40px, 3.125vw, 60px); // VW based on 1920px
+$font-32-80: clamp(32px, 4.17vw, 80px); // VW based on 1920px
+.fs {
+    &-base {
+        font-size: $base-font
+    }
+    &-16-20 {
+      font-size:$font-16-20;
+    }
+    &-24-32 {
+      font-size:$font-24-32;
+    }
+    &-32-42 {
+      font-size:$font-32-42;
+    }
+    &-34-55 {
+      font-size:$font-34-55;
+    }
+    &-40-60{
+        font-size: $font-40-60;
+    }
+    &-32-80{
+        font-size: $font-32-80;
+    }
+  }
