@@ -24,6 +24,20 @@ body{
         flex-direction: $direction;
     }
 }
+
+// _flex-direction.scss
+
+// List of flex direction values
+$flex-directions: 'column-reverse', 'row-reverse';
+
+// Loop to generate flex-direction classes
+@each $direction in $flex-directions {
+  .flex-#{$direction} {
+    flex-direction: $direction;
+  }
+}
+
+
 .wrap {
     flex-wrap: wrap;
 }
@@ -79,7 +93,7 @@ $align-map: (
 
 // Generate classes from grid-columns-1 to grid-columns-8
 @for $i from 1 through 10 {
-    .grid-columns-#{$i} {
+    .grid-col-#{$i} {
         @include repeat-columns($i);
     }
 }
@@ -102,7 +116,7 @@ $column-gaps: (5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100);
 @include generate-gap-classes($row-gaps, 'row-gap', 'rg');
 
 // Generate column-gap classes (with "cg" as class prefix)
-@include generate-gap-classes($column-gaps, 'column-gap', 'cg');
+@include generate-gap-classes($column-gaps, 'column-gap', 'colg');
 
 
 // Define the container width values from 1120px to 3920px with a 10px increment
@@ -122,16 +136,26 @@ $container-widths: 1120, 1240, 1340, 1440, 1540, 1640, 1920;
 $padding-values: 5, 10, 20, 40, 60, 80;
 
 
-// Loop to generate padding classes
 // Loop to generate individual padding classes
 @each $padding in $padding-values {
-    .pt-#{$padding} { padding-top: #{$padding}px; }
-    .pb-#{$padding} { padding-bottom: #{$padding}px; }
-    .pl-#{$padding} { padding-left: #{$padding}px; }
-    .pr-#{$padding} { padding-right: #{$padding}px; }
-    .p-#{$padding} { padding: #{$padding}px; }
+    .padt-#{$padding} { padding-top: #{$padding}px; }
+    .padb-#{$padding} { padding-bottom: #{$padding}px; }
+    .padl-#{$padding} { padding-left: #{$padding}px; }
+    .padr-#{$padding} { padding-right: #{$padding}px; }
+    .padar-#{$padding} { padding: #{$padding}px; }
   }
 
+  // Define margin values from 5px to 100px with a 5px increment
+$margin-values: 5, 10, 20, 40, 60, 80;
+
+// Loop to generate margin classes
+@each $margin in $margin-values {
+  .mart-#{$margin} { margin-top: #{$margin}px; }
+  .marb-#{$margin} { margin-bottom: #{$margin}px; }
+  .marl-#{$margin} { margin-left: #{$margin}px; }
+  .marr-#{$margin} { margin-right: #{$margin}px; }
+  .marar-#{$margin} { margin: #{$margin}px; }
+}
 
   // Generate classes for text colors and background colors
   @each $name, $color in $colors {
@@ -142,4 +166,90 @@ $padding-values: 5, 10, 20, 40, 60, 80;
     .background-#{$name} {
       background-color: #{$color};
     }
+  }
+
+
+// List of text alignments
+$alignments: 'left', 'center', 'right';
+
+// Loop to generate text alignment classes
+@each $alignment in $alignments {
+  .text-#{$alignment} {
+    text-align: $alignment;
+  }
+}
+
+// List of visibility states
+$visibility-states: 'hidden', 'visible';
+
+// Loop to generate visibility classes
+@each $state in $visibility-states {
+  .#{$state} {
+    visibility: $state;
+  }
+}
+
+// Define a range for the border width from 1px to 10px
+$border-widths: 1px 2px 3px 4px 5px 6px 7px 8px 9px 10px;
+
+// Loop to generate border-width utilities for all sides
+@each $width in $border-widths {
+  .border-#{$width} {
+    border-width: $width;
+  }
+
+  .border-top-#{$width} {
+    border-top-width: $width;
+  }
+
+  .border-bottom-#{$width} {
+    border-bottom-width: $width;
+  }
+
+  .border-left-#{$width} {
+    border-left-width: $width;
+  }
+
+  .border-right-#{$width} {
+    border-right-width: $width;
+  }
+}
+
+
+// List of border types
+$border-types: 'solid', 'dashed', 'dotted';
+
+// Loop to generate border-type utilities
+@each $type in $border-types {
+  .border-#{$type} {
+    border-style: $type;
+  }
+}
+
+
+// Loop to generate border color utilities
+@each $name, $color in $colors {
+    .border-color-#{$name} {
+      border-color: var(#{$color});
+    }
+  }
+
+
+// Define a range for the border radius in pixels (1px to 20px)
+$border-radius-pixels: 1px 2px 3px 4px 5px 6px 7px 8px 9px 10px 11px 12px 13px 14px 15px 16px 17px 18px 19px 20px;
+
+// Loop to generate border-radius utilities for pixel values
+@each $radius in $border-radius-pixels {
+    .bradius-#{$radius} {
+      border-radius: $radius;
+    }
+  }
+
+//   Defie percantance for the variables
+  $border-radius-percentages: 10 20 30 40 50 60 70 80 90 100;
+  //   Loop Through Border Radius with Percentance value
+  @each $radiusper in $border-radius-percentages{
+    .bradius-#{$radiusper}-per{
+        border-radius: $radiusper *1%;
+      }
   }
