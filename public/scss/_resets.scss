@@ -1,8 +1,84 @@
-*{
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
     outline: none;
-    box-sizing: border-box;
     clear: both;
+    transition-duration: .25s;
+    transition-timing-function: ease-in-out;
+    transition-property: all;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: scroll;
+    background-repeat: no-repeat;
 }
-$page_width:1240px;
+
+/* Document-Level Styling */
+html {
+    scroll-behavior: smooth; /* For smooth scrolling */
+    -webkit-text-size-adjust: 100%; /* Prevent iOS from resizing text */
+}
+
+body {
+    line-height: 1.2; /* Improved readability */
+    text-rendering: optimizeSpeed; /* Speed up text rendering */
+    font-family: "Tiro Bangla", serif; /* Default font family */
+}
+
+/* Anchor Tags */
+a {
+    text-decoration: none;
+    color: inherit; /* Use the current color */
+}
+
+/* Lists */
+ul,
+ol {
+    list-style: none;
+}
+
+/* Images and Media */
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%; /* Responsive media */
+    height: auto;
+}
+
+/* Forms */
+input,
+button,
+textarea,
+select {
+    font: inherit; /* Inherit font styles */
+    border: none;
+    outline: none;
+}
+
+/* Buttons */
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Tables */
+table {
+    border-collapse: collapse; /* Prevent spacing between cells */
+    border-spacing: 0;
+}
+
+/* General */
+:focus-visible {
+    outline: auto; /* Default focus styles */
+}
+
+$page_width:1440px;

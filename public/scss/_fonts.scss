@@ -5,6 +5,7 @@ $font-32-42: clamp(32px, 2.1875vw, 42px); // VW based on 1920px
 $font-34-55: clamp(37px, 2.88vw, 55px); // VW based on 1920px
 $font-40-60: clamp(40px, 3.125vw, 60px); // VW based on 1920px
 $font-32-80: clamp(32px, 4.17vw, 80px); // VW based on 1920px
+$font-h1: clamp(22px, 2.6vw, 50px);
 .fs {
     &-base {
         font-size: $base-font
@@ -26,5 +27,8 @@ $font-32-80: clamp(32px, 4.17vw, 80px); // VW based on 1920px
     }
     &-32-80{
         font-size: $font-32-80;
+    }
+    &-h1{
+        font-size: $font-h1;
     }
   }

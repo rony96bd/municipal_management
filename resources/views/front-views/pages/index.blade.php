@@ -1,4 +1,4 @@
 @extends('front-views.templates.main')
 @section('page-body')
-    Homepage
+    প্রথম পাতা
 @endsection

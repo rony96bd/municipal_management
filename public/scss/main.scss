@@ -11,9 +11,13 @@ body{
   justify-content: center;
   align-items: center;
 }
-.containner{
+.container{
     max-width: $page_width;
     width: 100%;
+    padding-left: clamp(18px, 2.8vw,40px);
+    padding-right: clamp(18px, 2.8vw,40px);
+    padding-top: clamp(18px, 2.8vw,40px);
+    padding-bottom: clamp(18px, 2.8vw,40px);
 }
 
 .flex{
@@ -50,15 +54,21 @@ $flex-directions: 'column-reverse', 'row-reverse';
 $justify-map: (
   center: "cc",           // center -> jcc
   space-between: "sb",    // space-between -> jsb
-  stretch: "st"           // stretch -> jst (added stretch for justify-content)
+  space-around: "sa",     // space-around -> jsa
+  space-evenly: "se",     // space-evenly -> jse
+  flex-start: "fs",       // flex-start -> jfs
+  flex-end: "fe",         // flex-end -> jfe,
+  stretch: "st"           // stretch -> jst
 );
 
 // Map align-items values to their short forms
 $align-map: (
-  flex-start: "is",  // flex-start -> ais
-  flex-end: "ie",    // flex-end -> aie
-  center: "ce",      // center -> ace
-  stretch: "st"      // stretch -> ast (added stretch for align-items)
+  flex-start: "is",       // flex-start -> ais
+  flex-end: "ie",         // flex-end -> aie
+  center: "ce",           // center -> ace
+  stretch: "st",          // stretch -> ast
+  baseline: "bl",         // baseline -> abl
+  normal: "no"            // normal -> ano
 );
 
 // Dynamically generate class names for justify-content and align-items combinations
@@ -71,15 +81,6 @@ $align-map: (
   }
 }
 
-// Generate classes dynamically using the maps
-@each $justify, $justify-short in $justify-map {
-  @each $align, $align-short in $align-map {
-    .j#{$justify-short}-a#{$align-short} {
-      justify-content: $justify;
-      align-items: $align;
-    }
-  }
-}
 
 // Grid Classes
 // Grid Classes
@@ -100,8 +101,7 @@ $align-map: (
 
 
 // Define the possible row-gap and column-gap values
-$row-gaps: (5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100);
-$column-gaps: (5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100);
+$gap-values: (0, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100);
 
 // Mixin to generate classes for gaps
 @mixin generate-gap-classes($gap-values, $property, $class-prefix) {
@@ -112,11 +112,19 @@ $column-gaps: (5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100);
   }
 }
 
+// Generate global gap classes
+@each $gap in $gap-values {
+  .gap-#{$gap} {
+    gap: #{$gap}px;
+  }
+}
+
 // Generate row-gap classes (with "rg" as class prefix)
-@include generate-gap-classes($row-gaps, 'row-gap', 'rg');
+@include generate-gap-classes($gap-values, 'row-gap', 'rg');
 
 // Generate column-gap classes (with "cg" as class prefix)
-@include generate-gap-classes($column-gaps, 'column-gap', 'colg');
+@include generate-gap-classes($gap-values, 'column-gap', 'colg');
+
 
 
 // Define the container width values from 1120px to 3920px with a 10px increment
@@ -130,10 +138,21 @@ $container-widths: 1120, 1240, 1340, 1440, 1540, 1640, 1920;
     width: 100%;
   }
 }
-
+.full-width{
+    width: 100%!important;
+    max-width: 100%!important;
+}
+.width-max-content{
+    width: max-content;
+}
+.full-height{
+    height: 100%;
+    max-height: 100%;
+    min-height: 100%;
+}
 
 // Define padding values from 5px to 100px with a 5px increment
-$padding-values: 5, 10, 20, 40, 60, 80;
+$padding-values: 0, 5, 10, 20, 40, 60, 80;
 
 
 // Loop to generate individual padding classes
@@ -146,7 +165,7 @@ $padding-values: 5, 10, 20, 40, 60, 80;
   }
 
   // Define margin values from 5px to 100px with a 5px increment
-$margin-values: 5, 10, 20, 40, 60, 80;
+$margin-values: 0, 5, 10, 20, 40, 60, 80;
 
 // Loop to generate margin classes
 @each $margin in $margin-values {
@@ -156,21 +175,23 @@ $margin-values: 5, 10, 20, 40, 60, 80;
   .marr-#{$margin} { margin-right: #{$margin}px; }
   .marar-#{$margin} { margin: #{$margin}px; }
 }
-
+    .marauto{
+        margin: auto;
+    }
   // Generate classes for text colors and background colors
   @each $name, $color in $colors {
     .color-#{$name} {
-      color: #{$color};
+      color: var($color);
     }
 
     .background-#{$name} {
-      background-color: #{$color};
+      background-color: var($color);
     }
   }
 
 
 // List of text alignments
-$alignments: 'left', 'center', 'right';
+$alignments: left, center, right;
 
 // Loop to generate text alignment classes
 @each $alignment in $alignments {
@@ -253,3 +274,45 @@ $border-radius-pixels: 1px 2px 3px 4px 5px 6px 7px 8px 9px 10px 11px 12px 13px 1
         border-radius: $radiusper *1%;
       }
   }
+
+
+
+  // Define a list of position values
+$positions: absolute, relative, fixed, sticky, static;
+
+// Mixin to generate position classes
+@mixin generate-position-classes($position-values) {
+  @each $position in $position-values {
+    .position-#{$position} {
+      position: #{$position};
+    }
+  }
+}
+
+// Use the mixin to generate position classes
+@include generate-position-classes($positions);
+
+
+// Define the values for top, bottom, left, and right (from 0px to 100px in intervals of 10px)
+$positions-values: (0, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100);
+
+// Mixin to generate top, bottom, left, and right position classes
+@mixin generate-position-classes($position-values) {
+  @each $value in $position-values {
+    .top-#{$value} {
+      top: #{$value}px;
+    }
+    .bottom-#{$value} {
+      bottom: #{$value}px;
+    }
+    .left-#{$value} {
+      left: #{$value}px;
+    }
+    .right-#{$value} {
+      right: #{$value}px;
+    }
+  }
+}
+
+// Use the mixin to generate classes
+@include generate-position-classes($positions-values);
