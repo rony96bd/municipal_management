@@ -64,4 +64,65 @@
 .llisting > a {
   position: relative;
   z-index: 2;
+}
+
+.includs-submenu {
+  cursor: pointer;
+}
+.includs-submenu:hover img.nav-icon {
+  transform: rotate(-180deg);
+}
+
+.sub-menu {
+  width: -moz-max-content;
+  width: max-content;
+  cursor: auto;
+  z-index: -2;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  transition-property: opacity, transform, visibility;
+}
+.sub-menu::after {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: calc(100% - 42px);
+  background-color: var(--white-color);
+  z-index: -1;
+  content: "";
+  border-radius: 8px;
+  box-shadow: 0px 24px 120px 0px rgba(0, 0, 0, 0.1882352941);
+}
+.sub-menu.active {
+  z-index: 1;
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0px);
+}
+.sub-menu > li {
+  width: 100%;
+  display: flex;
+}
+.sub-menu > li > a {
+  width: 100%;
+  display: flex;
+  color: var(--black-color);
+}
+
+img.nav-icon {
+  width: 20px;
+  height: 13px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-left: 5px;
+}
+
+.site-main {
+  height: 200vh;
+}
+
+header .anchor {
+  font-size: 18px;
 }/*# sourceMappingURL=site-css.css.map */

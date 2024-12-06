@@ -3,20 +3,14 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        web: __DIR__.'/../routes/web.php',
-        api: __DIR__.'/../routes/api.php',
-        commands: __DIR__.'/../routes/console.php',
-        health: '/up',
-        then: function () {
-            // Register custom front routes
-            Route::namespace('Front')
-                ->name('front.')
-                ->group(base_path('routes/front.php')); // Register the custom front route file
-        },
+        function (Router $router){
+            $router->middleware('web')->group(base_path('routes/front.php'));
+        }
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
