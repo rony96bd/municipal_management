@@ -2395,4 +2395,8 @@ body {
 
 .transition-property-z-index {
   transition-property: z-index;
+}
+
+.display-none {
+  display: none;
 }/*# sourceMappingURL=main.css.map */

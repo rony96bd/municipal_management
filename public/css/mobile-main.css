@@ -16,10 +16,10 @@
     display: flex;
   }
   .m-row {
-    flex-direction: m-row;
+    flex-direction: row;
   }
   .m-column {
-    flex-direction: m-column;
+    flex-direction: column;
   }
   .m-flex-column-reverse {
     flex-direction: "column-reverse";
@@ -1759,5 +1759,8 @@
   }
   .m-transition-property-z-index {
     transition-property: z-index;
+  }
+  .m-display-none {
+    display: none;
   }
 }/*# sourceMappingURL=mobile-main.css.map */

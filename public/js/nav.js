@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Select all elements with the class '.includs-submenu'
 const includesSubmenus = document.querySelectorAll('.includs-submenu');
-const primaryHeader = document.querySelector('.primary-header');
+const primaryHeader = document.querySelector('.nav-section');
 
 includesSubmenus.forEach(submenu => {
   // Select the sub-menu inside the current '.includs-submenu'
@@ -25,7 +25,7 @@ includesSubmenus.forEach(submenu => {
     submenu.addEventListener('mouseenter', function() {
       // Add 'active' class to the '.sub-menu' inside the hovered '.includs-submenu'
       subMenu.classList.add('active');
-      primaryHeader.classList.add('z-index-3', 'position-relative');
+      primaryHeader.classList.add('z-index-3');
     });
 
     // Add event listener for mouseleave (when the hover is removed) on '.includs-submenu'
@@ -34,7 +34,7 @@ includesSubmenus.forEach(submenu => {
       setTimeout(() => {
         if (!submenu.matches(':hover') && !subMenu.matches(':hover')) {
           subMenu.classList.remove('active');
-          primaryHeader.classList.remove('z-index-3', 'position-relative');
+          primaryHeader.classList.remove('z-index-3');
         }
       }, 50); // Small delay to ensure the mouse has actually left the submenu
     });
@@ -54,3 +54,15 @@ includesSubmenus.forEach(submenu => {
     });
   }
 });
+
+
+// Mobile Nav JS
+jQuery(document).ready(function($) {
+    $('.mobile-burger').on('click', function() {
+        $(this).toggleClass('active');
+
+        // Toggle the related mobile-nav
+        $(".mobile-nav").slideToggle("fast");
+    });
+});
+

@@ -10,4 +10,7 @@ class DevelopersController extends Controller
     public function css(){
         return view('developers.classes');
     }
+    public function customfunctions(){
+        return view('developers.custom-functions');
+    }
 }

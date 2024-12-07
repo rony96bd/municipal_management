@@ -3,8 +3,8 @@
     .m-flex{
         display: flex;
     }
-    @each $direction in (m-row, m-column) {
-        .#{$direction} {
+    @each $direction in (row, column) {
+        .m-#{$direction} {
             flex-direction: $direction;
         }
     }
@@ -408,5 +408,9 @@ $transition-properties: all, color, background, transform, opacity, width, heigh
 
 // Include the mixin to generate the classes
 @include generate-transition-property-classes;
+.m-display-none{
+    display: none;
+}
 
 }
+

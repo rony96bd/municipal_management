@@ -19,7 +19,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-
-Route::prefix('developer-doc')->name('class-list.')->group(function () {
-        Route::get('css', [DevelopersController::class, 'css'])->name('css');
-    });

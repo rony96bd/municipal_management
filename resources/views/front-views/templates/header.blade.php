@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('developers.png') }}" type="image/x-icon">
     @include('css-js-loaders.load-css')
 
     <title>
@@ -19,12 +19,12 @@
 
 <body>
     <div class="marauto full-width">
-        <header class="section primary-header jfe-ace z-index-1">
+        <header class="section primary-header z-index-1 flex column jcc-ace">
             {{-- main Containner --}}
-            <div class="container color-white ">
-                <div class="flex row gap-20 jfs-ace">
+            <div class="container color-white position-relative z-index-3 text-center">
+                <div class="flex column gap-20 jcc-ace">
                     <a href="{{ route('homepage') }}" class="anchor transition-duration-0-5s transition-ease-in-out transition-property-all"><img src="{{ asset('images/assets/logo.png') }}" alt="আলমডাঙ্গা পৌরসভা" class="img site-logo bradius-100-per"></a>
-                    <div class="flex column">
+                    <div class="flex column jcc-ace" style="max-width: calc(100% - 100px)">
                         <h1 class="heading fs-h1">আলমডাঙ্গা পৌরসভা </h1>
                         <p class="paragraph">আমাদের প্রতিজ্ঞা দেশকল্যাণ, উদ্ভাবন, জনসেবা, সততা, নিরপেক্ষ ও দারিদ্র মুক্ত
                             স্বনির্ভর বাংলাদেশ গড়েতোলা।</p>
@@ -33,9 +33,12 @@
             </div>
             {{-- Background Slidder --}}
             @include('front-views.templates.background-slidder')
-            {{-- Nav --}}
-            @include('front-views.templates.navbars.header-nav')
+
         </header>
+        {{-- Nav --}}
+        @include('front-views.templates.navbars.header-nav')
+        {{-- Mobile Nav --}}
+        @include('front-views.templates.navbars.header-mobile-nav')
         <main class="site-main z-index-2 position-relative">
 
 

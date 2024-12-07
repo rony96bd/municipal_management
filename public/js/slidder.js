@@ -12,6 +12,9 @@ slides.appendChild(firstSlide);
 // Set the index for the current slide
 let currentIndex = 0;
 
+// Ensure the first slide is active on load
+slideItems[currentIndex].classList.add('slider-active');
+
 // Function to move the slider to the next slide
 function moveToNextSlide() {
   // Remove the "slider-active" class from the previous slide
@@ -29,14 +32,13 @@ function moveToNextSlide() {
       slides.style.transition = 'none'; // Disable transition for the reset
       slides.style.transform = 'translateX(0)'; // Move back to the original first slide
       currentIndex = 0; // Reset the index
+      slideItems[currentIndex].classList.add('slider-active'); // Reapply active class to the first slide
     }, 1000); // Wait for the transition to complete before resetting
   } else {
     slides.style.transition = 'transform 1s ease-in-out'; // Enable transition
+    slideItems[currentIndex].classList.add('slider-active'); // Add the active class to the current slide
   }
-
-  // Add the "slider-active" class to the current active slide
-  slideItems[currentIndex].classList.add('slider-active');
 }
 
-// Set the slider to move automatically every 3 seconds
-setInterval(moveToNextSlide, 10000); // Change 3000 to control the speed (in milliseconds)
+// Set the slider to move automatically every 10 seconds
+setInterval(moveToNextSlide, 10000); // Change 10000 to control the speed (in milliseconds)

@@ -437,3 +437,7 @@ $transition-properties: all, color, background, transform, opacity, width, heigh
 
 // Include the mixin to generate the classes
 @include generate-transition-property-classes;
+
+.display-none{
+    display: none;
+}
