@@ -64,5 +64,15 @@ jQuery(document).ready(function($) {
         // Toggle the related mobile-nav
         $(".mobile-nav").slideToggle("fast");
     });
+    // Submenu Toggle
+    $('.nav-toggle').on('click', function() {
+        // Slide toggle the current submenu
+        var currentSubmenu = $(this).next();
+        currentSubmenu.stop(true, true).slideToggle("fast");
+        // Close all other submenus
+        $('.mob-sub-wrapper').not(currentSubmenu).slideUp("fast");
+    });
+
+
 });
 

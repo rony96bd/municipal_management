@@ -17,12 +17,14 @@
                         {{-- If there is any submenu show these --}}
                         <img src="{{asset('images/assets/arrow-down.svg')}}" alt="arrow down" class="nav-icon z-index-2 position-relative">
                     </div>
-                    <ul class="mob-sub-menu padar-10 gap-10 flex column full-width">
-                        <li><a href="#" class="anchor color-link">প্রথম পাতা</a></li>
-                        <li><a href="#" class="anchor color-link">প্রথম পাতা</a></li>
-                        <li><a href="#" class="anchor color-link">প্রথম পাতা</a></li>
-                        <li><a href="#" class="anchor color-link">প্রথম পাতা</a></li>
-                    </ul>
+                    <div class="mob-sub-wrapper display-none">
+                        <ul class="mob-sub-menu padar-10 gap-10 flex column full-width">
+                            <li><a href="#" class="anchor color-link">প্রথম পাতা</a></li>
+                            <li><a href="#" class="anchor color-link">প্রথম পাতা</a></li>
+                            <li><a href="#" class="anchor color-link">প্রথম পাতা</a></li>
+                            <li><a href="#" class="anchor color-link">প্রথম পাতা</a></li>
+                        </ul>
+                    </div>
                     {{-- If there is any submenu show these End --}}
                 </li>
                 {{-- Single Box End --}}
