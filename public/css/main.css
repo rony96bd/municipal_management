@@ -1242,15 +1242,15 @@ body {
 }
 
 .border-solid {
-  border-style: "solid";
+  border-style: solid;
 }
 
 .border-dashed {
-  border-style: "dashed";
+  border-style: dashed;
 }
 
 .border-dotted {
-  border-style: "dotted";
+  border-style: dotted;
 }
 
 .border-color-primary {
@@ -2399,4 +2399,30 @@ body {
 
 .display-none {
   display: none;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+.overflow-auto {
+  overflow: auto;
+}
+.overflow-auto {
+  overflow: auto;
+}
+.overflow-x-hidden {
+  overflow: hidden;
+}
+.overflow-x-auto {
+  overflow: auto;
+}
+.overflow-x-auto {
+  overflow: auto;
+}
+
+.visibelity-hidden {
+  visibility: hidden;
+}
+.visibelity-visible {
+  visibility: visible;
 }/*# sourceMappingURL=main.css.map */

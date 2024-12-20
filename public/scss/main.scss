@@ -1,28 +1,32 @@
 @import 'resets';
 @import 'colors';
 @import 'fonts';
-body{
+
+body {
     font-size: $base-font;
 }
+
 // Flex Classes
-.section{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.container{
-    max-width: $page_width;
-    width: 100%;
-    padding-left: clamp(18px, 2.8vw,40px);
-    padding-right: clamp(18px, 2.8vw,40px);
-    padding-top: clamp(18px, 2.8vw,40px);
-    padding-bottom: clamp(18px, 2.8vw,40px);
+.section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.flex{
+.container {
+    max-width: $page_width;
+    width: 100%;
+    padding-left: clamp(18px, 2.8vw, 40px);
+    padding-right: clamp(18px, 2.8vw, 40px);
+    padding-top: clamp(18px, 2.8vw, 40px);
+    padding-bottom: clamp(18px, 2.8vw, 40px);
+}
+
+.flex {
     display: flex;
 }
+
 @each $direction in (row, column) {
     .#{$direction} {
         flex-direction: $direction;
@@ -36,15 +40,16 @@ $flex-directions: 'column-reverse', 'row-reverse';
 
 // Loop to generate flex-direction classes
 @each $direction in $flex-directions {
-  .flex-#{$direction} {
-    flex-direction: $direction;
-  }
+    .flex-#{$direction} {
+        flex-direction: $direction;
+    }
 }
 
 
 .wrap {
     flex-wrap: wrap;
 }
+
 .center {
     justify-content: center;
     align-items: center;
@@ -52,33 +57,44 @@ $flex-directions: 'column-reverse', 'row-reverse';
 
 // Map justify-content values to their short forms
 $justify-map: (
-  center: "cc",           // center -> jcc
-  space-between: "sb",    // space-between -> jsb
-  space-around: "sa",     // space-around -> jsa
-  space-evenly: "se",     // space-evenly -> jse
-  flex-start: "fs",       // flex-start -> jfs
-  flex-end: "fe",         // flex-end -> jfe,
-  stretch: "st"           // stretch -> jst
+    center: "cc",
+    // center -> jcc
+    space-between: "sb",
+    // space-between -> jsb
+    space-around: "sa",
+    // space-around -> jsa
+    space-evenly: "se",
+    // space-evenly -> jse
+    flex-start: "fs",
+    // flex-start -> jfs
+    flex-end: "fe",
+    // flex-end -> jfe,
+    stretch: "st" // stretch -> jst
 );
 
 // Map align-items values to their short forms
 $align-map: (
-  flex-start: "is",       // flex-start -> ais
-  flex-end: "ie",         // flex-end -> aie
-  center: "ce",           // center -> ace
-  stretch: "st",          // stretch -> ast
-  baseline: "bl",         // baseline -> abl
-  normal: "no"            // normal -> ano
+    flex-start: "is",
+    // flex-start -> ais
+    flex-end: "ie",
+    // flex-end -> aie
+    center: "ce",
+    // center -> ace
+    stretch: "st",
+    // stretch -> ast
+    baseline: "bl",
+    // baseline -> abl
+    normal: "no" // normal -> ano
 );
 
 // Dynamically generate class names for justify-content and align-items combinations
 @each $justify, $justify-short in $justify-map {
-  @each $align, $align-short in $align-map {
-    .j#{$justify-short}-a#{$align-short} {
-      justify-content: $justify;
-      align-items: $align;
+    @each $align, $align-short in $align-map {
+        .j#{$justify-short}-a#{$align-short} {
+            justify-content: $justify;
+            align-items: $align;
+        }
     }
-  }
 }
 
 
@@ -87,6 +103,7 @@ $align-map: (
 .grid {
     display: grid;
 }
+
 // Mixin for generating column layouts
 @mixin repeat-columns($count: 1) {
     grid-template-columns: repeat($count, minmax(100px, 1fr));
@@ -101,22 +118,35 @@ $align-map: (
 
 
 // Define the possible row-gap and column-gap values
-$gap-values: (0, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100);
+$gap-values: (
+    0,
+    5,
+    10,
+    20,
+    30,
+    40,
+    50,
+    60,
+    70,
+    80,
+    90,
+    100
+);
 
 // Mixin to generate classes for gaps
 @mixin generate-gap-classes($gap-values, $property, $class-prefix) {
-  @each $gap in $gap-values {
-    .#{$class-prefix}-#{$gap} {
-      #{$property}: #{$gap}px;
+    @each $gap in $gap-values {
+        .#{$class-prefix}-#{$gap} {
+            #{$property}: #{$gap}px;
+        }
     }
-  }
 }
 
 // Generate global gap classes
 @each $gap in $gap-values {
-  .gap-#{$gap} {
-    gap: #{$gap}px;
-  }
+    .gap-#{$gap} {
+        gap: #{$gap}px;
+    }
 }
 
 // Generate row-gap classes (with "rg" as class prefix)
@@ -133,49 +163,81 @@ $container-widths: 1120, 1240, 1340, 1440, 1540, 1640, 1920;
 
 // Loop through the width values and generate classes
 @each $width in $container-widths {
-  .container-#{$width}px {
-    max-width: #{$width}px;
-    width: 100%;
-  }
+    .container-#{$width}px {
+        max-width: #{$width}px;
+        width: 100%;
+    }
 }
-.full-width{
-    width: 100%!important;
-    max-width: 100%!important;
+
+.full-width {
+    width: 100% !important;
+    max-width: 100% !important;
 }
-.width-max-content{
+
+.width-max-content {
     width: max-content;
 }
-.full-height{
+
+.full-height {
     height: 100%;
     max-height: 100%;
     min-height: 100%;
 }
 
 // Define padding values from 5px to 100px with a 5px increment
-$padding-values: 0, 5, 10, 20, 40,50, 60, 80;
+$padding-values: 0, 5, 10, 20, 40, 50, 60, 80;
 
 
 // Loop to generate individual padding classes
 @each $padding in $padding-values {
-    .padt-#{$padding} { padding-top: #{$padding}px; }
-    .padb-#{$padding} { padding-bottom: #{$padding}px; }
-    .padl-#{$padding} { padding-left: #{$padding}px; }
-    .padr-#{$padding} { padding-right: #{$padding}px; }
-    .padar-#{$padding} { padding: #{$padding}px; }
-  }
+    .padt-#{$padding} {
+        padding-top: #{$padding}px;
+    }
 
-  // Define margin values from 5px to 100px with a 5px increment
+    .padb-#{$padding} {
+        padding-bottom: #{$padding}px;
+    }
+
+    .padl-#{$padding} {
+        padding-left: #{$padding}px;
+    }
+
+    .padr-#{$padding} {
+        padding-right: #{$padding}px;
+    }
+
+    .padar-#{$padding} {
+        padding: #{$padding}px;
+    }
+}
+
+// Define margin values from 5px to 100px with a 5px increment
 $margin-values: 0, 5, 10, 20, 40, 60, 80;
 
 // Loop to generate margin classes
 @each $margin in $margin-values {
-  .mart-#{$margin} { margin-top: #{$margin}px; }
-  .marb-#{$margin} { margin-bottom: #{$margin}px; }
-  .marl-#{$margin} { margin-left: #{$margin}px; }
-  .marr-#{$margin} { margin-right: #{$margin}px; }
-  .marar-#{$margin} { margin: #{$margin}px; }
+    .mart-#{$margin} {
+        margin-top: #{$margin}px;
+    }
+
+    .marb-#{$margin} {
+        margin-bottom: #{$margin}px;
+    }
+
+    .marl-#{$margin} {
+        margin-left: #{$margin}px;
+    }
+
+    .marr-#{$margin} {
+        margin-right: #{$margin}px;
+    }
+
+    .marar-#{$margin} {
+        margin: #{$margin}px;
+    }
 }
-.marauto{
+
+.marauto {
     margin: auto;
 }
 
@@ -196,9 +258,9 @@ $alignments: left, center, right;
 
 // Loop to generate text alignment classes
 @each $alignment in $alignments {
-  .text-#{$alignment} {
-    text-align: $alignment;
-  }
+    .text-#{$alignment} {
+        text-align: $alignment;
+    }
 }
 
 // List of visibility states
@@ -206,9 +268,9 @@ $visibility-states: hidden, visible;
 
 // Loop to generate visibility classes
 @each $state in $visibility-states {
-  .#{$state} {
-    visibility: $state;
-  }
+    .#{$state} {
+        visibility: $state;
+    }
 }
 
 // Define a range for the border width from 1px to 10px
@@ -216,45 +278,45 @@ $border-widths: 1px 2px 3px 4px 5px 6px 7px 8px 9px 10px;
 
 // Loop to generate border-width utilities for all sides
 @each $width in $border-widths {
-  .border-#{$width} {
-    border-width: $width;
-  }
+    .border-#{$width} {
+        border-width: $width;
+    }
 
-  .border-top-#{$width} {
-    border-top-width: $width;
-  }
+    .border-top-#{$width} {
+        border-top-width: $width;
+    }
 
-  .border-bottom-#{$width} {
-    border-bottom-width: $width;
-  }
+    .border-bottom-#{$width} {
+        border-bottom-width: $width;
+    }
 
-  .border-left-#{$width} {
-    border-left-width: $width;
-  }
+    .border-left-#{$width} {
+        border-left-width: $width;
+    }
 
-  .border-right-#{$width} {
-    border-right-width: $width;
-  }
+    .border-right-#{$width} {
+        border-right-width: $width;
+    }
 }
 
 
 // List of border types
-$border-types: 'solid', 'dashed', 'dotted';
+$border-types: solid, dashed, dotted;
 
 // Loop to generate border-type utilities
 @each $type in $border-types {
-  .border-#{$type} {
-    border-style: $type;
-  }
+    .border-#{$type} {
+        border-style: $type;
+    }
 }
 
 
 // Loop to generate border color utilities
 @each $name, $color in $colors {
     .border-color-#{$name} {
-      border-color: var(#{$color});
+        border-color: var(#{$color});
     }
-  }
+}
 
 
 // Define a range for the border radius in pixels (1px to 20px)
@@ -262,22 +324,26 @@ $border-radius-pixels: 1px 2px 3px 4px 5px 6px 7px 8px 9px 10px 11px 12px 13px 1
 
 // Loop to generate border-radius utilities for pixel values (all corners)
 @each $radius in $border-radius-pixels {
-  .bradius-#{$radius} {
-    border-radius: $radius;
-  }
-  // Generate for specific corners
-  .bradius-tl-#{$radius} {
-    border-top-left-radius: $radius;
-  }
-  .bradius-tr-#{$radius} {
-    border-top-right-radius: $radius;
-  }
-  .bradius-bl-#{$radius} {
-    border-bottom-left-radius: $radius;
-  }
-  .bradius-br-#{$radius} {
-    border-bottom-right-radius: $radius;
-  }
+    .bradius-#{$radius} {
+        border-radius: $radius;
+    }
+
+    // Generate for specific corners
+    .bradius-tl-#{$radius} {
+        border-top-left-radius: $radius;
+    }
+
+    .bradius-tr-#{$radius} {
+        border-top-right-radius: $radius;
+    }
+
+    .bradius-bl-#{$radius} {
+        border-bottom-left-radius: $radius;
+    }
+
+    .bradius-br-#{$radius} {
+        border-bottom-right-radius: $radius;
+    }
 }
 
 // Define percentages for border radius
@@ -285,37 +351,41 @@ $border-radius-percentages: 10 20 30 40 50 60 70 80 90 100;
 
 // Loop to generate border-radius utilities for percentage values (all corners)
 @each $radiusper in $border-radius-percentages {
-  .bradius-#{$radiusper}-per {
-    border-radius: $radiusper * 1%;
-  }
-  // Generate for specific corners
-  .bradius-tl-#{$radiusper}-per {
-    border-top-left-radius: $radiusper * 1%;
-  }
-  .bradius-tr-#{$radiusper}-per {
-    border-top-right-radius: $radiusper * 1%;
-  }
-  .bradius-bl-#{$radiusper}-per {
-    border-bottom-left-radius: $radiusper * 1%;
-  }
-  .bradius-br-#{$radiusper}-per {
-    border-bottom-right-radius: $radiusper * 1%;
-  }
+    .bradius-#{$radiusper}-per {
+        border-radius: $radiusper * 1%;
+    }
+
+    // Generate for specific corners
+    .bradius-tl-#{$radiusper}-per {
+        border-top-left-radius: $radiusper * 1%;
+    }
+
+    .bradius-tr-#{$radiusper}-per {
+        border-top-right-radius: $radiusper * 1%;
+    }
+
+    .bradius-bl-#{$radiusper}-per {
+        border-bottom-left-radius: $radiusper * 1%;
+    }
+
+    .bradius-br-#{$radiusper}-per {
+        border-bottom-right-radius: $radiusper * 1%;
+    }
 }
 
 
 
 
-  // Define a list of position values
+// Define a list of position values
 $positions: absolute, relative, fixed, sticky, static;
 
 // Mixin to generate position classes
 @mixin generate-position-classes($position-values) {
-  @each $position in $position-values {
-    .position-#{$position} {
-      position: #{$position};
+    @each $position in $position-values {
+        .position-#{$position} {
+            position: #{$position};
+        }
     }
-  }
 }
 
 // Use the mixin to generate position classes
@@ -323,24 +393,40 @@ $positions: absolute, relative, fixed, sticky, static;
 
 
 // Define the values for top, bottom, left, and right (from 0px to 100px in intervals of 10px)
-$positions-values: (0, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100);
+$positions-values: (
+    0,
+    5,
+    10,
+    20,
+    30,
+    40,
+    50,
+    60,
+    70,
+    80,
+    90,
+    100
+);
 
 // Mixin to generate top, bottom, left, and right position classes
 @mixin generate-position-classes($position-values) {
-  @each $value in $position-values {
-    .top-#{$value} {
-      top: #{$value}px;
+    @each $value in $position-values {
+        .top-#{$value} {
+            top: #{$value}px;
+        }
+
+        .bottom-#{$value} {
+            bottom: #{$value}px;
+        }
+
+        .left-#{$value} {
+            left: #{$value}px;
+        }
+
+        .right-#{$value} {
+            right: #{$value}px;
+        }
     }
-    .bottom-#{$value} {
-      bottom: #{$value}px;
-    }
-    .left-#{$value} {
-      left: #{$value}px;
-    }
-    .right-#{$value} {
-      right: #{$value}px;
-    }
-  }
 }
 
 // Use the mixin to generate classes
@@ -349,23 +435,24 @@ $positions-values: (0, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100);
 $opacity: 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1;
 
 @mixin generate-opacity-classes {
-  @each $value in $opacity {
-    $formatted-value: str-replace("#{$value}", ".", "-"); // Replace "." with "-"
-    .opacity#{$formatted-value} {
-      opacity: $value;
+    @each $value in $opacity {
+        $formatted-value: str-replace("#{$value}", ".", "-"); // Replace "." with "-"
+
+        .opacity#{$formatted-value} {
+            opacity: $value;
+        }
     }
-  }
 }
 
 // Helper function to replace "." with "-"
 @function str-replace($string, $search, $replace: "") {
-  $index: str-index($string, $search);
+    $index: str-index($string, $search);
 
-  @if $index {
-    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
-  }
+    @if $index {
+        @return str-slice($string, 1, $index - 1)+$replace +str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    }
 
-  @return $string;
+    @return $string;
 }
 
 // Include the mixin
@@ -378,39 +465,41 @@ $durations: 0.1s, 0.2s, 0.25s, 0.3s, 0.4s, 0.5s, 0.6s, 0.7s, 0.8s, 0.9s, 1s, 2s,
 
 // Helper function to sanitize class names
 @function sanitize-class-name($value) {
-  $value: str-replace($value, "(", "-");
-  $value: str-replace($value, ")", "");
-  $value: str-replace($value, ",", "-");
-  $value: str-replace($value, " ", "-");
-  $value: str-replace($value, ".", "-");
-  @return $value;
+    $value: str-replace($value, "(", "-");
+    $value: str-replace($value, ")", "");
+    $value: str-replace($value, ",", "-");
+    $value: str-replace($value, " ", "-");
+    $value: str-replace($value, ".", "-");
+    @return $value;
 }
 
 // Generate timing function classes
 @each $function in $timing-functions {
-  $class-name: sanitize-class-name($function);
-  .transition-#{$class-name} {
-    transition-timing-function: $function;
-  }
+    $class-name: sanitize-class-name($function);
+
+    .transition-#{$class-name} {
+        transition-timing-function: $function;
+    }
 }
 
 // Generate duration classes
 @each $duration in $durations {
-  $formatted-duration: str-replace("#{$duration}", ".", "-");
-  .transition-duration-#{$formatted-duration} {
-    transition-duration: $duration;
-  }
+    $formatted-duration: str-replace("#{$duration}", ".", "-");
+
+    .transition-duration-#{$formatted-duration} {
+        transition-duration: $duration;
+    }
 }
 
 // String replace helper function
 @function str-replace($string, $search, $replace: "") {
-  $index: str-index($string, $search);
+    $index: str-index($string, $search);
 
-  @if $index {
-    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
-  }
+    @if $index {
+        @return str-slice($string, 1, $index - 1)+$replace +str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    }
 
-  @return $string;
+    @return $string;
 }
 
 // Define the range for z-index values
@@ -418,9 +507,9 @@ $z-index-range: 1 2 3 4 5 6 7 8 9 10;
 
 // Generate z-index classes
 @each $z-index in $z-index-range {
-  .z-index-#{$z-index} {
-    z-index: $z-index;
-  }
+    .z-index-#{$z-index} {
+        z-index: $z-index;
+    }
 }
 
 
@@ -428,16 +517,54 @@ $z-index-range: 1 2 3 4 5 6 7 8 9 10;
 $transition-properties: all, color, background, transform, opacity, width, height, top, left, right, bottom, margin, padding, border, box-shadow, font-size, visibility, z-index;
 
 @mixin generate-transition-property-classes {
-  @each $property in $transition-properties {
-    .transition-property-#{$property} {
-      transition-property: #{$property};
+    @each $property in $transition-properties {
+        .transition-property-#{$property} {
+            transition-property: #{$property};
+        }
     }
-  }
 }
 
 // Include the mixin to generate the classes
 @include generate-transition-property-classes;
 
-.display-none{
+.display-none {
     display: none;
+}
+
+.overflow {
+    &-hidden {
+        overflow: hidden;
+    }
+
+    &-auto {
+        overflow: auto;
+    }
+
+    &-auto {
+        overflow: auto;
+    }
+
+    &-x {
+        &-hidden {
+            overflow: hidden;
+        }
+
+        &-auto {
+            overflow: auto;
+        }
+
+        &-auto {
+            overflow: auto;
+        }
+    }
+}
+
+.visibelity {
+    &-hidden {
+        visibility: hidden;
+    }
+
+    &-visible {
+        visibility: visible;
+    }
 }

@@ -1,4 +1,4 @@
-.primary-header{
+.primary-header {
     position: relative;
     height: 60vh;
     min-height: 500px;
@@ -10,20 +10,21 @@
     margin: auto;
     overflow: hidden;
     z-index: 1;
-  }
+}
 
-  /* Slides Wrapper */
-  .slides {
+/* Slides Wrapper */
+.slides {
     display: flex;
     transition: transform 1s ease-in-out;
-  }
+}
 
-  /* Individual Slide */
-  .slide {
+/* Individual Slide */
+.slide {
     min-width: 100%;
     box-sizing: border-box;
     position: relative;
-    &::after{
+
+    &::after {
         content: "";
         width: 100%;
         height: 100%;
@@ -35,7 +36,8 @@
         opacity: .2;
 
     }
-    & >p{
+
+    &>p {
         z-index: 2;
         background: #00000063;
         padding: 8px 15px;
@@ -45,37 +47,44 @@
         width: 100%;
         text-align: center;
     }
-  }
-  .slide.slider-active>p{
+}
+
+.slide.slider-active>p {
     opacity: 1;
     transition-delay: 1.5s;
 }
-.site-logo{
+
+.site-logo {
     aspect-ratio: 1/1;
     width: clamp(70px, 6.25vw, 120px);
     background-color: var(--white-color);
 }
-.llisting >a{
+
+.llisting>a {
     position: relative;
     z-index: 2;
 }
-.includs-submenu{
+
+.includs-submenu {
     cursor: pointer;
-    &:hover{
-        img.nav-icon{
+
+    &:hover {
+        img.nav-icon {
             transform: rotate(-180deg);
         }
     }
 }
-.sub-menu{
+
+.sub-menu {
     width: max-content;
     cursor: auto;
     z-index: -2;
     visibility: hidden;
     opacity: 0;
     transform: translateY(20px);
-    transition-property: opacity,transform,visibility;
-    &::after{
+    transition-property: opacity, transform, visibility;
+
+    &::after {
         position: absolute;
         left: 0;
         bottom: 0;
@@ -87,79 +96,101 @@
         border-radius: 0px 0px 8px 8px;
         box-shadow: 0px 24px 120px 0px #00000030;
     }
-    &.active{
+
+    &.active {
         z-index: 1;
         visibility: visible;
         opacity: 1;
         transform: translateY(0px);
     }
-    & > li{
+
+    &>li {
         width: 100%;
         display: flex;
-        & > a{
+
+        &>a {
             width: 100%;
             display: flex;
             color: var(--white-color);
         }
     }
 }
+
 img.nav-icon {
     width: 15px;
     height: 13px;
     object-fit: cover;
     margin-left: 5px;
 }
-.site-main{
+
+.site-main {
     height: 200vh;
 }
-header .anchor{
+
+header .anchor {
     font-size: 18px;
+    cursor: pointer;
 }
 
-@media (max-width:1024px){
-    .primary-header{
+.anchor {
+    cursor: pointer;
+}
+
+@media (max-width:1024px) {
+    .primary-header {
         min-height: 350px;
         height: 40vh;
     }
-    .burger-trigger{
+
+    .burger-trigger {
         width: 28px;
         height: 2px;
     }
-    .mobile-burger.active{
+
+    .mobile-burger.active {
         transform: rotate(90deg);
-        &>.burger-trigger{
+
+        &>.burger-trigger {
             opacity: 0;
-            &:first-child{
+
+            &:first-child {
                 transform: rotate(45deg) translate(9px, 8px);
                 opacity: 1;
             }
-            &:last-child{
+
+            &:last-child {
                 transform: rotate(-45deg) translate(8px, -8px);
                 opacity: 1;
             }
         }
     }
-    .mobile-nav>p{
+
+    .mobile-nav>p {
         font-size: 18px;
     }
 }
-.nav-icon{
+
+.nav-icon {
     width: 24px;
     height: 24px;
     stroke: var(--white-color);
     cursor: pointer;
 }
-.form-field, .submit-button{
-padding: 12px 20px;
-outline: none;
+
+.form-field,
+.submit-button {
+    padding: 12px 20px;
+    outline: none;
 }
-.search-form-box{
+
+.search-form-box {
     backdrop-filter: blur(5px);
     transition: .15s all ease-in-out;
     transform: scale(.65);
     opacity: 0;
     visibility: hidden;
-    &::after{
+
+    &::after {
         position: absolute;
         top: 0;
         left: 0;
@@ -169,15 +200,155 @@ outline: none;
         opacity: .2;
         content: "";
     }
-    & input{
+
+    & input {
         min-width: 15vw;
     }
-    &.active{
+
+    &.active {
         visibility: visible;
         opacity: 1;
         transform: scale(1);
     }
 }
-.no-scrolling{
+
+.no-scrolling {
     overflow: hidden;
+}
+
+.dash-nav-icon {
+    width: 20px;
+    aspect-ratio: 1/1;
+    transition: .25s all ease-in-out;
+
+    &.color-white {
+        stroke: var(--white-color);
+    }
+}
+
+.dashboard-top-nav {
+    transition: .25s all ease-in-out;
+
+    &:hover {
+        color: var(--success-color);
+
+        & .dash-nav-icon {
+            &.color-white {
+                stroke: var(--success-color);
+            }
+        }
+    }
+}
+
+.header-top {
+    font-size: 14px;
+}
+
+.dash-power {
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--white-color);
+    border-radius: 50px;
+    border-bottom-color: transparent;
+    cursor: pointer;
+
+    &::after {
+        position: absolute;
+        bottom: 0;
+        width: 1px;
+        height: 10px;
+        background-color: var(--white-color);
+        content: "";
+    }
+}
+
+.profile-action {
+    top: 120%;
+    right: -10px;
+    min-width: 120px;
+}
+
+.profile-action {
+    box-shadow: 0px 0px 10px 0px #0000001a;
+
+    &>.anchor:nth-child(odd) {
+        background-color: rgb(209, 209, 209);
+    }
+}
+
+.flex-auto {
+    flex: auto;
+}
+
+.dashboard-body {
+    height: 100vh;
+}
+
+.sidebar-nav {
+    font-size: 12px;
+
+    & .dash-nav-icon {
+        width: 30px;
+    }
+}
+
+.collapse-menu {
+    font-size: 16px;
+
+    & .dash-nav-icon {
+        width: 25px;
+    }
+}
+
+.mart-auto {
+    margin-top: auto;
+}
+
+.nav-title {
+    line-height: .8;
+}
+
+.collapsed {
+    & span.nav-title {
+        display: none;
+    }
+
+    & .collapse-menu {
+        & .dash-nav-icon {
+            transform: rotate(180deg);
+        }
+    }
+}
+
+.grid-menu-icon {
+    width: 40px;
+    aspect-ratio: 1/1;
+    stroke: var(--white-color);
+}
+
+.grid-menu {
+    background-color: #0000001a;
+}
+
+.grid-menu-icon-box {
+    width: 30%;
+    height: 100%;
+}
+
+.dashboard-menu-wrapper {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.dash-main-area {
+    max-height: calc(100vh - 60px);
+    ;
+    overflow: auto;
+}
+
+@media(max-width:768px) {
+    .collapse-menu {
+        & .nav-title {
+            display: none;
+        }
+    }
 }

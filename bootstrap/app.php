@@ -12,6 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $router->middleware('web')->group(function () {
             require base_path('routes/front.php');
         });
+        // Define routing for front-end routes
+        $router->middleware('web')->group(function () {
+            require base_path('routes/dashboard.php');
+        });
 
         // Define routing for developers with 'developers' prefix
         $router->prefix('developer-doc')->middleware('web')->group(function () {
