@@ -399,6 +399,32 @@ header .anchor {
   stroke-width: 2px !important;
 }
 
+.service-anchor {
+  display: flex;
+}
+.service-anchor::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  top: 50%;
+  left: 0;
+  position: absolute;
+  z-index: 1;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  background: linear-gradient(-45deg, var(--secondary-color) 50%, transparent 50%);
+}
+.service-anchor:hover {
+  color: var(--secondary-color);
+}
+.service-icon {
+  width: 100px;
+  aspect-ratio: 1/1;
+  stroke: var(--secondary-color);
+}
+.service-icon > * {
+  stroke-width: 1px !important;
+}
+
 @media (max-width: 1024px) {
   .primary-header {
     min-height: 350px;
@@ -422,10 +448,17 @@ header .anchor {
     transform: rotate(-45deg) translate(8px, -8px);
     opacity: 1;
   }
+  .sidebar-box {
+    width: 100%;
+    max-width: 100%;
+  }
   .mobile-nav > p {
     font-size: 18px;
   }
   .administrator-img {
     width: 100%;
+  }
+  .service-icon {
+    width: 80px;
   }
 }/*# sourceMappingURL=site-css.css.map */

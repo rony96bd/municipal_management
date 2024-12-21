@@ -5,6 +5,8 @@
             <div class="pag-main-area flex column gap-20 flex-auto">
                 {{-- Notice Box --}}
                 @include('front-views.components.notice-box')
+                {{-- Services --}}
+                @include('front-views.components.services')
                 {{-- Administrator --}}
                 @include('front-views.components.administrator')
                 {{-- Administrator Committee --}}

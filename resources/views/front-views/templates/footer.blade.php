@@ -1,7 +1,7 @@
 </main>
 <footer class="footer-section section background-primary position-relative z-index-1 color-white">
     <div class="container">
-        <div class="full-width flex row jsb-ace">
+        <div class="full-width flex row jsb-ace m-column m-gap-10 m-text-center">
             <p>Developed & Maintained by: <a href="https://forayeji.com" target="_blank" class="color-success">Forayeji
                     Creative
                     Agency</a></p>

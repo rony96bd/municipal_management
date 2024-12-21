@@ -444,6 +444,38 @@ header .anchor {
     }
 }
 
+.service {
+    &-anchor {
+        display: flex;
+
+        &::after {
+            content: "";
+            width: 10px;
+            height: 10px;
+            top: 50%;
+            left: 0;
+            position: absolute;
+            z-index: 1;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            background: linear-gradient(-45deg, var(--secondary-color) 50%, transparent 50%);
+        }
+
+        &:hover {
+            color: var(--secondary-color);
+        }
+    }
+
+    &-icon {
+        width: 100px;
+        aspect-ratio: 1/1;
+        stroke: var(--secondary-color);
+
+        &>* {
+            stroke-width: 1px !important;
+        }
+    }
+}
+
 @media (max-width:1024px) {
     .primary-header {
         min-height: 350px;
@@ -473,6 +505,11 @@ header .anchor {
         }
     }
 
+    .sidebar-box {
+        width: 100%;
+        max-width: 100%;
+    }
+
     .mobile-nav>p {
         font-size: 18px;
     }
@@ -481,4 +518,9 @@ header .anchor {
         width: 100%;
     }
 
+    .service {
+        &-icon {
+            width: 80px;
+        }
+    }
 }
