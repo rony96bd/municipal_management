@@ -9,7 +9,7 @@
             <img src="{{ asset('images/assets/administrator.jpg') }}" alt="Administrator"
                 class="bradius-6px administrator-img full-width">
             <div class="flex column gap-5 jcc-ais full-width padl-10 padr-10 padb-20 flex-auto">
-                <h3 class="color-primary fs-18-24 color-primary">শারমিন আক্তার</h3>
+                <h3 class="color-primary fs-18-22 color-primary">শারমিন আক্তার</h3>
                 <h4 class="color-primary fs-base color-primary flex row gap-5 jfs-ace icon-small">
                     @include('icons.frontend-icons.phone')
                     ০১৩২৫৩৮৪৯৮৭
@@ -23,7 +23,7 @@
             <img src="{{ asset('images/assets/administrator.jpg') }}" alt="Administrator"
                 class="bradius-6px administrator-img full-width">
             <div class="flex column gap-5 jcc-ais full-width padl-10 padr-10 padb-20 flex-auto">
-                <h3 class="color-primary fs-18-24 color-primary">শারমিন আক্তার</h3>
+                <h3 class="color-primary fs-18-22 color-primary">শারমিন আক্তার</h3>
                 <h4 class="color-primary fs-base color-primary flex row gap-5 jfs-ace icon-small">
                     @include('icons.frontend-icons.phone')
                     ০১৩২৫৩৮৪৯৮৭
@@ -37,7 +37,7 @@
             <img src="{{ asset('images/assets/administrator.jpg') }}" alt="Administrator"
                 class="bradius-6px administrator-img full-width">
             <div class="flex column gap-5 jcc-ais full-width padl-10 padr-10 padb-20 flex-auto">
-                <h3 class="color-primary fs-18-24 color-primary">শারমিন আক্তার</h3>
+                <h3 class="color-primary fs-18-22 color-primary">শারমিন আক্তার</h3>
                 <h4 class="color-primary fs-base color-primary flex row gap-5 jfs-ace icon-small">
                     @include('icons.frontend-icons.phone')
                     ০১৩২৫৩৮৪৯৮৭
@@ -51,7 +51,7 @@
             <img src="{{ asset('images/assets/administrator.jpg') }}" alt="Administrator"
                 class="bradius-6px administrator-img full-width">
             <div class="flex column gap-5 jcc-ais full-width padl-10 padr-10 padb-20 flex-auto">
-                <h3 class="color-primary fs-18-24 color-primary">শারমিন আক্তার</h3>
+                <h3 class="color-primary fs-18-22 color-primary">শারমিন আক্তার</h3>
                 <h4 class="color-primary fs-base color-primary flex row gap-5 jfs-ace icon-small">
                     @include('icons.frontend-icons.phone')
                     ০১৩২৫৩৮৪৯৮৭
@@ -65,7 +65,7 @@
             <img src="{{ asset('images/assets/administrator.jpg') }}" alt="Administrator"
                 class="bradius-6px administrator-img full-width">
             <div class="flex column gap-5 jcc-ais full-width padl-10 padr-10 padb-20 flex-auto">
-                <h3 class="color-primary fs-18-24 color-primary">শারমিন আক্তার</h3>
+                <h3 class="color-primary fs-18-22 color-primary">শারমিন আক্তার</h3>
                 <h4 class="color-primary fs-base color-primary flex row gap-5 jfs-ace icon-small">
                     @include('icons.frontend-icons.phone')
                     ০১৩২৫৩৮৪৯৮৭
@@ -93,7 +93,7 @@
             <img src="{{ asset('images/assets/administrator.jpg') }}" alt="Administrator"
                 class="bradius-6px administrator-img full-width">
             <div class="flex column gap-5 jcc-ais full-width padl-10 padr-10 padb-20 flex-auto">
-                <h3 class="color-primary fs-18-24 color-primary">শারমিন আক্তার</h3>
+                <h3 class="color-primary fs-18-22 color-primary">শারমিন আক্তার</h3>
                 <h4 class="color-primary fs-base color-primary flex row gap-5 jfs-ace icon-small">
                     @include('icons.frontend-icons.phone')
                     ০১৩২৫৩৮৪৯৮৭
@@ -107,7 +107,7 @@
             <img src="{{ asset('images/assets/administrator.jpg') }}" alt="Administrator"
                 class="bradius-6px administrator-img full-width">
             <div class="flex column gap-5 jcc-ais full-width padl-10 padr-10 padb-20 flex-auto">
-                <h3 class="color-primary fs-18-24 color-primary">শারমিন আক্তার</h3>
+                <h3 class="color-primary fs-18-22 color-primary">শারমিন আক্তার</h3>
                 <h4 class="color-primary fs-base color-primary flex row gap-5 jfs-ace icon-small">
                     @include('icons.frontend-icons.phone')
                     ০১৩২৫৩৮৪৯৮৭

@@ -6,7 +6,7 @@
     <div class="grid grid-col-2 m-grid-col-1 gap-20 m-gap-10 padar-20 m-padar-10">
         {{-- Single Service --}}
         <div class="flex column gap-10 background-white padar-20 bradius-6px">
-            <h3 class="color-primary fs-18-24 color-primary">হোল্ডিং সম্পর্কীত</h3>
+            <h3 class="color-primary fs-18-22 color-primary">হোল্ডিং সম্পর্কীত</h3>
             <div class="flex row gap-10 m-gap-10 jfs-ace">
                 @include('icons.frontend-icons.service-icons.holding-tax')
                 <div class="flex column gap-5 jcc-ais flex-auto">
@@ -24,7 +24,7 @@
         </div>
         {{-- Single Service --}}
         <div class="flex column gap-10 background-white padar-20 bradius-6px">
-            <h3 class="color-primary fs-18-24 color-primary">হোল্ডিং সম্পর্কীত</h3>
+            <h3 class="color-primary fs-18-22 color-primary">হোল্ডিং সম্পর্কীত</h3>
             <div class="flex row gap-10 m-gap-10 jfs-ace">
                 @include('icons.frontend-icons.service-icons.holding-tax')
                 <div class="flex column gap-5 jcc-ais flex-auto">
@@ -42,7 +42,7 @@
         </div>
         {{-- Single Service --}}
         <div class="flex column gap-10 background-white padar-20 bradius-6px">
-            <h3 class="color-primary fs-18-24 color-primary">হোল্ডিং সম্পর্কীত</h3>
+            <h3 class="color-primary fs-18-22 color-primary">হোল্ডিং সম্পর্কীত</h3>
             <div class="flex row gap-10 m-gap-10 jfs-ace">
                 @include('icons.frontend-icons.service-icons.holding-tax')
                 <div class="flex column gap-5 jcc-ais flex-auto">
@@ -60,7 +60,7 @@
         </div>
         {{-- Single Service --}}
         <div class="flex column gap-10 background-white padar-20 bradius-6px">
-            <h3 class="color-primary fs-18-24 color-primary">হোল্ডিং সম্পর্কীত</h3>
+            <h3 class="color-primary fs-18-22 color-primary">হোল্ডিং সম্পর্কীত</h3>
             <div class="flex row gap-10 m-gap-10 jfs-ace">
                 @include('icons.frontend-icons.service-icons.holding-tax')
                 <div class="flex column gap-5 jcc-ais flex-auto">

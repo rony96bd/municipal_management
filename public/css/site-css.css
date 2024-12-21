@@ -340,6 +340,7 @@ header .anchor {
   background-size: cover;
   background-position: center right;
   background-repeat: no-repeat;
+  border-radius: 4px;
 }
 .sidebar-title-area::after {
   content: "";

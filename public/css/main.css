@@ -101,8 +101,8 @@ table {
 .fs-20-28 {
   font-size: clamp(20px, 1.5625vw, 28px);
 }
-.fs-18-24 {
-  font-size: clamp(18px, 1.25vw, 24px);
+.fs-18-22 {
+  font-size: clamp(18px, 1.25vw, 22px);
 }
 .fs-16-20 {
   font-size: clamp(16px, 1.1vw, 20px);
