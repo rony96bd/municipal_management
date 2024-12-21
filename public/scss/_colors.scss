@@ -1,4 +1,4 @@
-:root{
+:root {
     --primary-color: #000325;
     --secondary-color: #0A3981;
     --paragraph-color: #333333;
@@ -10,18 +10,20 @@
     --warning-color: #f39c12;
     --black-color: #000000;
     --white-color: #ffffff;
+    --background-gray: #f7f7f7;
 }
 
 $colors: (
-  primary: --primary-color,
-  secondary: --secondary-color,
-  paragraph: --paragraph-color,
-  link: --link-color,
-  button: --button-color,
-  danger: --danger-color,
-  alert: --alert-color,
-  success: --success-color,
-  warning: --warning-color,
-  black: --black-color,
-  white: --white-color
+    primary: --primary-color,
+    secondary: --secondary-color,
+    paragraph: --paragraph-color,
+    link: --link-color,
+    button: --button-color,
+    danger: --danger-color,
+    alert: --alert-color,
+    success: --success-color,
+    warning: --warning-color,
+    black: --black-color,
+    white: --white-color,
+    gray: --background-gray
 );
