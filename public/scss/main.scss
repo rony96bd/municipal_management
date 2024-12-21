@@ -568,3 +568,29 @@ $transition-properties: all, color, background, transform, opacity, width, heigh
         visibility: visible;
     }
 }
+
+.font-weight {
+    &-light {
+        font-weight: 300;
+    }
+
+    &-regular {
+        font-weight: 400;
+    }
+
+    &-medium {
+        font-weight: 500;
+    }
+
+    &-bold {
+        font-weight: 700;
+    }
+
+    &-extra-bold {
+        font-weight: 800;
+    }
+
+    &-black {
+        font-weight: 900;
+    }
+}

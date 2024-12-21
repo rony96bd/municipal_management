@@ -2425,4 +2425,23 @@ body {
 }
 .visibelity-visible {
   visibility: visible;
+}
+
+.font-weight-light {
+  font-weight: 300;
+}
+.font-weight-regular {
+  font-weight: 400;
+}
+.font-weight-medium {
+  font-weight: 500;
+}
+.font-weight-bold {
+  font-weight: 700;
+}
+.font-weight-extra-bold {
+  font-weight: 800;
+}
+.font-weight-black {
+  font-weight: 900;
 }/*# sourceMappingURL=main.css.map */

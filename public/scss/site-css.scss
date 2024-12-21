@@ -124,7 +124,7 @@ img.nav-icon {
 }
 
 .site-main {
-    height: 200vh;
+    min-height: 23vh;
 }
 
 header .anchor {
@@ -345,10 +345,28 @@ header .anchor {
     overflow: auto;
 }
 
+.sidebar-box {
+    background: rgba(0, 0, 0, .05);
+    max-width: 300px;
+
+    & * {
+        max-width: 100%;
+    }
+}
+
 @media(max-width:768px) {
     .collapse-menu {
         & .nav-title {
             display: none;
         }
+    }
+}
+
+.frontend-icon {
+    width: 35px;
+    aspect-ratio: 1/1;
+
+    &.primary-color {
+        stroke: var(--primary-color);
     }
 }

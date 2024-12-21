@@ -5,7 +5,7 @@
     <section class="nav-section section background-secondary position-relative z-index-1">
         <div
             class="container site-navbar bradius-12px color-white padt-0 padb-0 z-index-3 m-display-none flex row jsb-ace">
-            <nav class="padl-40 padr-40 padt-20 padb-20">
+            <nav class="padt-20 padb-20">
                 <ul class="main-menu flex row gap-20">
                     {{-- Single Menu Box --}}
                     <li
