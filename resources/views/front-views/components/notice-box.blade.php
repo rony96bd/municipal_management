@@ -26,5 +26,10 @@
             <h3 class="notice-title color-primary">০৯নং ওয়ার্ড কমিটি পুনঃ গঠন।</h3>
             <p class="notice-date color-paragraph fs-base">বৃহস্পতিবার, সেপ্টেম্বর ৭, ২০২৩ : ৫:৪৩ পূর্বাহ্ণ </p>
         </a>
+
+        {{-- Primary Button --}}
+        <a href="#"
+            class="anchor flex center primary-button background-primary color-white padl-20 padr-20 padt-10 padb-10 bradius-3px mart-40 marl-auto">সকল
+            নোটিশ</a>
     </div>
 </div>

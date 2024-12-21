@@ -128,33 +128,6 @@ header .anchor {
   cursor: pointer;
 }
 
-@media (max-width: 1024px) {
-  .primary-header {
-    min-height: 350px;
-    height: 40vh;
-  }
-  .burger-trigger {
-    width: 28px;
-    height: 2px;
-  }
-  .mobile-burger.active {
-    transform: rotate(90deg);
-  }
-  .mobile-burger.active > .burger-trigger {
-    opacity: 0;
-  }
-  .mobile-burger.active > .burger-trigger:first-child {
-    transform: rotate(45deg) translate(9px, 8px);
-    opacity: 1;
-  }
-  .mobile-burger.active > .burger-trigger:last-child {
-    transform: rotate(-45deg) translate(8px, -8px);
-    opacity: 1;
-  }
-  .mobile-nav > p {
-    font-size: 18px;
-  }
-}
 .nav-icon {
   width: 24px;
   height: 24px;
@@ -296,7 +269,7 @@ header .anchor {
 }
 
 .grid-menu {
-  background-color: rgba(0, 0, 0, 0.1019607843);
+  background-color: var(--background-gray);
 }
 
 .grid-menu-icon-box {
@@ -315,6 +288,7 @@ header .anchor {
 
 .sidebar-box {
   max-width: 300px;
+  width: 100%;
 }
 .sidebar-box * {
   max-width: 100%;
@@ -392,9 +366,66 @@ header .anchor {
   background-repeat: no-repeat;
 }
 
+.nav-section {
+  overflow: hidden;
+}
+.nav-section:hover {
+  overflow: visible;
+  z-index: 3;
+}
+
+.administrator-img {
+  width: 30%;
+}
+
+.administrator-img.full-width {
+  width: 100%;
+}
+
 .notice-anchor {
   transition: 0.2s all ease-in-out;
 }
 .notice-anchor:hover {
   background-color: rgba(0, 0, 0, 0.1);
+}
+.notice-title {
+  font-size: 18px;
+}
+
+.icon-small .frontend-icon {
+  width: 20px;
+}
+.icon-small .frontend-icon path {
+  stroke-width: 2px !important;
+}
+
+@media (max-width: 1024px) {
+  .primary-header {
+    min-height: 350px;
+    height: 40vh;
+  }
+  .burger-trigger {
+    width: 28px;
+    height: 2px;
+  }
+  .mobile-burger.active {
+    transform: rotate(90deg);
+  }
+  .mobile-burger.active > .burger-trigger {
+    opacity: 0;
+  }
+  .mobile-burger.active > .burger-trigger:first-child {
+    transform: rotate(45deg) translate(9px, 8px);
+    opacity: 1;
+  }
+  .mobile-burger.active > .burger-trigger:last-child {
+    transform: rotate(-45deg) translate(8px, -8px);
+    opacity: 1;
+  }
+  .mobile-nav > p {
+    font-size: 18px;
+  }
+  .administrator-img {
+    width: 100%;
+  }
 }/*# sourceMappingURL=site-css.css.map */

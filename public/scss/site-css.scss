@@ -136,40 +136,6 @@ header .anchor {
     cursor: pointer;
 }
 
-@media (max-width:1024px) {
-    .primary-header {
-        min-height: 350px;
-        height: 40vh;
-    }
-
-    .burger-trigger {
-        width: 28px;
-        height: 2px;
-    }
-
-    .mobile-burger.active {
-        transform: rotate(90deg);
-
-        &>.burger-trigger {
-            opacity: 0;
-
-            &:first-child {
-                transform: rotate(45deg) translate(9px, 8px);
-                opacity: 1;
-            }
-
-            &:last-child {
-                transform: rotate(-45deg) translate(8px, -8px);
-                opacity: 1;
-            }
-        }
-    }
-
-    .mobile-nav>p {
-        font-size: 18px;
-    }
-}
-
 .nav-icon {
     width: 24px;
     height: 24px;
@@ -327,7 +293,7 @@ header .anchor {
 }
 
 .grid-menu {
-    background-color: #0000001a;
+    background-color: var(--background-gray);
 }
 
 .grid-menu-icon-box {
@@ -347,6 +313,7 @@ header .anchor {
 
 .sidebar-box {
     max-width: 300px;
+    width: 100%;
 
     & * {
         max-width: 100%;
@@ -435,10 +402,83 @@ header .anchor {
     background-repeat: no-repeat;
 }
 
-.notice-anchor {
-    transition: .2s all ease-in-out;
+.nav-section {
+    overflow: hidden;
 
     &:hover {
-        background-color: rgb(0, 0, 0, 0.1);
+        overflow: visible;
+        z-index: 3;
     }
+}
+
+.administrator-img {
+    width: 30%;
+}
+
+.administrator-img.full-width {
+    width: 100%;
+}
+
+
+.notice {
+    &-anchor {
+        transition: .2s all ease-in-out;
+
+        &:hover {
+            background-color: rgb(0, 0, 0, 0.1);
+        }
+    }
+
+    &-title {
+        font-size: 18px;
+    }
+}
+
+.icon-small {
+    & .frontend-icon {
+        width: 20px;
+
+        & path {
+            stroke-width: 2px !important;
+        }
+    }
+}
+
+@media (max-width:1024px) {
+    .primary-header {
+        min-height: 350px;
+        height: 40vh;
+    }
+
+    .burger-trigger {
+        width: 28px;
+        height: 2px;
+    }
+
+    .mobile-burger.active {
+        transform: rotate(90deg);
+
+        &>.burger-trigger {
+            opacity: 0;
+
+            &:first-child {
+                transform: rotate(45deg) translate(9px, 8px);
+                opacity: 1;
+            }
+
+            &:last-child {
+                transform: rotate(-45deg) translate(8px, -8px);
+                opacity: 1;
+            }
+        }
+    }
+
+    .mobile-nav>p {
+        font-size: 18px;
+    }
+
+    .administrator-img {
+        width: 100%;
+    }
+
 }

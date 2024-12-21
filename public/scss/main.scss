@@ -237,8 +237,26 @@ $margin-values: 0, 5, 10, 20, 40, 60, 80;
     }
 }
 
-.marauto {
-    margin: auto;
+.mar {
+    &-auto {
+        margin: auto;
+    }
+
+    &t-auto {
+        margin-top: auto;
+    }
+
+    &b-auto {
+        margin-bottom: auto;
+    }
+
+    &l-auto {
+        margin-left: auto;
+    }
+
+    &r-auto {
+        margin-right: auto;
+    }
 }
 
 // Generate classes for text colors and background colors
