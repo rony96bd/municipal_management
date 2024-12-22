@@ -12,7 +12,16 @@
             <div
                 class="profile-action background-white display-none column bradius-6px position-absolute overflow-hidden">
                 <a href="#" class="anchor color-primary padar-10">Profile</a>
-                <a href="#" class="anchor color-primary padar-10">Logout</a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+
+                    <x-dropdown-link :href="route('logout')"
+                        onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                        {{ __('Log Out') }}
+                    </x-dropdown-link>
+                    <button type="submit" class="anchor color-primary padar-10">Logout</button>
+                </form>
             </div>
         </div>
     </div>

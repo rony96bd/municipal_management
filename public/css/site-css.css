@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .primary-header {
   position: relative;
   height: 60vh;
@@ -462,4 +463,46 @@ header .anchor {
   .service-icon {
     width: 80px;
   }
+}
+.login-body {
+  height: 100vh;
+  background-image: url("/images/assets/login-background.jpg");
+}
+
+.login-form {
+  background: rgba(255, 255, 255, 0.3);
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+  max-width: 100%;
+}
+
+input {
+  outline: none !important;
+}
+
+.login-field {
+  height: 45px;
+  width: 280px;
+  max-width: 100%;
+}
+
+.remember-btn::after {
+  content: "✔";
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--primary-color);
+  border-radius: 20px;
+  position: absolute;
+  left: 0;
+  color: transparent;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+}
+
+input[type=checkbox]:checked + .remember-btn::after {
+  background: var(--primary-color);
+  color: var(--white-color);
 }/*# sourceMappingURL=site-css.css.map */

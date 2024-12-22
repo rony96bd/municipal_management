@@ -2515,4 +2515,8 @@ body {
 }
 .font-weight-black {
   font-weight: 900;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }/*# sourceMappingURL=main.css.map */

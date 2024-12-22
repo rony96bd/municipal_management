@@ -612,3 +612,9 @@ $transition-properties: all, color, background, transform, opacity, width, heigh
         font-weight: 900;
     }
 }
+
+.cursor {
+    &-pointer {
+        cursor: pointer;
+    }
+}
