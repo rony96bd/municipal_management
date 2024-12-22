@@ -472,6 +472,7 @@ header .anchor {
   -webkit-backdrop-filter: blur(5px);
           backdrop-filter: blur(5px);
   max-width: 100%;
+  width: 360px;
 }
 
 input {
