@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('menu_items', function (Blueprint $table) {
             $table->id();
-            $tabel->foreignId('menu_id');
+            $table->foreignId('menu_id');
             $table->enum('type', ['item', 'divider'])->default('item');
             $table->integer('parent_id')->nullable();
-            $tabel->integer('order')->nullable();
+            $table->integer('order')->nullable();
             $table->string('title')->nullable();
             $table->string('divider_title')->nullable();
             $table->string('url')->nullable();
