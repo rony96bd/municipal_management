@@ -46,3 +46,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const currentUrl = window.location.href;
+    const navLinks = document.querySelectorAll('.sidebar-nav'); // Adjust selector to target your links inside .sidebar-nav
+
+    navLinks.forEach(link => {
+        if (link.href === currentUrl) {
+            link.classList.add('active-menu');
+        }
+    });
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Select all elements with the class .alert
+    const alerts = document.querySelectorAll('.alert');
+
+    // Loop through each alert and set a timer to fade out and remove it
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.style.transition = 'opacity 2s ease'; // Smooth fade-out over 2 seconds
+            alert.style.opacity = '0'; // Set opacity to 0 after 3 seconds
+        }, 3000); // Start fade-out after 3 seconds
+
+        setTimeout(() => {
+            alert.remove(); // Remove the element after 5 seconds
+        }, 5000); // Remove the element after 5 seconds
+    });
+});

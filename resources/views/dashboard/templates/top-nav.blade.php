@@ -11,16 +11,16 @@
         <div class="dash-power flex row center position-relative">
             <div
                 class="profile-action background-white display-none column bradius-6px position-absolute overflow-hidden">
-                <a href="#" class="anchor color-primary padar-10">Profile</a>
-                <form method="POST" action="{{ route('logout') }}">
+                <a href="{{ route('profile.edit') }}" class="anchor color-primary padar-10">Profile</a>
+                <form method="POST" action="{{ route('logout') }}" class="flex full-width">
                     @csrf
 
                     <x-dropdown-link :href="route('logout')"
                         onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                                        this.closest('form').submit();"
+                        class="anchor color-primary padar-10 full-width">
                         {{ __('Log Out') }}
                     </x-dropdown-link>
-                    <button type="submit" class="anchor color-primary padar-10">Logout</button>
                 </form>
             </div>
         </div>

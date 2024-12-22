@@ -240,6 +240,12 @@ header .anchor {
 .sidebar-nav .dash-nav-icon {
   width: 30px;
 }
+.sidebar-nav.active-menu {
+  color: var(--success-color) !important;
+}
+.sidebar-nav.active-menu .dash-nav-icon {
+  stroke: var(--success-color) !important;
+}
 
 .collapse-menu {
   font-size: 16px;
@@ -473,6 +479,7 @@ header .anchor {
           backdrop-filter: blur(5px);
   max-width: 100%;
   width: 360px;
+  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
 }
 
 input {
@@ -504,4 +511,91 @@ input {
 input[type=checkbox]:checked + .remember-btn::after {
   background: var(--primary-color);
   color: var(--white-color);
+}
+
+.dash-main-area input,
+.dash-main-area textarea {
+  padding: 12px 20px;
+  outline: none !important;
+  border: 2px solid #eee;
+  border-radius: 3px;
+  background-color: var(--white-color);
+  width: 100%;
+  transition: 0s all ease-in-out;
+}
+
+.dash-main-area textarea {
+  resize: vertical;
+  overflow: auto;
+  font: 16px !important;
+}
+
+.dash-main-area button[type=submit]:not(.button-default-css) {
+  padding: 15px 20px;
+  outline: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  width: 100%;
+  transition: 0s all ease-in-out;
+  font-weight: 500;
+}
+
+.tox .tox-statusbar {
+  display: none !important;
+}
+
+.tox .tox-edit-area::before {
+  border: 1px solid var(--primary-color) !important;
+}
+
+.page-repeater {
+  border-bottom: 1px solid var(--primary-color);
+  transition: 0.25s all ease-in-out;
+}
+.page-repeater:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.page-repeater:nth-child(even) {
+  background-color: var(--white-color);
+}
+.page-repeater:last-child {
+  border-bottom: none;
+}
+.page-repeater:nth-child(2):nth-last-child(1), .page-repeater:nth-child(1):nth-last-child(2) {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid var(--primary-color);
+}
+.page-repeater:hover {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.drag-box {
+  cursor: grab;
+}
+.drag-icon {
+  width: 20px;
+  height: 20px;
+  stroke: var(--primary-color);
+}
+
+.alert {
+  position: fixed;
+  top: 60px;
+  right: 0px;
+  padding: 12px 25px;
+  width: -moz-max-content;
+  width: max-content;
+  border-radius: 3px;
+}
+.alert.alert-success {
+  background-color: rgba(46, 204, 113, 0.2705882353);
+  color: var(--primary-color);
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+}
+.alert.aleart-danger {
+  background-color: var(--danger-color);
+  color: var(--primary-color);
 }/*# sourceMappingURL=site-css.css.map */

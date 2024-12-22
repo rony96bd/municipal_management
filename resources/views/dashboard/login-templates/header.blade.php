@@ -21,3 +21,15 @@
     <main class="login-body flex column center padar-20 gap-20"
         style="
     background-image: url({{ asset('/images/assets/login-background.jpg') }});">
+        <div class="flex column gap-20 jcc-ace">
+            <a href="{{ route('homepage') }}"
+                class="anchor transition-duration-0-5s transition-ease-in-out transition-property-all"><img
+                    src="{{ asset('images/assets/logo.png') }}" alt="আলমডাঙ্গা পৌরসভা"
+                    class="img site-logo bradius-100-per"></a>
+            <div class="flex column jcc-ace" style="max-width: 400px">
+                <h1 class="heading fs-h1 text-center">আলমডাঙ্গা পৌরসভা </h1>
+                <p class="paragraph text-center">আমাদের প্রতিজ্ঞা দেশকল্যাণ, উদ্ভাবন, জনসেবা, সততা, নিরপেক্ষ ও দারিদ্র
+                    মুক্ত
+                    স্বনির্ভর বাংলাদেশ গড়েতোলা।</p>
+            </div>
+        </div>
