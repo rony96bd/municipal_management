@@ -1,4 +1,6 @@
-<div class="noticebox border-gray background-gray padar-30 bradius-6px gap-30 flex column">
+<div class="noticebox border-gray background-gray padar-30 bradius-6px gap-30 flex column"
+    style="
+    background-image: url({{ asset('/images/assets/notice-background.png') }});">
     <h3 class="sidebar-title font-weight-medium padl-100">নোটিশ বোর্ড</h3>
     <div class="flex column gap-10">
         {{-- Single Notice Box --}}

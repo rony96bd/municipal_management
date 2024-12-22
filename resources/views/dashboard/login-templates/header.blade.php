@@ -18,4 +18,6 @@
 </head>
 
 <body>
-    <main class="login-body flex column center padar-20 gap-20">
+    <main class="login-body flex column center padar-20 gap-20"
+        style="
+    background-image: url({{ asset('/images/assets/login-background.jpg') }});">
