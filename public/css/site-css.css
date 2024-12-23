@@ -128,6 +128,9 @@ header .anchor {
 .anchor {
   cursor: pointer;
 }
+.anchor.drag-box {
+  cursor: pointer;
+}
 
 .nav-icon {
   width: 24px;
@@ -235,10 +238,11 @@ header .anchor {
 }
 
 .sidebar-nav {
-  font-size: 12px;
+  font-size: 16px;
 }
 .sidebar-nav .dash-nav-icon {
   width: 30px;
+  min-width: 30px;
 }
 .sidebar-nav.active-menu {
   color: var(--success-color) !important;
@@ -301,11 +305,6 @@ header .anchor {
   max-width: 100%;
 }
 
-@media (max-width: 768px) {
-  .collapse-menu .nav-title {
-    display: none;
-  }
-}
 .frontend-icon {
   width: 35px;
   aspect-ratio: 1/1;
@@ -391,6 +390,7 @@ header .anchor {
 
 .notice-anchor {
   transition: 0.2s all ease-in-out;
+  cursor: pointer;
 }
 .notice-anchor:hover {
   background-color: rgba(0, 0, 0, 0.1);
@@ -598,4 +598,8 @@ input[type=checkbox]:checked + .remember-btn::after {
 .alert.aleart-danger {
   background-color: var(--danger-color);
   color: var(--primary-color);
+}
+
+.btn-span-2 {
+  grid-column: span 2;
 }/*# sourceMappingURL=site-css.css.map */

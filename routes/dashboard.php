@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\dash\dashboardController;
+use App\Http\Controllers\dash\OfficoalsController;
 use App\Http\Controllers\dash\PageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -21,4 +22,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/edit-page/{id}', [PageController::class, 'edit'])->name('edit-page');
     Route::post('/edit-page/{id}', [PageController::class, 'update'])->name('update-page');
     Route::delete('/delete-page/{id}', [PageController::class, 'destroy'])->name('delete-page');
+    // Officials
+    Route::get('/officials', [OfficoalsController::class, 'officialslist'])->name('officialslist');
+    Route::get('/create-official', [OfficoalsController::class, 'createofficial'])->name('create-official');
+    Route::post('/create-official', [OfficoalsController::class, 'store'])->name('store-official');
 });

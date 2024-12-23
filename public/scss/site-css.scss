@@ -134,6 +134,10 @@ header .anchor {
 
 .anchor {
     cursor: pointer;
+
+    &.drag-box {
+        cursor: pointer;
+    }
 }
 
 .nav-icon {
@@ -251,10 +255,11 @@ header .anchor {
 }
 
 .sidebar-nav {
-    font-size: 12px;
+    font-size: 16px;
 
     & .dash-nav-icon {
         width: 30px;
+        min-width: 30px;
     }
 
     &.active-menu {
@@ -328,13 +333,6 @@ header .anchor {
     }
 }
 
-@media(max-width:768px) {
-    .collapse-menu {
-        & .nav-title {
-            display: none;
-        }
-    }
-}
 
 .frontend-icon {
     width: 35px;
@@ -431,6 +429,9 @@ header .anchor {
 .notice {
     &-anchor {
         transition: .2s all ease-in-out;
+        cursor: pointer;
+
+
 
         &:hover {
             background-color: rgb(0, 0, 0, 0.1);
@@ -673,4 +674,8 @@ input[type="checkbox"]:checked+.remember-btn::after {
         background-color: var(--danger-color);
         color: var(--primary-color);
     }
+}
+
+.btn-span-2 {
+    grid-column: span 2;
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pages', function (Blueprint $table) {
             $table->id(); // Primary key
             $table->string('page_name'); // Page name
-            $table->string('page_url'); // Page URL
+            $table->string('page_url')->unique(); // Page URL
             $table->text('page_data'); // Page content (text area)
             $table->timestamps(); // created_at and updated_at
         });
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('createpages');
+        Schema::dropIfExists('pages');
     }
 };

@@ -14,11 +14,13 @@ class PageController extends Controller
         $pages = createpage::all();
         return view('dashboard.pages.pages', compact('page_title', 'pages'));
     }
+
     public function createpage()
     {
         $page_title = 'নতুন পাতা তৈরি করুন';
         return view('dashboard.pages.create-page', compact('page_title'));
     }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -27,9 +29,12 @@ class PageController extends Controller
             'page_data' => 'required',
         ]);
 
+        // Generate a unique URL
+        $page_url = $this->generateUniqueUrl($request->page_url);
+
         $page = new createpage();
         $page->page_name = $request->page_name;
-        $page->page_url = $request->page_url;
+        $page->page_url = $page_url;
         $page->page_data = $request->page_data;
         $page->save();
 
@@ -51,9 +56,13 @@ class PageController extends Controller
             'page_data' => 'required',
         ]);
 
-        $page = createpage::findOrFail($id);  // Find the page by its ID
+        $page = createpage::findOrFail($id);
+
+        // Generate a unique URL excluding the current page ID
+        $page_url = $this->generateUniqueUrl($request->page_url, $id);
+
         $page->page_name = $request->page_name;
-        $page->page_url = $request->page_url;
+        $page->page_url = $page_url;
         $page->page_data = $request->page_data;
         $page->save();
 
@@ -67,5 +76,31 @@ class PageController extends Controller
         $page->delete(); // Delete the page
 
         return redirect()->back()->with('success', "{$page_name} পাতা সফলভাবে মুছে ফেলা হয়েছে।");
+    }
+
+    /**
+     * Generate a unique page URL by appending a counter if needed.
+     *
+     * @param string $url
+     * @param int|null $excludeId
+     * @return string
+     */
+    private function generateUniqueUrl($url, $excludeId = null)
+    {
+        $originalUrl = $url;
+        $counter = 2;
+
+        while (
+            createpage::where('page_url', $url)
+            ->when($excludeId, function ($query) use ($excludeId) {
+                return $query->where('id', '!=', $excludeId);
+            })
+            ->exists()
+        ) {
+            $url = "{$originalUrl}-{$counter}";
+            $counter++;
+        }
+
+        return $url;
     }
 }

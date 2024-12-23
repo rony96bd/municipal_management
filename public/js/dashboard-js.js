@@ -79,3 +79,51 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 5000); // Remove the element after 5 seconds
     });
 });
+
+
+document.addEventListener("click", function (e) {
+    if (e.target.closest(".copy-url")) {
+        const dataLink = e.target.closest(".copy-url").getAttribute("data_link");
+        navigator.clipboard.writeText(dataLink).then(() => {
+            alert("Link copied to clipboard!");
+        }).catch(err => console.error("Failed to copy: ", err));
+    }
+});
+
+
+// Image Preview and Remove
+
+document.addEventListener('DOMContentLoaded', function () {
+    const imageInput = document.getElementById('image');
+    const imagePreview = document.getElementById('image-preview');
+    const imagePreviewContainer = document.getElementById('image-preview-container');
+    const removeImageButton = document.createElement('button');
+
+    if (!document.getElementById('remove-image')) {
+        removeImageButton.id = 'remove-image';
+        removeImageButton.className = 'btn btn-danger btn-sm mt-2';
+        removeImageButton.textContent = 'Remove';
+        removeImageButton.style.display = 'none';
+        imagePreviewContainer.appendChild(removeImageButton);
+    }
+
+    imageInput.addEventListener('change', function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                imagePreview.src = e.target.result;
+                imagePreview.classList.remove('d-none');
+                removeImageButton.style.display = 'inline-block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    removeImageButton.addEventListener('click', function () {
+        imageInput.value = ''; // Clear the input
+        imagePreview.src = '#';
+        imagePreview.classList.add('d-none');
+        this.style.display = 'none';
+    });
+});
