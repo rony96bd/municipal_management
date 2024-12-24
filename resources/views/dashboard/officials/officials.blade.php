@@ -51,7 +51,8 @@
                         </div>
                     </div>
                 @empty
-                    No Information Available
+                    <div class="flex row center padar-10 text-center color-danger font-weight-bold">কোন তথ্য পাওয়া যায়
+                        নি। </div>
                 @endforelse
             </div>
         </div>

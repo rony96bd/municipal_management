@@ -66,7 +66,7 @@
         </div>
         {{-- joining date --}}
         <div class="mb-3">
-            <input type="text" name="joining_date" id="joining_date" class="form-control"
+            <input type="date" name="joining_date" id="joining_date" class="form-control"
                 value="{{ old('joining_date', isset($page) ? $page->joining_date : '') }}"
                 placeholder="বর্তমান কর্মস্থলে যোগদানের তারিখ">
             @error('joining_date')
