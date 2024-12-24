@@ -17,14 +17,14 @@
                 value="{{ old('page_url', isset($page) ? $page->page_url : '') }}"
                 placeholder="url (english and lower case only - no spacing. Example: about-us)" required>
             @error('page_url')
-                <small class="text-danger">{{ $message }}</small>
+                <small class="color-danger">{{ $message }}</small>
             @enderror
         </div>
 
         <div class="mb-3">
             <textarea name="page_data" id="textarea" class="form-control" rows="20" placeholder="পাতার তথ্য এখানে যাবে">{{ old('page_data', isset($page) ? $page->page_data : '') }}</textarea>
             @error('page_data')
-                <small class="text-danger">{{ $message }}</small>
+                <small class="color-danger">{{ $message }}</small>
             @enderror
         </div>
 

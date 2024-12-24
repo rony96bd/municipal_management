@@ -3,6 +3,7 @@
 use App\Http\Controllers\dash\dashboardController;
 use App\Http\Controllers\dash\OfficoalsController;
 use App\Http\Controllers\dash\PageController;
+use App\Http\Controllers\dash\StuffsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,4 +27,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/officials', [OfficoalsController::class, 'officialslist'])->name('officialslist');
     Route::get('/create-official', [OfficoalsController::class, 'createofficial'])->name('create-official');
     Route::post('/create-official', [OfficoalsController::class, 'store'])->name('store-official');
+    Route::get('/edit-official/{id}', [OfficoalsController::class, 'edit'])->name('edit-official');
+    Route::post('/edit-official/{id}', [OfficoalsController::class, 'update'])->name('update-official');
+    Route::delete('/delete-official/{id}', [OfficoalsController::class, 'destroy'])->name('delete-official');
+    // Stuffs
+    Route::get('/stuffs', [StuffsController::class, 'stuffslist'])->name('stuffslist');
+    Route::get('/create-stuff', [StuffsController::class, 'createstuff'])->name('create-stuff');
+    Route::post('/create-stuff', [StuffsController::class, 'store'])->name('store-stuff');
+    Route::get('/edit-stuff/{id}', [StuffsController::class, 'edit'])->name('edit-stuff');
+    Route::post('/edit-stuff/{id}', [StuffsController::class, 'update'])->name('update-stuff');
+    Route::delete('/delete-stuff/{id}', [StuffsController::class, 'destroy'])->name('delete-stuff');
 });

@@ -25,16 +25,16 @@
                             <div class="drag-box flex center padl-20 padr-20 padt-10 padb-10 m-display-none">
                                 @include('icons.drag')
                             </div>
-                            <a href="{{ url('/') }}/{{ $page->page_url }}"
+                            <a href="{{ url('/page') }}/{{ $page->page_url }}"
                                 class="fs-h3 padt-10 padb-10 padl-0 padr-20 flex row jst-ace flex-auto m-padl-20"
                                 target="_blank">{{ $page->page_name }}</a>
                         </div>
                         <a class="fs-base padt-10 padb-10 padl-20 padr-20 flex row jst-ace"
-                            href="{{ url('/') }}/{{ $page->page_url }}"
-                            target="_blank">{{ url('/') }}/{{ $page->page_url }}</a>
+                            href="{{ url('/page') }}/{{ $page->page_url }}"
+                            target="_blank">{{ url('/page') }}/{{ $page->page_url }}</a>
                         <div class="flex row jfe-ace gap-10 padt-10 padb-10 padl-20 padr-20 m-column m-jst-ast">
                             <div class="anchor copy-url drag-box flex center padl-20 padr-20 padt-10 padb-10 m-display-none"
-                                data_link="{{ url('/') }}/{{ $page->page_url }}" title="পাতার ইউ আর এল কপি করুন">
+                                data_link="{{ url('/page') }}/{{ $page->page_url }}" title="পাতার ইউ আর এল কপি করুন">
                                 @include('icons.copy-link')
                             </div>
                             <a href="{{ route('edit-page', $page->id) }}"
