@@ -15,7 +15,7 @@
             <div class="flex column gap-0 border-solid border-1px border-color-primary bradius-3px overflow-hidden">
                 <div
                     class="page-header background-primary color-white grid grid-col-3 border-color-primary full-width gap-20 padl-20 padr-20 padt-10 padb-10 m-display-none">
-                    <h3 class="fs-h3 font-weight-bold">কর্মকর্তার নাম</h3>
+                    <h3 class="fs-h3 font-weight-bold">কর্মচারীর নাম</h3>
                     <h3 class="fs-h3 font-weight-bold">ইউ.আর.এল</h3>
                     <h3 class="fs-h3 font-weight-bold text-center">অ্যাকশান</h3>
                 </div>
