@@ -9,6 +9,8 @@ class Menu extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'description', 'deletable'];
+
     public function MenuItems()
     {
         return $this->hasMany(MenuItem::class);

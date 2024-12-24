@@ -7,7 +7,7 @@
         <span>@include('icons.content')</span>
         <span class="nav-title">Content</span>
     </a>
-    <a href="#" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace">
+    <a href="{{ route('menus.index') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace">
         <span>@include('icons.content')</span>
         <span class="nav-title">Menu</span>
     </a>

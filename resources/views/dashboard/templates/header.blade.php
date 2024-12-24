@@ -34,6 +34,7 @@
         });
     </script>
     @include('css-js-loaders.load-css')
+    @notifyCss
 
     <title>
         @if (empty($page_title))
@@ -45,6 +46,7 @@
 </head>
 
 <body>
+    @include('notify::components.notify')
     <main class="dashboard-body flex column gap-0">
         {{-- Dashboard Top Nav --}}
         @include('dashboard.templates.top-nav')
