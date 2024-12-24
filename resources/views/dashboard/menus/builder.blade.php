@@ -11,7 +11,7 @@
         </div>
     @endif
     <div class="flex column full-width gap-20">
-        <a href="{{ route('menus.create') }}"
+        <a href="{{ route('menus.item.create', $menu->id) }}"
             class="outline-button padl-20 padr-20 padt-10 padb-10 border-solid border-1px border-color solid bradius-3px width-max-content">
             @include('icons.plus') মেন্যু আইটেম তৈরি করুন</a>
 
@@ -50,6 +50,6 @@
                 </div>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
     @endsection
 
