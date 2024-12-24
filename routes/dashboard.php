@@ -3,6 +3,7 @@
 use App\Http\Controllers\dash\dashboardController;
 use App\Http\Controllers\dash\OfficoalsController;
 use App\Http\Controllers\dash\PageController;
+use App\Http\Controllers\dash\RepresntativesController;
 use App\Http\Controllers\dash\StuffsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -37,4 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/edit-stuff/{id}', [StuffsController::class, 'edit'])->name('edit-stuff');
     Route::post('/edit-stuff/{id}', [StuffsController::class, 'update'])->name('update-stuff');
     Route::delete('/delete-stuff/{id}', [StuffsController::class, 'destroy'])->name('delete-stuff');
+    // Representatives
+    Route::get('/representatives', [RepresntativesController::class, 'representativesslist'])->name('representativeslist');
+    Route::get('/create-representative', [RepresntativesController::class, 'createsrepresentative'])->name('create-representative');
 });

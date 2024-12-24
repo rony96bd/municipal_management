@@ -514,7 +514,8 @@ input[type=checkbox]:checked + .remember-btn::after {
 }
 
 .dash-main-area input,
-.dash-main-area textarea {
+.dash-main-area textarea,
+.dash-main-area select {
   padding: 12px 20px;
   outline: none !important;
   border: 2px solid #eee;
@@ -522,6 +523,17 @@ input[type=checkbox]:checked + .remember-btn::after {
   background-color: var(--white-color);
   width: 100%;
   transition: 0s all ease-in-out;
+}
+
+select {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-image: url("/images/assets/select-arrow.svg");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+  padding-right: 40px;
 }
 
 .dash-main-area textarea {
