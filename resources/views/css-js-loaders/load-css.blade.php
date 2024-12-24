@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="{{ asset('css/main.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/site-css.min.css') }}">
 <link rel="stylesheet" href="{{ url('/repositories/municipal_management/public/css/main.min.css') }}">
-{{-- Mobile CSS --}}
 @if (request()->header('User-Agent') &&
         (strpos(request()->header('User-Agent'), 'Mobile') !== false || request()->header('User-Agent') === 'iPhone'))
     <link rel="stylesheet" href="{{ asset('css/mobile-main.min.css') }}">

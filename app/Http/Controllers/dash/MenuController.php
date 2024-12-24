@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\dash;
 
 use App\Models\Menu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use App\Http\Controllers\Controller;
 
 class MenuController extends Controller
 {
@@ -35,13 +37,13 @@ class MenuController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string|max:100',
+            'name' => 'required|string|unique:menus',
             'description' => 'nullable|string',
         ]);
 
         Menu::create([
-            'name' => $request->name,
-            'description' => $request->description,
+            'name' => Str::slug($request->get('name')),
+            'description' => $request->get('description'),
             'deletable' => true,
         ]);
 
@@ -61,7 +63,9 @@ class MenuController extends Controller
      */
     public function edit(Menu $menu)
     {
-        //
+
+        $page_title = 'মেন্যু ইডিট করুন';
+        return view('dashboard.menus.create', compact('page_title', 'menu'));
     }
 
     /**
@@ -69,7 +73,18 @@ class MenuController extends Controller
      */
     public function update(Request $request, Menu $menu)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string|unique:menus,name,' . $menu->id,
+            'description' => 'nullable|string',
+        ]);
+
+        $menu->update([
+            'name' => Str::slug($request->get('name')),
+            'description' => $request->get('description'),
+            'deletable' => true,
+        ]);
+
+        return redirect()->route('menus.index')->with('success', "সফলভাবে মেন্যু আপডেট হয়েছে");
     }
 
     /**
@@ -77,6 +92,11 @@ class MenuController extends Controller
      */
     public function destroy(Menu $menu)
     {
-        //
+        if ($menu->deletable == true) {
+            $menu->delete();
+            return redirect()->route('menus.index')->with('success', "মেন্যুটি সফলভাবে ডিলিট হয়েছে");
+        } else {
+            return redirect()->route('menus.index')->with('error', "এই মেন্যুটি ডিলিট করা যাবে না");
+        }
     }
 }

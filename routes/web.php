@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\MenuController;
+use App\Http\Controllers\dash\MenuController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\dash\MenuBuilderController;
 
 require __DIR__ . '/auth.php';
 Route::get('/dashboard', function () {
@@ -16,4 +17,7 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
 
     // Menus
     Route::resource('menus', MenuController::class)->except(['show'])->names(['index' => 'menus.index', 'create' => 'menus.create', 'store' => 'menus.store', 'edit' => 'menus.edit', 'update' => 'menus.update', 'destroy' => 'menus.destroy']);
+    Route::group(['as' => 'menus.', 'prefix' => 'menus/{id}'], function () {
+        Route::get('builder', [MenuBuilderController::class, 'index'])->name('builder');
+    });
 });

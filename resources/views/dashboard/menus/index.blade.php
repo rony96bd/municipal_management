@@ -38,7 +38,7 @@
                         </div>
                         <div class="flex row jfe-ace gap-10 padt-10 padb-10 padl-20 padr-20 m-column m-jst-ast">
 
-                            <a href="{{ route('menus.edit', $menu->id) }}"
+                            <a href="{{ route('menus.builder', $menu->id) }}"
                                 class="background-success button-success-css color-white padt-10 padb-10 padr-20 padl-20 text-center bradius-3px full-width">Builder</a>
 
                             <a href="{{ route('menus.edit', $menu->id) }}"
