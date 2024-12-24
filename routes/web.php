@@ -19,5 +19,7 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
     Route::resource('menus', MenuController::class)->except(['show'])->names(['index' => 'menus.index', 'create' => 'menus.create', 'store' => 'menus.store', 'edit' => 'menus.edit', 'update' => 'menus.update', 'destroy' => 'menus.destroy']);
     Route::group(['as' => 'menus.', 'prefix' => 'menus/{id}'], function () {
         Route::get('builder', [MenuBuilderController::class, 'index'])->name('builder');
+        Route::get('item/create', [MenuBuilderController::class, 'itemCreate'])->name('item.create');
+        Route::post('item/store', [MenuBuilderController::class, 'itemStore'])->name('item.store');
     });
 });
