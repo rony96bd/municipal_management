@@ -1,6 +1,5 @@
 @extends('dashboard.templates.main')
 @section('dash-body')
-
     <h2 class="fs-h2 marb-20">
         @php
             echo 'Menu Builder - ' . $menu->name;
@@ -30,18 +29,9 @@
                     <div class="main-card mb-3 card">
                         <div class="card-body menu-builder">
                             <h5 class="card-title">Drag and drop the menu Items below to re-arrange them.</h5>
+                            <br />
                             <div class="dd">
-                                <ol>
-                                    @forelse ($menu->menuItems as $item)
-                                        <li>
-                                            <span>{{ $item->title }}</span>
-                                        </li>
-                                    @empty
-                                        <div class="text-center">
-                                            <strong>No menu items found.</strong>
-                                        </div>
-                                    @endforelse
-                                </ol>
+                                <x-menu-builder :menuItems="$menu->menuItems" />
                             </div>
                         </div>
                         <!-- /.card-body -->
@@ -51,5 +41,21 @@
             </div>
         </div>
 
-    @endsection
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
+        <script type="text/javascript">
+            $(function() {
+                $('.dd').nestable({
+                    maxDepth: 2
+                });
+                $('.dd').on('change', function(e) {
+                    $.post('{{ route('menus.order', $menu->id) }}', {
+                        order: JSON.stringify($('.dd').nestable('serialize')),
+                        _token: '{{ csrf_token() }}'
+                    }, function(data) {
+                        alert('Successfully updated menu order.');
+                    });
+                });
+            });
+        </script>
+    @endsection

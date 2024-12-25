@@ -1,10 +1,13 @@
 <link rel="stylesheet" href="{{ asset('css/main.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/site-css.min.css') }}">
-<link rel="stylesheet" href="{{ url('/repositories/municipal_management/public/css/main.min.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.6.0/jquery.nestable.css" integrity="sha512-WLnZn2zeYB0crLeiqeyqmdh7tqN5UfBiJv9cYWL9nkUoAUMG5flJnjWGeeKIs8eqy8nMGGbMvDdpwKajJAWZ3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.6.0/jquery.nestable.min.css" integrity="sha512-yOW3WV01iPnrQrlHYlpnfVooIAQl/hujmnCmiM3+u8F/6cCgA3BdFjqQfu8XaOtPilD/yYBJR3Io4PO8QUQKWA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+{{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+{{-- <link rel="stylesheet" href="{{ url('/repositories/municipal_management/public/css/main.min.css') }}"> --}}
 @if (request()->header('User-Agent') &&
         (strpos(request()->header('User-Agent'), 'Mobile') !== false || request()->header('User-Agent') === 'iPhone'))
     <link rel="stylesheet" href="{{ asset('css/mobile-main.min.css') }}">
-    <link rel="stylesheet" href="../repositories/municipal_management/public/css/mobile-main.min.css">
+    {{-- <link rel="stylesheet" href="../repositories/municipal_management/public/css/mobile-main.min.css"> --}}
 @endif
 
 <style>

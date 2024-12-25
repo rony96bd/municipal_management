@@ -12,23 +12,25 @@
             {{ session('success') }}
         </div>
     @endif
-    <form id="roleFrom" role="form" method="POST"
-        action="{{ isset($menuItem) ? route('menus.update', $menuItem->id) : route('menus.item.store', $menu->id) }}">
+    <form id="itemFrom" role="form" method="POST"
+        action="{{ isset($menuItem) ? route('menus.item.update', ['id' => $menu->id, 'itemId' => $menuItem->id]) : route('menus.item.store', $menu->id) }}">
         @csrf
-        @if (isset($menuItem))
+        @isset($menuItem)
             @method('PUT')
-        @endif
+        @endisset
         <div class="card-body">
             <h5 class="fs-h5 marb-20">Manage Menu Item</h5>
 
             <div class="form-group">
                 <label for="type">Type</label>
-                <select class="custom-select" id="type" name="type" onchange="setItemType()">
+                <select class="custom-select" id="type" name="type">
                     <option value="item"
-                        @isset($menuItem) {{ $menuItem == 'item' ? 'selected' : '' }} @endisset>Menu Item
+                        @isset($menuItem) {{ $menuItem->type == 'item' ? 'selected' : '' }} @endisset>
+                        Menu Item
                     </option>
                     <option value="divider"
-                        @isset($menuItem) {{ $menuItem == 'divider' ? 'selected' : '' }} @endisset>Divider
+                        @isset($menuItem) {{ $menuItem->type == 'divider' ? 'selected' : '' }} @endisset>
+                        Divider
                     </option>
                 </select>
             </div>
@@ -123,6 +125,35 @@
         </div>
         <!-- /.card-body -->
     </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const typeSelect = document.querySelector('select[name="type"]');
+            const dividerFields = document.getElementById('divider_fields');
+            const itemFields = document.getElementById('item_fields');
+
+            // Function to toggle visibility of fields
+            function setItemType() {
+                if (!typeSelect || !dividerFields || !itemFields) {
+                    console.error('Required elements are missing in the DOM.');
+                    return;
+                }
+
+                if (typeSelect.value === 'divider') {
+                    dividerFields.classList.remove('display-none');
+                    itemFields.classList.add('display-none');
+                } else {
+                    dividerFields.classList.add('display-none');
+                    itemFields.classList.remove('display-none');
+                }
+            }
+
+            // Event listener for changes in the dropdown
+            if (typeSelect) {
+                typeSelect.addEventListener('change', setItemType);
+            }
+
+            // Initialize the visibility on page load
+            setItemType();
+        });
+    </script>
 @endsection
-
-
