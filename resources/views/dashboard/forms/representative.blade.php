@@ -1,5 +1,5 @@
-<form action="{{ isset($page) ? route('update-official', $page->id) : route('store-official') }}" method="POST"
-    enctype="multipart/form-data">
+<form action="{{ isset($page) ? route('update-representative', $page->id) : route('store-representative') }}"
+    method="POST" enctype="multipart/form-data">
     @csrf
     @if (isset($page))
         @method('POST') <!-- Use method spoofing for PUT if needed -->
@@ -7,38 +7,45 @@
     <div class="flex grid grid-col-2 m-grid-col-1 gap-20">
         <div class="mb-3">
             {{-- Name --}}
-            <input type="text" name="offificial_name" id="offificial_name" class="form-control"
-                value="{{ old('offificial_name', isset($page) ? $page->offificial_name : '') }}"
-                placeholder="কর্মকর্তার নাম *" required>
-            @error('offificial_name')
+            <input type="text" name="name" id="name" class="form-control"
+                value="{{ old('name', isset($page) ? $page->name : '') }}" placeholder="জনপ্রতিনিধীর নাম *" required>
+            @error('name')
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
         </div>
         {{-- Designation --}}
         <div class="mb-3">
-            <input type="text" name="designation" id="designation" class="form-control"
-                value="{{ old('designation', isset($page) ? $page->designation : '') }}" placeholder="কর্মকর্তার পদবী *"
-                required>
+            <select name="designation" id="designation" class="form-control" required>
+                <option value="" disabled
+                    {{ old('designation', isset($page) ? $page->designation : '') == '' ? 'selected' : '' }}>
+                    পদবী নির্বাচন করুন *
+                </option>
+                <option value="1"
+                    {{ old('designation', isset($page) ? $page->designation : '') == '1' ? 'selected' : '' }}>
+                    চেয়ারম্যান
+                </option>
+                <option value="2"
+                    {{ old('designation', isset($page) ? $page->designation : '') == '2' ? 'selected' : '' }}>
+                    মেম্বার
+                </option>
+                <option value="3"
+                    {{ old('designation', isset($page) ? $page->designation : '') == '3' ? 'selected' : '' }}>
+                    মেম্বার(মহিলা)
+                </option>
+            </select>
             @error('designation')
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
         </div>
-        {{-- BCS Batch --}}
+        {{-- Word Number --}}
         <div class="mb-3">
-            <input type="text" name="bcs" id="bcs" class="form-control"
-                value="{{ old('bcs', isset($page) ? $page->bcs : '') }}" placeholder="ব্যাচ (বি.সি.এস)">
-            @error('bcs')
+            <input type="number" name="word_number" id="word_number" class="form-control"
+                value="{{ old('word_number', isset($page) ? $page->word_number : '') }}" placeholder="ওয়ার্ড নাম্বার">
+            @error('word_number')
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
         </div>
-        {{-- BCS ID --}}
-        <div class="mb-3">
-            <input type="text" name="bcsid" id="bcsid" class="form-control"
-                value="{{ old('bcsid', isset($page) ? $page->bcsid : '') }}" placeholder="আই.ডি">
-            @error('bcsid')
-                <small class="color-danger fs-base">{{ $message }}</small>
-            @enderror
-        </div>
+
         {{-- Official Phone --}}
         <div class="mb-3">
             <input type="text" name="office_phone" id="office_phone" class="form-control"
@@ -51,7 +58,7 @@
         {{-- Official Home --}}
         <div class="mb-3">
             <input type="text" name="home_phone" id="home_phone" class="form-control"
-                value="{{ old('home_phone', isset($page) ? $page->home_phone : '') }}" placeholder="ফোন (বাসা)">
+                value="{{ old('home_phone', isset($page) ? $page->home_phone : '') }}" placeholder="ফোন (বাসা) ">
             @error('home_phone')
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
@@ -88,13 +95,14 @@
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
         </div>
-        {{-- joining date --}}
+
+        {{-- Joining Date --}}
         <div class="mb-3">
             <input type="date" name="joining_date" id="joining_date" class="form-control"
-                value="{{ old('joining_date', isset($page) ? $page->joining_date : '') }}"
-                placeholder="বর্তমান কর্মস্থলে যোগদানের তারিখ">
+                value="{{ old('joining_date', isset($page) ? $page->joining_date : '') }}" placeholder="Joining Date"
+                required>
             @error('joining_date')
-                <small class="color-danger fs-base">{{ $message }}</small>
+                <small class="color-danger">{{ $message }}</small>
             @enderror
         </div>
         {{-- Url --}}
@@ -106,8 +114,46 @@
                 <small class="color-danger">{{ $message }}</small>
             @enderror
         </div>
-        {{-- Image Upload --}}
+        {{-- Elected Type --}}
         <div class="mb-3">
+            <select name="elected_type" id="elected_type" class="form-control">
+                <option value="" disabled
+                    {{ old('elected_type', isset($page) ? $page->elected_type : '') == '' ? 'selected' : '' }}>
+                    যে ভাবে নির্বাচিত হয়েছে তা নির্বাচন করুন
+                </option>
+                <option value="1"
+                    {{ old('elected_type', isset($page) ? $page->elected_type : '') == '1' ? 'selected' : '' }}>
+                    নির্বাচনের মাধ্যমে িনির্বাচিত
+                </option>
+                <option value="2"
+                    {{ old('elected_type', isset($page) ? $page->elected_type : '') == '2' ? 'selected' : '' }}>
+                    সংরক্ষিত আসনে নির্বাচিত
+                </option>
+                <option value="3"
+                    {{ old('elected_type', isset($page) ? $page->elected_type : '') == '3' ? 'selected' : '' }}>
+                    অনান্য
+                </option>
+            </select>
+            @error('elected_type')
+                <small class="color-danger fs-base">{{ $message }}</small>
+            @enderror
+        </div>
+        {{-- Present Address --}}
+        <div class="mb-3">
+            <textarea name="presentaddress" id="presentaddress" class="form-control" placeholder="বর্তমান ঠিকানা">{{ old('presentaddress', isset($page) ? $page->presentaddress : '') }}</textarea>
+            @error('presentaddress')
+                <small class="color-danger">{{ $message }}</small>
+            @enderror
+        </div>
+        {{-- Permanent Address --}}
+        <div class="mb-3">
+            <textarea name="permanentaddress" id="permanentaddress" class="form-control" placeholder="স্থায়ী ঠিকানা">{{ old('permanentaddress', isset($page) ? $page->presentaddress : '') }}</textarea>
+            @error('permanentaddress')
+                <small class="color-danger">{{ $message }}</small>
+            @enderror
+        </div>
+        {{-- Image Upload --}}
+        <div class="mb-3 btn-span-2">
             <label for="image" class="form-label">প্রোফাইল ছবি আপলোড করুন</label>
             <input type="file" id="image" name="image" accept="image/*">
             <div id="image-preview-container" class="mt-2">
