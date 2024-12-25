@@ -37,10 +37,24 @@ class frontController extends Controller
         return view('front-views.pages.stuffs', compact('page_title', 'stuffs'));
     }
 
+    public function stuffDetails($page_url)
+    {
+        $stuff = Stuff::where('page_url', $page_url)->first();
+        $page_title = $stuff->stuff_name;
+        return view('front-views.pages.singe-pages.stuff', compact('page_title', 'stuff'));
+    }
+
     public function representatives()
     {
         $page_title = 'জনপ্রদিনিধী';
         $representatives = representatives::all();
         return view('front-views.pages.representatives', compact('page_title', 'representatives'));
+    }
+
+    public function representativeDetails($page_url)
+    {
+        $representative = representatives::where('page_url', $page_url)->first();
+        $page_title = $representative->name;
+        return view('front-views.pages.singe-pages.representative', compact('page_title', 'representative'));
     }
 }

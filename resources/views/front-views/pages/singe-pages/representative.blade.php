@@ -9,8 +9,8 @@
                 {{-- Image Box --}}
                 <div
                     class="flex row center officer-main-image padar-5 border-solid border-2px border-color-secondary bradius-50-per background-white">
-                    @if (!empty($officer->image))
-                        <img src="/{{ $officer->image }}" alt="{{ $officer->offificial_name }}"
+                    @if (!empty($representative->image))
+                        <img src="/{{ $representative->image }}" alt="{{ $representative->name }}"
                             class="img full-width official-repeated-image">
                     @else
                         @include('icons.frontend-icons.avator')
@@ -18,10 +18,23 @@
                 </div>
                 {{-- Primary Content Box --}}
                 <div class="flex column gap-5 jst-ais padb-30 m-center m-text-center">
-                    @if (!empty($officer->offificial_name))
+                    @if (!empty($representative->name))
                         <h2 class="heading fs-24-32 font-weight-medium">
-                            {{ $officer->offificial_name }}
-                            <span class="fs-18-22 font-weight-medium">({{ $officer->designation }})</span>
+                            {{ $representative->name }}
+                            <span class="fs-18-22 font-weight-medium">(
+                                @if ($representative->designation === '1')
+                                    চেয়ারম্যান
+                                @elseif ($representative->designation === '2')
+                                    মেম্বার
+                                @elseif ($representative->designation === '3')
+                                    মেম্বার (মহিলা)
+                                @else
+                                    কোন তথ্য নেয়
+                                @endif
+
+
+                                )
+                            </span>
                         </h2>
                         <p class="fs-16-20"> আলমডাঙ্গা পৌরসভা</p>
                         <p>আলমডাঙ্গা উপজেলা, চুয়াডাঙ্গা</p>
@@ -32,76 +45,103 @@
             </div>
             {{-- Detail Area --}}
             <div class="flex column gap-0 border-solid border-1px border-color-primary bradius-5px overflow-hidden">
-                @if (!empty($officer->bcs))
+                @if (!empty($representative->word_number))
                     <div class="flex grid grid-col-2 padar-10 single-detail-wrapper jce-aic">
                         <p class="flex column gap-10">
-                            বি,সি,এস:
+                            ওয়ার্ড নং:
                         </p>
-                        <p class="text-left">{{ $officer->bcs }}</p>
+                        <p class="text-left">{{ $representative->word_number }}</p>
                     </div>
                 @endif
-                @if (!empty($officer->bcsid))
+                @if (!empty($representative->elected_type))
                     <div class="flex grid grid-col-2 padar-10 single-detail-wrapper jce-aic">
                         <p class="flex column gap-10">
-                            বি,সি,এস আইডি:
+                            যে ভাবে নির্বাচিত হয়েছেন:
                         </p>
-                        <p class="text-left">{{ $officer->bcsid }}</p>
+                        <p class="text-left">
+                            @if ($representative->elected_type === '1')
+                                নির্বাচনের মাধ্যমে নির্বাচিত
+                            @elseif ($representative->elected_type === '2')
+                                সংরক্ষিত আসনে নির্বাচিত
+                            @elseif ($representative->elected_type === '3')
+                                অনান্য
+                            @else
+                                কোন তথ্য নেয়
+                            @endif
+                        </p>
                     </div>
                 @endif
-                @if (!empty($officer->office_phone))
+                @if (!empty($representative->office_phone))
                     <div class="flex grid grid-col-2 padar-10 single-detail-wrapper jce-aic">
                         <p class="flex column gap-10">
                             ফোন নাম্বার (অফিস):
                         </p>
-                        <p class="text-left">{{ $officer->office_phone }}</p>
+                        <p class="text-left">{{ $representative->office_phone }}</p>
                     </div>
                 @endif
-                @if (!empty($officer->home_phone))
+                @if (!empty($representative->home_phone))
                     <div class="flex grid grid-col-2 padar-10 single-detail-wrapper jce-aic">
                         <p class="flex column gap-10">
                             ফোন নাম্বার (বাসা):
                         </p>
-                        <p class="text-left">{{ $officer->home_phone }}</p>
+                        <p class="text-left">{{ $representative->home_phone }}</p>
                     </div>
                 @endif
-                @if (!empty($officer->mobile))
+                @if (!empty($representative->mobile))
                     <div class="flex grid grid-col-2 padar-10 single-detail-wrapper jce-aic">
                         <p class="flex column gap-10">
                             মোবাইল:
                         </p>
-                        <p class="text-left">{{ $officer->mobile }}</p>
+                        <p class="text-left">{{ $representative->mobile }}</p>
                     </div>
                 @endif
-                @if (!empty($officer->fax))
+                @if (!empty($representative->fax))
                     <div class="flex grid grid-col-2 padar-10 single-detail-wrapper jce-aic">
                         <p class="flex column gap-10">
                             ফ্যাক্স:
                         </p>
-                        <p class="text-left">{{ $officer->fax }}</p>
+                        <p class="text-left">{{ $representative->fax }}</p>
                     </div>
                 @endif
-                @if (!empty($officer->email))
+                @if (!empty($representative->email))
                     <div class="flex grid grid-col-2 padar-10 single-detail-wrapper jce-aic">
                         <p class="flex column gap-10">
                             ইমেইল:
                         </p>
-                        <p class="text-left">{{ $officer->email }}</p>
+                        <p class="text-left">{{ $representative->email }}</p>
                     </div>
                 @endif
-                @if (!empty($officer->home_district))
+                @if (!empty($representative->home_district))
                     <div class="flex grid grid-col-2 padar-10 single-detail-wrapper jce-aic">
                         <p class="flex column gap-10">
                             নিজ জেলা:
                         </p>
-                        <p class="text-left">{{ $officer->home_district }}</p>
+                        <p class="text-left">{{ $representative->home_district }}</p>
                     </div>
                 @endif
-                @if (!empty($officer->joining_date))
+                @if (!empty($representative->joining_date))
                     <div class="flex grid grid-col-2 padar-10 single-detail-wrapper jce-aic">
                         <p class="flex column gap-10">
                             বর্তমান কর্মস্থলে যোগদানের তারিখ:
                         </p>
-                        <p class="text-left">{{ $officer->joining_date }}</p>
+                        <p class="text-left">{{ $representative->joining_date }}</p>
+                    </div>
+                @endif
+                @if (!empty($representative->presentaddress))
+                    <div class="flex grid grid-col-2 padar-10 single-detail-wrapper jce-aic">
+                        <p class="flex column gap-10">
+                            বর্তমান ঠিকানা:
+                        </p>
+                        <div>{!! $representative->presentaddress !!}</div>
+                    </div>
+                @endif
+                @if (!empty($representative->permanentaddress))
+                    <div class="flex grid grid-col-2 padar-10 single-detail-wrapper jce-aic">
+                        <p class="flex column gap-10">
+                            স্থায়ী ঠিকানা:
+                        </p>
+                        <div>{!! $representative->permanentaddress !!}
+                        </div>
                     </div>
                 @endif
 

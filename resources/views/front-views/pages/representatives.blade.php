@@ -3,7 +3,7 @@
     <section class="section">
         <div class="container grid grid-col-5 m-grid-col-1 gap-20">
             @forelse ($representatives as $representative)
-                <a href="{{ url('/') }}/officer/{{ $representative->page_url }}"
+                <a href="{{ url('/') }}/representative/{{ $representative->page_url }}"
                     class="flex column gap-0 overflow-hidden bradius-10px border-solid border-1px border-gray">
                     <img src="{{ $representative->image }}" alt="{{ $representative->সৃমড }}"
                         class="img full-width official-repeated-image">

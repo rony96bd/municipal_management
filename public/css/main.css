@@ -1108,6 +1108,26 @@ body {
   visibility: visible;
 }
 
+.border-0px {
+  border-width: 0px;
+}
+
+.border-top-0px {
+  border-top-width: 0px;
+}
+
+.border-bottom-0px {
+  border-bottom-width: 0px;
+}
+
+.border-left-0px {
+  border-left-width: 0px;
+}
+
+.border-right-0px {
+  border-right-width: 0px;
+}
+
 .border-1px {
   border-width: 1px;
 }

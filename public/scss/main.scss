@@ -292,7 +292,7 @@ $visibility-states: hidden, visible;
 }
 
 // Define a range for the border width from 1px to 10px
-$border-widths: 1px 2px 3px 4px 5px 6px 7px 8px 9px 10px;
+$border-widths: 0px 1px 2px 3px 4px 5px 6px 7px 8px 9px 10px;
 
 // Loop to generate border-width utilities for all sides
 @each $width in $border-widths {

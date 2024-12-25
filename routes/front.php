@@ -13,6 +13,6 @@ Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/officers', [frontController::class, 'officers'])->name('officers');
 Route::get('/officer/{page_url}', [frontController::class, 'officerDetails'])->name('officer-details');
 Route::get('/stuffs', [frontController::class, 'stuffs'])->name('stuffs');
-Route::get('/stuffs/{page_url}', [frontController::class, 'stuffDetails'])->name('stuff-details');
+Route::get('/stuff/{page_url}', [frontController::class, 'stuffDetails'])->name('stuff-details');
 Route::get('/representatives', [frontController::class, 'representatives'])->name('representatives');
-Route::get('/representatives/{page_url}', [frontController::class, 'representativeDetails'])->name('representative-details');
+Route::get('/representative/{page_url}', [frontController::class, 'representativeDetails'])->name('representative-details');
