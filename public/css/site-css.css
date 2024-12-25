@@ -632,4 +632,10 @@ select {
 
 .body-inner {
   min-height: 100vh;
+}
+
+.official-repeated-image {
+  aspect-ratio: 1/1;
+  -o-object-fit: cover;
+     object-fit: cover;
 }/*# sourceMappingURL=site-css.css.map */

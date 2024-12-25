@@ -709,3 +709,8 @@ select {
 .body-inner {
     min-height: 100vh;
 }
+
+.official-repeated-image {
+    aspect-ratio: 1/1;
+    object-fit: cover;
+}

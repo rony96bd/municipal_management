@@ -17,32 +17,34 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Pages Routes
-    Route::get('/pages', [PageController::class, 'pagelist'])->name('pages');
-    Route::get('/create-page', [PageController::class, 'createpage'])->name('create-page');
-    Route::post('/create-page', [PageController::class, 'store'])->name('store-page');
-    Route::get('/edit-page/{id}', [PageController::class, 'edit'])->name('edit-page');
-    Route::post('/edit-page/{id}', [PageController::class, 'update'])->name('update-page');
-    Route::delete('/delete-page/{id}', [PageController::class, 'destroy'])->name('delete-page');
-    // Officials
-    Route::get('/officials', [OfficoalsController::class, 'officialslist'])->name('officialslist');
-    Route::get('/create-official', [OfficoalsController::class, 'createofficial'])->name('create-official');
-    Route::post('/create-official', [OfficoalsController::class, 'store'])->name('store-official');
-    Route::get('/edit-official/{id}', [OfficoalsController::class, 'edit'])->name('edit-official');
-    Route::post('/edit-official/{id}', [OfficoalsController::class, 'update'])->name('update-official');
-    Route::delete('/delete-official/{id}', [OfficoalsController::class, 'destroy'])->name('delete-official');
-    // Stuffs
-    Route::get('/stuffs', [StuffsController::class, 'stuffslist'])->name('stuffslist');
-    Route::get('/create-stuff', [StuffsController::class, 'createstuff'])->name('create-stuff');
-    Route::post('/create-stuff', [StuffsController::class, 'store'])->name('store-stuff');
-    Route::get('/edit-stuff/{id}', [StuffsController::class, 'edit'])->name('edit-stuff');
-    Route::post('/edit-stuff/{id}', [StuffsController::class, 'update'])->name('update-stuff');
-    Route::delete('/delete-stuff/{id}', [StuffsController::class, 'destroy'])->name('delete-stuff');
-    // Representatives
-    Route::get('/representatives', [RepresntativesController::class, 'representativesslist'])->name('representativeslist');
-    Route::get('/create-representative', [RepresntativesController::class, 'createsrepresentative'])->name('create-representative');
-    Route::post('/create-representative', [RepresntativesController::class, 'store'])->name('store-representative');
-    Route::get('/edit-representative/{id}', [RepresntativesController::class, 'edit'])->name('edit-representative');
-    Route::post('/edit-representative/{id}', [RepresntativesController::class, 'update'])->name('update-representative');
-    Route::delete('/delete-representative/{id}', [RepresntativesController::class, 'destroy'])->name('delete-representative');
+    Route::prefix('dashboard')->group(function () {
+        // Pages Routes
+        Route::get('/pages', [PageController::class, 'pagelist'])->name('pages');
+        Route::get('/create-page', [PageController::class, 'createpage'])->name('create-page');
+        Route::post('/create-page', [PageController::class, 'store'])->name('store-page');
+        Route::get('/edit-page/{id}', [PageController::class, 'edit'])->name('edit-page');
+        Route::post('/edit-page/{id}', [PageController::class, 'update'])->name('update-page');
+        Route::delete('/delete-page/{id}', [PageController::class, 'destroy'])->name('delete-page');
+        // Officials
+        Route::get('/officials', [OfficoalsController::class, 'officialslist'])->name('officialslist');
+        Route::get('/create-official', [OfficoalsController::class, 'createofficial'])->name('create-official');
+        Route::post('/create-official', [OfficoalsController::class, 'store'])->name('store-official');
+        Route::get('/edit-official/{id}', [OfficoalsController::class, 'edit'])->name('edit-official');
+        Route::post('/edit-official/{id}', [OfficoalsController::class, 'update'])->name('update-official');
+        Route::delete('/delete-official/{id}', [OfficoalsController::class, 'destroy'])->name('delete-official');
+        // Stuffs
+        Route::get('/stuffs', [StuffsController::class, 'stuffslist'])->name('stuffslist');
+        Route::get('/create-stuff', [StuffsController::class, 'createstuff'])->name('create-stuff');
+        Route::post('/create-stuff', [StuffsController::class, 'store'])->name('store-stuff');
+        Route::get('/edit-stuff/{id}', [StuffsController::class, 'edit'])->name('edit-stuff');
+        Route::post('/edit-stuff/{id}', [StuffsController::class, 'update'])->name('update-stuff');
+        Route::delete('/delete-stuff/{id}', [StuffsController::class, 'destroy'])->name('delete-stuff');
+        // Representatives
+        Route::get('/representatives', [RepresntativesController::class, 'representativesslist'])->name('representativeslist');
+        Route::get('/create-representative', [RepresntativesController::class, 'createsrepresentative'])->name('create-representative');
+        Route::post('/create-representative', [RepresntativesController::class, 'store'])->name('store-representative');
+        Route::get('/edit-representative/{id}', [RepresntativesController::class, 'edit'])->name('edit-representative');
+        Route::post('/edit-representative/{id}', [RepresntativesController::class, 'update'])->name('update-representative');
+        Route::delete('/delete-representative/{id}', [RepresntativesController::class, 'destroy'])->name('delete-representative');
+    });
 });
