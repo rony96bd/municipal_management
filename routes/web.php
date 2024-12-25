@@ -5,6 +5,10 @@ use App\Http\Controllers\dash\MenuController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dash\MenuBuilderController;
 
+Route::get('/test', function () {
+    return menu('main-menu');
+});
+
 require __DIR__ . '/auth.php';
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -17,9 +21,18 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
 
     // Menus
     Route::resource('menus', MenuController::class)->except(['show'])->names(['index' => 'menus.index', 'create' => 'menus.create', 'store' => 'menus.store', 'edit' => 'menus.edit', 'update' => 'menus.update', 'destroy' => 'menus.destroy']);
-    Route::group(['as' => 'menus.', 'prefix' => 'menus/{id}'], function () {
+
+    Route::group(['as' => 'menus.', 'prefix' => 'menus/{id}/'], function () {
+        // Menu Builder
+        Route::post('order', [MenuBuilderController::class, 'order'])->name('order');
         Route::get('builder', [MenuBuilderController::class, 'index'])->name('builder');
-        Route::get('item/create', [MenuBuilderController::class, 'itemCreate'])->name('item.create');
-        Route::post('item/store', [MenuBuilderController::class, 'itemStore'])->name('item.store');
+        // Menu Item
+        Route::group(['as' => 'item.', 'prefix' => 'item'], function () {
+            Route::get('/create', [MenuBuilderController::class, 'itemCreate'])->name('create');
+            Route::post('/store', [MenuBuilderController::class, 'itemStore'])->name('store');
+            Route::get('/{itemId}/edit', [MenuBuilderController::class, 'itemEdit'])->name('edit');
+            Route::put('/{itemId}/update', [MenuBuilderController::class, 'itemUpdate'])->name('update');
+            Route::delete('/{itemId}/destroy', [MenuBuilderController::class, 'itemDestroy'])->name('destroy');
+        });
     });
 });

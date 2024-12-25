@@ -11,6 +11,7 @@
         <span>@include('icons.content')</span>
         <span class="nav-title">Menu</span>
     </a>
+
     {{-- Collapse Menu --}}
     <div href="#" class="anchor collapse-menu sidebar-nav flex row gap-5 color-white jfs-ace mart-auto">
         <span>@include('icons.menu-collapes')</span>
