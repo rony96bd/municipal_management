@@ -56,26 +56,20 @@ class PageController extends Controller
             'page_data' => 'required',
         ]);
 
+        // Find the existing page by ID
         $page = createpage::findOrFail($id);
 
         // Generate a unique URL excluding the current page ID
         $page_url = $this->generateUniqueUrl($request->page_url, $id);
 
+        // Update the page data
         $page->page_name = $request->page_name;
         $page->page_url = $page_url;
         $page->page_data = $request->page_data;
         $page->save();
 
+        // Redirect with a success message
         return redirect()->route('pages')->with('success', "সফলভাবে {$request->page_name} পাতা আপডেট হয়েছে");
-    }
-
-    public function destroy($id)
-    {
-        $page = createpage::findOrFail($id); // Find the page by ID
-        $page_name = $page->page_name; // Store page name for feedback
-        $page->delete(); // Delete the page
-
-        return redirect()->back()->with('success', "{$page_name} পাতা সফলভাবে মুছে ফেলা হয়েছে।");
     }
 
     /**
@@ -102,5 +96,14 @@ class PageController extends Controller
         }
 
         return $url;
+    }
+
+    public function destroy($id)
+    {
+        $page = createpage::findOrFail($id); // Find the page by ID
+        $page_name = $page->page_name; // Store page name for feedback
+        $page->delete(); // Delete the page
+
+        return redirect()->back()->with('success', "{$page_name} পাতা সফলভাবে মুছে ফেলা হয়েছে।");
     }
 }

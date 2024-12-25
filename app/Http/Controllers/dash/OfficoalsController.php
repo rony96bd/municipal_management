@@ -106,7 +106,7 @@ class OfficoalsController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $official = officials::findOrFail($id);
+        $official = Officials::findOrFail($id);
 
         // Handle image upload
         $imagePath = null;
@@ -115,18 +115,27 @@ class OfficoalsController extends Controller
             $imagePath = $image->store('images/officials', 'public');
         }
 
-        // Generate unique page_url
+        // Get the original page_url from the request
         $pageUrl = $request->page_url;
-        $originalUrl = $pageUrl;
-        $counter = 1;
 
-        // Check if the page_url already exists
-        while (Officials::where('page_url', $pageUrl)->exists()) {
-            $pageUrl = $originalUrl . '-' . $counter;
-            $counter++;
+        // Check if the page_url exists for any other official, but not for the current one
+        $existingOfficial = Officials::where('page_url', $pageUrl)
+            ->where('id', '!=', $id) // Exclude the current official's ID
+            ->first();
+
+        if ($existingOfficial) {
+            // If the page_url exists for another official, append a counter
+            $originalUrl = $pageUrl;
+            $counter = 1;
+
+            // Find a unique page_url
+            while (Officials::where('page_url', $pageUrl)->exists()) {
+                $pageUrl = $originalUrl . '-' . $counter;
+                $counter++;
+            }
         }
 
-        // Save the new official's data
+        // Update the official's data
         $official->offificial_name = $request->offificial_name;
         $official->designation = $request->designation;
         $official->bcs = $request->bcs;
@@ -138,12 +147,13 @@ class OfficoalsController extends Controller
         $official->email = $request->email;
         $official->home_district = $request->home_district;
         $official->joining_date = $request->joining_date;
-        $official->page_url = $pageUrl;  // Assign the unique page_url
+        $official->page_url = $pageUrl;  // Assign the updated page_url
         $official->image = $imagePath;
         $official->save();
 
         return redirect()->route('officialslist')->with('success', "সফলভাবে কর্মকর্তার '{$request->offificial_name}' এর তথ্য আপডেট হয়েছে");
     }
+
 
     public function destroy($id)
     {

@@ -34,7 +34,7 @@
                                 target="_blank">{{ $menu->name }}</a>
                         </div>
                         <div class="anchor copy-url drag-box flex center padl-20 padr-20 padt-10 padb-10 m-display-none">
-                            {{ $menu->description }}
+                            {!! $menu->description !!}
                         </div>
                         <div class="flex row jfe-ace gap-10 padt-10 padb-10 padl-20 padr-20 m-column m-jst-ast">
 
@@ -52,7 +52,7 @@
                                     @method('DELETE')
                                     <button type="submit"
                                         class="background-danger button-default-css color-white padt-10 padb-10 padr-20 padl-20 text-center bradius-3px full-width">ডিলিট
-                                        </button>
+                                    </button>
                                 </form>
                             @endif
                         </div>

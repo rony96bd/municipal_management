@@ -16,3 +16,4 @@ Route::get('/stuffs', [frontController::class, 'stuffs'])->name('stuffs');
 Route::get('/stuff/{page_url}', [frontController::class, 'stuffDetails'])->name('stuff-details');
 Route::get('/representatives', [frontController::class, 'representatives'])->name('representatives');
 Route::get('/representative/{page_url}', [frontController::class, 'representativeDetails'])->name('representative-details');
+Route::get('/page/{page_url}', [frontController::class, 'singlepage'])->name('page-details');

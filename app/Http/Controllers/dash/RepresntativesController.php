@@ -117,7 +117,7 @@ class RepresntativesController extends Controller
             'permanentaddress' => 'nullable|string|max:255',
         ]);
 
-        $representatives = representatives::findOrFail($id);
+        $representative = representatives::findOrFail($id);
 
         // Handle image upload
         $imagePath = null;
@@ -126,15 +126,24 @@ class RepresntativesController extends Controller
             $imagePath = $image->store('images/stuffs', 'public');
         }
 
-        // Generate unique page_url
+        // Get the original page_url from the request
         $pageUrl = $request->page_url;
-        $originalUrl = $pageUrl;
-        $counter = 1;
 
-        // Ensure the page_url is unique
-        while (representatives::where('page_url', $pageUrl)->exists()) {
-            $pageUrl = $originalUrl . '-' . $counter;
-            $counter++;
+        // Check if the page_url exists for any other representative, excluding the current one
+        $existingRepresentative = representatives::where('page_url', $pageUrl)
+            ->where('id', '!=', $id) // Exclude the current representative's ID
+            ->first();
+
+        if ($existingRepresentative) {
+            // If the page_url exists for another representative, append a counter
+            $originalUrl = $pageUrl;
+            $counter = 1;
+
+            // Find a unique page_url by appending a counter
+            while (representatives::where('page_url', $pageUrl)->exists()) {
+                $pageUrl = $originalUrl . '-' . $counter;
+                $counter++;
+            }
         }
 
         $designationMap = [
@@ -143,28 +152,30 @@ class RepresntativesController extends Controller
             '3' => 'মেম্বার (মহিলা)',
         ];
         $designationText = $designationMap[$request->designation] ?? '';
-        // Save the new representative's data
-        $representatives->name = $request->name;
-        $representatives->designation = $request->designation;
-        $representatives->word_number = $request->word_number;
-        $representatives->office_phone = $request->office_phone;
-        $representatives->home_phone = $request->home_phone;
-        $representatives->fax = $request->fax;
-        $representatives->mobile = $request->mobile;
-        $representatives->email = $request->email;
-        $representatives->home_district = $request->home_district;
-        $representatives->joining_date = $request->joining_date;
-        $representatives->page_url = $pageUrl;
-        $representatives->elected_type = $request->elected_type;
-        $representatives->image = $imagePath;
-        $representatives->presentaddress = $request->presentaddress;
-        $representatives->permanentaddress = $request->permanentaddress;
-        $representatives->save();
+
+        // Save the updated representative's data
+        $representative->name = $request->name;
+        $representative->designation = $request->designation;
+        $representative->word_number = $request->word_number;
+        $representative->office_phone = $request->office_phone;
+        $representative->home_phone = $request->home_phone;
+        $representative->fax = $request->fax;
+        $representative->mobile = $request->mobile;
+        $representative->email = $request->email;
+        $representative->home_district = $request->home_district;
+        $representative->joining_date = $request->joining_date;
+        $representative->page_url = $pageUrl; // Use the final unique page_url
+        $representative->elected_type = $request->elected_type;
+        $representative->image = $imagePath;
+        $representative->presentaddress = $request->presentaddress;
+        $representative->permanentaddress = $request->permanentaddress;
+        $representative->save();
 
         // Redirect with a success message
         return redirect()->route('representativeslist')
             ->with('success', "সফলভাবে '{$request->name} - {$designationText}' জনপ্রদিনিধির তথ্য সংস্কার হয়েছে");
     }
+
 
     public function destroy($id)
     {

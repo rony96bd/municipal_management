@@ -4,6 +4,7 @@ namespace App\Http\Controllers\front;
 
 use App\Http\Controllers\Controller;
 use App\Models\officials\Officials;
+use App\Models\page\createpage;
 use App\Models\representatives\representatives;
 use App\Models\stuff\Stuff;
 use Illuminate\Http\Request;
@@ -56,5 +57,12 @@ class frontController extends Controller
         $representative = representatives::where('page_url', $page_url)->first();
         $page_title = $representative->name;
         return view('front-views.pages.singe-pages.representative', compact('page_title', 'representative'));
+    }
+
+    public function singlepage($page_url)
+    {
+        $page = createpage::where('page_url', $page_url)->first();
+        $page_title = $page->page_name;
+        return view('front-views.pages.singe-pages.single-page', compact('page_title', 'page'));
     }
 }

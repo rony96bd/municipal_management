@@ -106,18 +106,27 @@ class StuffsController extends Controller
             $imagePath = $image->store('images/stuffs', 'public');
         }
 
-        // Generate unique page_url
+        // Get the original page_url from the request
         $pageUrl = $request->page_url;
-        $originalUrl = $pageUrl;
-        $counter = 1;
 
-        // Check if the page_url already exists
-        while (Stuff::where('page_url', $pageUrl)->exists()) {
-            $pageUrl = $originalUrl . '-' . $counter;
-            $counter++;
+        // Check if the page_url exists for any other Stuff record, but not for the current one
+        $existingStuff = Stuff::where('page_url', $pageUrl)
+            ->where('id', '!=', $id) // Exclude the current Stuff's ID
+            ->first();
+
+        if ($existingStuff) {
+            // If the page_url exists for another Stuff, append a counter
+            $originalUrl = $pageUrl;
+            $counter = 1;
+
+            // Find a unique page_url by appending a counter
+            while (Stuff::where('page_url', $pageUrl)->exists()) {
+                $pageUrl = $originalUrl . '-' . $counter;
+                $counter++;
+            }
         }
 
-        // Save the new stuff's data
+        // Save the updated Stuff data
         $stuff->stuff_name = $request->stuff_name;
         $stuff->designation = $request->designation;
         $stuff->office_phone = $request->office_phone;
@@ -126,11 +135,11 @@ class StuffsController extends Controller
         $stuff->email = $request->email;
         $stuff->home_district = $request->home_district;
         $stuff->joining_date = $request->joining_date;
-        $stuff->page_url = $pageUrl; // Assign the unique page_url
+        $stuff->page_url = $pageUrl;  // Assign the updated page_url
         $stuff->image = $imagePath;
         $stuff->save();
 
-        return redirect()->route('officialslist')->with('success', "সফলভাবে কর্মচারী '{$request->offificial_name}' এর তথ্য আপডেট হয়েছে");
+        return redirect()->route('officialslist')->with('success', "সফলভাবে কর্মচারী '{$request->stuff_name}' এর তথ্য আপডেট হয়েছে");
     }
 
     public function destroy($id)
