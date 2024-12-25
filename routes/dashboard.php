@@ -41,4 +41,8 @@ Route::middleware('auth')->group(function () {
     // Representatives
     Route::get('/representatives', [RepresntativesController::class, 'representativesslist'])->name('representativeslist');
     Route::get('/create-representative', [RepresntativesController::class, 'createsrepresentative'])->name('create-representative');
+    Route::post('/create-representative', [RepresntativesController::class, 'store'])->name('store-representative');
+    Route::get('/edit-representative/{id}', [RepresntativesController::class, 'edit'])->name('edit-representative');
+    Route::post('/edit-representative/{id}', [RepresntativesController::class, 'update'])->name('update-representative');
+    Route::delete('/delete-representative/{id}', [RepresntativesController::class, 'destroy'])->name('delete-representative');
 });

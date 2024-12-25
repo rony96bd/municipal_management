@@ -5,6 +5,12 @@
     background-color: var(--primary-color);
 }
 
+.seondary-header {
+    position: relative;
+    height: 25vh;
+    min-height: 300px;
+}
+
 /* Slider Container */
 .slider {
     margin: auto;
@@ -532,6 +538,11 @@ header .anchor {
             width: 80px;
         }
     }
+
+    .seondary-header {
+        height: auto;
+        min-height: 220px;
+    }
 }
 
 .login-body {
@@ -590,6 +601,10 @@ input[type="checkbox"]:checked+.remember-btn::after {
     background-color: var(--white-color);
     width: 100%;
     transition: 0s all ease-in-out;
+}
+
+input[type="file"] {
+    cursor: pointer;
 }
 
 select {
@@ -689,4 +704,8 @@ select {
 
 .btn-span-2 {
     grid-column: span 2;
+}
+
+.body-inner {
+    min-height: 100vh;
 }

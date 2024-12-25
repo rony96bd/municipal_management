@@ -1,5 +1,5 @@
-<form action="{{ isset($page) ? route('update-stuff', $page->id) : route('store-stuff') }}" method="POST"
-    enctype="multipart/form-data">
+<form action="{{ isset($page) ? route('update-representative', $page->id) : route('store-representative') }}"
+    method="POST" enctype="multipart/form-data">
     @csrf
     @if (isset($page))
         @method('POST') <!-- Use method spoofing for PUT if needed -->
@@ -18,7 +18,7 @@
             <select name="designation" id="designation" class="form-control" required>
                 <option value="" disabled
                     {{ old('designation', isset($page) ? $page->designation : '') == '' ? 'selected' : '' }}>
-                    পদবী নির্বাচন করুন
+                    পদবী নির্বাচন করুন *
                 </option>
                 <option value="1"
                     {{ old('designation', isset($page) ? $page->designation : '') == '1' ? 'selected' : '' }}>
@@ -95,28 +95,14 @@
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
         </div>
-        {{-- Designation --}}
+
+        {{-- Joining Date --}}
         <div class="mb-3">
-            <select name="designation" id="designation" class="form-control" required>
-                <option value="" disabled
-                    {{ old('designation', isset($page) ? $page->designation : '') == '' ? 'selected' : '' }}>
-                    পদবী নির্বাচন করুন
-                </option>
-                <option value="1"
-                    {{ old('designation', isset($page) ? $page->designation : '') == '1' ? 'selected' : '' }}>
-                    চেয়ারম্যান
-                </option>
-                <option value="2"
-                    {{ old('designation', isset($page) ? $page->designation : '') == '2' ? 'selected' : '' }}>
-                    মেম্বার
-                </option>
-                <option value="3"
-                    {{ old('designation', isset($page) ? $page->designation : '') == '3' ? 'selected' : '' }}>
-                    মেম্বার(মহিলা)
-                </option>
-            </select>
-            @error('designation')
-                <small class="color-danger fs-base">{{ $message }}</small>
+            <input type="date" name="joining_date" id="joining_date" class="form-control"
+                value="{{ old('joining_date', isset($page) ? $page->joining_date : '') }}" placeholder="Joining Date"
+                required>
+            @error('joining_date')
+                <small class="color-danger">{{ $message }}</small>
             @enderror
         </div>
         {{-- Url --}}
@@ -130,7 +116,7 @@
         </div>
         {{-- Elected Type --}}
         <div class="mb-3">
-            <select name="elected_type" id="elected_type" class="form-control" required>
+            <select name="elected_type" id="elected_type" class="form-control">
                 <option value="" disabled
                     {{ old('elected_type', isset($page) ? $page->elected_type : '') == '' ? 'selected' : '' }}>
                     যে ভাবে নির্বাচিত হয়েছে তা নির্বাচন করুন
@@ -154,14 +140,14 @@
         </div>
         {{-- Present Address --}}
         <div class="mb-3">
-            <textarea name="presentaddress" id="presentaddress" class="form-control" placeholder="বর্তমান ঠিকানা" required>{{ old('presentaddress', isset($page) ? $page->presentaddress : '') }}</textarea>
+            <textarea name="presentaddress" id="presentaddress" class="form-control" placeholder="বর্তমান ঠিকানা">{{ old('presentaddress', isset($page) ? $page->presentaddress : '') }}</textarea>
             @error('presentaddress')
                 <small class="color-danger">{{ $message }}</small>
             @enderror
         </div>
         {{-- Permanent Address --}}
         <div class="mb-3">
-            <textarea name="permanentaddress" id="permanentaddress" class="form-control" placeholder="স্থায়ী ঠিকানা" required>{{ old('permanentaddress', isset($page) ? $page->presentaddress : '') }}</textarea>
+            <textarea name="permanentaddress" id="permanentaddress" class="form-control" placeholder="স্থায়ী ঠিকানা">{{ old('permanentaddress', isset($page) ? $page->presentaddress : '') }}</textarea>
             @error('permanentaddress')
                 <small class="color-danger">{{ $message }}</small>
             @enderror

@@ -8,5 +8,5 @@
             {{ session('success') }}
         </div>
     @endif
-    @include('dashboard.forms.add-stuff')
+    @include('dashboard.forms.add-official')
 @endsection

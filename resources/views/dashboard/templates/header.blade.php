@@ -13,7 +13,7 @@
 
     <script>
         tinymce.init({
-            selector: 'textarea',
+            selector: 'textarea:not(.exclude-tyne)',
             plugins: [
                 // Core editing features
                 'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media',
