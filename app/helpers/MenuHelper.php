@@ -14,10 +14,6 @@ if (!function_exists('menu')) {
     function menu($name)
     {
         $menu = \App\Models\Menu::where('name', $name)->first();
-        if ($menu == null) {
-            echo "কোন মেনু পাওয়া যায়নি";
-        } else {
-            return $menu->menuItems()->with('childs')->get();
-        }
+        return $menu->menuItems()->with('childs')->get();
     }
 }
