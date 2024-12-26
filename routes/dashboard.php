@@ -4,6 +4,7 @@ use App\Http\Controllers\dash\dashboardController;
 use App\Http\Controllers\dash\OfficoalsController;
 use App\Http\Controllers\dash\PageController;
 use App\Http\Controllers\dash\RepresntativesController;
+use App\Http\Controllers\dash\ServiceController;
 use App\Http\Controllers\dash\StuffsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -46,5 +47,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit-representative/{id}', [RepresntativesController::class, 'edit'])->name('edit-representative');
         Route::post('/edit-representative/{id}', [RepresntativesController::class, 'update'])->name('update-representative');
         Route::delete('/delete-representative/{id}', [RepresntativesController::class, 'destroy'])->name('delete-representative');
+        // Services
+        Route::get('/services', [ServiceController::class, 'index'])->name('services');
+        Route::get('/create-service', [ServiceController::class, 'createservice'])->name('create-service');
+        Route::post('/create-service', [ServiceController::class, 'store'])->name('store-service');
+        Route::get('/edit-service/{id}', [ServiceController::class, 'edit'])->name('edit-service');
+        Route::post('/edit-service/{id}', [ServiceController::class, 'update'])->name('update-service');
+        Route::delete('/delete-service/{id}', [ServiceController::class, 'destroy'])->name('delete-service');
+        Route::get('/service/configure/{page_url}', [ServiceController::class, 'configure'])->name('service-configure');
     });
 });
