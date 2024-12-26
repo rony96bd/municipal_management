@@ -1,5 +1,4 @@
-@if ($items == null)
-@else
+@if ($items->isNotEmpty())
     @foreach ($items as $item)
         @if ($item->type == 'divider')
             <li class="">{{ $item->divider_title }}</li>
