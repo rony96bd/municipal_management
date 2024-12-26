@@ -1,5 +1,5 @@
-@if ($items == null)
-@else
+{{-- @if ($items == null)
+@else --}}
     @foreach ($items as $item)
         @if ($item->type == 'divider')
             <li class="">{{ $item->divider_title }}</li>
@@ -36,4 +36,4 @@
             @endif
         @endif
     @endforeach
-@endif
+{{-- @endif --}}
