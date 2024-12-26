@@ -29,9 +29,9 @@ class FrontendMenuBar extends Component
         $check_menu_item = MenuItem::all();
         return view('components.frontend-menu-bar', compact('items', 'check_menu', 'check_menu_item'));
 
-        // $items = Cache::rememberForever('frontend.menu.bar', function () {
-        //     return menu('main-menu');
-        // });
-        // return view('components.frontend-menu-bar', compact('items'));
+        $items = Cache::rememberForever('frontend.menu.bar', function () {
+            return menu('main-menu');
+        });
+        return view('components.frontend-menu-bar', compact('items'));
     }
 }
