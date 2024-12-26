@@ -1,4 +1,5 @@
-<form action="{{ isset($service) ? route('update-service', $service->id) : route('store-service') }}" method="POST">
+<form action="{{ isset($service) ? route('update-service', $service->service_id) : route('store-service') }}"
+    method="POST">
     @csrf
     @if (isset($service))
         @method('POST') <!-- Use method spoofing for PUT if needed -->

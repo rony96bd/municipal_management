@@ -51,9 +51,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/services', [ServiceController::class, 'index'])->name('services');
         Route::get('/create-service', [ServiceController::class, 'createservice'])->name('create-service');
         Route::post('/create-service', [ServiceController::class, 'store'])->name('store-service');
-        Route::get('/edit-service/{id}', [ServiceController::class, 'edit'])->name('edit-service');
-        Route::post('/edit-service/{id}', [ServiceController::class, 'update'])->name('update-service');
+        Route::get('/edit-service/{service_id}', [ServiceController::class, 'edit'])->name('edit-service');
+        Route::post('/edit-service/{service_id}', [ServiceController::class, 'update'])->name('update-service');
         Route::delete('/delete-service/{id}', [ServiceController::class, 'destroy'])->name('delete-service');
         Route::get('/service/configure/{page_url}', [ServiceController::class, 'configure'])->name('service-configure');
+        Route::post('/service/configure/{page_url}', [ServiceController::class, 'storesingleservice'])->name('configure-single-service-store');
+        Route::get('/service/item/configure/{id}', [ServiceController::class, 'editsingleserviceitem'])->name('edit-single-service-item');
     });
 });
