@@ -20,13 +20,13 @@ class frontController extends Controller
     public function officers()
     {
         $page_title = 'কর্মচারী বৃন্দ';
-        $officers = Officials::all();
+        $officers = officials::all();
         return view('front-views.pages.officers', compact('page_title', 'officers'));
     }
 
     public function officerDetails($page_url)
     {
-        $officer = Officials::where('page_url', $page_url)->first();
+        $officer = officials::where('page_url', $page_url)->first();
         $page_title = $officer->offificial_name;
         return view('front-views.pages.singe-pages.officials', compact('page_title', 'officer'));
     }

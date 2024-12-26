@@ -585,6 +585,10 @@ select {
   grid-column: span 2;
 }
 
+.grid-span-2 {
+  grid-column: span 2;
+}
+
 .body-inner {
   min-height: 100vh;
 }
@@ -677,5 +681,8 @@ select {
   .single-top-item {
     margin-bottom: 0px;
     margin-top: 70px;
+  }
+  .grid-span-2 {
+    grid-column: span 1;
   }
 }/*# sourceMappingURL=site-css.css.map */
