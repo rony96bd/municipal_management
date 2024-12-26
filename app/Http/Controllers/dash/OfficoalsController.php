@@ -53,13 +53,13 @@ class OfficoalsController extends Controller
         $counter = 1;
 
         // Check if the page_url already exists
-        while (Officials::where('page_url', $pageUrl)->exists()) {
+        while (officials::where('page_url', $pageUrl)->exists()) {
             $pageUrl = $originalUrl . '-' . $counter;
             $counter++;
         }
 
         // Save the new official's data
-        $official = new Officials();
+        $official = new officials();
         $official->offificial_name = $request->offificial_name;
         $official->designation = $request->designation;
         $official->bcs = $request->bcs;
@@ -106,7 +106,7 @@ class OfficoalsController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $official = Officials::findOrFail($id);
+        $official = officials::findOrFail($id);
 
         // Handle image upload
         $imagePath = null;
@@ -119,7 +119,7 @@ class OfficoalsController extends Controller
         $pageUrl = $request->page_url;
 
         // Check if the page_url exists for any other official, but not for the current one
-        $existingOfficial = Officials::where('page_url', $pageUrl)
+        $existingOfficial = officials::where('page_url', $pageUrl)
             ->where('id', '!=', $id) // Exclude the current official's ID
             ->first();
 
@@ -129,7 +129,7 @@ class OfficoalsController extends Controller
             $counter = 1;
 
             // Find a unique page_url
-            while (Officials::where('page_url', $pageUrl)->exists()) {
+            while (officials::where('page_url', $pageUrl)->exists()) {
                 $pageUrl = $originalUrl . '-' . $counter;
                 $counter++;
             }

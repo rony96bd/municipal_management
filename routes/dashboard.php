@@ -26,7 +26,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit-page/{id}', [PageController::class, 'edit'])->name('edit-page');
         Route::post('/edit-page/{id}', [PageController::class, 'update'])->name('update-page');
         Route::delete('/delete-page/{id}', [PageController::class, 'destroy'])->name('delete-page');
-        // Officials
+        // officials
         Route::get('/officials', [OfficoalsController::class, 'officialslist'])->name('officialslist');
         Route::get('/create-official', [OfficoalsController::class, 'createofficial'])->name('create-official');
         Route::post('/create-official', [OfficoalsController::class, 'store'])->name('store-official');

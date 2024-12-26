@@ -5,7 +5,7 @@ namespace App\Models\officials;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Officials extends Model
+class officials extends Model
 {
     use HasFactory;
     protected $table = 'officials';

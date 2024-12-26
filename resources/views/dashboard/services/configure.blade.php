@@ -62,6 +62,6 @@
         </div>
         <div class="flex column gap-10">
             <h2 class="fs-h2">নতুন সেবা যুক্ত করুন</h2>
-            @include('dashboard.forms.service')
+            @include('dashboard.forms.service-configure')
         </div>
     @endsection
