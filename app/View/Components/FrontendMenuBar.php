@@ -25,9 +25,9 @@ class FrontendMenuBar extends Component
         $items = menu('main-menu');
         return view('components.frontend-menu-bar', compact('items'));
 
-        $items = Cache::rememberForever('frontend.menu.bar', function () {
-            return menu('main-menu');
-        });
+        // $items = Cache::rememberForever('frontend.menu.bar', function () {
+        //     return menu('main-menu');
+        // });
         return view('components.frontend-menu-bar', compact('items'));
     }
 }
