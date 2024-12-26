@@ -1,6 +1,3 @@
-@php
-dd($items);
-@endphp
 @foreach ($items as $item)
     @if ($item->type == 'divider')
         <li class="">{{ $item->divider_title }}</li>
