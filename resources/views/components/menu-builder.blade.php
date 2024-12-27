@@ -1,5 +1,5 @@
 <style>
-    // menu builder
+    /* menu builder */
     .menu-builder .dd {
         position: relative;
         display: block;
@@ -51,8 +51,7 @@
                     style="display:inline;">
                     @csrf
                     @method('DELETE')
-                    <button type="submit"
-                        class="background-danger button-default-css color-white padt-10 padb-10 padr-20 padl-20 text-center bradius-3px">ডিলিট</button>
+                    <button type="submit" class="background-danger button-default-css color-white padt-10 padb-10 padr-20 padl-20 text-center bradius-3px">ডিলিট</button>
                 </form>
                 <a class="btn btn-sm btn-primary float-right edit"
                     href="{{ route('menus.item.edit', ['id' => $item->menu->id, 'itemId' => $item->id]) }}">
