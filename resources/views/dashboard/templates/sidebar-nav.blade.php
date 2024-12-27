@@ -1,4 +1,8 @@
 <div class="dash-left-nav-box flex column padar-20 background-secondary gap-20 m-padar-10">
+    <a href="{{ route('dashboard') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace">
+        <span>@include('icons.dashboard')</span>
+        <span class="nav-title">ড্যাশবোর্ড</span>
+    </a>
     <a href="{{ route('pages') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace">
         <span>@include('icons.dashboard-icons.page')</span>
         <span class="nav-title">পেজ</span>
@@ -6,6 +10,10 @@
     <a href="{{ route('menus.index') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace">
         <span>@include('icons.dashboard-icons.menu')</span>
         <span class="nav-title">মেনু</span>
+    </a>
+    <a href="#" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace">
+        <span>@include('icons.users')</span>
+        <span class="nav-title">ইউজার</span>
     </a>
 
     {{-- Site Settings --}}

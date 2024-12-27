@@ -206,20 +206,11 @@ header .anchor {
 }
 
 .dash-power {
-  width: 20px;
-  height: 20px;
-  border: 1px solid var(--white-color);
-  border-radius: 50px;
-  border-bottom-color: transparent;
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--success-color);
+  border-radius: 50%;
   cursor: pointer;
-}
-.dash-power::after {
-  position: absolute;
-  bottom: 0;
-  width: 1px;
-  height: 10px;
-  background-color: var(--white-color);
-  content: "";
 }
 
 .profile-action {
@@ -696,4 +687,8 @@ select {
   cursor: no-drop;
   opacity: 0.5;
   background-color: #a2a2a2;
+}
+
+.dash-site-logo {
+  width: 40px;
 }/*# sourceMappingURL=site-css.css.map */
