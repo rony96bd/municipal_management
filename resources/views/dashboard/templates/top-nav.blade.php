@@ -13,7 +13,7 @@
     </div>
     <div class="flex row gap-20 jsb-ace">
         <div class="dash-power flex row center position-relative"
-            style="background-image: url({{ asset('images/assets/logo.png') }})">
+            style="background-image: url({{ asset('images/assets/user.jpg') }})">
             <div
                 class="profile-action background-white display-none column bradius-6px position-absolute overflow-hidden">
                 <a href="{{ route('profile.edit') }}" class="anchor color-primary padar-10">Profile</a>

@@ -19,20 +19,27 @@
 
 /* Document-Level Styling */
 html {
-  scroll-behavior: smooth; /* For smooth scrolling */
-  -webkit-text-size-adjust: 100%; /* Prevent iOS from resizing text */
+  scroll-behavior: smooth;
+  /* For smooth scrolling */
+  -webkit-text-size-adjust: 100%;
+  /* Prevent iOS from resizing text */
 }
 
 body {
-  line-height: 1.2; /* Improved readability */
-  text-rendering: optimizeSpeed; /* Speed up text rendering */
-  font-family: "Tiro Bangla", serif; /* Default font family */
+  line-height: 1.2;
+  /* Improved readability */
+  text-rendering: optimizeSpeed;
+  /* Speed up text rendering */
+  font-family: "Tiro Bangla", serif;
+  /* Default font family */
+  font-size: 16px;
 }
 
 /* Anchor Tags */
 a {
   text-decoration: none;
-  color: inherit; /* Use the current color */
+  color: inherit;
+  /* Use the current color */
 }
 
 /* Lists */
@@ -48,7 +55,8 @@ video,
 canvas,
 svg {
   display: block;
-  max-width: 100%; /* Responsive media */
+  max-width: 100%;
+  /* Responsive media */
   height: auto;
 }
 
@@ -57,7 +65,8 @@ input,
 button,
 textarea,
 select {
-  font: inherit; /* Inherit font styles */
+  font: inherit;
+  /* Inherit font styles */
   border: none;
   outline: none;
 }
@@ -71,13 +80,15 @@ button {
 
 /* Tables */
 table {
-  border-collapse: collapse; /* Prevent spacing between cells */
+  border-collapse: collapse;
+  /* Prevent spacing between cells */
   border-spacing: 0;
 }
 
 /* General */
 :focus-visible {
-  outline: auto; /* Default focus styles */
+  outline: auto;
+  /* Default focus styles */
 }
 
 :root {
