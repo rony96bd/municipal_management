@@ -117,7 +117,6 @@ class MenuBuilderController extends Controller
             ->menuItems()
             ->findOrFail($itemId)
             ->delete();
-
-        return redirect()->route('menus.builder', $menuId)->with('success', "Menu Deleted Successfully");
+        return redirect()->route('menus.builder', $menuId)->with('success', "Menu Item Deleted Successfully");
     }
 }

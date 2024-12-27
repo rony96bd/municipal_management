@@ -5,10 +5,6 @@ use App\Http\Controllers\dash\MenuController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dash\MenuBuilderController;
 
-Route::get('/test', function () {
-    return menu('main-menu');
-});
-
 require __DIR__ . '/auth.php';
 Route::get('/dashboard', function () {
     return view('dashboard');
