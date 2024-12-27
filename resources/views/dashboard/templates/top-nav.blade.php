@@ -6,6 +6,8 @@
             class="anchor">@include('icons.dashboard')Dashboard</a>
         <a class="dashboard-top-nav flex row gap-5 jsb-ace" href="{{ route('dashboard') }}"
             class="anchor">@include('icons.users')Users</a>
+        <p id="clear-cache-btn" class="dashboard-top-nav flex row gap-5 jsb-ace anchor">
+            @include('icons.dashboard-icons.clear-cache')Clear Cache</p>
     </div>
     <div class="flex row gap-20 jsb-ace">
         <div class="dash-power flex row center position-relative">

@@ -1,10 +1,5 @@
 @extends('dashboard.templates.main')
 @section('dash-body')
-    @if (session('success'))
-        <div class="alert alert-success marb-20">
-            {{ session('success') }}
-        </div>
-    @endif
     <div class="flex column full-width gap-20">
         <a href="{{ route('create-service') }}"
             class="outline-button padl-20 padr-20 padt-10 padb-10 border-solid border-1px border-color solid bradius-3px width-max-content">নতুন
@@ -38,9 +33,17 @@
                                 data_link="{{ url('/service') }}/{{ $service->page_url }}" title="ইউ আর এল কপি করুন">
                                 @include('icons.copy-link')
                             </div>
-                            <a href="{{ route('service-configure', $service->page_url) }}"
-                                class="background-success color-white padt-10 padb-10 padr-20 padl-20 text-center bradius-3px">কনফিগার
-                                করুন</a>
+                            @if ($service->singleServices->count() < 4)
+                                <a href="{{ route('service-configure', $service->page_url) }}"
+                                    class="background-success color-primary padt-10 padb-10 padr-20 padl-20 text-center bradius-3px">
+                                    কনফিগার করুন
+                                </a>
+                            @else
+                                <p class="background-success color-primary padt-10 padb-10 padr-20 padl-20 text-center bradius-3px disabled-button"
+                                    title="সর্বোচ্চ ‘৪টি’ সার্ভিস ইতমধ্যে যুক্ত করা হয়েছে।">
+                                    কনফিগার করুন
+                                </p>
+                            @endif
                             <a href="{{ route('edit-service', $service->service_id) }}"
                                 class="background-primary color-white padt-10 padb-10 padr-20 padl-20 text-center bradius-3px">সম্পাদনা
                                 করুন</a>
@@ -54,6 +57,7 @@
                             </form>
                         </div>
                     </div>
+                    {{-- Single Service Items --}}
                     @forelse ($service->singleServices as $singleservice)
                         <div
                             class="page-repeater grid grid-col-5 border-color-primary full-width gap-10 m-grid-col-1 m-gap-0">
@@ -75,10 +79,10 @@
                                     title="ইউ আর এল কপি করুন">
                                     @include('icons.copy-link')
                                 </div>
-                                <a href="{{ route('edit-service', $service->service_id) }}"
+                                <a href="{{ route('edit-single-service-item', $singleservice->id) }}"
                                     class="background-primary color-white padt-10 padb-10 padr-20 padl-20 text-center bradius-3px">সম্পাদনা
                                     করুন</a>
-                                <form action="{{ route('delete-service', $service->service_id) }}" method="POST"
+                                <form action="{{ route('delete-single-service', $singleservice->id) }}" method="POST"
                                     onsubmit="return confirm('আপনি কি নিশ্চিতভাবে মুছে ফেলতে চান?');"
                                     style="display:inline;">
                                     @csrf
@@ -90,13 +94,14 @@
                             </div>
                         </div>
                     @empty
-                        <p class="padar-20 text-center full-width">{{ $service->service_name }} এর অধীনে কোন সার্ভিস যুক্ত
-                            করা
-                            নেয়</p>
+                        <p class="padar-20 text-center full-width color-warning">‘{{ $service->service_name }}’ এর অধীনে
+                            কোন সেবা যুক্ত
+                            করা নেয়</p>
                     @endforelse
+
                 </div>
             @empty
-                <p class="padar-20 text-center full-width">কোন সার্ভিস যুক্ত করা নেয়</p>
+                <p class="padar-20 text-center full-width">কোন সেবা যুক্ত করা নেয়</p>
             @endforelse
         </div>
     </div>

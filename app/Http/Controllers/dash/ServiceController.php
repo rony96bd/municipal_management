@@ -96,8 +96,8 @@ class ServiceController extends Controller
         $servvice->save();
 
         // Redirect with a success message
-        return redirect()->route('representativeslist')
-            ->with('success', "সফলভাবে '{$request->service_name}' সেবা যুক্ত হয়েছে");
+        return redirect()->route('services')
+            ->with('success', "সফলভাবে '{$request->service_name}' সেবা আপডেট হয়েছে");
     }
 
     public function destroy($service_id)
@@ -109,6 +109,7 @@ class ServiceController extends Controller
         return redirect()->back()->with('success', "'{$servicename}' - সেবা সফলভাবে মুছে ফেলা হয়েছে।");
     }
 
+    // Add single service item under service
     public function configure($page_url)
     {
         $service = services::where('page_url', $page_url)->firstOrFail(); // Find the page by ID
@@ -127,6 +128,13 @@ class ServiceController extends Controller
             'page_url' => 'required|string|alpha_dash|max:255',
             'service_id' => 'required|string',
         ]);
+
+        // Check if the service_id has reached the maximum number of posts
+        $maxPosts = 4;
+        $currentCount = singleservice::where('service_id', $request->service_id)->count();
+        if ($currentCount >= $maxPosts) {
+            return redirect()->route('services')->with('error', 'একটি সার্ভিস এর বিপরীতে সর্বোচ্চ ৪টি সার্ভিস তৈরি করা যাবে।');
+        }
 
         // Generate unique page_url
         $pageUrl = $request->page_url;
@@ -152,6 +160,7 @@ class ServiceController extends Controller
             ->with('success', "সফলভাবে '{$request->service_item_name}' সেবা যুক্ত হয়েছে");
     }
 
+
     public function editsingleserviceitem($id)
     {
         $serviceItem = singleservice::findOrFail($id);
@@ -159,5 +168,57 @@ class ServiceController extends Controller
         $page_title = $name . ' ' . ' - সেবার তথ্য আপডেট';
         $single_services = singleservice::all();
         return view('dashboard.services.configure', compact('page_title', 'serviceItem', 'single_services'));
+    }
+
+
+    public function singleserviceupdate(Request $request, $id)
+    {
+        // Validation rules
+        $request->validate([
+            'service_item_name' => 'required|string|max:255',
+            'service_item_description' => 'required|string',
+            'page_url' => 'required|string|alpha_dash|max:255',
+            'service_id' => 'required|string',
+        ]);
+
+        $service = singleservice::findOrFail($id);
+        // Get the original page_url from the request
+        $pageUrl = $request->page_url;
+
+        // Check if the page_url exists for any other representative, excluding the current one
+        $existingRepresentative = singleservice::where('page_url', $pageUrl)
+            ->where('id', '!=', $id) // Exclude the current representative's ID
+            ->first();
+
+        if ($existingRepresentative) {
+            // If the page_url exists for another representative, append a counter
+            $originalUrl = $pageUrl;
+            $counter = 1;
+
+            // Find a unique page_url by appending a counter
+            while (singleservice::where('page_url', $pageUrl)->exists()) {
+                $pageUrl = $originalUrl . '-' . $counter;
+                $counter++;
+            }
+        }
+
+        // Save the new service data with the service_id from the parent service
+        $service->service_item_name = $request->service_item_name;
+        $service->service_item_description = $request->service_item_description;
+        $service->page_url = $pageUrl;
+        $service->service_id = $request->service_id;
+        $service->save();
+
+        // Redirect with a success message
+        return redirect()->route('services')
+            ->with('success', "সফলভাবে '{$request->service_item_name}' সেবা আপডেট হয়েছে");
+    }
+
+    public function deletesingleservice($id)
+    {
+        $singleservice = singleservice::findOrFail($id);
+        $serviceitemname = $singleservice->service_item_name; // Store page name for feedback
+        $singleservice->delete(); // Delete the page
+        return redirect()->back()->with('success', "'{$serviceitemname}' - সেবা সফলভাবে মুছে ফেলা হয়েছে।");
     }
 }

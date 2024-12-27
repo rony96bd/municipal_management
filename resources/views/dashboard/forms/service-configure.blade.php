@@ -1,5 +1,5 @@
 <form
-    action="{{ isset($serviceItem) ? route('update-service', $serviceItem->id) : route('configure-single-service-store', $service->page_url) }}"
+    action="{{ isset($serviceItem) ? route('single-service-update', $serviceItem->id) : route('configure-single-service-store', $service->page_url) }}"
     method="POST">
     @csrf
     @if (isset($serviceItem))
@@ -16,8 +16,8 @@
         </div>
 
         <div class="mb-3">
-            <textarea name="service_item_description" id="textarea" class="form-control exclude-tyne" rows="6"
-                placeholder="সেবার ডেসক্রিপশন" required>{{ old('service_item_description', isset($serviceItem) ? $serviceItem->service_item_description : '') }}</textarea>
+            <textarea name="service_item_description" id="textarea" class="form-control" rows="6"
+                placeholder="সেবার ডেসক্রিপশন">{{ old('service_item_description', isset($serviceItem) ? $serviceItem->service_item_description : '') }}</textarea>
             @error('service_item_description')
                 <small class="color-danger">{{ $message }}</small>
             @enderror

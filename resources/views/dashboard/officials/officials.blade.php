@@ -1,10 +1,5 @@
 @extends('dashboard.templates.main')
 @section('dash-body')
-    @if (session('success'))
-        <div class="alert alert-success marb-20">
-            {{ session('success') }}
-        </div>
-    @endif
     <div class="flex column full-width gap-20">
         <a href="{{ route('create-official') }}"
             class="outline-button padl-20 padr-20 padt-10 padb-10 border-solid border-1px border-color solid bradius-3px width-max-content">নতুন

@@ -7,11 +7,6 @@
             Create Menu Item to (<code>{{ $menu->name }}</code>)
         @endisset
     </h2>
-    @if (session('success'))
-        <div class="alert alert-success marb-20">
-            {{ session('success') }}
-        </div>
-    @endif
     <form id="itemFrom" role="form" method="POST"
         action="{{ isset($menuItem) ? route('menus.item.update', ['id' => $menu->id, 'itemId' => $menuItem->id]) : route('menus.item.store', $menu->id) }}">
         @csrf

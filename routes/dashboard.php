@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\dash\cachecontroller;
 use App\Http\Controllers\dash\dashboardController;
 use App\Http\Controllers\dash\OfficoalsController;
 use App\Http\Controllers\dash\PageController;
 use App\Http\Controllers\dash\RepresntativesController;
 use App\Http\Controllers\dash\ServiceController;
+use App\Http\Controllers\dash\SiteSettings;
+use App\Http\Controllers\dash\SiteSettingsController;
 use App\Http\Controllers\dash\StuffsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +22,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::prefix('dashboard')->group(function () {
+        // Cache Clear
+        Route::post('/clear-cache', [cachecontroller::class, 'clearCache'])->name('clear.cache');
         // Pages Routes
         Route::get('/pages', [PageController::class, 'pagelist'])->name('pages');
         Route::get('/create-page', [PageController::class, 'createpage'])->name('create-page');
@@ -56,6 +61,10 @@ Route::middleware('auth')->group(function () {
         Route::delete('/delete-service/{id}', [ServiceController::class, 'destroy'])->name('delete-service');
         Route::get('/service/configure/{page_url}', [ServiceController::class, 'configure'])->name('service-configure');
         Route::post('/service/configure/{page_url}', [ServiceController::class, 'storesingleservice'])->name('configure-single-service-store');
-        Route::get('/service/item/configure/{id}', [ServiceController::class, 'editsingleserviceitem'])->name('edit-single-service-item');
+        Route::get('/service/item/edit/{id}', [ServiceController::class, 'editsingleserviceitem'])->name('edit-single-service-item');
+        Route::put('/service/item/edit/{id}', [ServiceController::class, 'singleserviceupdate'])->name('single-service-update');
+        Route::delete('service/item/delete/{id}', [ServiceController::class, 'deletesingleservice'])->name('delete-single-service');
+        // Site Settings
+        Route::get('/site-setting', [SiteSettingsController::class, 'index'])->name('site-setting');
     });
 });

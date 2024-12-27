@@ -4,6 +4,7 @@ namespace App\Models\service;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\ValidationException;
 
 class singleservice extends Model
 {
