@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\service;
+namespace App\Models\Service;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class services extends Model
+class Service extends Model
 {
     use HasFactory;
 
@@ -20,6 +20,6 @@ class services extends Model
 
     public function singleServices()
     {
-        return $this->hasMany(singleservice::class, 'service_id', 'service_id');
+        return $this->hasMany(SingleService::class, 'service_id');
     }
 }

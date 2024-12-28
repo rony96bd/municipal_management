@@ -7,14 +7,16 @@ use App\Models\officials\Officials;
 use App\Models\page\createpage;
 use App\Models\representatives\representatives;
 use App\Models\stuff\Stuff;
+use App\Models\Service\Service;
 use Illuminate\Http\Request;
 
-class frontController extends Controller
+class FrontController extends Controller
 {
     public function index()
     {
         $page_title = 'স্বাগতম';
-        return view('front-views.pages.index', compact('page_title'));
+        $services = Service::with('singleServices')->get();
+        return view('front-views.pages.index', compact('page_title', 'services'));
     }
 
     public function officers()

@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Models\service;
+namespace App\Models\Service;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\ValidationException;
 
-class singleservice extends Model
+class SingleService extends Model
 {
     use HasFactory;
 
-    protected $table = 'single_service';
+    protected $table = 'single_services';
 
     protected $fillable = [
         'service_id',
@@ -21,6 +21,6 @@ class singleservice extends Model
 
     public function service()
     {
-        return $this->belongsTo(services::class, 'service_id', 'service_id');
+        return $this->belongsTo(Service::class, 'service_id', 'service_id');
     }
 }

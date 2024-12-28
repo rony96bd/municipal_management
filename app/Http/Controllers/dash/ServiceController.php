@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\dash;
 
 use App\Http\Controllers\Controller;
-use App\Models\service\services;
-use App\Models\service\singleservice;
+use App\Models\Service\Service;
+use App\Models\Service\SingleService;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
@@ -12,7 +12,7 @@ class ServiceController extends Controller
     public function index()
     {
         $page_title = 'সেবা সমূহ';
-        $services = services::with('singleServices')->get();
+        $services = Service::with('singleServices')->get();
         return view('dashboard.services.service', compact('page_title', 'services'));
     }
 
@@ -37,12 +37,12 @@ class ServiceController extends Controller
         $counter = 1;
 
         // Ensure the page_url is unique
-        while (services::where('page_url', $pageUrl)->exists()) {
+        while (Service::where('page_url', $pageUrl)->exists()) {
             $pageUrl = $originalUrl . '-' . $counter;
             $counter++;
         }
         // Save the new representative's data
-        $servvice = new services();
+        $servvice = new Service();
         $servvice->service_name = $request->service_name;
         $servvice->service_description = $request->service_description;
         $servvice->page_url = $pageUrl;
@@ -56,7 +56,7 @@ class ServiceController extends Controller
     public function edit($service_id)
     {
         $page_title = 'সেবার তথ্য ইডিট করুন';
-        $service = services::findOrFail($service_id);
+        $service = Service::findOrFail($service_id);
         return view('dashboard.services.create-service', compact('page_title', 'service'));
     }
     public function update(Request $request, $service_id)
@@ -68,12 +68,12 @@ class ServiceController extends Controller
             'page_url' => 'required|string|alpha_dash|max:255',
         ]);
 
-        $servvice = services::findOrFail($service_id);
+        $servvice = Service::findOrFail($service_id);
         // Get the original page_url from the request
         $pageUrl = $request->page_url;
 
         // Check if the page_url exists for any other representative, excluding the current one
-        $existingRepresentative = services::where('page_url', $pageUrl)
+        $existingRepresentative = Service::where('page_url', $pageUrl)
             ->where('service_id', '!=', $service_id) // Exclude the current representative's ID
             ->first();
 
@@ -83,7 +83,7 @@ class ServiceController extends Controller
             $counter = 1;
 
             // Find a unique page_url by appending a counter
-            while (services::where('page_url', $pageUrl)->exists()) {
+            while (Service::where('page_url', $pageUrl)->exists()) {
                 $pageUrl = $originalUrl . '-' . $counter;
                 $counter++;
             }
@@ -102,7 +102,7 @@ class ServiceController extends Controller
 
     public function destroy($service_id)
     {
-        $service = services::findOrFail($service_id); // Find the page by ID
+        $service = Service::findOrFail($service_id); // Find the page by ID
         $servicename = $service->service_name; // Store page name for feedback
         $service->delete(); // Delete the page
 
@@ -112,10 +112,10 @@ class ServiceController extends Controller
     // Add single service item under service
     public function configure($page_url)
     {
-        $service = services::where('page_url', $page_url)->firstOrFail(); // Find the page by ID
+        $service = Service::where('page_url', $page_url)->firstOrFail(); // Find the page by ID
         $name = $service->service_name; // Store page name for feedback
         $page_title = $name . ' ' . ' - সেবার তথ্য কনফিগারেশন';
-        $single_services = singleservice::all();
+        $single_services = SingleService::all();
         return view('dashboard.services.configure', compact('service', 'page_title', 'single_services'));
     }
 
@@ -131,7 +131,7 @@ class ServiceController extends Controller
 
         // Check if the service_id has reached the maximum number of posts
         $maxPosts = 4;
-        $currentCount = singleservice::where('service_id', $request->service_id)->count();
+        $currentCount = SingleService::where('service_id', $request->service_id)->count();
         if ($currentCount >= $maxPosts) {
             return redirect()->route('services')->with('error', 'একটি সার্ভিস এর বিপরীতে সর্বোচ্চ ৪টি সার্ভিস তৈরি করা যাবে।');
         }
@@ -142,13 +142,13 @@ class ServiceController extends Controller
         $counter = 1;
 
         // Ensure the page_url is unique
-        while (singleservice::where('page_url', $pageUrl)->exists()) {
+        while (SingleService::where('page_url', $pageUrl)->exists()) {
             $pageUrl = $originalUrl . '-' . $counter;
             $counter++;
         }
 
         // Save the new service data with the service_id from the parent service
-        $service = new singleservice();
+        $service = new SingleService();
         $service->service_item_name = $request->service_item_name;
         $service->service_item_description = $request->service_item_description;
         $service->page_url = $pageUrl;
@@ -163,10 +163,10 @@ class ServiceController extends Controller
 
     public function editsingleserviceitem($id)
     {
-        $serviceItem = singleservice::findOrFail($id);
+        $serviceItem = SingleService::findOrFail($id);
         $name = $serviceItem->service_item_name; // Store page name for feedback
         $page_title = $name . ' ' . ' - সেবার তথ্য আপডেট';
-        $single_services = singleservice::all();
+        $single_services = SingleService::all();
         return view('dashboard.services.configure', compact('page_title', 'serviceItem', 'single_services'));
     }
 
@@ -181,12 +181,12 @@ class ServiceController extends Controller
             'service_id' => 'required|string',
         ]);
 
-        $service = singleservice::findOrFail($id);
+        $service = SingleService::findOrFail($id);
         // Get the original page_url from the request
         $pageUrl = $request->page_url;
 
         // Check if the page_url exists for any other representative, excluding the current one
-        $existingRepresentative = singleservice::where('page_url', $pageUrl)
+        $existingRepresentative = SingleService::where('page_url', $pageUrl)
             ->where('id', '!=', $id) // Exclude the current representative's ID
             ->first();
 
@@ -196,7 +196,7 @@ class ServiceController extends Controller
             $counter = 1;
 
             // Find a unique page_url by appending a counter
-            while (singleservice::where('page_url', $pageUrl)->exists()) {
+            while (SingleService::where('page_url', $pageUrl)->exists()) {
                 $pageUrl = $originalUrl . '-' . $counter;
                 $counter++;
             }
@@ -216,7 +216,7 @@ class ServiceController extends Controller
 
     public function deletesingleservice($id)
     {
-        $singleservice = singleservice::findOrFail($id);
+        $singleservice = SingleService::findOrFail($id);
         $serviceitemname = $singleservice->service_item_name; // Store page name for feedback
         $singleservice->delete(); // Delete the page
         return redirect()->back()->with('success', "'{$serviceitemname}' - সেবা সফলভাবে মুছে ফেলা হয়েছে।");
