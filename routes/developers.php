@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\developers\DevelopersController;
-use App\Http\Controllers\front\frontController;
+use App\Http\Controllers\front\FrontController;
 use Illuminate\Support\Facades\Route;
 
 //==== developers.php ======//
