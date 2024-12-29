@@ -34,10 +34,11 @@
                         <div class="flex row jfe-ace gap-10 padt-10 padb-10 padl-20 padr-20 m-column m-jst-ast">
 
                             <a href="{{ route('menus.builder', $menu->id) }}"
-                                class="background-success button-success-css color-white padt-10 padb-10 padr-20 padl-20 text-center bradius-3px full-width">Builder</a>
+                                class="background-success button-success-css color-primary padt-10 padb-10 padr-20 padl-20 text-center bradius-3px full-width">মেনু
+                                বিল্ডার</a>
 
                             <a href="{{ route('menus.edit', $menu->id) }}"
-                                class="background-success button-success-css color-white padt-10 padb-10 padr-20 padl-20 text-center bradius-3px full-width">এডিট
+                                class="background-success button-success-css color-primary padt-10 padb-10 padr-20 padl-20 text-center bradius-3px full-width">এডিট
                             </a>
                             @if ($menu->deletable == true)
                                 <form action="{{ route('menus.destroy', $menu->id) }}" method="POST"

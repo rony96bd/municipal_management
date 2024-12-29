@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" href="{{ asset('developers.png') }}" type="image/x-icon">
 
-
     <script src="https://cdn.tiny.cloud/1/w5vu2tz4pnqfzczmcofjbcky17ok19mug2ek9jmeozezjzjt/tinymce/7/tinymce.min.js"
         referrerpolicy="origin"></script>
 

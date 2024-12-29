@@ -1,4 +1,4 @@
 @extends('dashboard.templates.main')
 @section('dash-body')
-    Hello Setting
+    @include('dashboard.forms.site-settings')
 @endsection

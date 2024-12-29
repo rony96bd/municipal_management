@@ -66,5 +66,6 @@ Route::middleware('auth')->group(function () {
         Route::delete('service/item/delete/{id}', [ServiceController::class, 'deletesingleservice'])->name('delete-single-service');
         // Site Settings
         Route::get('/site-setting', [SiteSettingsController::class, 'index'])->name('site-setting');
+        Route::post('/site-setting', [SiteSettingsController::class, 'storeOrUpdate'])->name('setting-update');
     });
 });

@@ -101,7 +101,7 @@
 
                 </div>
             @empty
-                <p class="padar-20 text-center full-width">কোন সেবা যুক্ত করা নেয়</p>
+                <p class="padar-20 text-center color-warning grid-span-2 full-width">কোন সেবা যুক্ত করা নেয়</p>
             @endforelse
         </div>
     </div>
