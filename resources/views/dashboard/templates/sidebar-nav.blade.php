@@ -27,4 +27,6 @@
         <span>@include('icons.menu-collapes')</span>
         <span class="nav-title">Collapse</span>
     </div>
+    <p class="color-white text-center" style="font-size: 12px">P.M.S<br>V:
+        1.0.0</p>
 </div>

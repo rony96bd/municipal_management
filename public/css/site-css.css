@@ -232,6 +232,8 @@ header .anchor {
 
 .dashboard-body {
   height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
 }
 
 .sidebar-nav {
@@ -636,6 +638,10 @@ select {
   z-index: 20;
 }
 
+.dash-left-nav-box.collapsed {
+  align-items: center;
+}
+
 @media (max-width: 1024px) {
   .primary-header {
     min-height: 350px;
@@ -742,4 +748,8 @@ select {
 
 .pickr .pcr-button {
   width: 100% !important;
+}
+
+.dashmain-wrapper {
+  height: calc(100vh - 100px);
 }/*# sourceMappingURL=site-css.css.map */

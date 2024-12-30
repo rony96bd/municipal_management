@@ -1,7 +1,17 @@
 </div>
 </div>
-
+</div>
+<footer
+    class="footer-section section background-primary position-relative z-index-1 color-white border-solid border-top-1px border-color-secondary border-bottom-0px border-left-0px border-right-0px">
+    <div class="container padt-10 padb-10 flex row center text-center">
+        <p style="font-size: 14px">Developed &amp; Maintained by: <a href="https://forayeji.com" target="_blank"
+                class="color-success">Forayeji
+                Creative
+                Agency</a></p>
+    </div>
+</footer>
 </main>
+
 @include('dashboard.templates.session')
 @include('css-js-loaders.dash-js')
 

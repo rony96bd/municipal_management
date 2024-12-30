@@ -3,7 +3,7 @@
 @endphp
 <form action="{{ route('setting-update') }}" method="POST" enctype="multipart/form-data">
     @csrf
-    <div class="flex column gap-20">
+    <div class="flex column gap-10">
         {{-- Image Upload --}}
         {{-- Image Upload --}}
         <div class="site-banner-box position-relative padar-40 background-primary bradius-6px border-solid border-1px border-color-secondary"
