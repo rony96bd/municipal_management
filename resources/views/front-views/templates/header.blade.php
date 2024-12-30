@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+@php
+    $siteSettings = getSiteSettings();
+@endphp
 
 <head>
     <meta charset="UTF-8">
@@ -23,11 +26,35 @@
             {{-- main Containner --}}
             <div class="container color-white position-relative z-index-3 text-center">
                 <div class="flex column gap-20 jcc-ace">
-                    <a href="{{ route('homepage') }}" class="anchor transition-duration-0-5s transition-ease-in-out transition-property-all"><img src="{{ asset('images/assets/logo.png') }}" alt="আলমডাঙ্গা পৌরসভা" class="img site-logo bradius-100-per"></a>
+                    <a href="{{ route('homepage') }}"
+                        class="anchor transition-duration-0-5s transition-ease-in-out transition-property-all"><img
+                            src="
+                             @if (!empty($siteSettings->site_logo)) {{ $siteSettings->site_logo }}
+                            @else
+                            {{ asset('images/assets/logo.png') }} @endif
+                            "
+                            alt="
+                            @if (!empty($siteSettings->site_name)) {{ $siteSettings->site_name }}
+                            @else
+                                পৌরসভা ম্যানেজমেন্ট সিস্টেম @endif
+                            "
+                            class="img site-logo bradius-100-per"></a>
                     <div class="flex column jcc-ace" style="max-width: calc(100% - 100px)">
-                        <h1 class="heading fs-h1">আলমডাঙ্গা পৌরসভা </h1>
-                        <p class="paragraph">আমাদের প্রতিজ্ঞা দেশকল্যাণ, উদ্ভাবন, জনসেবা, সততা, নিরপেক্ষ ও দারিদ্র মুক্ত
-                            স্বনির্ভর বাংলাদেশ গড়েতোলা।</p>
+                        <h1 class="heading fs-h1">
+                            @if (!empty($siteSettings->site_name))
+                                {{ $siteSettings->site_name }}
+                            @else
+                                পৌরসভা ম্যানেজমেন্ট সিস্টেম
+                            @endif
+                        </h1>
+
+                        <p class="paragraph">
+                            @if (!empty($siteSettings->meta_description))
+                                {{ $siteSettings->meta_description }}
+                            @else
+                                ফরায়েজী ক্রিয়েটিভ এজেন্সির তৈরিকৃত একটি পৌরসভা ম্যানেজমেন্ট সিস্টেম
+                            @endif
+                        </p>
                     </div>
                 </div>
             </div>
@@ -40,5 +67,3 @@
         {{-- Mobile Nav --}}
         @include('front-views.templates.navbars.header-mobile-nav')
         <main class="site-main z-index-2 position-relative">
-
-

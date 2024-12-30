@@ -1,3 +1,6 @@
+@php
+    $siteSettings = \App\Models\SiteSettings::first();
+@endphp
 </main>
 <footer class="footer-section section background-primary position-relative z-index-1 color-white">
     <div class="container">
@@ -18,14 +21,14 @@
                             : convertToBanglaNumber($startYear);
                 @endphp
 
-                {{ $banglaYearRange }}
-
-                @if (empty($page_title))
-                    ফরায়েজী ক্রিয়েটিভ এজেন্সি
+                {{ $banglaYearRange }} &nbsp;
+                @if (!empty($siteSettings->site_name))
+                    {{ $siteSettings->site_name }}
                 @else
-                    আলমডাঙ্গা পৌরসভা
+                    পৌরসভা ম্যানেজমেন্ট সিস্টেম
                 @endif
             </p>
+
 
         </div>
 </footer>

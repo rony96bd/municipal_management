@@ -1,7 +1,19 @@
-<div class="header-top flex row gap-10 jsb-ace background-primary color-white padt-10 padb-10 padl-20 padr-20">
+<div
+    class="header-top flex row gap-10 jsb-ace background-primary color-white padt-10 padb-10 padl-20 padr-20 z-index-10">
     <div class="flex row gap-20 jsb-ace">
         <a class="dashboard-top-nav flex row gap-5 jsb-ace" href="{{ route('homepage') }}" class="anchor" target="_black">
-            <img class="dash-site-logo" src="{{ asset('images/assets/logo.png') }}" alt="Logo">
+            <img class="dash-site-logo"
+                src="
+        @if (!empty($siteSettings->site_logo)) {{ asset($siteSettings->site_logo) }}
+        @else
+            {{ asset('images/assets/logo.png') }} @endif
+    "
+                alt="
+        @if (!empty($siteSettings->site_name)) {{ $siteSettings->site_name }}
+        @else
+            পৌরসভা ম্যানেজমেন্ট সিস্টেম @endif
+    ">
+
             <p class="fs-16-20">আলমডাঙ্গা পৌরসভা</p>
         </a>
         {{-- <a class="dashboard-top-nav flex row gap-5 jsb-ace" href="{{ route('dashboard') }}"

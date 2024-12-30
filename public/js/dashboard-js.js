@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => {
             alert.style.transition = 'opacity 2s ease'; // Smooth fade-out over 2 seconds
             alert.style.opacity = '0'; // Set opacity to 0 after 3 seconds
+            alert.style.zIndex = '100';
         }, 3000); // Start fade-out after 3 seconds
 
         setTimeout(() => {

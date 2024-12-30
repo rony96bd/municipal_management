@@ -67,5 +67,6 @@ Route::middleware('auth')->group(function () {
         // Site Settings
         Route::get('/site-setting', [SiteSettingsController::class, 'index'])->name('site-setting');
         Route::post('/site-setting', [SiteSettingsController::class, 'storeOrUpdate'])->name('setting-update');
+        Route::delete('/site-settings', [SiteSettingsController::class, 'reset'])->name('site-settings.reset');
     });
 });

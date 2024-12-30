@@ -1,13 +1,17 @@
+@php
+    $siteSettings = \App\Models\SiteSettings::first();
+@endphp
 <form action="{{ route('setting-update') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="flex column gap-20">
         {{-- Image Upload --}}
+        {{-- Image Upload --}}
         <div class="site-banner-box position-relative padar-40 background-primary bradius-6px border-solid border-1px border-color-secondary"
-            style="background-image: url('{{ asset($settings->site_banner) }}')">
+            style="background-image: url('{{ !empty($settings->site_banner) ? asset($settings->site_banner) : asset('images/assets/hero-1.jpg') }}')">
 
             {{-- Site Logo Section --}}
             <div class="site-logo-prev-box position-relative z-index-2" id="site-logo-prev-box"
-                style="background-image: url('{{ asset($settings->site_logo) }}')">
+                style="background-image: url('{{ !empty($settings->site_logo) ? asset($settings->site_logo) : asset('images/assets/logo.png') }}')">
                 <input type="file" id="site-setting" class="site-setting-image" name="site_logo" accept="image/*"
                     onchange="previewLogoImage(event)">
             </div>
@@ -23,6 +27,7 @@
                 </div>
             </div>
         </div>
+
 
 
         @php
@@ -105,12 +110,20 @@
         </div>
 
         <div class="mb-3">
-            <label for="google_font" class="form-label">Google Font</label>
+            <label for="google_font" class="form-label">Site Font</label>
             <select name="google_font" id="google_font" class="form-control">
-                <option value="Tiro+Bangla,serif" selected>Tiro Bangla</option>
-                <!-- Other font options will be added here -->
+                <!-- Check if a google_font value exists, if not, select Tiro Bangla by default -->
+                <option value="Tiro+Bangla,serif" {{ empty($siteSettings->google_font) ? 'selected' : '' }}>Tiro
+                    Bangla</option>
+                @if (!empty($siteSettings))
+                    <!-- Add other font options dynamically -->
+                    <option value="Anek+Bangla,serif"
+                        {{ $siteSettings->google_font === 'Anek Bangla' ? 'selected' : '' }}>Anek Bangla</option>
+                @endif
+                <!-- Add more fonts as needed -->
             </select>
         </div>
+
 
 
 

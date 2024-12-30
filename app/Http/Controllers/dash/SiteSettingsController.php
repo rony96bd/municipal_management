@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\dash;
+namespace App\Http\Controllers\Dash;
 
 use App\Http\Controllers\Controller;
 use App\Models\SiteSettings;
+use Illuminate\Support\Facades\File;  // Corrected import statement
 use Illuminate\Http\Request;
 
 class SiteSettingsController extends Controller
@@ -81,5 +82,33 @@ class SiteSettingsController extends Controller
         $settings->save();
 
         return redirect()->route('site-setting')->with('success', 'Site settings updated successfully.');
+    }
+
+    // Method to reset (delete) the site settings along with the images
+    public function reset()
+    {
+        // Fetch the first site settings record
+        $settings = SiteSettings::first();
+
+        // If the settings exist, proceed to delete
+        if ($settings) {
+            // Delete the images from the public folder if they exist
+            if ($settings->site_logo && File::exists(public_path($settings->site_logo))) {
+                File::delete(public_path($settings->site_logo));
+            }
+
+            if ($settings->site_banner && File::exists(public_path($settings->site_banner))) {
+                File::delete(public_path($settings->site_banner));
+            }
+
+            // Now, delete the settings from the database
+            $settings->delete();
+
+            // Redirect back with a success message
+            return redirect()->route('site-setting')->with('success', 'Site settings and images have been reset.');
+        }
+
+        // If no settings found, show an error message
+        return redirect()->route('site-setting')->with('error', 'No site settings found to reset.');
     }
 }
