@@ -12,9 +12,14 @@ class ServiceController extends Controller
     public function index()
     {
         $page_title = 'সেবা সমূহ';
-        $services = Service::with('singleServices')->get();
+        $services = Service::with(['singleServices' => function ($query) {
+            $query->orderBy('order', 'asc'); // Order the related single services
+        }])->orderBy('order', 'asc') // Order the main services
+            ->get();
+
         return view('dashboard.services.service', compact('page_title', 'services'));
     }
+
 
     public function createservice()
     {
@@ -220,5 +225,39 @@ class ServiceController extends Controller
         $serviceitemname = $singleservice->service_item_name; // Store page name for feedback
         $singleservice->delete(); // Delete the page
         return redirect()->back()->with('success', "'{$serviceitemname}' - সেবা সফলভাবে মুছে ফেলা হয়েছে।");
+    }
+
+    // In your Controller (e.g., OfficialsController)
+    public function updateServiceOrder(Request $request)
+    {
+        $orderedIds = $request->input('orderedIds'); // This is the list of IDs from the client-side
+
+        // Loop through the ordered IDs and update the 'order' field
+        foreach ($orderedIds as $index => $id) {
+            $official = Service::find($id); // Find the official by ID
+            if ($official) {
+                $official->order = $index + 1; // Assuming 'order' is the field you want to update
+                $official->save(); // Save the updated order
+            }
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+    // In your Controller (e.g., OfficialsController)
+    public function updateSingleServiceOrder(Request $request)
+    {
+        $orderedIds = $request->input('orderedIds'); // This is the list of IDs from the client-side
+
+        // Loop through the ordered IDs and update the 'order' field
+        foreach ($orderedIds as $index => $id) {
+            $official = SingleService::find($id); // Find the official by ID
+            if ($official) {
+                $official->order = $index + 1; // Assuming 'order' is the field you want to update
+                $official->save(); // Save the updated order
+            }
+        }
+
+        return response()->json(['success' => true]);
     }
 }

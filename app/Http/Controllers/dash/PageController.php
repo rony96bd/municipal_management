@@ -11,7 +11,7 @@ class PageController extends Controller
     public function pagelist()
     {
         $page_title = 'পাতা সমূহ';
-        $pages = createpage::all();
+        $pages = createpage::orderBy('order', 'asc')->get();
         return view('dashboard.pages.pages', compact('page_title', 'pages'));
     }
 
@@ -105,5 +105,23 @@ class PageController extends Controller
         $page->delete(); // Delete the page
 
         return redirect()->back()->with('success', "{$page_name} পাতা সফলভাবে মুছে ফেলা হয়েছে।");
+    }
+
+
+    // In your Controller (e.g., OfficialsController)
+    public function updatePageOrder(Request $request)
+    {
+        $orderedIds = $request->input('orderedIds'); // This is the list of IDs from the client-side
+
+        // Loop through the ordered IDs and update the 'order' field
+        foreach ($orderedIds as $index => $id) {
+            $official = createpage::find($id); // Find the official by ID
+            if ($official) {
+                $official->order = $index + 1; // Assuming 'order' is the field you want to update
+                $official->save(); // Save the updated order
+            }
+        }
+
+        return response()->json(['success' => true]);
     }
 }

@@ -14,7 +14,13 @@
             পৌরসভা ম্যানেজমেন্ট সিস্টেম @endif
     ">
 
-            <p class="fs-16-20">আলমডাঙ্গা পৌরসভা</p>
+            <p class="fs-16-20">
+                @if (!empty($siteSettings->site_name))
+                    {{ $siteSettings->site_name }}
+                @else
+                    পৌরসভা ম্যানেজমেন্ট সিস্টেম
+                @endif
+            </p>
         </a>
         {{-- <a class="dashboard-top-nav flex row gap-5 jsb-ace" href="{{ route('dashboard') }}"
             class="anchor">@include('icons.dashboard')Dashboard</a> --}}

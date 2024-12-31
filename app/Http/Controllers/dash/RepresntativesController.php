@@ -11,7 +11,7 @@ class RepresntativesController extends Controller
     public function representativesslist()
     {
         $page_title = 'কর্মচারী বৃন্দ';
-        $representatives = representatives::all();
+        $representatives = representatives::OrderBy('order', 'asc')->get();
         return view('dashboard.representatives.representatives', compact('page_title', 'representatives'));
     }
 
@@ -210,5 +210,22 @@ class RepresntativesController extends Controller
         }
 
         return $url;
+    }
+
+    // In your Controller (e.g., OfficialsController)
+    public function updateOrder(Request $request)
+    {
+        $orderedIds = $request->input('orderedIds'); // This is the list of IDs from the client-side
+
+        // Loop through the ordered IDs and update the 'order' field
+        foreach ($orderedIds as $index => $id) {
+            $official = representatives::find($id); // Find the official by ID
+            if ($official) {
+                $official->order = $index + 1; // Assuming 'order' is the field you want to update
+                $official->save(); // Save the updated order
+            }
+        }
+
+        return response()->json(['success' => true]);
     }
 }

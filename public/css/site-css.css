@@ -280,6 +280,7 @@ header .anchor {
 
 .grid-menu {
   background-color: var(--background-gray);
+  border: 1px solid var(--primary-color);
 }
 
 .grid-menu-icon-box {
