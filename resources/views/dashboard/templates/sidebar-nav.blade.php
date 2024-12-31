@@ -19,7 +19,7 @@
         <span>@include('icons.news')</span>
         <span class="nav-title">নিউজ</span>
     </a>
-    <a href="#" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="ইউজার">
+    <a href="{{ route('users-list') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="ইউজার">
         <span>@include('icons.users')</span>
         <span class="nav-title">ইউজার</span>
     </a>

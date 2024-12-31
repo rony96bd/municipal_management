@@ -11,6 +11,7 @@ use App\Http\Controllers\dash\ServiceController;
 use App\Http\Controllers\dash\SiteSettings;
 use App\Http\Controllers\dash\SiteSettingsController;
 use App\Http\Controllers\dash\StuffsController;
+use App\Http\Controllers\dash\UserListController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -92,5 +93,7 @@ Route::middleware('auth')->group(function () {
         Route::get('create-news', [NewsController::class, 'createnews'])->name('create-news');
         Route::post('create-news', [NewsController::class, 'store'])->name('store-news');
         Route::post('/update-news-order', [NewsController::class, 'updateNewsOrder'])->name('update-news-order');
+        // Users
+        Route::get('user-list', [UserListController::class, 'UsersList'])->name('users-list');
     });
 });
