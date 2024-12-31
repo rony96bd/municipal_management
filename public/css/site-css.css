@@ -702,7 +702,7 @@ select {
 }
 
 .dash-site-logo {
-  width: 40px;
+  width: 40px !important;
   border-radius: 50%;
   aspect-ratio: 1/1;
   -o-object-fit: cover;
