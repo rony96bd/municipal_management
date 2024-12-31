@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit-stuff/{id}', [StuffsController::class, 'edit'])->name('edit-stuff');
         Route::post('/edit-stuff/{id}', [StuffsController::class, 'update'])->name('update-stuff');
         Route::delete('/delete-stuff/{id}', [StuffsController::class, 'destroy'])->name('delete-stuff');
-        Route::post('/update-order', [StuffsController::class, 'updateOrder'])->name('update-stuffs-order');
+        Route::post('/update-stuffs-order', [StuffsController::class, 'updateOrder'])->name('update-stuffs-order');
         // Representatives
         Route::get('/representatives', [RepresntativesController::class, 'representativesslist'])->name('representativeslist');
         Route::get('/create-representative', [RepresntativesController::class, 'createsrepresentative'])->name('create-representative');
@@ -59,7 +59,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit-representative/{id}', [RepresntativesController::class, 'edit'])->name('edit-representative');
         Route::post('/edit-representative/{id}', [RepresntativesController::class, 'update'])->name('update-representative');
         Route::delete('/delete-representative/{id}', [RepresntativesController::class, 'destroy'])->name('delete-representative');
-        Route::post('/update-order', [RepresntativesController::class, 'updateOrder'])->name('update-rep-order');
+        Route::post('/update-re-order', [RepresntativesController::class, 'updateOrder'])->name('update-rep-order');
         // Services
         Route::get('/services', [ServiceController::class, 'index'])->name('services');
         Route::get('/create-service', [ServiceController::class, 'createservice'])->name('create-service');

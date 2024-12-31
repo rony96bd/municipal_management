@@ -24,19 +24,18 @@
                                 <div class="drag-box flex center padl-20 padr-20 padt-10 padb-10 m-display-none">
                                     @include('icons.drag')
                                 </div>
-                                <a href="{{ url('/service') }}/{{ $service->page_url }}"
-                                    class="fs-h3 padt-10 padb-10 padl-0 padr-20 m-padl-20"
-                                    target="_blank"><strong>{{ $service->service_name }}</strong><br>{{ $service->service_description }}</a>
+                                <p class="fs-h3 padt-10 padb-10 padl-0 padr-20 m-padl-20">
+                                    <strong>{{ $service->service_name }}</strong><br>{{ $service->service_description }}
+                                </p>
                             </div>
-                            <a class="fs-base padt-10 padb-10 padl-20 padr-20 flex row jst-ace grid-span-2"
-                                href="{{ url('/service') }}/{{ $service->page_url }}"
-                                target="_blank">{{ url('/service') }}/{{ $service->page_url }}</a>
+                            <div class="grid-span-2">
+                            </div>
                             <div
                                 class="flex row jfe-ace gap-10 padt-10 padb-10 padl-20 padr-20 m-column m-jst-ast grid-span-2">
-                                <div class="anchor copy-url drag-box flex center padl-20 padr-20 padt-10 padb-10 m-display-none"
+                                {{-- <div class="anchor copy-url drag-box flex center padl-20 padr-20 padt-10 padb-10 m-display-none"
                                     data_link="{{ url('/service') }}/{{ $service->page_url }}" title="ইউ আর এল কপি করুন">
                                     @include('icons.copy-link')
-                                </div>
+                                </div> --}}
                                 @if ($service->singleServices->count() < 4)
                                     <a href="{{ route('service-configure', $service->page_url) }}"
                                         class="background-success color-primary padt-10 padb-10 padr-20 padl-20 text-center bradius-3px">

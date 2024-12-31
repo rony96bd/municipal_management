@@ -3,22 +3,22 @@
         <span>@include('icons.dashboard')</span>
         <span class="nav-title">ড্যাশবোর্ড</span>
     </a>
-    <a href="{{ route('pages') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="পেজ">
+    {{-- <a href="{{ route('pages') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="পেজ">
         <span>@include('icons.dashboard-icons.page')</span>
         <span class="nav-title">পেজ</span>
-    </a>
+    </a> --}}
     <a href="{{ route('menus.index') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="মেনু">
         <span>@include('icons.dashboard-icons.menu')</span>
         <span class="nav-title">মেনু</span>
     </a>
-    <a href="{{ route('notice') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="নোটিশ">
+    {{-- <a href="{{ route('notice') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="নোটিশ">
         <span>@include('icons.notice')</span>
         <span class="nav-title">নোটিশ</span>
     </a>
     <a href="{{ route('news') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="নিউজ">
         <span>@include('icons.news')</span>
         <span class="nav-title">নিউজ</span>
-    </a>
+    </a> --}}
     <a href="{{ route('users-list') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="ইউজার">
         <span>@include('icons.users')</span>
         <span class="nav-title">ইউজার</span>

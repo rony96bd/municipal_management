@@ -318,8 +318,12 @@ header .anchor {
 }
 
 .grid-menu-icon-box {
-    width: 30%;
+    width: 80px;
     height: 100%;
+}
+
+.dashmain-wrapper a>div:last-child {
+    width: calc(100% - 80px);
 }
 
 .dashboard-menu-wrapper {
