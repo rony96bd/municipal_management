@@ -3,6 +3,7 @@
 use App\Http\Controllers\dash\AboutController;
 use App\Http\Controllers\dash\cachecontroller;
 use App\Http\Controllers\dash\dashboardController;
+use App\Http\Controllers\dash\GalleryController;
 use App\Http\Controllers\dash\NewsController;
 use App\Http\Controllers\dash\NoticeController;
 use App\Http\Controllers\dash\OfficoalsController;
@@ -99,5 +100,9 @@ Route::middleware('auth')->group(function () {
         // About
         Route::get('about', [AboutController::class, 'index'])->name('about');
         Route::post('about', [AboutController::class, 'store'])->name('about.store');
+        // Gallery
+        Route::get('gallery', [GalleryController::class, 'index'])->name('gallery');
+        Route::get('create-gallery', [GalleryController::class, 'create'])->name('create-gallery');
+        Route::post('create-gallery', [GalleryController::class, 'store'])->name('store-gallery');
     });
 });
