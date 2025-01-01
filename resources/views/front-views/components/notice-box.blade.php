@@ -7,8 +7,9 @@
             {{-- Single Notice Box --}}
             <a href="{{ url('/notice' . '/' . $notice->page_url) }}"
                 class="anchor notice-anchor flex column gap-0 padar-10 bradius-3px">
-                <h3 class="notice-title color-primary">০৯নং ওয়ার্ড কমিটি পুনঃ গঠন।</h3>
-                <p class="notice-date color-paragraph fs-base">বৃহস্পতিবার, সেপ্টেম্বর ৭, ২০২৩ : ৫:৪৩ পূর্বাহ্ণ </p>
+                <img style="width: 20px; position: absolute;" src="{{ asset('images/assets/next.png') }}" alt="Notice Icon" class="img notice">
+                <h3 style="margin: 1px 0px 0px 25px;" class="notice-title color-primary">{{ $notice->topic }}</h3>
+                <p style="margin: 0 0 0 25px;" class="notice-date color-paragraph fs-base">বৃহস্পতিবার, সেপ্টেম্বর ৭, ২০২৩ : ৫:৪৩ পূর্বাহ্ণ </p>
             </a>
         @empty
             <p class="color-warning">কোন নোটিশ নেই</p>
