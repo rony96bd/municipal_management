@@ -9,8 +9,8 @@
                 @include('front-views.components.services')
                 {{-- Administrator --}}
                 @include('front-views.components.administrator')
-                {{-- Administrator Committee --}}
-                @include('front-views.components.admin-committee')
+                {{-- About  --}}
+                @include('front-views.components.about')
             </div>
             @include('front-views.components.sidebar')
     </section>

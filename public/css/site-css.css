@@ -698,6 +698,9 @@ select {
   .grid-span-2 {
     grid-column: span 1;
   }
+  .pag-main-area {
+    width: 100%;
+  }
 }
 .disabled-button {
   cursor: no-drop;
@@ -757,4 +760,12 @@ select {
 
 .dashmain-wrapper {
   height: calc(100vh - 100px);
+}
+
+.grid-col-2 > :only-child {
+  grid-column: span 2;
+}
+
+td {
+  padding: 10px;
 }/*# sourceMappingURL=site-css.css.map */

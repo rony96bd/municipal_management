@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\dash\AboutController;
 use App\Http\Controllers\dash\cachecontroller;
 use App\Http\Controllers\dash\dashboardController;
 use App\Http\Controllers\dash\NewsController;
@@ -95,5 +96,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/update-news-order', [NewsController::class, 'updateNewsOrder'])->name('update-news-order');
         // Users
         Route::get('user-list', [UserListController::class, 'UsersList'])->name('users-list');
+        // About
+        Route::get('about', [AboutController::class, 'index'])->name('about');
+        Route::post('about', [AboutController::class, 'store'])->name('about.store');
     });
 });

@@ -73,6 +73,16 @@
             </div>
         </a>
         {{-- Services Grid Menu --}}
+        <a href="{{ route('about') }}" class="anchor grid-menu flex row gap-0 bradius-6px jfs-ace overflow-hidden">
+            <div class="grid-menu-icon-box padar-20 flex row center background-primary">
+                @include('icons.dashboard-icons.about')
+            </div>
+            <div class="flex-column padar-20">
+                <strong class="grid-menu-name">পৌরসভা সম্পর্কে</strong>
+                <p class="grid-menu-name">পৌরসভা সম্পর্কে সংক্ষিপ্ত বিবরণ</p>
+            </div>
+        </a>
+        {{-- Services Grid Menu --}}
         <a href="{{ route('services') }}" class="anchor grid-menu flex row gap-0 bradius-6px jfs-ace overflow-hidden">
             <div class="grid-menu-icon-box padar-20 flex row center background-primary">
                 @include('icons.dashboard-icons.sidebar')
