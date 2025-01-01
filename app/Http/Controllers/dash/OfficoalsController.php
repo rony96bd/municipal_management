@@ -30,7 +30,6 @@ class OfficoalsController extends Controller
             'bcs' => 'nullable|string|max:255',
             'bcsid' => 'nullable|string|max:255',
             'office_phone' => 'required|string|max:15',
-            'home_phone' => 'required|string|max:15',
             'fax' => 'nullable|string|max:255',
             'mobile' => 'required|string|max:15',
             'email' => 'required|email|max:255',
@@ -49,7 +48,7 @@ class OfficoalsController extends Controller
             $imageName = time() . '-' . $request->page_url . '.' . $image->getClientOriginalExtension();
 
             // Save the image to the public folder, within the 'images/officials' directory
-            $image->move(public_path('images/officials'), $imageName);
+            $image->move('images/officials', $imageName);
 
             // Set the image path
             $imagePath = 'images/officials/' . $imageName;

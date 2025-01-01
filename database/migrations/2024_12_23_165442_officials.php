@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('officials', function (Blueprint $table) {
             $table->id(); // Primary key
+            $table->integer('order')->default(0)->nullable(); // Order of the official
             $table->string('offificial_name'); // Official's name
             $table->string('designation'); // Official's designation
             $table->string('bcs')->nullable(); // BCS batch (optional)
             $table->string('bcsid')->nullable(); // BCS ID (optional)
             $table->string('office_phone'); // Office phone
-            $table->string('home_phone'); // Home phone
+            $table->string('home_phone')->nullable(); // Home phone
             $table->string('fax')->nullable(); // Fax (optional)
             $table->string('mobile'); // Mobile phone
             $table->string('email')->unique(); // Email address (must be unique)

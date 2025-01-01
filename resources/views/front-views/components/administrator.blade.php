@@ -30,11 +30,11 @@
                     class="bradius-6px administrator-img">
                 <div class="flex column gap-5 jcc-ais">
                     @if (!empty($official->offificial_name))
-                        <h3 class="color-primary fs-18-22 color-primary">{{ $official->offificial_name }}</h3>
+                        <h2 style="font-size: x-large;" class="color-primary fs-18-22 color-primary">{{ $official->offificial_name }}</h2>
                     @endif
                     @if (!empty($official->designation))
-                        <h4 class="color-primary fs-base color-secondary font-weight-bold"> {{ $official->designation }}
-                        </h4>
+                        <h3 style="font-size: larger;" class="color-primary fs-base color-secondary font-weight-bold"> {{ $official->designation }}
+                        </h3>
                     @endif
                     @if (!empty($official->description))
                         <p class="color-primary">{{ $official->description }}</p>

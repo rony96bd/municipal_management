@@ -36,7 +36,7 @@
                             alt="
                             @if (!empty($siteSettings->site_name)) {{ $siteSettings->site_name }}
                             @else
-                                পৌরসভা ম্যানেজমেন্ট সিস্টেম @endif
+                                আলমডাঙ্গা পৌরসভা, চুয়াডাঙ্গা @endif
                             "
                             class="img site-logo bradius-100-per"></a>
                     <div class="flex column jcc-ace" style="max-width: calc(100% - 100px)">
@@ -44,7 +44,7 @@
                             @if (!empty($siteSettings->site_name))
                                 {{ $siteSettings->site_name }}
                             @else
-                                পৌরসভা ম্যানেজমেন্ট সিস্টেম
+                            আলমডাঙ্গা পৌরসভা, চুয়াডাঙ্গা
                             @endif
                         </h1>
 
@@ -52,7 +52,7 @@
                             @if (!empty($siteSettings->meta_description))
                                 {{ $siteSettings->meta_description }}
                             @else
-                                ফরায়েজী ক্রিয়েটিভ এজেন্সির তৈরিকৃত একটি পৌরসভা ম্যানেজমেন্ট সিস্টেম
+                                {{-- ফরায়েজী ক্রিয়েটিভ এজেন্সির তৈরিকৃত একটি পৌরসভা ম্যানেজমেন্ট সিস্টেম --}}
                             @endif
                         </p>
                     </div>
