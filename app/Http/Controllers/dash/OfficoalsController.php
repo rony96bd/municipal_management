@@ -30,7 +30,6 @@ class OfficoalsController extends Controller
             'bcs' => 'nullable|string|max:255',
             'bcsid' => 'nullable|string|max:255',
             'office_phone' => 'required|string|max:15',
-            'home_phone' => 'required|string|max:15',
             'fax' => 'nullable|string|max:255',
             'mobile' => 'required|string|max:15',
             'email' => 'required|email|max:255',
