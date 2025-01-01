@@ -42,7 +42,8 @@ class MenuBuilderController extends Controller
     public function itemCreate($id)
     {
         $menu = Menu::findOrFail($id);
-        return view('dashboard.menus.item.form', compact('menu'));
+        $menus = $menu->menuItems()->get();
+        return view('dashboard.menus.item.form', compact('menu', 'menus'));
     }
 
     public function itemStore(Request $request, $id)
@@ -50,6 +51,7 @@ class MenuBuilderController extends Controller
         $this->validate($request, [
             'divider_title' => 'nullable|string',
             'title' => 'nullable|string',
+            'parent_id' => 'nullable|integer',
             'url' => 'nullable|string',
             'target' => 'nullable|string',
             'icon_class' => 'nullable|string',
@@ -61,6 +63,7 @@ class MenuBuilderController extends Controller
             'type' => $request->get('type'),
             'divider_title' => $request->get('divider_title'),
             'title' => $request->get('title'),
+            'parent_id' => $request->get('parent_id'),
             'url' => $request->get('url'),
             'target' => $request->get('target'),
             'icon_class' => $request->get('icon_class'),
@@ -79,8 +82,9 @@ class MenuBuilderController extends Controller
     public function itemEdit($menuId, $itemId)
     {
         $menu = Menu::findOrFail($menuId);
+        $menus = $menu->menuItems()->get();
         $menuItem = $menu->menuItems()->findOrFail($itemId);
-        return view('dashboard.menus.item.form', compact('menu', 'menuItem'));
+        return view('dashboard.menus.item.form', compact('menu', 'menuItem', 'menus'));
     }
 
     /**
