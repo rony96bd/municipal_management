@@ -9,17 +9,21 @@
 
             @foreach ($galleries as $gallery)
                 @php
-                    // Check if 'image_paths' is not null or empty before decoding
-                    $imagePaths = !empty($gallery->image_paths) ? json_decode($gallery->image_paths, true) : [];
+                    $gallery_first_image = null; // Initialize as null for each gallery
+                    $images = !empty($gallery->image_path) ? json_decode($gallery->image_path) : [];
                 @endphp
 
-                @if (!empty($imagePaths))
-                    @foreach ($imagePaths as $image)
-                        {{ $image }}<br> <!-- Display the image path -->
-                    @endforeach
+                @if (!empty($images) && is_array($images))
+                    @php
+                        $gallery_first_image = $images[0]; // Get the first image
+                    @endphp
                 @else
-                    <p>No images available for this gallery.</p>
+                    <p>No images available.</p>
                 @endif
+
+                <div class="single-gallery-item" style="background-image: url('{{ $gallery_first_image }}');">
+                    {{ $gallery->topic }}
+                </div>
             @endforeach
 
 
