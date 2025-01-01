@@ -5,7 +5,7 @@ namespace App\Http\Controllers\front;
 use App\Http\Controllers\Controller;
 use App\Models\about\AboutModel;
 use App\Models\notice\NoticeModel;
-use App\Models\officials\Officials;
+use App\Models\officials\officials;
 use App\Models\page\createpage;
 use App\Models\representatives\representatives;
 use App\Models\stuff\Stuff;
@@ -19,6 +19,8 @@ class FrontController extends Controller
         $page_title = 'স্বাগতম';
         $services = Service::with('singleServices')->get();
         $notices = NoticeModel::orderBy('order', 'asc')->get();
+        $officials = officials::orderBy('order', 'asc')->get();
+        $official = officials::where('order', 1)->first();
         $representatives = representatives::orderBy('order', 'asc')->get();
         $about = AboutModel::first();
         return view('front-views.pages.index', compact('page_title', 'services', 'notices', 'officials', 'representatives', 'official', 'about'));
