@@ -19,8 +19,6 @@ class FrontController extends Controller
         $page_title = 'স্বাগতম';
         $services = Service::with('singleServices')->get();
         $notices = NoticeModel::orderBy('order', 'asc')->get();
-        $officials = officials::orderBy('order', 'asc')->get();
-        $official = officials::where('order', 1)->first();
         $representatives = representatives::orderBy('order', 'asc')->get();
         $about = AboutModel::first();
         return view('front-views.pages.index', compact('page_title', 'services', 'notices', 'officials', 'representatives', 'official', 'about'));
