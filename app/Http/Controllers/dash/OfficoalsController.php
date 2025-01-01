@@ -48,7 +48,7 @@ class OfficoalsController extends Controller
             $imageName = time() . '-' . $request->page_url . '.' . $image->getClientOriginalExtension();
 
             // Save the image to the public folder, within the 'images/officials' directory
-            $image->move(public_path('images/officials'), $imageName);
+            $image->move('images/officials', $imageName);
 
             // Set the image path
             $imagePath = 'images/officials/' . $imageName;
