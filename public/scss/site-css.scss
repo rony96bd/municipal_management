@@ -874,10 +874,6 @@ select {
     height: calc(100vh - 100px);
 }
 
-.grid-col-2> :only-child {
-    grid-column: span 2;
-}
-
 td {
     padding: 10px;
 }

@@ -21,4 +21,12 @@ class GalleryModel extends Model
     protected $casts = [
         'path' => 'array', // Store the paths as an array in the database
     ];
+
+    public function getImagePathUrlsAttribute()
+    {
+        if (is_array($this->image_path)) {
+            return array_map(fn($path) => asset($path), $this->image_path);
+        }
+        return [];
+    }
 }
