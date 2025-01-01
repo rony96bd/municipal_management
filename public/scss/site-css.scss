@@ -39,7 +39,7 @@
         background-color: var(--black-color);
         position: absolute;
         z-index: 1;
-        opacity: .2;
+        opacity: .5;
 
     }
 
@@ -880,4 +880,12 @@ td {
 
 .gallery-item {
     aspect-ratio: 1/1;
+}
+
+.gallery-text {
+    background-color: rgb(0 3 37 / 65%);
+}
+
+#image-preview-container img {
+    object-fit: cover;
 }

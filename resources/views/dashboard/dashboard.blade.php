@@ -92,6 +92,16 @@
                 <p class="grid-menu-name">বিভিন্ন অনুষ্ঠানের গ্যালারি যুক্ত করুন</p>
             </div>
         </a>
+        {{-- Slidder Grid Menu --}}
+        <a href="{{ route('banner-slidder') }}" class="anchor grid-menu flex row gap-0 bradius-6px jfs-ace overflow-hidden">
+            <div class="grid-menu-icon-box padar-20 flex row center background-primary">
+                @include('icons.dashboard-icons.slidder')
+            </div>
+            <div class="flex-column padar-20">
+                <strong class="grid-menu-name">ব্যানার স্লাইডার</strong>
+                <p class="grid-menu-name">প্রথম পাতার স্লাইডার যুক্ত করুন, আডডেট ও ডিলিট করুন</p>
+            </div>
+        </a>
         {{-- Services Grid Menu --}}
         <a href="{{ route('services') }}" class="anchor grid-menu flex row gap-0 bradius-6px jfs-ace overflow-hidden">
             <div class="grid-menu-icon-box padar-20 flex row center background-primary">

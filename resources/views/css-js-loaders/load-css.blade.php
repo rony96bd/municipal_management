@@ -44,7 +44,7 @@
 
     @if ($googleFont)
         body {
-            font-family: '{{ $googleFont }}', sans-serif !important;
+            font-family: '{{ $googleFont }}', sans-serif;
         }
     @else
         body {

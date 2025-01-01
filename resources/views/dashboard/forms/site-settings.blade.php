@@ -112,13 +112,13 @@
         <div class="mb-3">
             <label for="google_font" class="form-label">Site Font</label>
             <select name="google_font" id="google_font" class="form-control">
-                <!-- Check if a google_font value exists, if not, select Tiro Bangla by default -->
-                <option value="Tiro+Bangla,serif" {{ empty($siteSettings->google_font) ? 'selected' : '' }}>Tiro
-                    Bangla</option>
                 @if (!empty($siteSettings))
                     <!-- Add other font options dynamically -->
-                    <option value="Anek+Bangla,serif"
-                        {{ $siteSettings->google_font === 'Anek Bangla' ? 'selected' : '' }}>Anek Bangla</option>
+                    <option value="{{ $siteSettings->google_font }}" selected disabled>
+                        {{ $siteSettings->google_font }}
+                    </option>
+                @else
+                    <option value="Tiro Bangla" selected disabled>Tiro Bangla</option>
                 @endif
                 <!-- Add more fonts as needed -->
             </select>
@@ -210,9 +210,6 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const fontSelect = document.getElementById('google_font');
-
-        // Set default font to Tiro Bangla when the page loads
-        document.body.style.fontFamily = 'Tiro Bangla, serif';
 
         // Dynamically load the font from Google Fonts
         const fontLink = document.createElement('link');

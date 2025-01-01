@@ -76,7 +76,7 @@ class SiteSettingsController extends Controller
         $settings->background_gray = $request->background_gray ?? $settings->background_gray;
 
         // Handle Google Font selection
-        $settings->google_font = $request->google_font ?? 'Tiro+Bangla,serif';
+        $settings->google_font = $request->google_font ?? 'Tiro Bangla';
 
         // Save the settings
         $settings->save();

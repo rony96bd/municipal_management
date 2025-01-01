@@ -44,17 +44,20 @@
                             @if (!empty($siteSettings->site_name))
                                 {{ $siteSettings->site_name }}
                             @else
-                            আলমডাঙ্গা পৌরসভা, চুয়াডাঙ্গা
+                                পৌরসভা ম্যানেজমেন্ট সিস্টেম
                             @endif
                         </h1>
-
-                        <p class="paragraph">
-                            @if (!empty($siteSettings->meta_description))
-                                {{ $siteSettings->meta_description }}
-                            @else
-                                {{-- ফরায়েজী ক্রিয়েটিভ এজেন্সির তৈরিকৃত একটি পৌরসভা ম্যানেজমেন্ট সিস্টেম --}}
-                            @endif
-                        </p>
+                        @if (!empty($siteSettings))
+                            <p class="paragraph">
+                                @if (!empty($siteSettings->meta_description))
+                                    {{ $siteSettings->meta_description }}
+                                @endif
+                            </p>
+                        @else
+                            <p class="paragraph">
+                                ফরায়েজী ক্রিয়েটিভ এজেন্সির তৈরিকৃত একটি পৌরসভা ম্যানেজমেন্ট সিস্টেম
+                            </p>
+                        @endif
                     </div>
                 </div>
             </div>

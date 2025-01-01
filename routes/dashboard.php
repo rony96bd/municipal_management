@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\dash\AboutController;
+use App\Http\Controllers\dash\BannerSlidderController;
 use App\Http\Controllers\dash\cachecontroller;
 use App\Http\Controllers\dash\dashboardController;
 use App\Http\Controllers\dash\GalleryController;
@@ -104,5 +105,10 @@ Route::middleware('auth')->group(function () {
         Route::get('gallery', [GalleryController::class, 'index'])->name('gallery');
         Route::get('create-gallery', [GalleryController::class, 'create'])->name('create-gallery');
         Route::post('create-gallery', [GalleryController::class, 'store'])->name('store-gallery');
+
+        // Banner Slidder
+        Route::get('banner-slidder', [BannerSlidderController::class, 'index'])->name('banner-slidder');
+        Route::get('create-banner-slidder', [BannerSlidderController::class, 'create'])->name('create-banner-slidder');
+        Route::post('create-banner-slidder', [BannerSlidderController::class, 'store'])->name('store-banner-slidder');
     });
 });

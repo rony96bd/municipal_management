@@ -40,7 +40,7 @@
   background-color: var(--black-color);
   position: absolute;
   z-index: 1;
-  opacity: 0.2;
+  opacity: 0.5;
 }
 .slide > p {
   z-index: 2;
@@ -762,14 +762,19 @@ select {
   height: calc(100vh - 100px);
 }
 
-.grid-col-2 > :only-child {
-  grid-column: span 2;
-}
-
 td {
   padding: 10px;
 }
 
 .gallery-item {
   aspect-ratio: 1/1;
+}
+
+.gallery-text {
+  background-color: rgba(0, 3, 37, 0.65);
+}
+
+#image-preview-container img {
+  -o-object-fit: cover;
+     object-fit: cover;
 }/*# sourceMappingURL=site-css.css.map */

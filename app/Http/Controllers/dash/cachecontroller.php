@@ -14,10 +14,10 @@ class cachecontroller extends Controller
         $messages = [];
 
         // Clear all Laravel caches
-        Artisan::call('cache:clear');
-        Artisan::call('config:clear');
-        Artisan::call('route:clear');
-        Artisan::call('view:clear');
+        // Artisan::call('cache:clear');
+        // Artisan::call('config:clear');
+        // Artisan::call('route:clear');
+        // Artisan::call('view:clear');
         Artisan::call('optimize:clear');
 
         $messages[] = 'Application cache cleared successfully.';
