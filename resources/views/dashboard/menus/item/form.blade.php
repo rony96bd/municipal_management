@@ -44,6 +44,18 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <label for="parent_id">Parent</label>
+                <select class="custom-select" id="parent_id" name="parent_id">
+                    <option value="" selected>Select Parent</option>
+                    @forelse ($menus as $menu)
+                        <option value="{{ $menu->id }}">{{ $menu->title }}</option>
+                    @empty
+                        <option disabled>No Menu Found</option>
+                    @endforelse
+                </select>
+            </div>
+
             <div id="item_fields">
                 <div class="form-group">
                     <label for="title">Title of the Menu Item</label>
