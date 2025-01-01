@@ -44,7 +44,15 @@ class OfficoalsController extends Controller
         $imagePath = null;
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imagePath = $image->store('images/officials', 'public');
+
+            // Generate the file name using the post ID after saving the official
+            $imageName = time() . '-' . $request->page_url . '.' . $image->getClientOriginalExtension();
+
+            // Save the image to the public folder, within the 'images/officials' directory
+            $image->move(public_path('images/officials'), $imageName);
+
+            // Set the image path
+            $imagePath = 'images/officials/' . $imageName;
         }
 
         // Generate unique page_url
@@ -72,12 +80,13 @@ class OfficoalsController extends Controller
         $official->home_district = $request->home_district;
         $official->joining_date = $request->joining_date;
         $official->page_url = $pageUrl;  // Assign the unique page_url
-        $official->image = $imagePath;
+        $official->image = $imagePath;  // Save the image path
         $official->save();
 
         // Redirect back with success message
         return redirect()->route('officialslist')->with('success', "সফলভাবে {$request->offificial_name} কর্মকর্তা যুক্ত হয়েছে");
     }
+
 
 
 
@@ -109,10 +118,18 @@ class OfficoalsController extends Controller
         $official = officials::findOrFail($id);
 
         // Handle image upload
-        $imagePath = null;
+        $imagePath = $official->image; // Keep the current image if no new one is uploaded
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imagePath = $image->store('images/officials', 'public');
+
+            // Generate the new filename with a timestamp and the page_url
+            $imageName = time() . '-' . $request->id . '.' . $image->getClientOriginalExtension();
+
+            // Move the image to the public folder with the new filename
+            $image->move(public_path('images/officials'), $imageName);
+
+            // Set the image path
+            $imagePath = 'images/officials/' . $imageName;
         }
 
         // Get the original page_url from the request
@@ -148,11 +165,12 @@ class OfficoalsController extends Controller
         $official->home_district = $request->home_district;
         $official->joining_date = $request->joining_date;
         $official->page_url = $pageUrl;  // Assign the updated page_url
-        $official->image = $imagePath;
+        $official->image = $imagePath;   // Save the image path (if updated)
         $official->save();
 
         return redirect()->route('officialslist')->with('success', "সফলভাবে কর্মকর্তার '{$request->offificial_name}' এর তথ্য আপডেট হয়েছে");
     }
+
 
 
     public function destroy($id)

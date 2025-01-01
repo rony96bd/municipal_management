@@ -40,7 +40,10 @@
                         <p class="color-primary">{{ $official->description }}</p>
                     @endif
                     @if (!empty($official->office_phone))
-                        <p class="color-primary">অফিস: {{ $official->office_phone }}</p>
+                        <p class="color-primary">মোবাইল নং: {{ $official->mobile }}</p>
+                    @endif
+                    @if (!empty($official->office_phone))
+                        <p class="color-primary">ফোন (অফিস:) {{ $official->office_phone }}</p>
                     @endif
                     @if (!empty($official->fax))
                         <p class="color-primary">ফ্যাক্স: {{ $official->fax }}</p>
