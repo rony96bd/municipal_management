@@ -9,6 +9,8 @@
                 @include('front-views.components.services')
                 {{-- Administrator --}}
                 @include('front-views.components.administrator')
+                {{-- Photo Gallery --}}
+                @include('front-views.components.gallery')
                 {{-- About  --}}
                 @include('front-views.components.about')
             </div>

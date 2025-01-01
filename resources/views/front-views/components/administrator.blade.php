@@ -26,7 +26,7 @@
             {{-- Single Admin --}}
             <a href="{{ url('/officer' . '/' . $official->page_url) }}"
                 class="flex row m-column m-jfs-ais gap-20 jfs-ace">
-                <img src="{{ $official->image }}" alt="{{ $official->offificial_name }}"
+                <img src="{{ url($official->image) }}" alt="{{ $official->offificial_name }}"
                     class="bradius-6px administrator-img">
                 <div class="flex column gap-5 jcc-ais">
                     @if (!empty($official->offificial_name))

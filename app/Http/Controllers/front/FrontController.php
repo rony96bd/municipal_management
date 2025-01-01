@@ -4,6 +4,7 @@ namespace App\Http\Controllers\front;
 
 use App\Http\Controllers\Controller;
 use App\Models\about\AboutModel;
+use App\Models\gallery\GalleryModel;
 use App\Models\notice\NoticeModel;
 use App\Models\officials\officials;
 use App\Models\page\createpage;
@@ -23,7 +24,8 @@ class FrontController extends Controller
         $official = officials::where('order', 1)->first();
         $representatives = representatives::orderBy('order', 'asc')->get();
         $about = AboutModel::first();
-        return view('front-views.pages.index', compact('page_title', 'services', 'notices', 'officials', 'representatives', 'official', 'about'));
+        $galleries = GalleryModel::orderBy('order', 'asc')->paginate(10);
+        return view('front-views.pages.index', compact('page_title', 'services', 'notices', 'officials', 'representatives', 'official', 'about', 'galleries'));
     }
 
     public function officers()
