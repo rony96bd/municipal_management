@@ -2,6 +2,7 @@
 
 namespace App\Models\officials;
 
+use App\Models\sidebar\SidebarModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,4 +31,9 @@ class officials extends Model
     protected $casts = [
         'joining_date' => 'date',
     ];
+
+    public function sidebar()
+    {
+        return $this->belongsTo(SidebarModel::class);
+    }
 }

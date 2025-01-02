@@ -621,6 +621,10 @@ select {
         cursor: grab;
         width: 60px;
         min-width: 60px;
+
+        &:active {
+            cursor: grabbing;
+        }
     }
 
     &-icon {
@@ -872,6 +876,9 @@ td {
     }
 }
 
+.text-danger {
+    color: var(--danger-color);
+}
 
 
 
@@ -949,4 +956,19 @@ td {
     .pag-main-area {
         width: 100%;
     }
+}
+
+.cursor-drag {
+    cursor: grab;
+
+    &:active {
+        cursor: grabbing;
+        border-color: var(--danger-color);
+        background-color: var(--white-color) !important;
+    }
+}
+
+.sidebar-gap {
+    border: 1px dashed var(--primary-color);
+    border-radius: 6px;
 }

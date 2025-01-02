@@ -2,6 +2,7 @@
 
 namespace App\Models\Service;
 
+use App\Models\sidebar\SidebarModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,5 +22,9 @@ class Service extends Model
     public function singleServices()
     {
         return $this->hasMany(SingleService::class, 'service_id');
+    }
+    public function sidebar()
+    {
+        return $this->belongsTo(SidebarModel::class);
     }
 }

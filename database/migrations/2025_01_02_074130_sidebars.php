@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('sidebars', function (Blueprint $table) {
+            $table->id();
+            // Polymorphic relationship: 'forigen_id' will store the related model's ID
+            // and 'forigen_type' will store the name of the related model (e.g., 'officials', 'representatives', etc.)
+            $table->unsignedBigInteger('forigen_id')->nullable();
+            $table->string('forigen_type')->nullable();
+            $table->string('order')->nullable();              // Order of the sidebar
+            $table->string('gap')->nullable();                // Topic for the sidebar
+            $table->string('sidebar_title')->nullable();      // Sidebar title (optional)
+            $table->string('link_text')->nullable();          // Link text (optional)
+            $table->string('link_url')->nullable();           // Link URL (optional)
+            $table->string('tab')->nullable();                // Tab (optional)
+            $table->timestamps();                             // Timestamps for created_at and updated_at
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('sidebars');
+    }
+};

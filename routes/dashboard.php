@@ -11,6 +11,7 @@ use App\Http\Controllers\dash\OfficoalsController;
 use App\Http\Controllers\dash\PageController;
 use App\Http\Controllers\dash\RepresntativesController;
 use App\Http\Controllers\dash\ServiceController;
+use App\Http\Controllers\dash\SidebarController;
 use App\Http\Controllers\dash\SiteSettings;
 use App\Http\Controllers\dash\SiteSettingsController;
 use App\Http\Controllers\dash\StuffsController;
@@ -112,5 +113,10 @@ Route::middleware('auth')->group(function () {
         Route::get('banner-slidder', [BannerSlidderController::class, 'index'])->name('banner-slidder');
         Route::get('create-banner-slidder', [BannerSlidderController::class, 'create'])->name('create-banner-slidder');
         Route::post('create-banner-slidder', [BannerSlidderController::class, 'store'])->name('store-banner-slidder');
+
+        // Sidebar
+        Route::get('sidebar', [SidebarController::class, 'index'])->name('sidebar');
+        Route::post('create-sidebar', [SidebarController::class, 'store'])->name('store-sidebar');
+        Route::post('update-sidebar-order', [SidebarController::class, 'updatesidebarOrder'])->name('update-sidebar-order');
     });
 });

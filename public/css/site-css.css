@@ -555,6 +555,9 @@ select {
   width: 60px;
   min-width: 60px;
 }
+.drag-box:active {
+  cursor: grabbing;
+}
 .drag-icon {
   width: 20px;
   height: 20px;
@@ -792,6 +795,10 @@ td {
     transform: translateX(-50%);
   }
 }
+.text-danger {
+  color: var(--danger-color);
+}
+
 @media (max-width: 1024px) {
   .primary-header {
     min-height: 350px;
@@ -846,4 +853,17 @@ td {
   .pag-main-area {
     width: 100%;
   }
+}
+.cursor-drag {
+  cursor: grab;
+}
+.cursor-drag:active {
+  cursor: grabbing;
+  border-color: var(--danger-color);
+  background-color: var(--white-color) !important;
+}
+
+.sidebar-gap {
+  border: 1px dashed var(--primary-color);
+  border-radius: 6px;
 }/*# sourceMappingURL=site-css.css.map */

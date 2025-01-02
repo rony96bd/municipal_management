@@ -2,6 +2,7 @@
 
 namespace App\Models\stuff;
 
+use App\Models\sidebar\SidebarModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -42,4 +43,9 @@ class Stuff extends Model
     protected $casts = [
         'joining_date' => 'date',
     ];
+
+    public function sidebar()
+    {
+        return $this->belongsTo(SidebarModel::class);
+    }
 }

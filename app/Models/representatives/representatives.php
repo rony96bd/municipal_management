@@ -2,6 +2,7 @@
 
 namespace App\Models\representatives;
 
+use App\Models\sidebar\SidebarModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,4 +26,9 @@ class representatives extends Model
         'permanentaddress',
         'image',
     ];
+
+    public function sidebar()
+    {
+        return $this->belongsTo(SidebarModel::class);
+    }
 }

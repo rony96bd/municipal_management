@@ -8,7 +8,7 @@
         <div class="mb-3">
             {{-- Name --}}
             <input type="text" name="name" id="name" class="form-control"
-                value="{{ old('name', isset($page) ? $page->name : '') }}" placeholder="জনপ্রতিনিধীর নাম *" required>
+                value="{{ old('name', isset($page) ? $page->name : '') }}" placeholder="জনপ্রতিনিধির নাম *" required>
             @error('name')
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
@@ -123,7 +123,7 @@
                 </option>
                 <option value="1"
                     {{ old('elected_type', isset($page) ? $page->elected_type : '') == '1' ? 'selected' : '' }}>
-                    নির্বাচনের মাধ্যমে িনির্বাচিত
+                    নির্বাচনের মাধ্যমে নির্বাচিত
                 </option>
                 <option value="2"
                     {{ old('elected_type', isset($page) ? $page->elected_type : '') == '2' ? 'selected' : '' }}>

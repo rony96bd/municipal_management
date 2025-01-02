@@ -103,7 +103,7 @@
             </div>
         </a>
         {{-- Services Grid Menu --}}
-        <a href="{{ route('services') }}" class="anchor grid-menu flex row gap-0 bradius-6px jfs-ace overflow-hidden">
+        <a href="{{ route('sidebar') }}" class="anchor grid-menu flex row gap-0 bradius-6px jfs-ace overflow-hidden">
             <div class="grid-menu-icon-box padar-20 flex row center background-primary">
                 @include('icons.dashboard-icons.sidebar')
             </div>

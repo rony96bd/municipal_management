@@ -2,6 +2,7 @@
 
 namespace App\Models\news;
 
+use App\Models\sidebar\SidebarModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,4 +19,9 @@ class NewsModel extends Model
         'description',
         'file_path',
     ];
+
+    public function sidebar()
+    {
+        return $this->belongsTo(SidebarModel::class);
+    }
 }
