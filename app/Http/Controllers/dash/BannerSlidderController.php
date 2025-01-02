@@ -36,7 +36,7 @@ class BannerSlidderController extends Controller
             $imageName = time() . '.' . $image->getClientOriginalExtension(); // Generate a unique name
 
             // Move the image to the public directory (images/slidders)
-            $image->move(public_path('images/slidders'), $imageName);
+            $image->move('images/slidders', $imageName);
 
             // Store the image path in the database (for later retrieval)
             $slidder->image = 'images/slidders/' . $imageName;  // Save the relative path
