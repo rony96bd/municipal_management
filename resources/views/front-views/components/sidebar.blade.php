@@ -89,8 +89,7 @@
             </div>
         @endif
         @if ($sidebar->gap)
-            <div class="padar-20" data-id="{{ $sidebar->id }}">
-            </div>
+            <div class="padar-20" data-id="{{ $sidebar->id }}"></div>
         @endif
         @if ($sidebar->sidebar_title)
             <div class="sidebar-title-area flex row gap-10 jst-ace full-width padar-10 position-relative marb-10"
@@ -100,6 +99,6 @@
             </div>
         @endif
     @empty
-        <p class="color-warning">সাইডবারে কোন তথ্য যুক্ত করা নেয়</p>
-    @endforeach
+        <p class="color-warning">কোন সাইডবার নেই</p>
+    @endforelse
 </div>
