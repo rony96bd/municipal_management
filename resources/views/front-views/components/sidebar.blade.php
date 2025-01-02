@@ -3,7 +3,7 @@
     @forelse ($sidebars as $sidebar)
         @if ($sidebar && $sidebar->forigen)
             @if ($sidebar->forigen_type === App\Models\officials\officials::class)
-                <div class="bradius-6px cursor-drag" data-id="{{ $sidebar->id }}">
+                <div class="bradius-6px" data-id="{{ $sidebar->id }}">
                     <img class="bradius-6px" src="{{ url($sidebar->forigen->image ?? 'default-image.jpg') }}"
                         alt="{{ $sidebar->forigen->offificial_name ?? 'No Official Name' }}">
                     <div class="flex column center padar-10">
@@ -12,7 +12,7 @@
                     </div>
                 </div>
             @elseif ($sidebar->forigen_type === App\Models\representatives\representatives::class)
-                <div class="bradius-6px cursor-drag" data-id="{{ $sidebar->id }}">
+                <div class="bradius-6px" data-id="{{ $sidebar->id }}">
                     <img class="bradius-6px" src="{{ url($sidebar->forigen->image ?? 'default-image.jpg') }}"
                         alt="{{ $sidebar->forigen->name ?? 'No Name' }}">
                     <div class="flex column center padar-10">
@@ -29,7 +29,7 @@
                     </div>
                 </div>
             @elseif ($sidebar->forigen_type === App\Models\stuff\Stuff::class)
-                <div class="bradius-6px cursor-drag" data-id="{{ $sidebar->id }}">
+                <div class="bradius-6px" data-id="{{ $sidebar->id }}">
                     <img class="bradius-6px" src="{{ url($sidebar->forigen->image ?? 'default-image.jpg') }}"
                         alt="{{ $sidebar->forigen->name ?? 'No Name' }}">
                     <div class="flex column center padar-10">
@@ -40,7 +40,7 @@
                     </div>
                 </div>
             @elseif ($sidebar->forigen_type === App\Models\page\createpage::class)
-                <div class="bradius-6px cursor-drag" data-id="{{ $sidebar->id }}">
+                <div class="bradius-6px" data-id="{{ $sidebar->id }}">
                     <a href="{{ url('/page' . '/' . $sidebar->forigen->page_url) }}"
                         class="sidebar-list-link color-primary flex padl-30 padr-20 padt-10 padb-10 position-relative fs-base"
                         target="_blank">
@@ -48,7 +48,7 @@
                     </a>
                 </div>
             @elseif ($sidebar->forigen_type === App\Models\notice\NoticeModel::class)
-                <div class="bradius-6px cursor-drag" data-id="{{ $sidebar->id }}">
+                <div class="bradius-6px" data-id="{{ $sidebar->id }}">
                     <a href="{{ url('/notice' . '/' . $sidebar->forigen->page_url) }}"
                         class="sidebar-list-link color-primary flex padl-30 padr-20 padt-10 padb-10 position-relative fs-base"
                         target="_blank">
@@ -56,7 +56,7 @@
                     </a>
                 </div>
             @elseif ($sidebar->forigen_type === App\Models\news\NewsModel::class)
-                <div class="bradius-6px cursor-drag" data-id="{{ $sidebar->id }}">
+                <div class="bradius-6px" data-id="{{ $sidebar->id }}">
                     <a href="{{ url('/news' . '/' . $sidebar->forigen->page_url) }}"
                         class="sidebar-list-link color-primary flex padl-30 padr-20 padt-10 padb-10 position-relative fs-base"
                         target="_blank">
@@ -64,7 +64,7 @@
                     </a>
                 </div>
             @elseif ($sidebar->forigen_type === App\Models\Service\SingleService::class)
-                <div class="bradius-6px cursor-drag" data-id="{{ $sidebar->id }}">
+                <div class="bradius-6px" data-id="{{ $sidebar->id }}">
                     <a href="{{ url('/service' . '/' . $sidebar->forigen->page_url) }}"
                         class="sidebar-list-link color-primary flex padl-30 padr-20 padt-10 padb-10 position-relative fs-base"
                         target="_blank">
@@ -74,7 +74,7 @@
             @endif
         @endif
         @if ($sidebar->link_text)
-            <div class="bradius-6px cursor-drag" data-id="{{ $sidebar->id }}">
+            <div class="bradius-6px" data-id="{{ $sidebar->id }}">
                 <a href="{{ $sidebar->link_url }}"
                     class="sidebar-list-link color-primary flex padl-30 padr-20 padt-10 padb-10 position-relative fs-base"
                     target="@if ($sidebar->tab == 1) _self @elseif ($sidebar->tab == 2)_blank @else _self @endif">
@@ -83,7 +83,7 @@
             </div>
         @endif
         @if ($sidebar->image)
-            <div class="bradius-6px cursor-drag" data-id="{{ $sidebar->id }}">
+            <div class="bradius-6px" data-id="{{ $sidebar->id }}">
                 <img class="bradius-6px" src="{{ url($sidebar->image ?? 'default-image.jpg') }}"
                     alt="Sidebar Image {{ $sidebar->id }}">
             </div>
@@ -99,5 +99,7 @@
                 <h3 class="sidebar-title font-weight-medium">{{ $sidebar->sidebar_title }}</h3>
             </div>
         @endif
+    @empty
+        <p class="color-warning">সাইডবারে কোন তথ্য যুক্ত করা নেয়</p>
     @endforeach
 </div>
