@@ -3,7 +3,7 @@
         class="section-title padl-30 padr-30 padt-10 padb-10 background-secondary color-white font-weight-medium fs-20-28 m-padl-10 m-padr-10 m-padr-10">
         প্রশাসক, আলমডাঙ্গা পৌরসভা, চুয়াডাঙ্গা
     </h3>
-    <div class="grid grid-col-2 m-grid-col-2 gap-20 m-gap-10 padar-20 m-padar-10">
+    <div class="grid grid-col-2 m-grid-col-1 gap-20 m-gap-10 padar-20 m-padar-10">
         {{-- @forelse ($officials as $official)
             <div class="flex row m-column gap-20 jfs-ace">
                 <img src="{{ $official->image }}" alt="{{ $official->name }}" class="bradius-6px administrator-img">
@@ -30,10 +30,12 @@
                     class="bradius-6px administrator-img">
                 <div class="flex column gap-5 jcc-ais">
                     @if (!empty($official->offificial_name))
-                        <h2 style="font-size: x-large;" class="color-primary fs-18-22 color-primary">{{ $official->offificial_name }}</h2>
+                        <h2 style="font-size: x-large;" class="color-primary fs-18-22 color-primary">
+                            {{ $official->offificial_name }}</h2>
                     @endif
                     @if (!empty($official->designation))
-                        <h3 style="font-size: larger;" class="color-primary fs-base color-secondary font-weight-bold"> {{ $official->designation }}
+                        <h3 style="font-size: larger;" class="color-primary fs-base color-secondary font-weight-bold">
+                            {{ $official->designation }}
                         </h3>
                     @endif
                     @if (!empty($official->description))

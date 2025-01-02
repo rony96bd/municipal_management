@@ -552,6 +552,8 @@ select {
 
 .drag-box {
   cursor: grab;
+  width: 60px;
+  min-width: 60px;
 }
 .drag-icon {
   width: 20px;
@@ -647,61 +649,6 @@ select {
   align-items: center;
 }
 
-@media (max-width: 1024px) {
-  .primary-header {
-    min-height: 350px;
-    height: 40vh;
-  }
-  .burger-trigger {
-    width: 28px;
-    height: 2px;
-  }
-  .mobile-burger.active {
-    transform: rotate(90deg);
-  }
-  .mobile-burger.active > .burger-trigger {
-    opacity: 0;
-  }
-  .mobile-burger.active > .burger-trigger:first-child {
-    transform: rotate(45deg) translate(9px, 8px);
-    opacity: 1;
-  }
-  .mobile-burger.active > .burger-trigger:last-child {
-    transform: rotate(-45deg) translate(8px, -8px);
-    opacity: 1;
-  }
-  .sidebar-box {
-    width: 100%;
-    max-width: 100%;
-  }
-  .mobile-nav > p {
-    font-size: 18px;
-  }
-  .administrator-img {
-    width: 100%;
-  }
-  .service-icon {
-    width: 80px;
-  }
-  .seondary-header {
-    height: auto;
-    min-height: 220px;
-  }
-  .officer-main-image {
-    margin-bottom: 0px;
-    margin-top: -70px;
-  }
-  .single-top-item {
-    margin-bottom: 0px;
-    margin-top: 70px;
-  }
-  .grid-span-2 {
-    grid-column: span 1;
-  }
-  .pag-main-area {
-    width: 100%;
-  }
-}
 .disabled-button {
   cursor: no-drop;
   opacity: 0.5;
@@ -777,4 +724,126 @@ td {
 #image-preview-container img {
   -o-object-fit: cover;
      object-fit: cover;
+}
+
+.slidder-wrapper {
+  width: -moz-max-content;
+  width: max-content;
+}
+
+.pag-main-area {
+  width: calc(100% - 300px);
+}
+
+.news-item::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background-color: var(--warning-color);
+  display: flex;
+  border-radius: 3px;
+  animation: beeping 0.4s infinite alternate;
+}
+
+@keyframes beeping {
+  0% {
+    opacity: 1;
+    transform: scale(1) rotate(45deg);
+  }
+  100% {
+    opacity: 0.4;
+    transform: scale(0.4) rotate(-45deg);
+  }
+}
+.main-slidder-box {
+  position: relative;
+  overflow: hidden;
+}
+
+.slidder-wrapper-container {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  /* Ensures content is clipped */
+}
+
+.slidder-wrapper {
+  display: flex;
+  flex-direction: row;
+  animation: slide linear infinite;
+  /* Keep the animation defined but no duration */
+  animation-play-state: running;
+  /* Ensure animation runs by default */
+}
+.slidder-wrapper:hover {
+  animation-play-state: paused;
+}
+
+.single-slidder-item {
+  width: -moz-max-content;
+  width: max-content;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+@media (max-width: 1024px) {
+  .primary-header {
+    min-height: 350px;
+    height: 40vh;
+  }
+  .burger-trigger {
+    width: 28px;
+    height: 2px;
+  }
+  .mobile-burger.active {
+    transform: rotate(90deg);
+  }
+  .mobile-burger.active > .burger-trigger {
+    opacity: 0;
+  }
+  .mobile-burger.active > .burger-trigger:first-child {
+    transform: rotate(45deg) translate(9px, 8px);
+    opacity: 1;
+  }
+  .mobile-burger.active > .burger-trigger:last-child {
+    transform: rotate(-45deg) translate(8px, -8px);
+    opacity: 1;
+  }
+  .sidebar-box {
+    width: 100%;
+    max-width: 100%;
+  }
+  .mobile-nav > p {
+    font-size: 18px;
+  }
+  .administrator-img {
+    width: 100%;
+  }
+  .service-icon {
+    width: 80px;
+  }
+  .seondary-header {
+    height: auto;
+    min-height: 220px;
+  }
+  .officer-main-image {
+    margin-bottom: 0px;
+    margin-top: -70px;
+  }
+  .single-top-item {
+    margin-bottom: 0px;
+    margin-top: 70px;
+  }
+  .grid-span-2 {
+    grid-column: span 1;
+  }
+  .pag-main-area {
+    width: 100%;
+  }
 }/*# sourceMappingURL=site-css.css.map */

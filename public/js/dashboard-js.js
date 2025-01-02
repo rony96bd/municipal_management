@@ -127,4 +127,40 @@ document.addEventListener('DOMContentLoaded', function () {
         imagePreview.classList.add('d-none');
         this.style.display = 'none';
     });
+
+});
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const slidderWrapper = document.querySelector('.slidder-wrapper');
+    const items = document.querySelectorAll('.single-slidder-item');
+
+    // Calculate the total width of all the items combined
+    const totalWidth = Array.from(items).reduce((width, item) => width + item.offsetWidth, 0);
+
+    // Output the total width for debugging
+    console.log('Total width of all items:', totalWidth);
+
+    // Calculate the duration based on the total width of all items
+    // Duration will scale with the total width, but be clamped between 30s and 100s
+    let duration = (totalWidth / 1000) *
+        10; // Adjust the formula to fit your need (e.g., dividing by 1000 to scale better)
+
+    // Ensure the duration is between 30s and 100s
+    duration = Math.max(30, Math.min(duration, 100)); // Clamp between 30s and 100s
+
+    // Output the calculated duration for debugging
+    console.log('Calculated duration:', duration);
+
+    // Create a style tag dynamically
+    const styleTag = document.createElement('style');
+    document.head.appendChild(styleTag);
+
+    // Update the animation duration dynamically in the style tag
+    styleTag.innerHTML = `
+    .slidder-wrapper {
+        animation-duration: ${duration}s !important;
+    }
+`;
 });

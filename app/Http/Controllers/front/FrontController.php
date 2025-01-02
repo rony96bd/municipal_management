@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\about\AboutModel;
 use App\Models\banner_slidder\BannerSlidderModel;
 use App\Models\gallery\GalleryModel;
+use App\Models\news\NewsModel;
 use App\Models\notice\NoticeModel;
 use App\Models\officials\officials;
 use App\Models\page\createpage;
@@ -21,13 +22,14 @@ class FrontController extends Controller
         $page_title = 'স্বাগতম';
         $services = Service::with('singleServices')->get();
         $notices = NoticeModel::orderBy('order', 'asc')->get();
+        $news = NewsModel::orderBy('order', 'asc')->paginate(10);
         $officials = officials::orderBy('order', 'asc')->get();
         $official = officials::where('order', 1)->first();
         $representatives = representatives::orderBy('order', 'asc')->get();
         $about = AboutModel::first();
         $galleries = GalleryModel::orderBy('order', 'asc')->paginate(6);
-        $slidders = BannerSlidderModel::orderBy('order', 'asc')->get();
-        return view('front-views.pages.index', compact('page_title', 'services', 'notices', 'officials', 'representatives', 'official', 'about', 'galleries', 'slidders'));
+        $slidders = BannerSlidderModel::orderBy('order', 'asc')->paginate(5);
+        return view('front-views.pages.index', compact('page_title', 'services', 'notices', 'officials', 'representatives', 'official', 'about', 'galleries', 'slidders', 'news'));
     }
 
     public function officers()
