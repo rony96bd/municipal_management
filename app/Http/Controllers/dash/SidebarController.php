@@ -29,7 +29,6 @@ class SidebarController extends Controller
         $news = NewsModel::all();
         $services = SingleService::all();
         $sidebars = SidebarModel::orderByRaw('CONVERT(`order`, SIGNED) ASC')->get();
-
         return view('dashboard.sidebar.sidebar', compact('page_title', 'officials', 'stuffs', 'representatives', 'pages', 'notices', 'news', 'services', 'sidebars'));
     }
 
@@ -104,10 +103,10 @@ class SidebarController extends Controller
             $imageName = 'sidebar-image-' . $sidebar->id . '.' . $image->getClientOriginalExtension(); // Generate name like sidebar-image-id.extension
 
             // Save the image in the public directory
-            $imagePath = $image->move(public_path('uploads/sidebar'), $imageName);
+            $imagePath = $image->move(public_path('uploads/sidebar/'), $imageName);
 
             // Assign the image path to the sidebar model
-            $sidebar->image = 'uploads/sidebar' . $imageName; // Store path relative to the public folder
+            $sidebar->image = 'uploads/sidebar/' . $imageName; // Store path relative to the public folder
 
             // Save the updated sidebar model with the image path
             $sidebar->save();
@@ -132,5 +131,15 @@ class SidebarController extends Controller
         }
 
         return response()->json(['success' => true]);
+    }
+
+    public function destroy($id)
+    {
+        $sidebar = SidebarModel::find($id);
+        if ($sidebar) {
+            $sidebar->delete();
+            return redirect()->back()->with('success', 'তথ্য সফলভাবে মুছে ফেলা হয়েছে');
+        }
+        return redirect()->back()->with('error', 'তথ্য মুছে ফেলা যায়নি');
     }
 }

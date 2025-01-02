@@ -13,6 +13,7 @@ use App\Models\page\createpage;
 use App\Models\representatives\representatives;
 use App\Models\stuff\Stuff;
 use App\Models\Service\Service;
+use App\Models\sidebar\SidebarModel;
 use Illuminate\Http\Request;
 
 class FrontController extends Controller
@@ -29,7 +30,8 @@ class FrontController extends Controller
         $about = AboutModel::first();
         $galleries = GalleryModel::orderBy('order', 'asc')->paginate(6);
         $slidders = BannerSlidderModel::orderBy('order', 'asc')->paginate(5);
-        return view('front-views.pages.index', compact('page_title', 'services', 'notices', 'officials', 'representatives', 'official', 'about', 'galleries', 'slidders', 'news'));
+        $sidebars = SidebarModel::orderByRaw('CONVERT(`order`, SIGNED) ASC')->get();
+        return view('front-views.pages.index', compact('page_title', 'services', 'notices', 'officials', 'representatives', 'official', 'about', 'galleries', 'slidders', 'news', 'sidebars'));
     }
 
     public function officers()

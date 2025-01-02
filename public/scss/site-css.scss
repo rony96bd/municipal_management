@@ -966,9 +966,50 @@ td {
         border-color: var(--danger-color);
         background-color: var(--white-color) !important;
     }
+
+    & button.delete-sidebar {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 20px !important;
+        height: 20px;
+        padding: 0 !important;
+        font-size: 14px;
+        border-radius: 50px !important;
+        background: var(--danger-color) !important;
+        border: none !important;
+        opacity: 0;
+        transition: .25s all ease-in-out !important;
+    }
+
+    &:hover button.delete-sidebar {
+        opacity: 1;
+    }
 }
 
 .sidebar-gap {
     border: 1px dashed var(--primary-color);
     border-radius: 6px;
+    opacity: .3;
+    background: var(--white-color) !important;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
+#sidebar-list {
+    & .page-repeater {
+        background-color: var(--white-color) !important;
+
+        &:hover {
+            background-color: var(--white-color) !important;
+        }
+
+        & .sidebar-list-link {
+            &:hover {
+                background-color: var(--white-color) !important;
+            }
+        }
+    }
 }

@@ -118,5 +118,6 @@ Route::middleware('auth')->group(function () {
         Route::get('sidebar', [SidebarController::class, 'index'])->name('sidebar');
         Route::post('create-sidebar', [SidebarController::class, 'store'])->name('store-sidebar');
         Route::post('update-sidebar-order', [SidebarController::class, 'updatesidebarOrder'])->name('update-sidebar-order');
+        Route::delete('delete-sidebar/{id}', [SidebarController::class, 'destroy'])->name('delete-sidebar');
     });
 });
