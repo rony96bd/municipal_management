@@ -23,7 +23,7 @@ class BannerSlidderController extends Controller
         // Validate input fields
         $validateData = $request->validate([
             'title' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:1024',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:3024',
         ]);
 
         // Create a new instance of BannerSlidderModel
