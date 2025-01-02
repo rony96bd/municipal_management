@@ -23,7 +23,7 @@ class BannerSlidderController extends Controller
         // Validate input fields
         $validateData = $request->validate([
             'title' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:1024',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:3072',
         ]);
 
         // Create a new instance of BannerSlidderModel
@@ -36,7 +36,7 @@ class BannerSlidderController extends Controller
             $imageName = time() . '.' . $image->getClientOriginalExtension(); // Generate a unique name
 
             // Move the image to the public directory (images/slidders)
-            $image->move(public_path('images/slidders'), $imageName);
+            $image->move('images/slidders', $imageName);
 
             // Store the image path in the database (for later retrieval)
             $slidder->image = 'images/slidders/' . $imageName;  // Save the relative path
@@ -46,6 +46,6 @@ class BannerSlidderController extends Controller
         $slidder->save();
 
         // Redirect or return response if needed
-        return redirect()->back()->with('success', 'ব্যানার ইমের সফলভাবে যুক্ত করা হয়েছে');
+        return redirect()->back()->with('success', 'ব্যানার সফলভাবে যুক্ত করা হয়েছে');
     }
 }
