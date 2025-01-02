@@ -54,9 +54,9 @@ class NewsController extends Controller
 
     public function edit($id)
     {
-        $page_title = 'নোটিশ সম্পাদনা করুন';
+        $page_title = 'নেউজ সম্পাদনা করুন';
         $page = NewsModel::findOrFail($id);
-        return view('dashboard.notice.create-notice', compact('page_title', 'page'));
+        return view('dashboard.news.create-news', compact('page_title', 'page'));
     }
     public function update(Request $request, $id)
     {
@@ -104,7 +104,7 @@ class NewsController extends Controller
         $notice->save();
 
         // Redirect back with success message
-        return redirect()->route('notice')->with('success', "সফলভাবে {$request->topic} নোটিশ আপডেট হয়েছে");
+        return redirect()->route('news')->with('success', "সফলভাবে {$request->topic} নিউজ আপডেট হয়েছে");
     }
 
     public function deleteAttestment($id)

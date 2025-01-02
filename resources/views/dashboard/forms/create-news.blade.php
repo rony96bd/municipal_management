@@ -1,4 +1,4 @@
-<form action="{{ isset($page) ? route('notice-update', $page->id) : route('store-news') }}" method="POST"
+<form action="{{ isset($page) ? route('news-update', $page->id) : route('store-news') }}" method="POST"
     enctype="multipart/form-data">
     @csrf
     @if (isset($page))

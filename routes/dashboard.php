@@ -94,6 +94,8 @@ Route::middleware('auth')->group(function () {
         // News
         Route::get('news', [NewsController::class, 'index'])->name('news');
         Route::get('create-news', [NewsController::class, 'createnews'])->name('create-news');
+        Route::get('edit-news/{id}', [NewsController::class, 'edit'])->name('edit-news');
+        Route::put('edit-news/{id}', [NewsController::class, 'update'])->name('news-update');
         Route::post('create-news', [NewsController::class, 'store'])->name('store-news');
         Route::post('/update-news-order', [NewsController::class, 'updateNewsOrder'])->name('update-news-order');
         // Users

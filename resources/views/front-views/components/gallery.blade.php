@@ -5,7 +5,7 @@
             class="section-title padl-30 padr-30 padt-10 padb-10 background-secondary color-white font-weight-medium fs-20-28 m-padl-10 m-padr-10 m-padr-10">
             ফটো গ্যালারী
         </h3>
-        <div class="grid grid-col-5 m-grid-col-2 gap-10 padar-20">
+        <div class="grid grid-col-3 m-grid-col-2 gap-10 padar-20">
 
             @foreach ($galleries as $gallery)
                 @php

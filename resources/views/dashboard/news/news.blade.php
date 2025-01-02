@@ -17,41 +17,41 @@
                     <h3 class="fs-h3 font-weight-bold text-center">অ্যাকশান</h3>
                 </div>
                 <div id="news-list" class="sortable-list flex column gap-0">
-                    @forelse ($notices as $notice)
+                    @forelse ($notices as $news)
                         <div class="page-repeater grid grid-col-3 border-color-primary full-width gap-10 m-grid-col-1 m-gap-0"
-                            data-id="{{ $notice->id }}">
+                            data-id="{{ $news->id }}">
                             <div class="flex row">
                                 <div class="drag-box flex center padl-20 padr-20 padt-10 padb-10 m-display-none">
                                     @include('icons.drag')
                                 </div>
-                                <a href="{{ url('/notice' . '/' . $notice->page_url) }}"
+                                <a href="{{ url('/notice' . '/' . $news->page_url) }}"
                                     class="fs-h3 padt-10 padb-10 padl-0 padr-20 flex row jst-ace flex-auto m-padl-20"
                                     target="_blank">
-                                    {{ $notice->topic }}
+                                    {{ $news->topic }}
                                 </a>
 
                             </div>
                             <div class="flex row">
                                 <span class="fs-base padt-10 padb-10 padl-20 padr-20 flex row jst-ace">
-                                    {{ Str::limit(strip_tags(html_entity_decode($notice->description ?? 'বিবরণ নেই')), 120, ' ...') }}
+                                    {{ Str::limit(strip_tags(html_entity_decode($news->description ?? 'বিবরণ নেই')), 120, ' ...') }}
                                 </span>
 
 
                             </div>
 
                             <div class="flex row jfe-ace gap-10 padt-10 padb-10 padl-20 padr-20 m-column m-jst-ast">
-                                @if ($notice->file_path)
-                                    <a href="{{ asset($notice->file_path) }}"
+                                @if ($news->file_path)
+                                    <a href="{{ asset($news->file_path) }}"
                                         class="background-warning color-oprimary padt-10 padb-10 padr-20 padl-20 text-center bradius-3px"
                                         target="_blank">
                                         ডাউনলোড
                                     </a>
                                 @endif
-                                <a href="{{ route('edit-notice', $notice->id) }}"
+                                <a href="{{ route('edit-news', $news->id) }}"
                                     class="background-primary color-white padt-10 padb-10 padr-20 padl-20 text-center bradius-3px">
                                     সম্পাদনা করুন
                                 </a>
-                                <form action="{{ route('notice-delete', $notice->id) }}" method="POST"
+                                <form action="{{ route('notice-delete', $news->id) }}" method="POST"
                                     onsubmit="return confirm('আপনি কি নিশ্চিতভাবে মুছে ফেলতে চান?');"
                                     style="display:inline;">
                                     @csrf

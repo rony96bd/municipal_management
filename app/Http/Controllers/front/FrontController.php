@@ -25,7 +25,7 @@ class FrontController extends Controller
         $official = officials::where('order', 1)->first();
         $representatives = representatives::orderBy('order', 'asc')->get();
         $about = AboutModel::first();
-        $galleries = GalleryModel::orderBy('order', 'asc')->paginate(10);
+        $galleries = GalleryModel::orderBy('order', 'asc')->paginate(6);
         $slidders = BannerSlidderModel::orderBy('order', 'asc')->get();
         return view('front-views.pages.index', compact('page_title', 'services', 'notices', 'officials', 'representatives', 'official', 'about', 'galleries', 'slidders'));
     }
