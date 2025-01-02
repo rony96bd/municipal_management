@@ -99,6 +99,6 @@
             </div>
         @endif
     @empty
-        <p class="color-warning">কোন সাইডবার নেই</p>
+        <p class="color-warning">সাইডবারে কোন তথ্য নেয়</p>
     @endforelse
 </div>
