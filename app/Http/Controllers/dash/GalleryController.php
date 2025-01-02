@@ -35,7 +35,7 @@ class GalleryController extends Controller
         ]);
 
         // Create a folder for the gallery post using its ID if not exists
-        $uploadPath = public_path("uploads/{$page->id}");
+        $uploadPath = "uploads/{$page->id}";
         if (!file_exists($uploadPath)) {
             mkdir($uploadPath, 0777, true); // Create folder with proper permissions
         }
