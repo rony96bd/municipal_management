@@ -121,16 +121,21 @@ Route::middleware('auth')->group(function () {
         Route::post('update-sidebar-order', [SidebarController::class, 'updatesidebarOrder'])->name('update-sidebar-order');
         Route::delete('delete-sidebar/{id}', [SidebarController::class, 'destroy'])->name('delete-sidebar');
 
-        // Menus
+        //Top Menus
         Route::get('menus', [MenuController::class, 'index'])->name('menus');
         Route::post('create-menu', [MenuController::class, 'storetopmenu'])->name('store-top-menu');
         Route::delete('delete/top-menu/{id}', [MenuController::class, 'deletetopmenu'])->name('delete-top-menu');
+        // Simple Sub Menus
         Route::get('add-single-submenu/{id}', [MenuController::class, 'addsimplesubmenu'])->name('add-single-submenu');
         Route::post('add-simple-submenu', [MenuController::class, 'storesimplesubmenu'])->name('add-simple-submenu');
+        Route::delete('delete-simple-submenu/{id}', [MenuController::class, 'deletesinglesubmenu'])->name('delete-singles-ubmenu');
         // Group Menu
         Route::get('/create-group-menu/{id}', [MenuController::class, 'groupmenupage'])->name('group-menu-page');
         Route::post('/create-group-menu', [MenuController::class, 'storegroupmenu'])->name('store-group-menu');
+        Route::delete('/delete-group-menu/{id}', [MenuController::class, 'deletemenugroup'])->name('delete-menu-group');
+        // Single Submen For Group
         Route::get('/single-group-menu/{id}', [MenuController::class, 'singlegroupmenu'])->name('single-group-menu');
         Route::post('/single-group-menu', [MenuController::class, 'storesinglegroupmenu'])->name('store-single-group-menu');
+        Route::delete('/delete-single-group-menu/{id}', [MenuController::class, 'deletegroupsubmenu'])->name('delete-group-submenu');
     });
 });

@@ -101,16 +101,6 @@ class MenuController extends Controller
         return redirect()->back()->with('success', 'টপ মেনু সফলভাবে যুক্ত হয়েছে');
     }
 
-    public function deletetopmenu($id)
-    {
-        $topmenu = MenuModel::find($id);
-        if ($topmenu) {
-            $topmenu->delete();
-            return redirect()->back()->with('success', 'মেনু সফলভাবে মুছে ফেলা হয়েছে');
-        }
-        return redirect()->back()->with('error', 'মেনু মুছে ফেলা যায়নি');
-    }
-
     public function addsimplesubmenu($id)
     {
         $topmenu = MenuModel::find($id); // Query a single menu by ID
@@ -296,17 +286,6 @@ class MenuController extends Controller
 
         return response()->json(['success' => true]);
     }
-
-    public function destroy($id)
-    {
-        $sidebar = SidebarModel::find($id);
-        if ($sidebar) {
-            $sidebar->delete();
-            return redirect()->back()->with('success', 'তথ্য সফলভাবে মুছে ফেলা হয়েছে');
-        }
-        return redirect()->back()->with('error', 'তথ্য মুছে ফেলা যায়নি');
-    }
-
 
     // Group Menu
     public function groupmenupage($id)
@@ -530,5 +509,45 @@ class MenuController extends Controller
         $GroupSubmenu->save();
 
         return redirect()->back()->with('success', 'গ্রুপ মেনু সফলভাবে যুক্ত হয়েছে');
+    }
+
+
+    // All Delete Methods
+    public function deletetopmenu($id)
+    {
+        $topmenu = MenuModel::find($id);
+        if ($topmenu) {
+            $topmenu->delete();
+            return redirect()->back()->with('success', 'মেনু সফলভাবে মুছে ফেলা হয়েছে');
+        }
+        return redirect()->back()->with('error', 'মেনু মুছে ফেলা যায়নি');
+    }
+
+    public function deletesinglesubmenu($id)
+    {
+        $singsubmenu = SubMenuModel::find($id);
+        if ($singsubmenu) {
+            $singsubmenu->delete();
+            return redirect()->back()->with('success', 'সাবমেনু সফলভাবে মুছে ফেলা হয়েছে');
+        }
+        return redirect()->back()->with('error', 'সাবমেনু মুছে ফেলা যায়নি');
+    }
+    public function deletemenugroup($id)
+    {
+        $singsubmenu = GroupMenuModel::find($id);
+        if ($singsubmenu) {
+            $singsubmenu->delete();
+            return redirect()->back()->with('success', 'মেনু গ্রুপ সফলভাবে মুছে ফেলা হয়েছে');
+        }
+        return redirect()->back()->with('error', 'মেনু গ্রুপ মুছে ফেলা যায়নি');
+    }
+    public function deletegroupsubmenu($id)
+    {
+        $singsubmenu = GroupSubmenuModel::find($id);
+        if ($singsubmenu) {
+            $singsubmenu->delete();
+            return redirect()->back()->with('success', 'মেনু গ্রুপ সফলভাবে মুছে ফেলা হয়েছে');
+        }
+        return redirect()->back()->with('error', 'মেনু গ্রুপ মুছে ফেলা যায়নি');
     }
 }

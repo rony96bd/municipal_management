@@ -54,7 +54,7 @@
                     <!-- Show submenus only if there are no group menus -->
                     <div id="submenu-list" class="sub-menu-wrapper flex column gap-10">
                         @foreach ($top_menu->submenus as $submenu)
-                            <p class="submenu" data_id="{{ $submenu->id }}">
+                            <div class="submenu position-relative" data_id="{{ $submenu->id }}">
                                 @if ($submenu->forigen)
                                     @switch($submenu->forigen_type)
                                         @case(App\Models\officials\officials::class)
@@ -87,17 +87,24 @@
 
                                         @default
                                     @endswitch
+                                    <form action="{{ route('delete-singles-ubmenu', $submenu->id) }}" method="POST"
+                                        onsubmit="return confirm('আপনি কি নিশ্চিতভাবে মুছে ফেলতে চান?');"
+                                        style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="delete-sidebar">☓</button>
+                                    </form>
                                 @else
                                     {{ $submenu->link_text }} - <strong>(কাস্টম সাবমেনু)</strong>
                                 @endif
-                            </p>
+                            </div>
                         @endforeach
                     </div>
                 @elseif ($top_menu->groupmenus->isNotEmpty() && $top_menu->submenus->isEmpty())
                     <!-- Show group menus only if there are no submenus -->
                     <div id="submenu-list" class="sub-menu-wrapper flex column gap-10">
                         @foreach ($top_menu->groupmenus as $groupmenu)
-                            <div class="submenu flex column gap-10" data_id="{{ $groupmenu->id }}">
+                            <div class="submenu flex column gap-10 position-relative" data_id="{{ $groupmenu->id }}">
                                 <p>{{ $groupmenu->group_label }} -
                                     <strong>(গ্রুপ মেনু)</strong>
                                 </p>
@@ -105,7 +112,8 @@
                                     {{-- Group Submenus get loop here --}}
                                     {{-- This is loop item --}}
                                     @foreach ($groupmenu->submenus as $singlegroupmenuitem)
-                                        <p class="submenu group-sub-menu" data_id="{{ $singlegroupmenuitem->id }}">
+                                        <div class="submenu group-sub-menu position-relative"
+                                            data_id="{{ $singlegroupmenuitem->id }}">
                                             @if ($singlegroupmenuitem->forigen)
                                                 @if ($singlegroupmenuitem->forigen_type === App\Models\officials\officials::class)
                                                     {{ $singlegroupmenuitem->forigen->offificial_name }} -
@@ -134,12 +142,28 @@
                                                 {{ $singlegroupmenuitem->link_text }} - <strong>(কাস্টম
                                                     সাবমেনু)</strong>
                                             @endif
-                                        </p>
+                                            <form
+                                                action="{{ route('delete-group-submenu', $singlegroupmenuitem->id) }}"
+                                                method="POST"
+                                                onsubmit="return confirm('আপনি কি নিশ্চিতভাবে মুছে ফেলতে চান?');"
+                                                style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="delete-sidebar">☓</button>
+                                            </form>
+                                        </div>
                                     @endforeach
                                 </div>
                                 <a href="{{ route('single-group-menu', $groupmenu->id) }}"
                                     class="anchor font-weight-bold marl-auto mart-10">সিঙ্গেল
                                     গ্রুপ সাবমেনু</a>
+                                <form action="{{ route('delete-menu-group', $groupmenu->id) }}" method="POST"
+                                    onsubmit="return confirm('আপনি কি নিশ্চিতভাবে মুছে ফেলতে চান?');"
+                                    style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="delete-sidebar">☓</button>
+                                </form>
                             </div>
                         @endforeach
                     </div>
