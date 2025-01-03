@@ -164,3 +164,27 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 `;
 });
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Define the default and active text
+    let defaultText = "কোন তথ্য নেয়"; // Default text
+    let activeText = "খালি কন্টেনার ড্রাগ করা যাবে না"; // Text when active
+
+    // Get all elements with the class 'submenu-empty'
+    let submenuElements = document.querySelectorAll('.submenu-empty');
+
+    // Loop through each element and apply event listeners
+    submenuElements.forEach(function (submenu) {
+        // Change text on hover (grab state)
+        submenu.addEventListener('mouseenter', function () {
+            submenu.textContent = activeText; // Set the active text when grabbed (hovered)
+        });
+
+        // Revert text when the mouse leaves the element
+        submenu.addEventListener('mouseleave', function () {
+            submenu.textContent = defaultText; // Reset to default text when not hovered
+        });
+    });
+});

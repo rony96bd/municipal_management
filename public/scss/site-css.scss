@@ -1013,3 +1013,64 @@ td {
         }
     }
 }
+
+.sub-menu-wrapper {
+    width: calc(100% - 65px);
+    margin-left: auto;
+
+    & .submenu {
+        border: 1px dashed var(--primary-color);
+        padding: 12px 20px;
+        border-radius: 6px;
+        background: var(--white-color);
+        font-size: 14px;
+    }
+
+    &.submenu-empty {
+        border: 1px dashed var(--primary-color);
+        opacity: .3;
+        padding: 12px 20px;
+        border-radius: 6px;
+        background: var(--white-color);
+        font-size: 14px;
+
+        &:active {
+            border-color: var(--danger-color);
+            cursor: no-drop;
+            color: var(--danger-color);
+            opacity: 1;
+        }
+    }
+}
+
+button.delete-sidebar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px !important;
+    height: 20px;
+    padding: 0 !important;
+    font-size: 14px;
+    border-radius: 50px !important;
+    background: var(--danger-color) !important;
+    border: none !important;
+    opacity: 0;
+    transition: .25s all ease-in-out !important;
+}
+
+.top-menu-box {
+    &:hover {
+        & button.delete-sidebar {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+}
+
+.submenu {
+    cursor: grab;
+
+    &:active {
+        cursor: grabbing;
+    }
+}

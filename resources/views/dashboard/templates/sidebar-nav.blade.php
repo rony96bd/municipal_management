@@ -7,7 +7,7 @@
         <span>@include('icons.dashboard-icons.page')</span>
         <span class="nav-title">পেজ</span>
     </a> --}}
-    <a href="{{ route('menus.index') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="মেনু">
+    <a href="{{ route('menus') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="মেনু">
         <span>@include('icons.dashboard-icons.menu')</span>
         <span class="nav-title">মেনু</span>
     </a>

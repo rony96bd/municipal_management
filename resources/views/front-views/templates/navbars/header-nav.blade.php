@@ -8,7 +8,7 @@
             <nav class="padt-20 padb-20">
                 <ul class="main-menu flex row gap-20">
                     {{-- Single Menu Box --}}
-                    <x-frontend-menu-bar />
+
                     {{-- Single Box End --}}
                 </ul>
             </nav>

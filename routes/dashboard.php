@@ -5,6 +5,7 @@ use App\Http\Controllers\dash\BannerSlidderController;
 use App\Http\Controllers\dash\cachecontroller;
 use App\Http\Controllers\dash\dashboardController;
 use App\Http\Controllers\dash\GalleryController;
+use App\Http\Controllers\dash\MenuController;
 use App\Http\Controllers\dash\NewsController;
 use App\Http\Controllers\dash\NoticeController;
 use App\Http\Controllers\dash\OfficoalsController;
@@ -119,5 +120,17 @@ Route::middleware('auth')->group(function () {
         Route::post('create-sidebar', [SidebarController::class, 'store'])->name('store-sidebar');
         Route::post('update-sidebar-order', [SidebarController::class, 'updatesidebarOrder'])->name('update-sidebar-order');
         Route::delete('delete-sidebar/{id}', [SidebarController::class, 'destroy'])->name('delete-sidebar');
+
+        // Menus
+        Route::get('menus', [MenuController::class, 'index'])->name('menus');
+        Route::post('create-menu', [MenuController::class, 'storetopmenu'])->name('store-top-menu');
+        Route::delete('delete/top-menu/{id}', [MenuController::class, 'deletetopmenu'])->name('delete-top-menu');
+        Route::get('add-single-submenu/{id}', [MenuController::class, 'addsimplesubmenu'])->name('add-single-submenu');
+        Route::post('add-simple-submenu', [MenuController::class, 'storesimplesubmenu'])->name('add-simple-submenu');
+        // Group Menu
+        Route::get('/create-group-menu/{id}', [MenuController::class, 'groupmenupage'])->name('group-menu-page');
+        Route::post('/create-group-menu', [MenuController::class, 'storegroupmenu'])->name('store-group-menu');
+        Route::get('/single-group-menu/{id}', [MenuController::class, 'singlegroupmenu'])->name('single-group-menu');
+        Route::post('/single-group-menu', [MenuController::class, 'storesinglegroupmenu'])->name('store-single-group-menu');
     });
 });

@@ -16,19 +16,19 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Menus
-    Route::resource('menus', MenuController::class)->except(['show'])->names(['index' => 'menus.index', 'create' => 'menus.create', 'store' => 'menus.store', 'edit' => 'menus.edit', 'update' => 'menus.update', 'destroy' => 'menus.destroy']);
+    // Route::resource('menus', MenuController::class)->except(['show'])->names(['index' => 'menus.index', 'create' => 'menus.create', 'store' => 'menus.store', 'edit' => 'menus.edit', 'update' => 'menus.update', 'destroy' => 'menus.destroy']);
 
-    Route::group(['as' => 'menus.', 'prefix' => 'menus/{id}/'], function () {
-        // Menu Builder
-        Route::post('order', [MenuBuilderController::class, 'order'])->name('order');
-        Route::get('builder', [MenuBuilderController::class, 'index'])->name('builder');
-        // Menu Item
-        Route::group(['as' => 'item.', 'prefix' => 'item'], function () {
-            Route::get('/create', [MenuBuilderController::class, 'itemCreate'])->name('create');
-            Route::post('/store', [MenuBuilderController::class, 'itemStore'])->name('store');
-            Route::get('/{itemId}/edit', [MenuBuilderController::class, 'itemEdit'])->name('edit');
-            Route::put('/{itemId}/update', [MenuBuilderController::class, 'itemUpdate'])->name('update');
-            Route::delete('/{itemId}/destroy', [MenuBuilderController::class, 'itemDestroy'])->name('destroy');
-        });
-    });
+    // Route::group(['as' => 'menus.', 'prefix' => 'menus/{id}/'], function () {
+    //     // Menu Builder
+    //     Route::post('order', [MenuBuilderController::class, 'order'])->name('order');
+    //     Route::get('builder', [MenuBuilderController::class, 'index'])->name('builder');
+    //     // Menu Item
+    //     Route::group(['as' => 'item.', 'prefix' => 'item'], function () {
+    //         Route::get('/create', [MenuBuilderController::class, 'itemCreate'])->name('create');
+    //         Route::post('/store', [MenuBuilderController::class, 'itemStore'])->name('store');
+    //         Route::get('/{itemId}/edit', [MenuBuilderController::class, 'itemEdit'])->name('edit');
+    //         Route::put('/{itemId}/update', [MenuBuilderController::class, 'itemUpdate'])->name('update');
+    //         Route::delete('/{itemId}/destroy', [MenuBuilderController::class, 'itemDestroy'])->name('destroy');
+    //     });
+    // });
 });
