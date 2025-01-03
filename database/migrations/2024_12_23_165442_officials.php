@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('officials', function (Blueprint $table) {
             $table->id(); // Primary key
-            $table->integer('order')->default(0)->nullable(); // Order of the official
+            $table->integer('order')->nullable();
             $table->string('offificial_name'); // Official's name
             $table->string('designation'); // Official's designation
             $table->string('bcs')->nullable(); // BCS batch (optional)

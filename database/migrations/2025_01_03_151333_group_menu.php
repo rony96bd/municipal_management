@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('group_menus', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('top_menu_id')->nullable();
-            $table->string('order')->nullable();              // Order of the sidebar
+            $table->integer('order')->nullable();              // Order of the sidebar
             $table->string('group_label');              // Order of the sidebar
             $table->timestamps();                             // Timestamps for created_at and updated_at
         });

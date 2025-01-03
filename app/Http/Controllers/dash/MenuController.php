@@ -12,7 +12,6 @@ use App\Models\sidebar\SidebarModel;
 use App\Models\stuff\Stuff;
 use Illuminate\Support\Facades\Validator; // Add this at the top of the file
 use Illuminate\Http\Request;
-
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Http\Controllers\Controller;
 use App\Models\menu\GroupMenuModel;
@@ -36,7 +35,20 @@ class MenuController extends Controller
         $notices = NoticeModel::all();
         $news = NewsModel::all();
         $services = SingleService::all();
-        $top_menus = MenuModel::with(['submenus', 'groupmenus.submenus'])->orderByRaw('CONVERT(`order`, SIGNED) ASC')->get();
+        $top_menus = MenuModel::with([
+            'submenus' => function ($query) {
+                $query->orderByRaw('CONVERT(`order`, SIGNED) ASC'); // Order submenus by their order field
+            },
+            'groupmenus' => function ($query) {
+                $query->with(['submenus' => function ($query) {
+                    $query->orderByRaw('CONVERT(`order`, SIGNED) ASC'); // Order submenus of groupmenus
+                }])->orderByRaw('CONVERT(`order`, SIGNED) ASC'); // Order groupmenus if needed
+            }
+        ])
+            ->orderByRaw('CONVERT(`order`, SIGNED) ASC') // Order the top-level menus as well
+            ->get();
+
+
         return view('dashboard.menus.index', compact('page_title', 'officials', 'stuffs', 'representatives', 'pages', 'notices', 'news', 'services', 'top_menus'));
     }
 
@@ -273,19 +285,6 @@ class MenuController extends Controller
         return redirect()->back()->with('success', 'টপ মেনু সফলভাবে যুক্ত হয়েছে');
     }
 
-    public function updatesidebarOrder(Request $request)
-    {
-        $orderedIds = $request->input('orderedIds');
-        foreach ($orderedIds as $index => $id) {
-            $sidebar = SidebarModel::find($id); // Find the official by ID
-            if ($sidebar) {
-                $sidebar->order = $index + 1; // Assuming 'order' is the field you want to update
-                $sidebar->save(); // Save the updated order
-            }
-        }
-
-        return response()->json(['success' => true]);
-    }
 
     // Group Menu
     public function groupmenupage($id)
@@ -549,5 +548,62 @@ class MenuController extends Controller
             return redirect()->back()->with('success', 'মেনু গ্রুপ সফলভাবে মুছে ফেলা হয়েছে');
         }
         return redirect()->back()->with('error', 'মেনু গ্রুপ মুছে ফেলা যায়নি');
+    }
+
+
+
+
+    // All Update Methods
+    public function updatemainmenuorder(Request $request)
+    {
+        $orderedIds = $request->input('orderedIds');
+        foreach ($orderedIds as $index => $id) {
+            $sidebar = MenuModel::find($id); // Find the official by ID
+            if ($sidebar) {
+                $sidebar->order = $index + 1; // Assuming 'order' is the field you want to update
+                $sidebar->save(); // Save the updated order
+            }
+        }
+
+        return response()->json(['success' => true]);
+    }
+    public function updatesubmenuorder(Request $request)
+    {
+        $orderedIds = $request->input('orderedIds');
+        foreach ($orderedIds as $index => $id) {
+            $sidebar = SubMenuModel::find($id); // Find the official by ID
+            if ($sidebar) {
+                $sidebar->order = $index + 1; // Assuming 'order' is the field you want to update
+                $sidebar->save(); // Save the updated order
+            }
+        }
+
+        return response()->json(['success' => true]);
+    }
+    public function updategroupmenuorder(Request $request)
+    {
+        $orderedIds = $request->input('orderedIds');
+        foreach ($orderedIds as $index => $id) {
+            $sidebar = GroupMenuModel::find($id); // Find the official by ID
+            if ($sidebar) {
+                $sidebar->order = $index + 1; // Assuming 'order' is the field you want to update
+                $sidebar->save(); // Save the updated order
+            }
+        }
+
+        return response()->json(['success' => true]);
+    }
+    public function updategroupsubmenuorder(Request $request)
+    {
+        $orderedIds = $request->input('orderedIds');
+        foreach ($orderedIds as $index => $id) {
+            $sidebar = GroupSubmenuModel::find($id); // Find the official by ID
+            if ($sidebar) {
+                $sidebar->order = $index + 1; // Assuming 'order' is the field you want to update
+                $sidebar->save(); // Save the updated order
+            }
+        }
+
+        return response()->json(['success' => true]);
     }
 }

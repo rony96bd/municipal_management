@@ -14,7 +14,7 @@ class GroupMenuModel extends Model
     protected $fillable = [
         'top_menu_id',
         'group_label',
-        'order',
+        'order',  // Ensure this is filled with a numeric value
     ];
 
     // Top Menu relationship

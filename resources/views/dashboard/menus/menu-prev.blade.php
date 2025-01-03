@@ -54,7 +54,7 @@
                     <!-- Show submenus only if there are no group menus -->
                     <div id="submenu-list" class="sub-menu-wrapper flex column gap-10">
                         @foreach ($top_menu->submenus as $submenu)
-                            <div class="submenu position-relative" data_id="{{ $submenu->id }}">
+                            <div class="submenu simple-submenu position-relative" data_id="{{ $submenu->id }}">
                                 @if ($submenu->forigen)
                                     @switch($submenu->forigen_type)
                                         @case(App\Models\officials\officials::class)
@@ -102,13 +102,16 @@
                     </div>
                 @elseif ($top_menu->groupmenus->isNotEmpty() && $top_menu->submenus->isEmpty())
                     <!-- Show group menus only if there are no submenus -->
-                    <div id="submenu-list" class="sub-menu-wrapper flex column gap-10">
+                    <div id="groupmenu-list-{{ $top_menu->id }}"
+                        class="sub-menu-wrapper group-submenu-wrapper flex column gap-10">
                         @foreach ($top_menu->groupmenus as $groupmenu)
-                            <div class="submenu flex column gap-10 position-relative" data_id="{{ $groupmenu->id }}">
+                            <div class="submenu group-menu flex column gap-10 position-relative"
+                                data_id="{{ $groupmenu->id }}">
                                 <p>{{ $groupmenu->group_label }} -
                                     <strong>(গ্রুপ মেনু)</strong>
                                 </p>
-                                <div id="group-submenu-list" class="sub-menu-wrapper flex column gap-10">
+                                <div id="group-submenu-list-{{ $top_menu->id }}"
+                                    class="sub-menu-wrapper group-single-submenu-wrapper flex column gap-10">
                                     {{-- Group Submenus get loop here --}}
                                     {{-- This is loop item --}}
                                     @foreach ($groupmenu->submenus as $singlegroupmenuitem)
@@ -204,3 +207,100 @@
             @endforelse
         </div>
     </div>
+
+    {{-- Code for Top Menu --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to update the order of menus
+            function updateOrder(orderedIds, menuId, route) {
+                fetch(route, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content')
+                        },
+                        body: JSON.stringify({
+                            orderedIds: orderedIds,
+                            menuId: menuId
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('অর্ডার সফলভাবে আপডেট হয়েছে!');
+                        } else {
+                            alert('অর্ডার আপডেট করতে সমস্যা হয়েছে!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('অর্ডার আপডেট করতে সমস্যা হয়েছে!');
+                    });
+            }
+
+            // Top Menu
+            new Sortable(document.getElementById('menu-list'), {
+                animation: 150,
+                onEnd(evt) {
+                    const orderedIds = [];
+                    const items = document.querySelectorAll('.top-menu-box');
+                    items.forEach(item => {
+                        orderedIds.push(item.getAttribute('data_id'));
+                    });
+                    updateOrder(orderedIds, null, '{{ route('update-main-menu-order') }}');
+                }
+            });
+
+            // Group Menu
+            const groupmenus = document.querySelectorAll('.group-submenu-wrapper');
+            groupmenus.forEach(groupmenu => {
+                new Sortable(groupmenu, {
+                    animation: 150,
+                    onEnd(evt) {
+                        const grouporderedIds = [];
+                        const groupitems = groupmenu.querySelectorAll('.group-menu');
+                        groupitems.forEach(groupitem => {
+                            grouporderedIds.push(groupitem.getAttribute('data_id'));
+                        });
+                        updateOrder(grouporderedIds, groupmenu.getAttribute('data_id'),
+                            '{{ route('update-group-menu-order') }}');
+                    }
+                });
+            });
+
+            // Single Sub Group Menu
+            const subgroupmenus = document.querySelectorAll('.group-single-submenu-wrapper');
+            subgroupmenus.forEach(subgroupmenu => {
+                new Sortable(subgroupmenu, {
+                    animation: 150,
+                    onEnd(evt) {
+                        const subgrouporderedIds = [];
+                        const subgroupitems = subgroupmenu.querySelectorAll('.group-sub-menu');
+                        subgroupitems.forEach(subgroupitem => {
+                            subgrouporderedIds.push(subgroupitem.getAttribute('data_id'));
+                        });
+                        updateOrder(subgrouporderedIds, subgroupmenu.getAttribute('data_id'),
+                            '{{ route('update-group-submenu-order') }}');
+                    }
+                });
+            });
+
+            // Sub Menu
+            const submenus = document.querySelectorAll('.sub-menu-wrapper');
+            submenus.forEach(submenu => {
+                new Sortable(submenu, {
+                    animation: 150,
+                    onEnd(evt) {
+                        const SuborderedIds = [];
+                        const Subitems = submenu.querySelectorAll('.simple-submenu');
+                        Subitems.forEach(Subitem => {
+                            SuborderedIds.push(Subitem.getAttribute('data_id'));
+                        });
+                        updateOrder(SuborderedIds, submenu.getAttribute('data_id'),
+                            '{{ route('update-submenu-order') }}');
+                    }
+                });
+            });
+        });
+    </script>
