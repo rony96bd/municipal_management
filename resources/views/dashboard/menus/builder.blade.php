@@ -36,22 +36,4 @@
                 </div>
             </div>
         </div>
-
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-        <script type="text/javascript">
-            $(function() {
-                $('.dd').nestable({
-                    maxDepth: 2
-                });
-                $('.dd').on('change', function(e) {
-                    $.post('{{ route('menus.order', $menu->id) }}', {
-                        order: JSON.stringify($('.dd').nestable('serialize')),
-                        _token: '{{ csrf_token() }}'
-                    }, function(data) {
-                        alert('Successfully updated menu order.');
-                    });
-                });
-            });
-        </script>
     @endsection
