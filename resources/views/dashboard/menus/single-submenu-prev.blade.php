@@ -1,5 +1,5 @@
 <div class="sidebar-prev-box padl-100" style="max-width:550px; margin-left: auto; width:100%">
-    <h2 class="fs-h2">সিঙ্গেল মেনু প্রীভিউ</h2>
+    <h2 class="fs-h2">সিঙ্গেল সাবমেনু প্রীভিউ</h2>
     <p>ড্রাগ ড্রপ করে মেনুর পজিশন ঠিক করুন</p>
     <div id="menu-list" class="sorable-list flex column mart-20 bradius-6px padar-20 background-gray gap-10">
         @if ($topmenu)
@@ -27,7 +27,14 @@
                         @endif
                     @endif
                     @if ($topmenu->link_text)
-                        {{ $topmenu->link_text }} - <strong>(কাস্টম)</strong>
+                        {{ $topmenu->link_text }} - <strong>(
+                            @if ($topmenu->tab == 0)
+                                স্ট্যাটিক পেজ
+                            @else
+                                কাস্টম লিংক
+                            @endif
+                            )
+                        </strong>
                     @endif
                 </div>
                 @if ($topmenu->submenus->isEmpty())
@@ -55,7 +62,14 @@
                                         {{ $submenu->forigen->service_item_name }} - <strong>(সেবা)</strong>
                                     @endif
                                 @else
-                                    {{ $submenu->link_text }} - <strong>(কাস্টম সাবমেনু)</strong>
+                                    {{ $submenu->link_text }} - <strong>(
+                                        @if ($topmenu->tab == 0)
+                                            স্ট্যাটিক পেজ
+                                        @else
+                                            কাস্টম সাবমেনু লিংক
+                                        @endif
+                                        )
+                                    </strong>
                                 @endif
                             </p>
                         @endforeach

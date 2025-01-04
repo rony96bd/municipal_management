@@ -1,19 +1,26 @@
 <?php
 
-use App\Models\Menu;
-use App\Models\MenuItem;
+use App\Models\menu\MenuModel;
 
-if (!function_exists('menu')) {
-
+if (!function_exists('getTopMenus')) {
     /**
-     * Get menu with items and child's by name
+     * Fetch top menus along with submenus and groupmenus.
      *
-     * @param
-     * @return
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    function menu($name)
+    function getTopMenus()
     {
-        // $menu = \App\Models\Menu::where('name', $name)->first();
-        // return $menu->menuItems()->with('childs')->get();
+        return MenuModel::with([
+            'submenus' => function ($query) {
+                $query->orderByRaw('CONVERT(`order`, SIGNED) ASC'); // Order submenus by their order field
+            },
+            'groupmenus' => function ($query) {
+                $query->with(['submenus' => function ($query) {
+                    $query->orderByRaw('CONVERT(`order`, SIGNED) ASC'); // Order submenus of groupmenus
+                }])->orderByRaw('CONVERT(`order`, SIGNED) ASC'); // Order groupmenus if needed
+            }
+        ])
+            ->orderByRaw('CONVERT(`order`, SIGNED) ASC') // Order the top-level menus as well
+            ->get();
     }
 }

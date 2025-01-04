@@ -45,7 +45,14 @@
                     @endif
 
                     @if ($top_menu->link_text)
-                        {{ $top_menu->link_text }} - <strong>(কাস্টম)</strong>
+                        {{ $top_menu->link_text }} - <strong>(
+                            @if ($top_menu->tab == 0)
+                                স্ট্যাটিক পেজ
+                            @else
+                                কাস্টম লিংক
+                            @endif
+                            )
+                        </strong>
                     @endif
                 </div>
 
@@ -95,7 +102,14 @@
                                         <button type="submit" class="delete-sidebar">☓</button>
                                     </form>
                                 @else
-                                    {{ $submenu->link_text }} - <strong>(কাস্টম সাবমেনু)</strong>
+                                    {{ $submenu->link_text }} - <strong>(
+                                        @if ($top_menu->tab == 0)
+                                            স্ট্যাটিক পেজ
+                                        @else
+                                            কাস্টম সাবমেনু লিংক
+                                        @endif
+                                        )
+                                    </strong>
                                 @endif
                             </div>
                         @endforeach
@@ -142,8 +156,14 @@
                                                 @endif
                                             @endif
                                             @if ($singlegroupmenuitem->link_text)
-                                                {{ $singlegroupmenuitem->link_text }} - <strong>(কাস্টম
-                                                    সাবমেনু)</strong>
+                                                {{ $singlegroupmenuitem->link_text }} - <strong>(
+                                                    @if ($top_menu->tab == 0)
+                                                        স্ট্যাটিক পেজ
+                                                    @else
+                                                        কাস্টম সাবমেনু লিংক
+                                                    @endif
+                                                    )
+                                                </strong>
                                             @endif
                                             <form
                                                 action="{{ route('delete-group-submenu', $singlegroupmenuitem->id) }}"

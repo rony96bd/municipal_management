@@ -14,7 +14,7 @@
             <div class="mb-3">
                 {{-- Name --}}
                 <input type="url" name="link_url" id="link_url" class="form-control" value="{{ old('link_url') }}"
-                    placeholder="লিঙ্ক *" required>
+                    placeholder="লিঙ্ক">
                 @error('link_url')
                     <small class="color-danger fs-base">{{ $message }}</small>
                 @enderror
@@ -22,8 +22,8 @@
             <div class="mb-3">
                 {{-- Tab Option --}}
                 <select name="tab" id="tab" class="form-control" required>
-                    <option value="0" {{ old('tab') == '0' ? 'selected' : '' }}>একই ট্যাবে ওপেন করুন</option>
-                    <option value="1" {{ old('tab') == '1' ? 'selected' : '' }}>ভিন্ন ট্যাবে ওপেন করুন</option>
+                    <option value="1" {{ old('tab') == '1' ? 'selected' : '' }}>একই ট্যাবে ওপেন করুন</option>
+                    <option value="2" {{ old('tab') == '2' ? 'selected' : '' }}>ভিন্ন ট্যাবে ওপেন করুন</option>
                 </select>
                 @error('tab')
                     <small class="color-danger fs-base">{{ $message }}</small>

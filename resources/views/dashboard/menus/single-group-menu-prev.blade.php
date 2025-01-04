@@ -38,7 +38,14 @@
                                     @endif
                                 @endif
                                 @if ($submenu->link_text)
-                                    {{ $submenu->link_text }} - <strong>(কাস্টম সাবমেনু)</strong>
+                                    {{ $submenu->link_text }} - <strong>(
+                                        @if ($submenu->tab == 0)
+                                            স্ট্যাটিক পেজ
+                                        @else
+                                            কাস্টম সাবমেনু লিংক
+                                        @endif
+                                        )
+                                    </strong>
                                 @endif
                             </p>
                         @endforeach

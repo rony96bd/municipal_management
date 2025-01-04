@@ -5,6 +5,9 @@
             <h2 class="fs-h2">মেনুতে যুক্ত করতে পারবেন যে সমস্ত তথ্য</h2>
             <div class="grid grid-col-3 m-grid-col-1 gap-10">
                 <div class="sidebar-selector-wrapper padar-20 bradius-6px background-gray">
+                    @include('dashboard.forms.top-menu-forms.static-pages')
+                </div>
+                <div class="sidebar-selector-wrapper padar-20 bradius-6px background-gray">
                     @include('dashboard.forms.top-menu-forms.page')
                 </div>
                 <div class="sidebar-selector-wrapper padar-20 bradius-6px background-gray">

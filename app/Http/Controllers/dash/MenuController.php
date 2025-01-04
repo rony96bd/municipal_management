@@ -54,7 +54,6 @@ class MenuController extends Controller
 
     public function storetopmenu(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'officials' => 'nullable|exists:officials,id|unique:top_menus,forigen_id,NULL,id,forigen_type,' . officials::class,
             'stuffs' => 'nullable|exists:stuffs,id|unique:top_menus,forigen_id,NULL,id,forigen_type,' . Stuff::class,
@@ -67,7 +66,23 @@ class MenuController extends Controller
             'link_text' => 'nullable|string',
             'link_url' => 'nullable|string',
             'tab' => 'nullable|string',
+            'static_page' => 'nullable|integer|in:1,2,3,4,5,6,7,8',
         ]);
+
+        if ($request->has('static_page')) {
+            $selectedPage = $this->getPageMapping()[$request->static_page];
+
+            // Check if the menu already exists
+            $exists = MenuModel::where('link_text', $selectedPage['name'])
+                ->where('link_url', $selectedPage['url'])
+                ->exists();
+
+            if ($exists) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', 'এই পৃষ্ঠাটি ইতোমধ্যে মেনুতে যুক্ত করা হয়েছে।');
+            }
+        }
 
         if ($validator->fails()) {
             return redirect()->back()
@@ -105,8 +120,11 @@ class MenuController extends Controller
         } elseif ($request->has('service')) {
             $TopMenu->forigen_type = SingleService::class;
             $TopMenu->forigen_id = $request->service;
+        } elseif ($request->has('static_page')) {
+            $TopMenu->link_text = $selectedPage['name'];
+            $TopMenu->link_url = $selectedPage['url'];
+            $TopMenu->tab = '0'; // Ensure tab is always 1
         }
-
         // Save the new sidebar
         $TopMenu->save();
 
@@ -139,14 +157,13 @@ class MenuController extends Controller
 
     public function storesimplesubmenu(Request $request)
     {
-
         // Validation rules
         $validator = Validator::make($request->all(), [
             'officials' => [
                 'nullable',
                 'exists:officials,id',
                 function ($attribute, $value, $fail) use ($request) {
-                    $exists = SubMenuModel::where('forigen_type', officials::class)
+                    $exists = SubMenuModel::where('forigen_type', Officials::class)
                         ->where('forigen_id', $value)
                         ->where('top_menu_id', $request->top_menu_id)
                         ->exists();
@@ -172,7 +189,7 @@ class MenuController extends Controller
                 'nullable',
                 'exists:representatives,id',
                 function ($attribute, $value, $fail) use ($request) {
-                    $exists = SubMenuModel::where('forigen_type', representatives::class)
+                    $exists = SubMenuModel::where('forigen_type', Representatives::class)
                         ->where('forigen_id', $value)
                         ->where('top_menu_id', $request->top_menu_id)
                         ->exists();
@@ -185,7 +202,7 @@ class MenuController extends Controller
                 'nullable',
                 'exists:pages,id',
                 function ($attribute, $value, $fail) use ($request) {
-                    $exists = SubMenuModel::where('forigen_type', createpage::class)
+                    $exists = SubMenuModel::where('forigen_type', CreatePage::class)
                         ->where('forigen_id', $value)
                         ->where('top_menu_id', $request->top_menu_id)
                         ->exists();
@@ -238,52 +255,80 @@ class MenuController extends Controller
             'link_url' => 'nullable|string',
             'tab' => 'nullable|string',
             'top_menu_id' => 'required|exists:top_menus,id',
+            'static_page' => [
+                'nullable',
+                'integer',
+                'in:1,2,3,4,5,6,7,8',
+                function ($attribute, $value, $fail) use ($request) {
+                    $exists = SubMenuModel::where('link_text', $this->getPageMapping()[$value]['name'] ?? null)
+                        ->where('link_url', $this->getPageMapping()[$value]['url'] ?? null)
+                        ->where('top_menu_id', $request->top_menu_id)
+                        ->exists();
+                    if ($exists) {
+                        $fail('This static page is already assigned to this top menu.');
+                    }
+                },
+            ],
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()
                 ->withInput()
                 ->withErrors($validator)
-                ->with('error', 'তথ্য ইতমধ্যে যুক্ত আছে');
+                ->with('error', 'Validation errors occurred.');
         }
 
         $SimpleSubMenu = new SubMenuModel();
 
-        // Set other sidebar fields
-        $SimpleSubMenu->link_text = $request->link_text;
-        $SimpleSubMenu->link_url = $request->link_url;
-        $SimpleSubMenu->tab = $request->tab;
-        $SimpleSubMenu->top_menu_id = $request->top_menu_id;
+        // Handle the static page scenario
+        if ($request->has('static_page')) {
+            $pageMapping = $this->getPageMapping();
+            $selectedPage = $pageMapping[$request->static_page] ?? null;
 
-        // Handle the polymorphic relationship for 'forigen'
-        if ($request->has('officials')) {
-            $SimpleSubMenu->forigen_type = officials::class;
-            $SimpleSubMenu->forigen_id = $request->officials;
-        } elseif ($request->has('stuffs')) {
-            $SimpleSubMenu->forigen_type = Stuff::class;
-            $SimpleSubMenu->forigen_id = $request->stuffs;
-        } elseif ($request->has('representatives')) {
-            $SimpleSubMenu->forigen_type = representatives::class;
-            $SimpleSubMenu->forigen_id = $request->representatives;
-        } elseif ($request->has('page')) {
-            $SimpleSubMenu->forigen_type = createpage::class;
-            $SimpleSubMenu->forigen_id = $request->page;
-        } elseif ($request->has('notice')) {
-            $SimpleSubMenu->forigen_type = NoticeModel::class;
-            $SimpleSubMenu->forigen_id = $request->notice;
-        } elseif ($request->has('news')) {
-            $SimpleSubMenu->forigen_type = NewsModel::class;
-            $SimpleSubMenu->forigen_id = $request->news;
-        } elseif ($request->has('service')) {
-            $SimpleSubMenu->forigen_type = SingleService::class;
-            $SimpleSubMenu->forigen_id = $request->service;
+            if ($selectedPage) {
+                $SimpleSubMenu->link_text = $selectedPage['name'];
+                $SimpleSubMenu->link_url = $selectedPage['url'];
+                $SimpleSubMenu->tab = '1'; // Ensure tab is always set to 1
+            }
+        } else {
+            // Set other submenu fields
+            $SimpleSubMenu->link_text = $request->link_text;
+            $SimpleSubMenu->link_url = $request->link_url;
+            $SimpleSubMenu->tab = $request->tab;
+
+            // Handle the polymorphic relationship for 'forigen'
+            if ($request->has('officials')) {
+                $SimpleSubMenu->forigen_type = Officials::class;
+                $SimpleSubMenu->forigen_id = $request->officials;
+            } elseif ($request->has('stuffs')) {
+                $SimpleSubMenu->forigen_type = Stuff::class;
+                $SimpleSubMenu->forigen_id = $request->stuffs;
+            } elseif ($request->has('representatives')) {
+                $SimpleSubMenu->forigen_type = Representatives::class;
+                $SimpleSubMenu->forigen_id = $request->representatives;
+            } elseif ($request->has('page')) {
+                $SimpleSubMenu->forigen_type = CreatePage::class;
+                $SimpleSubMenu->forigen_id = $request->page;
+            } elseif ($request->has('notice')) {
+                $SimpleSubMenu->forigen_type = NoticeModel::class;
+                $SimpleSubMenu->forigen_id = $request->notice;
+            } elseif ($request->has('news')) {
+                $SimpleSubMenu->forigen_type = NewsModel::class;
+                $SimpleSubMenu->forigen_id = $request->news;
+            } elseif ($request->has('service')) {
+                $SimpleSubMenu->forigen_type = SingleService::class;
+                $SimpleSubMenu->forigen_id = $request->service;
+            }
         }
 
-        // Save the new sidebar
+        $SimpleSubMenu->top_menu_id = $request->top_menu_id;
+
+        // Save the new submenu
         $SimpleSubMenu->save();
 
-        return redirect()->back()->with('success', 'টপ মেনু সফলভাবে যুক্ত হয়েছে');
+        return redirect()->back()->with('success', 'Submenu added successfully.');
     }
+
 
 
     // Group Menu
@@ -463,6 +508,20 @@ class MenuController extends Controller
             'link_url' => 'nullable|string',
             'tab' => 'nullable|string',
             'group_menu_id' => 'required|exists:group_menus,id',
+            'static_page' => [
+                'nullable',
+                'integer',
+                'in:1,2,3,4,5,6,7,8',
+                function ($attribute, $value, $fail) use ($request) {
+                    $exists = SubMenuModel::where('link_text', $this->getPageMapping()[$value]['name'] ?? null)
+                        ->where('link_url', $this->getPageMapping()[$value]['url'] ?? null)
+                        ->where('top_menu_id', $request->top_menu_id)
+                        ->exists();
+                    if ($exists) {
+                        $fail('This static page is already assigned to this top menu.');
+                    }
+                },
+            ],
         ]);
 
         if ($validator->fails()) {
@@ -502,6 +561,10 @@ class MenuController extends Controller
         } elseif ($request->has('service')) {
             $GroupSubmenu->forigen_type = SingleService::class;
             $GroupSubmenu->forigen_id = $request->service;
+        } elseif ($request->has('static_page')) {
+            $GroupSubmenu->link_text = $this->getPageMapping()[$request->static_page]['name'];
+            $GroupSubmenu->link_url = $this->getPageMapping()[$request->static_page]['url'];
+            $GroupSubmenu->tab = '1'; // Ensure tab is always 1
         }
 
         // Save the new group submenu
@@ -605,5 +668,19 @@ class MenuController extends Controller
         }
 
         return response()->json(['success' => true]);
+    }
+
+    private function getPageMapping()
+    {
+        return [
+            1 => ['name' => 'প্রথম পাতা', 'url' => '/'],
+            2 => ['name' => 'কর্মকর্তা সমূহ', 'url' => '/officers'],
+            3 => ['name' => 'কর্মচারী বৃন্দ', 'url' => '/stuffs'],
+            4 => ['name' => 'জনপ্রতিনিধি তালিকা', 'url' => '/representatives'],
+            5 => ['name' => 'সার্ভিস সমূহ', 'url' => '/services'],
+            6 => ['name' => 'সকল নোটিশ', 'url' => '/notices'],
+            7 => ['name' => 'সকল নিউজ', 'url' => '/news'],
+            8 => ['name' => 'ফটো গ্যালারী', 'url' => '/photo-gallery'],
+        ];
     }
 }

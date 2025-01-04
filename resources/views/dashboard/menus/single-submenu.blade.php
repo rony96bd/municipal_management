@@ -5,6 +5,9 @@
             <h2 class="fs-h2">সিঙ্গেল সাবমেনু যুক্ত করুন</h2>
             <div class="grid grid-col-3 m-grid-col-1 gap-10">
                 <div class="sidebar-selector-wrapper padar-20 bradius-6px background-gray">
+                    @include('dashboard.forms.single-sub-menu-forms.static-pages')
+                </div>
+                <div class="sidebar-selector-wrapper padar-20 bradius-6px background-gray">
                     @include('dashboard.forms.single-sub-menu-forms.page')
                 </div>
                 <div class="sidebar-selector-wrapper padar-20 bradius-6px background-gray">

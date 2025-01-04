@@ -1,4 +1,4 @@
-<form action="{{ route('add-simple-submenu') }}" method="POST">
+<form action="{{ route('store-single-group-menu') }}" method="POST">
     @csrf
     @if ($services->isNotEmpty())
         {{-- Dropdown Selection --}}
@@ -15,7 +15,7 @@
                         </option>
                     @endforeach
                 </select>
-                <input name="top_menu_id" type="hidden" value="{{ $topmenu->id }}">
+                <input name="group_menu_id" type="hidden" value="{{ $groupmenu->id }}">
                 {{-- Display validation error --}}
                 @error('service')
                     <small class="text-danger">{{ $message }}</small>
