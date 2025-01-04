@@ -985,6 +985,8 @@ button.delete-sidebar {
   border-bottom: 1px solid rgba(225, 225, 225, 0.05);
   padding: 5px 12px 3px;
   border-radius: 3px;
+  font-size: 15px;
+  letter-spacing: -0.2px;
 }
 .simple-submenu:hover {
   background-color: rgba(225, 225, 225, 0.05);

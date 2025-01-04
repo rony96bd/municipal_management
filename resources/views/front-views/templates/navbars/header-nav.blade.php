@@ -107,6 +107,9 @@
                                 <ul
                                     class="sub-menu position-absolute left-0 top-0 padt-50 transition-ease-in-out transition-duration-0-25s transition-property-all z-index-1 padl-20 padr-20 padb-20 gap-10 flex column">
                                     @foreach ($top_menu->submenus as $submenu)
+                                        @php
+                                            $target = $submenu->tab == 2 ? '_blank' : '_self';
+                                        @endphp
                                         <li class="anchor color-link">
                                             @if ($submenu->forigen)
                                                 @switch($submenu->forigen_type)
@@ -162,7 +165,8 @@
                                                     @default
                                                 @endswitch
                                             @else
-                                                <a href="{{ $submenu->link_url }}" class="anchor simple-submenu">
+                                                <a href="{{ $submenu->link_url }}" class="anchor simple-submenu"
+                                                    target="{{ $target }}">
                                                     {{ $submenu->link_text }}
                                                 </a>
                                             @endif
@@ -189,6 +193,9 @@
                                             </p>
                                             <div class="padl-10 padr-10 padb-10 grid grid-col-2 rg-10 colg-20">
                                                 @foreach ($groupmenu->submenus as $singlegroupmenuitem)
+                                                    @php
+                                                        $target = $singlegroupmenuitem->tab == 2 ? '_blank' : '_self';
+                                                    @endphp
                                                     @switch($singlegroupmenuitem->forigen_type)
                                                         @case(App\Models\officials\officials::class)
                                                             <a href="{{ $singlegroupmenuitem->forigen->page_url }}"
@@ -243,7 +250,7 @@
                                                     @endswitch
                                                     @if ($singlegroupmenuitem->link_text)
                                                         <a href="{{ $singlegroupmenuitem->link_url }}"
-                                                            class="anchor simple-submenu">
+                                                            class="anchor simple-submenu" target="{{ $target }}">
                                                             {{ $singlegroupmenuitem->link_text }}
                                                         </a>
                                                     @endif
