@@ -13,9 +13,9 @@
                     <div class="flex row gap-10 m-gap-10 jfs-ace">
                         @include('icons.frontend-icons.service-icons.holding-tax')
                         <div class="flex column gap-5 jcc-ais flex-auto">
-                            @forelse ($service->singleServices as $singleservice)
-                                <a href="{{ url('/service') }}/{{ $service->page_url }}/{{ $singleservice->page_url }}"
-                                    class="anchor service-anchor position-relative color-primary font-weight-bold fs-base color-primary padl-20"><strong>{{ $singleservice->service_item_name }}</strong></a>
+                            @forelse ($service->singleServices as $SingleService)
+                                <a href="{{ url('/service') }}/{{ $service->page_url }}/{{ $SingleService->page_url }}"
+                                    class="anchor service-anchor position-relative color-primary font-weight-bold fs-base color-primary padl-20"><strong>{{ $SingleService->service_item_name }}</strong></a>
                             @empty
                                 <p class="padar-20 text-center full-width color-warning">‘{{ $service->service_name }}’
                                     এর

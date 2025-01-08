@@ -63,31 +63,31 @@
                         </div>
                         <div id="single-service-list" class="sortable-list flex column gap-0">
                             {{-- Single Service Items --}}
-                            @forelse ($service->singleServices as $singleservice)
+                            @forelse ($service->singleServices as $SingleService)
                                 <div class="page-repeater grid grid-col-5 border-color-primary full-width gap-10 m-grid-col-1 m-gap-0"
-                                    data-id="{{ $singleservice->id }}">
+                                    data-id="{{ $SingleService->id }}">
                                     <div class="flex row">
                                         <div class="drag-box flex center padl-20 padr-20 padt-10 padb-10 m-display-none">
                                             @include('icons.sub-item')
                                         </div>
-                                        <a href="{{ url('/service') }}/{{ $service->page_url }}/{{ $singleservice->page_url }}"
+                                        <a href="{{ url('/service') }}/{{ $service->page_url }}/{{ $SingleService->page_url }}"
                                             class="fs-h3 padt-10 padb-10 padl-0 padr-20 m-padl-20 flex column jcc-ais"
-                                            target="_blank"><strong>{{ $singleservice->service_item_name }}</strong></a>
+                                            target="_blank"><strong>{{ $SingleService->service_item_name }}</strong></a>
                                     </div>
                                     <a class="fs-base padt-10 padb-10 padl-20 padr-20 flex row jst-ace grid-span-2"
-                                        href="{{ url('/service') }}/{{ $service->page_url }}/{{ $singleservice->page_url }}"
-                                        target="_blank">{{ url('/service') }}/{{ $service->page_url }}/{{ $singleservice->page_url }}</a>
+                                        href="{{ url('/service') }}/{{ $service->page_url }}/{{ $SingleService->page_url }}"
+                                        target="_blank">{{ url('/service') }}/{{ $service->page_url }}/{{ $SingleService->page_url }}</a>
                                     <div
                                         class="flex row jfe-ace gap-10 padt-10 padb-10 padl-20 padr-20 m-column m-jst-ast grid-span-2">
                                         <div class="anchor copy-url drag-box flex center padl-20 padr-20 padt-10 padb-10 m-display-none"
-                                            data_link="{{ url('/service') }}/{{ $service->page_url }}/{{ $singleservice->page_url }}"
+                                            data_link="{{ url('/service') }}/{{ $service->page_url }}/{{ $SingleService->page_url }}"
                                             title="ইউ আর এল কপি করুন">
                                             @include('icons.copy-link')
                                         </div>
-                                        <a href="{{ route('edit-single-service-item', $singleservice->id) }}"
+                                        <a href="{{ route('edit-single-service-item', $SingleService->id) }}"
                                             class="background-primary color-white padt-10 padb-10 padr-20 padl-20 text-center bradius-3px">সম্পাদনা
                                             করুন</a>
-                                        <form action="{{ route('delete-single-service', $singleservice->id) }}"
+                                        <form action="{{ route('delete-single-service', $SingleService->id) }}"
                                             method="POST" onsubmit="return confirm('আপনি কি নিশ্চিতভাবে মুছে ফেলতে চান?');"
                                             style="display:inline;">
                                             @csrf

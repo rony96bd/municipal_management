@@ -221,9 +221,9 @@ class ServiceController extends Controller
 
     public function deletesingleservice($id)
     {
-        $singleservice = SingleService::findOrFail($id);
-        $serviceitemname = $singleservice->service_item_name; // Store page name for feedback
-        $singleservice->delete(); // Delete the page
+        $SingleService = SingleService::findOrFail($id);
+        $serviceitemname = $SingleService->service_item_name; // Store page name for feedback
+        $SingleService->delete(); // Delete the page
         return redirect()->back()->with('success', "'{$serviceitemname}' - সেবা সফলভাবে মুছে ফেলা হয়েছে।");
     }
 

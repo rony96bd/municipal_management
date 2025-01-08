@@ -7,7 +7,7 @@ use App\Models\notice\NoticeModel;
 use App\Models\officials\officials;
 use App\Models\page\createpage;
 use App\Models\representatives\representatives;
-use App\Models\Service\singleservice;
+use App\Models\Service\SingleService;
 use App\Models\stuff\Stuff;
 use Illuminate\Support\Facades\Validator; // Add this at the top of the file
 use Illuminate\Http\Request;
