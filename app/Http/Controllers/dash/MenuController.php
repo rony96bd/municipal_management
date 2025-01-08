@@ -33,7 +33,7 @@ class MenuController extends Controller
         $pages = createpage::all();
         $notices = NoticeModel::all();
         $news = NewsModel::all();
-        // $services = SingleService::all();
+        $services = SingleService::all();
         $top_menus = MenuModel::with([
             'submenus' => function ($query) {
                 $query->orderByRaw('CONVERT(`order`, SIGNED) ASC'); // Order submenus by their order field
@@ -48,7 +48,7 @@ class MenuController extends Controller
             ->get();
 
 
-        return view('dashboard.menus.index', compact('page_title', 'officials', 'stuffs', 'representatives', 'pages', 'notices', 'news',  'top_menus'));
+        return view('dashboard.menus.index', compact('page_title', 'officials', 'stuffs', 'representatives', 'pages', 'notices', 'news', 'services', 'top_menus'));
     }
 
     public function storetopmenu(Request $request)
