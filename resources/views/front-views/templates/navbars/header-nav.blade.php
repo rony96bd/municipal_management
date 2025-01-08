@@ -17,82 +17,63 @@
                             @if ($top_menu->forigen)
                                 @switch($top_menu->forigen_type)
                                     @case(App\Models\officials\officials::class)
-                                        <a href="{{ $top_menu->forigen->page_url }}"
+                                        <a href="{{ url('/officials' . '/' . $top_menu->forigen->page_url) }}"
                                             class="anchor color-link z-index-2 position-relative">
-                                            {{ $top_menu->forigen->offificial_name }} - <strong>(কর্মকর্তা)</strong>
+                                            {{ $top_menu->forigen->offificial_name }}
                                         </a>
                                     @break
 
                                     @case(App\Models\representatives\representatives::class)
-                                        <a href="{{ $top_menu->forigen->page_url }}"
+                                        <a href="{{ url('/representative' . '/' . $top_menu->forigen->page_url) }}"
                                             class="anchor color-link z-index-2 position-relative">
-                                            {{ $top_menu->forigen->name }} - <strong>(জনপ্রতিনিধী)</strong>
+                                            {{ $top_menu->forigen->name }}
                                         </a>
                                     @break
 
                                     @case(App\Models\stuff\Stuff::class)
-                                        <a href="{{ $top_menu->forigen->page_url }}"
+                                        <a href="{{ url('/stuff' . '/' . $top_menu->forigen->page_url) }}"
                                             class="anchor color-link z-index-2 position-relative">
-                                            {{ $top_menu->forigen->stuff_name }} - <strong>(কর্মচারী)</strong>
+                                            {{ $top_menu->forigen->stuff_name }}
                                         </a>
                                     @break
 
                                     @case(App\Models\page\createpage::class)
-                                        <a href="{{ $top_menu->forigen->page_url }}"
+                                        <a href="{{ url('/page' . '/' . $top_menu->forigen->page_url) }}"
                                             class="anchor color-link z-index-2 position-relative">
-                                            {{ $top_menu->forigen->page_name }} - <strong>(পেজ)</strong>
+                                            {{ $top_menu->forigen->page_name }}
                                         </a>
                                     @break
 
                                     @case(App\Models\news\NewsModel::class)
-                                        <a href="{{ $top_menu->forigen->page_url }}"
+                                        <a href="{{ url('/news' . '/' . $top_menu->forigen->page_url) }}"
                                             class="anchor color-link z-index-2 position-relative">
-                                            {{ $top_menu->forigen->topic }} - <strong>(সংবাদ)</strong>
+                                            {{ $top_menu->forigen->topic }}
                                         </a>
                                     @break
 
                                     @case(App\Models\notice\NoticeModel::class)
-                                        <a href="{{ $top_menu->forigen->page_url }}"
+                                        <a href="{{ url('/notice' . '/' . $top_menu->forigen->page_url) }}"
                                             class="anchor color-link z-index-2 position-relative">
-                                            {{ $top_menu->forigen->topic }} - <strong>(নোটিশ)</strong>
+                                            {{ $top_menu->forigen->topic }}
                                         </a>
                                     @break
 
                                     @case(App\Models\Service\SingleService::class)
-                                        <a href="{{ $top_menu->forigen->page_url }}"
+                                        <a href="{{ url('/service' . '/' . optional($top_menu->forigen->service)->page_url . '/' . $top_menu->forigen->page_url) }}"
                                             class="anchor color-link z-index-2 position-relative">
-                                            {{ $top_menu->forigen->service_item_name }} - <strong>(সেবা)</strong>
+                                            {{ $top_menu->forigen->service_item_name }}
                                         </a>
                                     @break
                                 @endswitch
                             @endif
                             @if ($top_menu->link_url && $top_menu->link_text)
                                 @php
-                                    // Check if the link_url is a full URL (e.g., google.com, https://google.com, etc.)
-                                    $isFullUrl = filter_var($top_menu->link_url, FILTER_VALIDATE_URL);
-
-                                    if (!$isFullUrl && !preg_match('~^(?:f|ht)tps?://~i', $top_menu->link_url)) {
-                                        $linkUrl = 'http://' . $top_menu->link_url;
-                                    } else {
-                                        $linkUrl = $top_menu->link_url;
-                                    }
-
                                     $target = $top_menu->tab == 2 ? '_blank' : '_self';
                                 @endphp
-
-                                @if ($isFullUrl || preg_match('~^(?:f|ht)tps?://~i', $linkUrl))
-                                    <!-- If it's a full URL (with or without the scheme), display the link -->
-                                    <a href="{{ $linkUrl }}" target="{{ $target }}"
-                                        class="anchor color-link z-index-2 position-relative">
-                                        {{ $top_menu->link_text }}
-                                    </a>
-                                @else
-                                    <!-- If it's a relative URL, prepend the base URL -->
-                                    <a href="{{ url($top_menu->link_url) }}" target="{{ $target }}"
-                                        class="anchor color-link z-index-2 position-relative">
-                                        {{ $top_menu->link_text }}
-                                    </a>
-                                @endif
+                                <a href="{{ $top_menu->link_url }}"
+                                    class="anchor color-link z-index-2 position-relative" target="{{ $target }}">
+                                    {{ $top_menu->link_text }}
+                                </a>
                             @elseif (!$top_menu->link_url && $top_menu->link_text)
                                 <p class="color-link z-index-2 position-relative">
                                     {{ $top_menu->link_text }}
@@ -114,49 +95,49 @@
                                             @if ($submenu->forigen)
                                                 @switch($submenu->forigen_type)
                                                     @case(App\Models\officials\officials::class)
-                                                        <a href="{{ $submenu->forigen->page_url }}"
+                                                        <a href="{{ url('/officials' . '/' . $submenu->forigen->page_url) }}"
                                                             class="anchor simple-submenu">
                                                             {{ $submenu->forigen->offificial_name }}
                                                         </a>
                                                     @break
 
                                                     @case(App\Models\representatives\representatives::class)
-                                                        <a href="{{ $submenu->forigen->page_url }}"
+                                                        <a href="{{ url('/representative' . '/' . $submenu->forigen->page_url) }}"
                                                             class="anchor simple-submenu">
                                                             {{ $submenu->forigen->name }}
                                                         </a>
                                                     @break
 
                                                     @case(App\Models\stuff\Stuff::class)
-                                                        <a href="{{ $submenu->forigen->page_url }}"
+                                                        <a href="{{ url('/stuff' . '/' . $submenu->forigen->page_url) }}"
                                                             class="anchor simple-submenu">
                                                             {{ $submenu->forigen->stuff_name }}
                                                         </a>
                                                     @break
 
                                                     @case(App\Models\page\createpage::class)
-                                                        <a href="{{ $submenu->forigen->page_url }}"
+                                                        <a href="{{ url('/page' . '/' . $submenu->forigen->page_url) }}"
                                                             class="anchor simple-submenu">
                                                             {{ $submenu->forigen->page_name }}
                                                         </a>
                                                     @break
 
                                                     @case(App\Models\news\NewsModel::class)
-                                                        <a href="{{ $submenu->forigen->page_url }}"
+                                                        <a href="{{ url('/news' . '/' . $submenu->forigen->page_url) }}"
                                                             class="anchor simple-submenu">
                                                             {{ $submenu->forigen->topic }}
                                                         </a>
                                                     @break
 
                                                     @case(App\Models\notice\NoticeModel::class)
-                                                        <a href="{{ $submenu->forigen->page_url }}"
+                                                        <a href="{{ url('/notice' . '/' . $submenu->forigen->page_url) }}"
                                                             class="anchor simple-submenu">
                                                             {{ $submenu->forigen->topic }}
                                                         </a>
                                                     @break
 
                                                     @case(App\Models\Service\SingleService::class)
-                                                        <a href="{{ $submenu->forigen->page_url }}"
+                                                        <a href="{{ url('/service' . '/' . optional($submenu->forigen->service)->page_url . '/' . $submenu->forigen->page_url) }}"
                                                             class="anchor simple-submenu">
                                                             {{ $submenu->forigen->service_item_name }}
                                                         </a>
@@ -164,7 +145,8 @@
 
                                                     @default
                                                 @endswitch
-                                            @else
+                                            @endif
+                                            @if ($submenu->link_text)
                                                 <a href="{{ $submenu->link_url }}" class="anchor simple-submenu"
                                                     target="{{ $target }}">
                                                     {{ $submenu->link_text }}
@@ -262,90 +244,8 @@
                             @endif
                         </li>
                         @empty
-                            কোন মেনু যুক্ত করা নেয়
+                            <li>কোন মেনু যুক্ত করা নেয়</li>
                         @endforelse
-                        {{-- <li
-                        class="llisting includs-submenu flex row center width-max-content position-relative transition-ease transition">
-                        <a href="/about-us" class=" anchor color-link z-index-2 position-relative">
-                            পৌরসভা সম্পর্কিত
-                        </a>
-                        <img src="https://alamdangapouroshava.org/images/assets/arrow-down.svg" alt="arrow down"
-                            class="nav-icon z-index-2 position-relative">
-                        <ul
-                            class="sub-menu position-absolute left-0 top-0 padt-50 transition-ease-in-out transition-duration-0-25s transition-property-all z-index-1 padl-20 padr-20 padb-10 gap-10 flex column">
-                            <li class="anchor color-link">
-                                <a href="/at-a-glance" class="">
-                                    এক নজরে পৌরসভা
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li
-                        class="llisting includs-submenu flex row center width-max-content position-relative transition-ease transition">
-                        <a href="/about-us" class=" anchor color-link z-index-2 position-relative">
-                            সেবা সমূহ
-                        </a>
-                        <img src="https://alamdangapouroshava.org/images/assets/arrow-down.svg" alt="arrow down"
-                            class="nav-icon z-index-2 position-relative">
-                        <ul
-                            class="sub-menu position-absolute left-0 top-0 padt-50 transition-ease-in-out transition-duration-0-25s transition-property-all z-index-1 padl-20 padr-20 padb-10 gap-10 flex column">
-                            <li class="anchor color-link">
-                                <a href="/at-a-glance" class="">
-                                    হোল্ডিং ট্যাক্স
-                                </a>
-                            </li>
-                            <li class="anchor color-link">
-                                <a href="/at-a-glance" class="">
-                                    ওয়াটার সাপ্লাই
-                                </a>
-                            </li>
-                            <li class="anchor color-link">
-                                <a href="/at-a-glance" class="">
-                                    ট্রেড লাইসেন্স
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li
-                        class="llisting includs-submenu flex row center width-max-content position-relative transition-ease transition">
-                        <a href="/about-us" class=" anchor color-link z-index-2 position-relative">
-                            জনবল
-                        </a>
-                        <img src="https://alamdangapouroshava.org/images/assets/arrow-down.svg" alt="arrow down"
-                            class="nav-icon z-index-2 position-relative">
-                        <ul
-                            class="sub-menu position-absolute left-0 top-0 padt-50 transition-ease-in-out transition-duration-0-25s transition-property-all z-index-1 padl-20 padr-20 padb-10 gap-10 flex column">
-                            <li class="anchor color-link">
-                                <a href="/at-a-glance" class="">
-                                    কর্মকর্তা
-                                </a>
-                            </li>
-                            <li class="anchor color-link">
-                                <a href="/at-a-glance" class="">
-                                    কর্মচারী
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li
-                        class="llisting includs-submenu flex row center width-max-content position-relative transition-ease transition">
-                        <a href="/about-us" class=" anchor color-link z-index-2 position-relative">
-                            প্রকল্পসমূহ
-                        </a>
-                    </li>
-                    <li
-                        class="llisting includs-submenu flex row center width-max-content position-relative transition-ease transition">
-                        <a href="/about-us" class=" anchor color-link z-index-2 position-relative">
-                            কমিটিসমূহ
-                        </a>
-                    </li>
-                    <li
-                        class="llisting includs-submenu flex row center width-max-content position-relative transition-ease transition">
-                        <a href="/about-us" class=" anchor color-link z-index-2 position-relative">
-                            গ্যালারী
-                        </a>
-                    </li> --}}
-                        {{-- Single Box End --}}
                     </ul>
                 </nav>
                 <div class="search">

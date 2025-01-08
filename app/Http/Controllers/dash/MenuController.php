@@ -8,7 +8,6 @@ use App\Models\officials\officials;
 use App\Models\page\createpage;
 use App\Models\representatives\representatives;
 use App\Models\Service\SingleService;
-use App\Models\sidebar\SidebarModel;
 use App\Models\stuff\Stuff;
 use Illuminate\Support\Facades\Validator; // Add this at the top of the file
 use Illuminate\Http\Request;
@@ -672,15 +671,17 @@ class MenuController extends Controller
 
     private function getPageMapping()
     {
+        $domain = url('/'); // Get the full domain name
+
         return [
-            1 => ['name' => 'প্রথম পাতা', 'url' => '/'],
-            2 => ['name' => 'কর্মকর্তা সমূহ', 'url' => '/officers'],
-            3 => ['name' => 'কর্মচারী বৃন্দ', 'url' => '/stuffs'],
-            4 => ['name' => 'জনপ্রতিনিধি তালিকা', 'url' => '/representatives'],
-            5 => ['name' => 'সার্ভিস সমূহ', 'url' => '/services'],
-            6 => ['name' => 'সকল নোটিশ', 'url' => '/notices'],
-            7 => ['name' => 'সকল নিউজ', 'url' => '/news'],
-            8 => ['name' => 'ফটো গ্যালারী', 'url' => '/photo-gallery'],
+            1 => ['name' => 'প্রথম পাতা', 'url' => $domain],
+            2 => ['name' => 'কর্মকর্তা সমূহ', 'url' => $domain . '/officers'],
+            3 => ['name' => 'কর্মচারী বৃন্দ', 'url' => $domain . '/stuffs'],
+            4 => ['name' => 'জনপ্রতিনিধি তালিকা', 'url' => $domain . '/representatives'],
+            5 => ['name' => 'সার্ভিস সমূহ', 'url' => $domain . '/services'],
+            6 => ['name' => 'সকল নোটিশ', 'url' => $domain . '/notices'],
+            7 => ['name' => 'সকল নিউজ', 'url' => $domain . '/news'],
+            8 => ['name' => 'ফটো গ্যালারী', 'url' => $domain . '/photo-gallery'],
         ];
     }
 }

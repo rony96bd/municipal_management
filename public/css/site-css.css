@@ -95,7 +95,7 @@
   bottom: 0;
   width: 100%;
   height: calc(100% - 39px);
-  background-color: var(--secondary-color);
+  background-color: var(--primary-color);
   z-index: -1;
   content: "";
   border-radius: 0px 0px 8px 8px;
