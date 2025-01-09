@@ -19,12 +19,12 @@ class SingleService extends Model
         'page_url',
     ];
 
-    // public function service()
-    // {
-    //     return $this->belongsTo(Service::class, 'service_id', 'service_id');
-    // }
-    // public function sidebar()
-    // {
-    //     return $this->belongsTo(SidebarModel::class);
-    // }
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'service_id', 'service_id');
+    }
+    public function sidebar()
+    {
+        return $this->belongsTo(SidebarModel::class);
+    }
 }
