@@ -5,7 +5,6 @@ namespace App\Models\Service;
 use App\Models\sidebar\SidebarModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Validation\ValidationException;
 
 class SingleService extends Model
 {
