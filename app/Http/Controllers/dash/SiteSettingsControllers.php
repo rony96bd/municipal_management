@@ -7,7 +7,7 @@ use App\Models\SiteSettings;
 use Illuminate\Support\Facades\File;  // Corrected import statement
 use Illuminate\Http\Request;
 
-class SiteSettingsController extends Controller
+class SiteSettingsControllers extends Controller
 {
     public function index()
     {
