@@ -6,7 +6,7 @@ use App\Models\sidebar\SidebarModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SingleServices extends Model
+class SingleService extends Model
 {
     use HasFactory;
 
