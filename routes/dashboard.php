@@ -5,6 +5,7 @@ use App\Http\Controllers\dash\BannerSlidderController;
 use App\Http\Controllers\dash\cachecontroller;
 use App\Http\Controllers\dash\dashboardController;
 use App\Http\Controllers\dash\GalleryController;
+use App\Http\Controllers\dash\MediaController;
 use App\Http\Controllers\dash\MenuController;
 use App\Http\Controllers\dash\NewsController;
 use App\Http\Controllers\dash\NoticeController;
@@ -141,5 +142,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/single-group-menu', [MenuController::class, 'storesinglegroupmenu'])->name('store-single-group-menu');
         Route::delete('/delete-single-group-menu/{id}', [MenuController::class, 'deletegroupsubmenu'])->name('delete-group-submenu');
         Route::post('/update-group-sub-menu-order', [MenuController::class, 'updategroupsubmenuorder'])->name('update-group-submenu-order');
+
+        // Media Library
+        Route::get('/media', [MediaController::class, 'index'])->name('media-library');
+        Route::post('/media', [MediaController::class, 'store'])->name('media-store');
     });
 });

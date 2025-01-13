@@ -154,3 +154,28 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+
+
+
+// Media Upload
+document.addEventListener("DOMContentLoaded", function () {
+    const mediaButton = document.querySelector('.media-button');
+    const mediaForm = document.querySelector('.media-field');
+
+    if (mediaButton && mediaForm) {
+        mediaButton.addEventListener('click', function () {
+            // Toggle visibility of the media form
+            mediaForm.classList.toggle('display-none');
+
+            // Optional: Change button text if needed
+            if (mediaForm.classList.contains('display-none')) {
+                mediaButton.textContent = "নতুন ফাইল আপলোড করুন"; // Close upload form
+            } else {
+                mediaButton.textContent = "ফাইল আপলোড করুন"; // Open upload form
+            }
+        });
+    }
+});
+
+

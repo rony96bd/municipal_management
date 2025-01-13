@@ -1125,3 +1125,116 @@ button.delete-sidebar {
         grid-column: span 2;
     }
 }
+
+.single-media-uploads {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 180px));
+    gap: 20px;
+}
+
+.media-icon {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5vw;
+    font-weight: 900;
+    border: 0.5vw solid var(--primary-color);
+    min-width: 100%;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 80px;
+    transition: 0s;
+
+    &* {
+        transition: 0s;
+
+    }
+
+    &>.modal-backdrop {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--primary-color);
+        opacity: 0.8;
+        z-index: 1;
+    }
+
+    & .modal-content {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        overflow: hidden;
+        border: 1px solid var(--background-gray);
+
+        & img {
+            max-height: 100%;
+            max-width: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+}
+
+div#mediaPopup.hidden {
+    display: none;
+}
+
+.navbox {
+    padding: 60px 30px;
+    position: relative;
+    z-index: 2;
+    background-color: var(--white-color);
+    border-left: 1px solid var(--background-gray);
+    width: 100%;
+    max-width: 400px;
+    padding-bottom: 30px;
+}
+
+.media-preview {
+    padding: 30px;
+    background: var(--background-gray);
+    flex: auto;
+
+    & iframe {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.close-btn {
+    color: var(--danger-color);
+    font-size: 22px;
+}
+
+#mediaImage.hidden {
+    display: none;
+}
+
+.media-details {
+    & p {
+        word-break: break-all;
+    }
+}
+
+#mediaPDF.hidden {
+    display: none;
+}
+
+p#placeholderMessage {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 2vw;
+}
