@@ -146,5 +146,6 @@ Route::middleware('auth')->group(function () {
         // Media Library
         Route::get('/media', [MediaController::class, 'index'])->name('media-library');
         Route::post('/media', [MediaController::class, 'store'])->name('media-store');
+        Route::delete('/media/delete/{id}', [MediaController::class, 'destroy'])->name('media-destroy');
     });
 });

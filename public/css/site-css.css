@@ -944,6 +944,14 @@ button.delete-sidebar {
   transition: 0.25s all ease-in-out !important;
 }
 
+.delete-sidebar.position-static {
+  position: static;
+  opacity: 1;
+  width: auto !important;
+  height: auto;
+  padding: 8px 20px !important;
+}
+
 .top-menu-box:hover button.delete-sidebar {
   opacity: 1;
   visibility: visible;
@@ -1104,4 +1112,17 @@ p#placeholderMessage {
   justify-content: center;
   align-items: center;
   font-size: 2vw;
+}
+
+.media-item.position-relative:hover button.delete-sidebar {
+  opacity: 1;
+}
+
+.media-item {
+  aspect-ratio: 1/1;
+}
+.media-item img {
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
 }/*# sourceMappingURL=site-css.css.map */

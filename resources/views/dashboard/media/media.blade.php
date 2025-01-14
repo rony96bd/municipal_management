@@ -8,7 +8,7 @@
             {{-- Media Uploads --}}
             <div class="single-media-uploads padar-10">
                 @forelse ($medias as $media)
-                    <div class="media-item">
+                    <div class="media-item position-relative">
                         @if (str_starts_with($media->mime_type, 'image/'))
                             <a href="{{ url('/' . $media->file_path) }}" class="anchor mediafile"
                                 data-file="{{ $media }}">
@@ -30,6 +30,13 @@
                         @else
                             <p class="color-warning">Unsupported file type</p>
                         @endif
+                        <form action="{{ route('media-destroy', $media->id) }}" method="POST"
+                            onsubmit="return confirm('আপনি কি নিশ্চিতভাবে মুছে ফেলতে চান?');" style="display:inline;"
+                            class="position-absolute top-0 right-0">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="delete-sidebar">X</button>
+                        </form>
                     </div>
                 @empty
                     <p class="color-warning">কোন ফাইল আপলোড করা নেয়</p>
@@ -48,16 +55,19 @@
             </div>
             <div class="navbox position-relative flex column">
                 <button class="close-btn position-absolute top-20 right-20">&times;</button>
-                <div class="media-details">
+                <div class="media-details flex column gap-5 jfs-ais">
                     <p><strong>File Name:</strong>
                         <span id="mediaFileName"></span>
                     </p>
                     <p><strong>File Link:</strong></p>
                     <p id="mediaFileLink"></p>
-                    <button id="copyLinkBtn">Copy</button>
+                    <div class="flex row gap-10">
+                        <button id="copyLinkBtn"
+                            class="padar-5 border-solid border-1px border-color-primary bradius-6px">Copy</button>
+                    </div>
 
                 </div>
-                <div class="modal-navigation mart-auto">
+                <div class="modal-navigation mart-auto full-width flex row jsb-ace">
                     <button id="prevMedia" class="btn">Previous</button>
                     <button id="nextMedia" class="btn">Next</button>
                 </div>

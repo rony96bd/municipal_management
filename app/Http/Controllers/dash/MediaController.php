@@ -40,4 +40,22 @@ class MediaController extends Controller
         // Redirect back with success message
         return redirect()->back()->with('success', "ফাইল আপলোড হয়েছে");
     }
+
+    public function destroy($id)
+    {
+        $media = MediaModel::findOrFail($id); // Find the media by ID
+
+        // Get the file path
+        $filePath = public_path($media->file_path);
+
+        // Check if the file exists on the server and delete it
+        if (file_exists($filePath)) {
+            unlink($filePath); // Delete the file
+        }
+
+        $media_name = $media->file_name; // Store file name for feedback
+        $media->delete(); // Delete the database entry
+
+        return redirect()->back()->with('success', "{$media_name} সফলভাবে ডিলিট হয়েছে।");
+    }
 }

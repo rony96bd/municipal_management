@@ -11,7 +11,8 @@
         <span>@include('icons.dashboard-icons.menu')</span>
         <span class="nav-title">মেনু</span>
     </a>
-    <a href="{{ route('media-library') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="মেনু">
+    <a href="{{ route('media-library') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace"
+        title="মিডিয়া লাইব্রেরী">
         <span>@include('icons.dashboard-icons.media')</span>
         <span class="nav-title">মিডিয়া</span>
     </a>
