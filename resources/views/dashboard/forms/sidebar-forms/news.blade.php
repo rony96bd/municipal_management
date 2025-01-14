@@ -1,6 +1,6 @@
 <form action="{{ route('store-sidebar') }}" method="POST">
     @csrf
-    @if ($notices->isNotEmpty())
+    @if ($news->isNotEmpty())
         {{-- Dropdown Selection --}}
         <div class="flex column gap-10">
             <div class="mb-3">
