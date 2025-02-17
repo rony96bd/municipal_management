@@ -72,12 +72,9 @@ class StuffsController extends Controller
         return redirect()->route('stuffslist')->with('success', "সফলভাবে '{$request->stuff_name}' কর্মচারী যুক্ত হয়েছে");
     }
 
-
-
-
     public function edit($id)
     {
-        $page_title = 'কর্মকর্তার তথ্য সম্পাদনা করুন';
+        $page_title = 'কর্মচারীর তথ্য সম্পাদনা করুন';
         $page = Stuff::findOrFail($id);
         return view('dashboard.officials.create-officials', compact('page_title', 'page'));
     }
