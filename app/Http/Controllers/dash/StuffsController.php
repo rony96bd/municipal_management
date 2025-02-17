@@ -81,12 +81,10 @@ class StuffsController extends Controller
 
     public function update(Request $request, $id)
     {
-        dd($request->all());
+
         $request->validate([
             'stuff_name' => 'required|string|max:255',
             'designation' => 'required|string|max:255',
-            'office_phone' => 'required|string|max:15',
-            'home_phone' => 'nullable|string|max:15',
             'mobile' => 'required|string|max:15',
             'email' => 'required|email|max:255',
             'home_district' => 'nullable|string|max:255',
