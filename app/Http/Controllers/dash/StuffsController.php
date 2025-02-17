@@ -40,7 +40,15 @@ class StuffsController extends Controller
         $imagePath = null;
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imagePath = $image->store('images/stuffs', 'public');
+
+            // Generate the file name using the post ID after saving the official
+            $imageName = time() . '-' . $request->page_url . '.' . $image->getClientOriginalExtension();
+
+            // Save the image to the public folder, within the 'images/officials' directory
+            $image->move('images/stuffs', $imageName);
+
+            // Set the image path
+            $imagePath = 'images/stuffs/' . $imageName;
         }
 
         // Generate unique page_url
@@ -99,7 +107,15 @@ class StuffsController extends Controller
         $imagePath = null;
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imagePath = $image->store('images/stuffs', 'public');
+
+            // Generate the file name using the post ID after saving the official
+            $imageName = time() . '-' . $request->page_url . '.' . $image->getClientOriginalExtension();
+
+            // Save the image to the public folder, within the 'images/officials' directory
+            $image->move('images/stuffs', $imageName);
+
+            // Set the image path
+            $imagePath = 'images/stuffs/' . $imageName;
         }
 
         // Get the original page_url from the request

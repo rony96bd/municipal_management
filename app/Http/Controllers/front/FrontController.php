@@ -36,7 +36,7 @@ class FrontController extends Controller
 
     public function officers()
     {
-        $page_title = 'কর্মচারী বৃন্দ';
+        $page_title = 'কর্মকর্তাবৃন্দ';
         $officers = officials::all();
         return view('front-views.pages.officers', compact('page_title', 'officers'));
     }
