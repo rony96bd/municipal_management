@@ -7,24 +7,23 @@
     <div class="flex grid grid-col-2 m-grid-col-1 gap-20">
         <div class="mb-3">
             {{-- Name --}}
-            <input type="text" name="offificial_name" id="offificial_name" class="form-control"
-                value="{{ old('offificial_name', isset($page) ? $page->offificial_name : '') }}"
-                placeholder="কর্মকর্তার নাম *" required>
+            <label for="offificial_name" class="form-label" style="color: #3E7B27">কর্মকর্তার নাম</label>
+            <input type="text" name="offificial_name" id="offificial_name" class="form-control" value="{{ old('offificial_name', isset($page) ? $page->offificial_name : '') }}" placeholder="কর্মকর্তার নাম *" required>
             @error('offificial_name')
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
         </div>
         {{-- Designation --}}
         <div class="mb-3">
-            <input type="text" name="designation" id="designation" class="form-control"
-                value="{{ old('designation', isset($page) ? $page->designation : '') }}" placeholder="কর্মকর্তার পদবী *"
-                required>
+            <label for="offificial_name" class="form-label" style="color: #3E7B27">কর্মকর্তার পদবী</label>
+            <input type="text" name="designation" id="designation" class="form-control" value="{{ old('designation', isset($page) ? $page->designation : '') }}" placeholder="কর্মকর্তার পদবী *" required>
             @error('designation')
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
         </div>
         {{-- BCS Batch --}}
         <div class="mb-3">
+            <label for="offificial_name" class="form-label" style="color: #3E7B27">ব্যাচ (বি.সি.এস)</label>
             <input type="text" name="bcs" id="bcs" class="form-control"
                 value="{{ old('bcs', isset($page) ? $page->bcs : '') }}" placeholder="ব্যাচ (বি.সি.এস)">
             @error('bcs')
@@ -33,6 +32,7 @@
         </div>
         {{-- BCS ID --}}
         <div class="mb-3">
+            <label for="offificial_name" class="form-label" style="color: #3E7B27">সার্ভিস আই.ডি</label>
             <input type="text" name="bcsid" id="bcsid" class="form-control"
                 value="{{ old('bcsid', isset($page) ? $page->bcsid : '') }}" placeholder="আই.ডি">
             @error('bcsid')
@@ -41,6 +41,7 @@
         </div>
         {{-- Official Phone --}}
         <div class="mb-3">
+            <label for="offificial_name" class="form-label" style="color: #3E7B27">ফোন (অফিস)</label>
             <input type="text" name="office_phone" id="office_phone" class="form-control"
                 value="{{ old('office_phone', isset($page) ? $page->office_phone : '') }}" placeholder="ফোন (অফিস) *"
                 required>
@@ -50,6 +51,7 @@
         </div>
         {{-- Official Home --}}
         <div class="mb-3">
+            <label for="offificial_name" class="form-label" style="color: #3E7B27">ফোন (বাসা)</label>
             <input type="text" name="home_phone" id="home_phone" class="form-control"
                 value="{{ old('home_phone', isset($page) ? $page->home_phone : '') }}" placeholder="ফোন (বাসা)">
             @error('home_phone')
@@ -58,6 +60,7 @@
         </div>
         {{-- Fax --}}
         <div class="mb-3">
+            <label for="offificial_name" class="form-label" style="color: #3E7B27">ফ্যাক্স</label>
             <input type="text" name="fax" id="fax" class="form-control"
                 value="{{ old('fax', isset($page) ? $page->fax : '') }}" placeholder="ফ্যাক্স">
             @error('fax')
@@ -66,6 +69,7 @@
         </div>
         {{-- Mobile --}}
         <div class="mb-3">
+            <label for="offificial_name" class="form-label" style="color: #3E7B27">মোবাইল নম্বর</label>
             <input type="text" name="mobile" id="mobile" class="form-control"
                 value="{{ old('mobile', isset($page) ? $page->mobile : '') }}" placeholder="মোবাইল *" required>
             @error('mobile')
@@ -74,6 +78,7 @@
         </div>
         {{-- Email --}}
         <div class="mb-3">
+            <label for="offificial_name" class="form-label" style="color: #3E7B27">ইমেইল</label>
             <input type="email" name="email" id="email" class="form-control"
                 value="{{ old('email', isset($page) ? $page->email : '') }}" placeholder="ই-মেইল *" required>
             @error('email')
@@ -82,6 +87,7 @@
         </div>
         {{-- Home District --}}
         <div class="mb-3">
+            <label for="offificial_name" class="form-label" style="color: #3E7B27">নিজ জেলা</label>
             <input type="text" name="home_district" id="home_district" class="form-control"
                 value="{{ old('home_district', isset($page) ? $page->home_district : '') }}" placeholder="নিজ জেলা">
             @error('home_district')
@@ -90,8 +96,9 @@
         </div>
         {{-- joining date --}}
         <div class="mb-3">
+            <label for="joining_date" class="form-label" style="color: #3E7B27">যোগদানের তারিখ</label>
             <input type="date" name="joining_date" id="joining_date" class="form-control"
-                value="{{ old('joining_date', isset($page) ? $page->joining_date : '') }}"
+                value="{{ old('joining_date', isset($page) ? $page->joining_date->toDateString() : '') }}"
                 placeholder="বর্তমান কর্মস্থলে যোগদানের তারিখ">
             @error('joining_date')
                 <small class="color-danger fs-base">{{ $message }}</small>
@@ -99,6 +106,7 @@
         </div>
         {{-- Url --}}
         <div class="mb-3">
+            <label for="offificial_name" class="form-label" style="color: #3E7B27">লিংক (URL)</label>
             <input type="text" name="page_url" id="page_url" class="form-control"
                 value="{{ old('page_url', isset($page) ? $page->page_url : '') }}"
                 placeholder="url (english and lower case only - no spacing. Example: about-us) *" required>
@@ -108,7 +116,7 @@
         </div>
         {{-- Image Upload --}}
         <div class="mb-3">
-            <label for="image" class="form-label">প্রোফাইল ছবি আপলোড করুন</label>
+            <label for="image" class="form-label" style="color: #3E7B27">প্রোফাইল ছবি আপলোড করুন</label>
             <input type="file" id="image" name="image" accept="image/*">
             <div id="image-preview-container" class="mt-2">
                 @if (isset($page) && $page->image)
