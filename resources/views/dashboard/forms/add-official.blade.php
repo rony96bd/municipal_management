@@ -112,7 +112,7 @@
             <input type="file" id="image" name="image" accept="image/*">
             <div id="image-preview-container" class="mt-2">
                 @if (isset($page) && $page->image)
-                    <img id="image-preview" src="{{ asset('uploads/' . $page->image) }}" alt="Uploaded Image"
+                    <img id="image-preview" src="{{ asset('' . $page->image) }}" alt="Uploaded Image"
                         class="img-thumbnail" style="width: 80px; height: 80px;">
                     <button type="button" id="remove-image" class="btn btn-danger btn-sm mt-2">Remove</button>
                 @else
