@@ -135,7 +135,7 @@ class StuffsController extends Controller
         $stuff->image = $imagePath;
         $stuff->save();
 
-        return redirect()->route('officialslist')->with('success', "সফলভাবে কর্মচারী '{$request->stuff_name}' এর তথ্য আপডেট হয়েছে");
+        return redirect()->route('stuffslist')->with('success', "সফলভাবে কর্মচারী '{$request->stuff_name}' এর তথ্য আপডেট হয়েছে");
     }
 
     public function destroy($id)
