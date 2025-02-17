@@ -27,8 +27,6 @@ class StuffsController extends Controller
         $request->validate([
             'stuff_name' => 'required|string|max:255',
             'designation' => 'required|string|max:255',
-            'office_phone' => 'required|string|max:15',
-            'home_phone' => 'nullable|string|max:15',
             'mobile' => 'required|string|max:15',
             'email' => 'required|email|max:255',
             'home_district' => 'nullable|string|max:255',
@@ -66,8 +64,6 @@ class StuffsController extends Controller
         $stuff = new Stuff();
         $stuff->stuff_name = $request->stuff_name;
         $stuff->designation = $request->designation;
-        $stuff->office_phone = $request->office_phone;
-        $stuff->home_phone = $request->home_phone;
         $stuff->mobile = $request->mobile;
         $stuff->email = $request->email;
         $stuff->home_district = $request->home_district;

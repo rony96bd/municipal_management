@@ -7,6 +7,7 @@
     <div class="flex grid grid-col-2 m-grid-col-1 gap-20">
         <div class="mb-3">
             {{-- Name --}}
+            <label for="joining_date" class="form-label">কর্মচারীর নাম</label>
             <input type="text" name="stuff_name" id="stuff_name" class="form-control"
                 value="{{ old('stuff_name', isset($page) ? $page->stuff_name : '') }}" placeholder="কর্মচারীর নাম *"
                 required>
@@ -16,6 +17,7 @@
         </div>
         {{-- Designation --}}
         <div class="mb-3">
+            <label for="joining_date" class="form-label">কর্মচারীর পদবী</label>
             <input type="text" name="designation" id="designation" class="form-control"
                 value="{{ old('designation', isset($page) ? $page->designation : '') }}" placeholder="কর্মচারীর পদবী *"
                 required>
@@ -25,6 +27,7 @@
         </div>
         {{-- Mobile --}}
         <div class="mb-3">
+            <label for="joining_date" class="form-label">মোবাইল নম্বর</label>
             <input type="text" name="mobile" id="mobile" class="form-control"
                 value="{{ old('mobile', isset($page) ? $page->mobile : '') }}" placeholder="মোবাইল *" required>
             @error('mobile')
@@ -33,6 +36,7 @@
         </div>
         {{-- Email --}}
         <div class="mb-3">
+            <label for="joining_date" class="form-label">ইমেইল</label>
             <input type="email" name="email" id="email" class="form-control"
                 value="{{ old('email', isset($page) ? $page->email : '') }}" placeholder="ই-মেইল *" required>
             @error('email')
@@ -41,6 +45,7 @@
         </div>
         {{-- Home District --}}
         <div class="mb-3">
+            <label for="joining_date" class="form-label">নিজ জেলা</label>
             <input type="text" name="home_district" id="home_district" class="form-control"
                 value="{{ old('home_district', isset($page) ? $page->home_district : '') }}" placeholder="নিজ জেলা">
             @error('home_district')
@@ -49,6 +54,7 @@
         </div>
         {{-- joining date --}}
         <div class="mb-3">
+            <label for="joining_date" class="form-label">যোগদানের তারিখ</label>
             <input type="date" name="joining_date" id="joining_date" class="form-control"
                 value="{{ old('joining_date', isset($page) ? $page->joining_date : '') }}"
                 placeholder="বর্তমান কর্মস্থলে যোগদানের তারিখ">
@@ -58,6 +64,7 @@
         </div>
         {{-- Url --}}
         <div class="mb-3">
+            <label for="joining_date" class="form-label">লিংক (URL)</label>
             <input type="text" name="page_url" id="page_url" class="form-control"
                 value="{{ old('page_url', isset($page) ? $page->page_url : '') }}"
                 placeholder="url (english and lower case only - no spacing. Example: about-us) *" required>
