@@ -7,10 +7,10 @@
     <div class="flex grid grid-col-2 m-grid-col-1 gap-20">
         <div class="mb-3">
             {{-- Name --}}
-            <input type="text" name="stuff_name" id="offificial_name" class="form-control"
-                value="{{ old('stuff_name', isset($page) ? $page->stuff_name : '') }}"
+            <input type="text" name="offificial_name" id="offificial_name" class="form-control"
+                value="{{ old('offificial_name', isset($page) ? $page->offificial_name : '') }}"
                 placeholder="কর্মকর্তার নাম *" required>
-            @error('stuff_name')
+            @error('offificial_name')
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
         </div>
@@ -23,7 +23,47 @@
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
         </div>
-
+        {{-- BCS Batch --}}
+        <div class="mb-3">
+            <input type="text" name="bcs" id="bcs" class="form-control"
+                value="{{ old('bcs', isset($page) ? $page->bcs : '') }}" placeholder="ব্যাচ (বি.সি.এস)">
+            @error('bcs')
+                <small class="color-danger fs-base">{{ $message }}</small>
+            @enderror
+        </div>
+        {{-- BCS ID --}}
+        <div class="mb-3">
+            <input type="text" name="bcsid" id="bcsid" class="form-control"
+                value="{{ old('bcsid', isset($page) ? $page->bcsid : '') }}" placeholder="আই.ডি">
+            @error('bcsid')
+                <small class="color-danger fs-base">{{ $message }}</small>
+            @enderror
+        </div>
+        {{-- Official Phone --}}
+        <div class="mb-3">
+            <input type="text" name="office_phone" id="office_phone" class="form-control"
+                value="{{ old('office_phone', isset($page) ? $page->office_phone : '') }}" placeholder="ফোন (অফিস) *"
+                required>
+            @error('office_phone')
+                <small class="color-danger fs-base">{{ $message }}</small>
+            @enderror
+        </div>
+        {{-- Official Home --}}
+        <div class="mb-3">
+            <input type="text" name="home_phone" id="home_phone" class="form-control"
+                value="{{ old('home_phone', isset($page) ? $page->home_phone : '') }}" placeholder="ফোন (বাসা)">
+            @error('home_phone')
+                <small class="color-danger fs-base">{{ $message }}</small>
+            @enderror
+        </div>
+        {{-- Fax --}}
+        <div class="mb-3">
+            <input type="text" name="fax" id="fax" class="form-control"
+                value="{{ old('fax', isset($page) ? $page->fax : '') }}" placeholder="ফ্যাক্স">
+            @error('fax')
+                <small class="color-danger fs-base">{{ $message }}</small>
+            @enderror
+        </div>
         {{-- Mobile --}}
         <div class="mb-3">
             <input type="text" name="mobile" id="mobile" class="form-control"

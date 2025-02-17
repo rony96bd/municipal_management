@@ -76,7 +76,7 @@ class StuffsController extends Controller
     {
         $page_title = 'কর্মচারীর তথ্য সম্পাদনা করুন';
         $page = Stuff::findOrFail($id);
-        return view('dashboard.officials.create-officials', compact('page_title', 'page'));
+        return view('dashboard.stuffs.create-stuff', compact('page_title', 'page'));
     }
 
     public function update(Request $request, $id)
