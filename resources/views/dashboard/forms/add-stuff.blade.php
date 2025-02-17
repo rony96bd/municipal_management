@@ -57,7 +57,7 @@
             <label for="joining_date" class="form-label">যোগদানের তারিখ</label>
             <input type="date" name="joining_date" id="joining_date" class="form-control"
                 value="{{ old('joining_date', isset($page) ? $page->joining_date->toDateString() : '') }}"
-                placeholder="বর্তমান কর্মস্থলে যোগদানের তারিখ">
+                placeholder="বর্তমান কর্মস্থলে যোগদানের তারিখ" required>
             @error('joining_date')
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
