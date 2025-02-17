@@ -39,6 +39,15 @@
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
         </div>
+        {{-- Education Qualification --}}
+        <div class="mb-3">
+            <label for="offificial_name" class="form-label" style="color: #3E7B27">শিক্ষাগত যোগ্যতা</label>
+            <input type="text" name="edu" id="edu" class="form-control"
+                value="{{ old('edu', isset($page) ? $page->edu : '') }}" placeholder="শিক্ষাগত যোগ্যতা">
+            @error('edu')
+                <small class="color-danger fs-base">{{ $message }}</small>
+            @enderror
+        </div>
         {{-- Official Phone --}}
         <div class="mb-3">
             <label for="offificial_name" class="form-label" style="color: #3E7B27">ফোন (অফিস)</label>

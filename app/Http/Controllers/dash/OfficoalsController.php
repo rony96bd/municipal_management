@@ -71,6 +71,7 @@ class OfficoalsController extends Controller
         $official->designation = $request->designation;
         $official->bcs = $request->bcs;
         $official->bcsid = $request->bcsid;
+        $official->edu = $request->edu;
         $official->office_phone = $request->office_phone;
         $official->home_phone = $request->home_phone;
         $official->fax = $request->fax;
