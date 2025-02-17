@@ -23,23 +23,6 @@
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
         </div>
-        {{-- Official Phone --}}
-        <div class="mb-3">
-            <input type="text" name="office_phone" id="office_phone" class="form-control"
-                value="{{ old('office_phone', isset($page) ? $page->office_phone : '') }}" placeholder="ফোন (অফিস) *"
-                required>
-            @error('office_phone')
-                <small class="color-danger fs-base">{{ $message }}</small>
-            @enderror
-        </div>
-        {{-- Official Home --}}
-        <div class="mb-3">
-            <input type="text" name="home_phone" id="home_phone" class="form-control"
-                value="{{ old('home_phone', isset($page) ? $page->home_phone : '') }}" placeholder="ফোন (বাসা) ">
-            @error('home_phone')
-                <small class="color-danger fs-base">{{ $message }}</small>
-            @enderror
-        </div>
         {{-- Mobile --}}
         <div class="mb-3">
             <input type="text" name="mobile" id="mobile" class="form-control"
@@ -88,7 +71,7 @@
             <input type="file" id="image" name="image" accept="image/*">
             <div id="image-preview-container" class="mt-2">
                 @if (isset($page) && $page->image)
-                    <img id="image-preview" src="{{ asset('uploads/' . $page->image) }}" alt="Uploaded Image"
+                    <img id="image-preview" src="{{ asset('' . $page->image) }}" alt="Uploaded Image"
                         class="img-thumbnail" style="width: 80px; height: 80px;">
                     <button type="button" id="remove-image" class="btn btn-danger btn-sm mt-2">Remove</button>
                 @else
