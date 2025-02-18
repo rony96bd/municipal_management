@@ -21,7 +21,7 @@
                     <p>No images available.</p>
                 @endif
 
-                <a href="{{ url('/gallery') . '/' . $gallery->page_url }}" class="gallery-item flex column jfe-aie"
+                <a href="{{ url($gallery_first_image) }}" class="gallery-item flex column jfe-aie"
                     style="background-image: url('{{ $gallery_first_image }}');">
                     <p class="gallery-text full-width color-white text-center padar-5">{{ $gallery->topic }}</p>
                 </a>
