@@ -126,7 +126,7 @@ class OfficoalsController extends Controller
             $imageName = time() . '-' . $request->id . '.' . $image->getClientOriginalExtension();
 
             // Move the image to the public folder with the new filename
-            $image->move(public_path('images/officials'), $imageName);
+            $image->move('images/officials', $imageName);
 
             // Set the image path
             $imagePath = 'images/officials/' . $imageName;
