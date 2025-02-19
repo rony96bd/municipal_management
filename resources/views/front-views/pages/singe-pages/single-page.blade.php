@@ -4,7 +4,7 @@
     @if (!empty($page->page_name))
         <section class="section">
             <div class="container">
-                <h2 class="section-title">{{ $page_name }}</h2>
+                <h2 class="section-title">{{ $page_title }}</h2>
             </div>
         </section>
     @endif
