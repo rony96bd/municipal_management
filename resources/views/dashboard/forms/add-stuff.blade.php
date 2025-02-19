@@ -64,8 +64,8 @@
         </div>
         {{-- Grade --}}
         <div class="mb-3">
-            <label for="grade" class="form-label">Grade</label>
-            <input type="text" name="grade" id="grade" class="form-control"
+            <label for="grade" class="form-label">কর্মচারীর গ্রেড</label>
+            <input type="number" name="grade" id="grade" class="form-control"
                 value="{{ old('grade', isset($page) ? $page->grade : '') }}"
                 placeholder="কর্মচারীর গ্রেড">
             @error('grade')
