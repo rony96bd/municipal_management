@@ -38,7 +38,7 @@
         <div class="mb-3">
             <label for="joining_date" class="form-label">ইমেইল</label>
             <input type="email" name="email" id="email" class="form-control"
-                value="{{ old('email', isset($page) ? $page->email : '') }}" placeholder="ই-মেইল *" required>
+                value="{{ old('email', isset($page) ? $page->email : '') }}" placeholder="ই-মেইল *">
             @error('email')
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror

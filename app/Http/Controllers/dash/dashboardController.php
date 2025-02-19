@@ -11,7 +11,6 @@ class dashboardController extends Controller
     public function dashboard()
     {
         $page_title = 'ড্যাশবোর্ড';
-        $settings = SiteSettings::first();
         return view('dashboard.dashboard', compact('page_title'));
     }
 }
