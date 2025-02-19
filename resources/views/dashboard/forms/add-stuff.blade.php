@@ -57,7 +57,7 @@
             <label for="first_joining" class="form-label">চাকুরীতে প্রথম যোগদানের তারিখ *</label>
             <input type="date" name="first_joining" id="first_joining" class="form-control"
                 value="{{ old('first_joining', isset($page) && $page->first_joining ? $page->first_joining->toDateString() : '') }}"
-                placeholder="চাকুরীতে প্রথম যোগদানের তারিখ" required>
+                placeholder="চাকুরীতে প্রথম যোগদানের তারিখ">
             @error('first_joining')
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
@@ -66,8 +66,7 @@
         <div class="mb-3">
             <label for="first_designation" class="form-label">চাকুরীতে প্রথম যোগদানের পদবী *</label>
             <input type="text" name="first_designation" id="first_designation" class="form-control"
-                value="{{ old('first_designation', isset($page) ? $page->first_designation : '') }}" placeholder="চাকুরীতে প্রথম যোগদানের পদবী *"
-                required>
+                value="{{ old('first_designation', isset($page) ? $page->first_designation : '') }}" placeholder="চাকুরীতে প্রথম যোগদানের পদবী *">
             @error('first_designation')
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
