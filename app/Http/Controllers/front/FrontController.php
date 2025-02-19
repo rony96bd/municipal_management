@@ -43,9 +43,9 @@ class FrontController extends Controller
 
     public function notices()
     {
-        $page_title = 'কর্মকর্তাবৃন্দ';
+        $page_title = 'নোটিশ';
         $notices = NoticeModel::all();
-        return view('front-views.pages.notices', compact('page_title', 'officers'));
+        return view('front-views.pages.notices', compact('page_title', 'notices'));
     }
 
     public function officerDetails($page_url)
