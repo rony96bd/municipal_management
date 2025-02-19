@@ -40,6 +40,7 @@ class SiteSettingsController extends Controller
 
         // Fetch the first site settings record or create a new one
         $settings = SiteSettings::firstOrNew();
+        dd($settings->site_logo);
 
         // Set basic fields
         $settings->site_name = $request->site_name;
