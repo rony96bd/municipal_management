@@ -16,10 +16,6 @@
                             <p class="text-center">{{ $officer->designation }}</p>
                         @endif
 
-                        @if (!empty($officer->bcs))
-                            <p class="text-center mart-10"><strong>{{ $officer->bcs }} BCS</strong></p>
-                        @endif
-
                         @if (!empty($officer->mobile))
                             <p class="text-center">মোবাইল: {{ $officer->mobile }}</p>
                         @endif
