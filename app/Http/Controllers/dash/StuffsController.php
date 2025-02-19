@@ -11,7 +11,7 @@ class StuffsController extends Controller
 {
     public function stuffslist()
     {
-        $page_title = 'কর্মচারী বৃন্দ';
+        $page_title = 'কর্মচারীবৃন্দ';
         $stuffs = Stuff::orderBy('order', 'asc')->get();
         return view('dashboard.stuffs.stuffs', compact('page_title', 'stuffs'));
     }
