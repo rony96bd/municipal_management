@@ -147,7 +147,7 @@ class StuffsController extends Controller
                 $counter++;
             }
         }
-
+        dd($request->all());
         $slug = Str::slug($request->stuff_name);
         $randomNumber = mt_rand(1000, 9999);
 
