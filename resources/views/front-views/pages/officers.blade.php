@@ -8,8 +8,8 @@
                     <img src="{{ $officer->image }}" alt="{{ $officer->official_name }}"
                         class="img full-width official-repeated-image">
                     <div class="flex column padar-20 background-gray flex-auto full-width jfs-ais gap-0">
-                        @if (!empty($officer->official_name))
-                            <h3 class="text-center">{{ $officer->official_name }}</h3>
+                        @if (!empty($officer->offificial_name))
+                            <h3 class="text-center">{{ $officer->offificial_name }}</h3>
                         @endif
 
                         @if (!empty($officer->designation))
