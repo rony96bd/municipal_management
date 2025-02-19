@@ -98,7 +98,7 @@ class StuffsController extends Controller
             'joining_date' => 'nullable|date',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        dd($request->all());
+
         $stuff = Stuff::findOrFail($id);
 
         // Handle image upload
