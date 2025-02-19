@@ -99,12 +99,12 @@ class StuffsController extends Controller
             'joining_date' => 'nullable|date',
             'page_url' => 'required|string|alpha_dash|max:255',
         ];
-        dd($request->all());
+
         // Conditionally add image validation rules if an image is uploaded
         if ($request->hasFile('image')) {
             $validationRules['image'] = 'image|mimes:jpeg,png,jpg,gif|max:2048';
         }
-
+        dd($request->all());
         // Validate the request data
         $request->validate($validationRules);
 
