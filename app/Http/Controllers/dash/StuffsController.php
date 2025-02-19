@@ -113,6 +113,7 @@ class StuffsController extends Controller
 
         // Handle image upload
         $imagePath = null;
+        dd($request->all());
         if ($request->hasFile('image')) {
             $image = $request->file('image');
 
@@ -127,7 +128,7 @@ class StuffsController extends Controller
 
             $stuff->image = $imagePath;
         }
-        dd($request->all());
+
         // Get the original page_url from the request
         $pageUrl = $request->page_url;
 
