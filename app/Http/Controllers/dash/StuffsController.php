@@ -90,31 +90,24 @@ class StuffsController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Define the base validation rules
-        $validationRules = [
+
+        $request->validate([
             'stuff_name' => 'required|string|max:255',
             'designation' => 'required|string|max:255',
             'mobile' => 'required|string|max:15',
             'home_district' => 'nullable|string|max:255',
             'joining_date' => 'nullable|date',
             'page_url' => 'required|string|alpha_dash|max:255',
-        ];
+        ]);
 
-        // Conditionally add image validation rules if an image is uploaded
-        if ($request->hasFile('image')) {
-            $validationRules['image'] = 'image|mimes:jpeg,png,jpg,gif|max:2048';
-        }
-
-        // Validate the request data
-        $request->validate($validationRules);
-
-        // Find the Stuff record to update
         $stuff = Stuff::findOrFail($id);
-        dd($request->all());
+
         // Handle image upload
         $imagePath = null;
-
         if ($request->hasFile('image')) {
+            $request->validate([
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
             $image = $request->file('image');
 
             // Generate the file name using the post ID after saving the official
@@ -135,7 +128,7 @@ class StuffsController extends Controller
         // Check if the page_url exists for any other Stuff record, but not for the current one
         $existingStuff = Stuff::where('page_url', $pageUrl)
         ->where('id', '!=', $id) // Exclude the current Stuff's ID
-        ->first();
+            ->first();
 
         if ($existingStuff) {
             // If the page_url exists for another Stuff, append a counter
@@ -148,10 +141,8 @@ class StuffsController extends Controller
                 $counter++;
             }
         }
-
         $slug = Str::slug($request->stuff_name);
         $randomNumber = mt_rand(1000, 9999);
-
         // Save the updated Stuff data
         $stuff->stuff_name = $request->stuff_name;
         $stuff->designation = $request->designation;
