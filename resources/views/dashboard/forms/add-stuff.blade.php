@@ -56,7 +56,7 @@
         <div class="mb-3">
             <label for="first_joining" class="form-label">চাকুরীতে প্রথম যোগদানের তারিখ *</label>
             <input type="date" name="first_joining" id="first_joining" class="form-control"
-                value="{{ old('first_joining', isset($page) ? $page->first_joining->toDateString() : '') }}"
+                value="{{ old('first_joining', isset($page) && $page->first_joining ? $page->first_joining->toDateString() : '') }}"
                 placeholder="চাকুরীতে প্রথম যোগদানের তারিখ" required>
             @error('first_joining')
                 <small class="color-danger fs-base">{{ $message }}</small>
