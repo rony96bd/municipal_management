@@ -40,7 +40,7 @@ class SiteSettingsController extends Controller
 
         // Fetch the first site settings record or create a new one
         $settings = SiteSettings::firstOrNew();
-        dd(url($settings->site_logo));
+        // dd(url($settings->site_logo));
 
         // Set basic fields
         $settings->site_name = $request->site_name;
@@ -48,21 +48,29 @@ class SiteSettingsController extends Controller
 
         // Handle logo upload if provided
         if ($request->hasFile('site_logo')) {
+            // Unlink the existing logo if it exists
+            if ($settings->site_logo && File::exists(public_path($settings->site_logo))) {
+                File::delete(public_path($settings->site_logo));
+            }
             // Handle image upload directly to the public directory
             $logo = $request->file('site_logo');
             $logoName = 'site_logo_' . time() . '.' . $logo->getClientOriginalExtension();
-            $logoPath = public_path('images/site-settings/' . $logoName);
-            $logo->move(public_path('images/site-settings'), $logoName);
+            // $logoPath = public_path('images/site-settings/' . $logoName);
+            $logo->move('images/site-settings', $logoName);
             $settings->site_logo = 'images/site-settings/' . $logoName;
         }
 
         // Handle banner upload if provided
         if ($request->hasFile('site_banner')) {
+            // Unlink the existing banner if it exists
+            if ($settings->site_banner && File::exists(public_path($settings->site_banner))) {
+                File::delete(public_path($settings->site_banner));
+            }
             // Handle image upload directly to the public directory
             $banner = $request->file('site_banner');
             $bannerName = 'site_banner_' . time() . '.' . $banner->getClientOriginalExtension();
-            $bannerPath = public_path('images/site-settings/' . $bannerName);
-            $banner->move(public_path('images/site-settings'), $bannerName);
+            // $bannerPath = public_path('images/site-settings/' . $bannerName);
+            $banner->move('images/site-settings', $bannerName);
             $settings->site_banner = 'images/site-settings/' . $bannerName;
         }
 
