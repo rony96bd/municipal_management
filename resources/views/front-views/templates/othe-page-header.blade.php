@@ -26,7 +26,17 @@
                 <div class="flex row gap-20 jfs-ace m-column m-jst-ast">
                     <a href="{{ route('homepage') }}"
                         class="anchor transition-duration-0-5s transition-ease-in-out transition-property-all"><img
-                            src="{{ asset('images/assets/logo.png') }}" alt="আলমডাঙ্গা পৌরসভা"
+                            src="
+
+                            @if (!empty($siteSettings->site_logo)) {{ $siteSettings->site_logo }}
+                            @else
+                            {{ asset('images/assets/logo.png') }} @endif
+                            "
+                            alt="
+                            @if (!empty($siteSettings->site_name)) {{ $siteSettings->site_name }}
+                            @else
+                                আলমডাঙ্গা পৌরসভা, চুয়াডাঙ্গা @endif
+                            " alt="আলমডাঙ্গা পৌরসভা"
                             class="img site-logo bradius-100-per"></a>
                     <div class="flex column jcc-afs">
                         <h1 class="heading fs-h1">আলমডাঙ্গা পৌরসভা </h1>
