@@ -119,25 +119,6 @@ class StuffsController extends Controller
             $stuff->image = $imagePath;
         }
 
-        // Get the original page_url from the request
-        $pageUrl = $request->page_url;
-
-        // Check if the page_url exists for any other Stuff record, but not for the current one
-        $existingStuff = Stuff::where('page_url', $pageUrl)
-            ->where('id', '!=', $id) // Exclude the current Stuff's ID
-            ->first();
-
-        if ($existingStuff) {
-            // If the page_url exists for another Stuff, append a counter
-            $originalUrl = $pageUrl;
-            $counter = 1;
-
-            // Find a unique page_url by appending a counter
-            while (Stuff::where('page_url', $pageUrl)->exists()) {
-                $pageUrl = $originalUrl . '-' . $counter;
-                $counter++;
-            }
-        }
         $slug = Str::slug($request->stuff_name);
         $randomNumber = mt_rand(1000, 9999);
         // Save the updated Stuff data
