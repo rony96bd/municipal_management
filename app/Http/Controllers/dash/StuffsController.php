@@ -100,7 +100,7 @@ class StuffsController extends Controller
             'page_url' => 'required|string|alpha_dash|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
+        dd($request->all());
         // Find the Stuff record
         $stuff = Stuff::findOrFail($id);
 
