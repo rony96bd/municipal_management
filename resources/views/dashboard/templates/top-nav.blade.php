@@ -1,5 +1,9 @@
 <div
     class="header-top flex row gap-10 jsb-ace background-primary color-white padt-10 padb-10 padl-20 padr-20 z-index-10 border-solid border-bottom-1px border-left-0px border-right-0px border-top-0px border-color-secondary">
+    @php
+        $settings = \App\Models\SiteSettings::first();
+        $siteSettings = \App\Models\SiteSettings::first();
+    @endphp
     <div class="flex row gap-20 jsb-ace">
         <a class="dashboard-top-nav flex row gap-5 jsb-ace" href="{{ route('homepage') }}" class="anchor" target="_black">
             <img class="dash-site-logo" src="{{ !empty($settings->site_logo) ? asset($settings->site_logo) : asset('images/assets/logo.png') }}" alt="
