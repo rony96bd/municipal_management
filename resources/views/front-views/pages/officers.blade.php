@@ -17,7 +17,7 @@
                         @endif
 
                         @if (!empty($officer->mobile))
-                        <p style="padding-bottom: 2px;">মোবাইল: {{ $officer->mobile }}</p>
+                        <p style="padding-bottom: 2px;">মোবাইল: {{ ctbn($officer->mobile) }}</p>
                         @endif
                     </div>
                 </a>
