@@ -9,15 +9,15 @@
                         class="img full-width official-repeated-image">
                     <div class="flex column padar-20 background-gray flex-auto full-width jfs-ais gap-0">
                         @if (!empty($officer->offificial_name))
-                            <h3>{{ $officer->offificial_name }}</h3>
+                            <h3 style="padding-bottom: 5px;">{{ $officer->offificial_name }}</h3>
                         @endif
 
                         @if (!empty($officer->designation))
-                            <p>{{ $officer->designation }}</p>
+                            <p style="padding-bottom: 2px;">{{ $officer->designation }}</p>
                         @endif
 
                         @if (!empty($officer->mobile))
-                            <p>মোবাইল: {{ $officer->mobile }}</p>
+                        <p style="padding-bottom: 2px;">মোবাইল: {{ $officer->mobile }}</p>
                         @endif
                     </div>
                 </a>
