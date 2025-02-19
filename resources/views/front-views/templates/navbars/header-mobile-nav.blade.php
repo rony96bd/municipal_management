@@ -87,8 +87,11 @@
                                 </p>
                             @endif
                             {{-- If there is any submenu show these --}}
+                            @if (!$top_menu->submenus->isEmpty() && $top_menu->groupmenus->isEmpty())
                             <img src="{{ asset('images/assets/arrow-down.svg') }}" alt="arrow down"
                                 class="nav-icon z-index-2 position-relative">
+                            @endif
+                            {{-- If there is any submenu show these End --}}
                         </div>
                         <div class="mob-sub-wrapper display-none">
                             <ul class="mob-sub-menu padar-10 gap-10 flex column full-width">

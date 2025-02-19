@@ -24,7 +24,8 @@
         }
     </style>
     <section class="nav-section section background-secondary position-relative z-index-1">
-        <div class="container site-navbar bradius-12px color-white padt-0 padb-0 z-index-3 m-display-none flex row jsb-ace">
+        <div
+            class="container site-navbar bradius-12px color-white padt-0 padb-0 z-index-3 m-display-none flex row jsb-ace">
             <nav>
                 <ul class="main-menu flex row">
                     @php
