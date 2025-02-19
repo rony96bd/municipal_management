@@ -104,7 +104,7 @@ class StuffsController extends Controller
         if ($request->hasFile('image')) {
             $validationRules['image'] = 'image|mimes:jpeg,png,jpg,gif|max:2048';
         }
-        dd($request->all());
+
         // Validate the request data
         $request->validate($validationRules);
 
