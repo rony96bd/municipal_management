@@ -17,7 +17,7 @@
                         @endif
 
                         @if (!empty($stuff->mobile))
-                            <p class="text-center">মোবাইল: {{ $stuff->mobile }}</p>
+                            <p class="text-center">মোবাইল: {{ englishToBanglaNumber($stuff->mobile) }}</p>
                         @endif
                     </div>
 
