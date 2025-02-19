@@ -96,10 +96,71 @@
                         @if (!$top_menu->submenus->isEmpty() && $top_menu->groupmenus->isEmpty())
                             <div class="mob-sub-wrapper display-none">
                                 <ul class="mob-sub-menu padar-10 gap-10 flex column full-width">
-                                    <li><a href="#" class="anchor color-link">প্রথম পাতা</a></li>
-                                    <li><a href="#" class="anchor color-link">প্রথম পাতা</a></li>
-                                    <li><a href="#" class="anchor color-link">প্রথম পাতা</a></li>
-                                    <li><a href="#" class="anchor color-link">প্রথম পাতা</a></li>
+                                    @foreach ($top_menu->submenus as $submenu)
+                                        @php
+                                            $target = $submenu->tab == 2 ? '_blank' : '_self';
+                                        @endphp
+                                        @if ($submenu->forigen)
+                                            @switch($submenu->forigen_type)
+                                                @case(App\Models\officials\officials::class)
+                                                    <a href="{{ url('/officials' . '/' . $submenu->forigen->page_url) }}"
+                                                        class="anchor simple-submenu">
+                                                        {{ $submenu->forigen->offificial_name }}
+                                                    </a>
+                                                @break
+
+                                                @case(App\Models\representatives\representatives::class)
+                                                    <a href="{{ url('/representative' . '/' . $submenu->forigen->page_url) }}"
+                                                        class="anchor simple-submenu">
+                                                        {{ $submenu->forigen->name }}
+                                                    </a>
+                                                @break
+
+                                                @case(App\Models\stuff\Stuff::class)
+                                                    <a href="{{ url('/stuff' . '/' . $submenu->forigen->page_url) }}"
+                                                        class="anchor simple-submenu">
+                                                        {{ $submenu->forigen->stuff_name }}
+                                                    </a>
+                                                @break
+
+                                                @case(App\Models\page\createpage::class)
+                                                    <a href="{{ url('/page' . '/' . $submenu->forigen->page_url) }}"
+                                                        class="anchor simple-submenu">
+                                                        {{ $submenu->forigen->page_name }}
+                                                    </a>
+                                                @break
+
+                                                @case(App\Models\news\NewsModel::class)
+                                                    <a href="{{ url('/news' . '/' . $submenu->forigen->page_url) }}"
+                                                        class="anchor simple-submenu">
+                                                        {{ $submenu->forigen->topic }}
+                                                    </a>
+                                                @break
+
+                                                @case(App\Models\notice\NoticeModel::class)
+                                                    <a href="{{ url('/notice' . '/' . $submenu->forigen->page_url) }}"
+                                                        class="anchor simple-submenu">
+                                                        {{ $submenu->forigen->topic }}
+                                                    </a>
+                                                @break
+
+                                                @case(App\Models\Service\SingleService::class)
+                                                    <a href="{{ url('/service' . '/' . optional($submenu->forigen->service)->page_url . '/' . $submenu->forigen->page_url) }}"
+                                                        class="anchor simple-submenu">
+                                                        {{ $submenu->forigen->service_item_name }}
+                                                    </a>
+                                                @break
+
+                                                @default
+                                            @endswitch
+                                        @endif
+                                        @if ($submenu->link_text)
+                                            <a href="{{ $submenu->link_url }}" class="anchor simple-submenu"
+                                                target="{{ $target }}">
+                                                {{ $submenu->link_text }}
+                                            </a>
+                                        @endif
+                                    @endforeach
                                 </ul>
                             </div>
                         @endif
