@@ -114,6 +114,8 @@ class StuffsController extends Controller
 
             // Set the image path
             $imagePath = 'images/stuffs/' . $imageName;
+
+            $stuff->image = $imagePath;
         }
 
         // Get the original page_url from the request
@@ -148,7 +150,6 @@ class StuffsController extends Controller
         $stuff->joining_date = $request->joining_date;
         $stuff->grade = $request->grade;
         $stuff->page_url = $slug . '-' . $randomNumber;  // Assign the updated page_url
-        $stuff->image = $imagePath;
         $stuff->save();
 
         return redirect()->route('stuffslist')->with('success', "সফলভাবে কর্মচারী '{$request->stuff_name}' এর তথ্য আপডেট হয়েছে");
