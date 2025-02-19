@@ -69,6 +69,8 @@ class StuffsController extends Controller
         $stuff->mobile = $request->mobile;
         $stuff->email = $request->email;
         $stuff->home_district = $request->home_district;
+        $stuff->first_joining = $request->first_joining;
+        $stuff->first_designation = $request->first_designation;
         $stuff->joining_date = $request->joining_date;
         $stuff->grade = $request->grade;
         $stuff->page_url = $slug . '-' . $randomNumber; // Assign the unique page_url
@@ -147,6 +149,8 @@ class StuffsController extends Controller
         $stuff->mobile = $request->mobile;
         $stuff->email = $request->email;
         $stuff->home_district = $request->home_district;
+        $stuff->first_joining = $request->first_joining;
+        $stuff->first_designation = $request->first_designation;
         $stuff->joining_date = $request->joining_date;
         $stuff->grade = $request->grade;
         $stuff->page_url = $slug . '-' . $randomNumber;  // Assign the updated page_url
