@@ -17,6 +17,10 @@
             color: #ffffff;
             /* Change text color on hover if needed */
         }
+
+        .llisting.includs-submenu {
+            padding-right: 20px;
+        }
     </style>
     <section class="nav-section section background-secondary position-relative z-index-1">
         <div
