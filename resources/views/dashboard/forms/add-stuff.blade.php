@@ -62,6 +62,16 @@
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
         </div>
+        {{-- Grade --}}
+        <div class="mb-3">
+            <label for="grade" class="form-label">Grade</label>
+            <input type="text" name="grade" id="grade" class="form-control"
+                value="{{ old('grade', isset($page) ? $page->grade : '') }}"
+                placeholder="কর্মচারীর গ্রেড">
+            @error('grade')
+                <small class="color-danger">{{ $message }}</small>
+            @enderror
+        </div>
         {{-- Url --}}
         <div class="mb-3">
             <label for="joining_date" class="form-label">লিংক (URL)</label>

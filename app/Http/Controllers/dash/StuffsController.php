@@ -67,6 +67,7 @@ class StuffsController extends Controller
         $stuff->email = $request->email;
         $stuff->home_district = $request->home_district;
         $stuff->joining_date = $request->joining_date;
+        $stuff->grade = $request->grade;
         $stuff->page_url = $pageUrl; // Assign the unique page_url
         $stuff->image = $imagePath;
         $stuff->save();
@@ -141,6 +142,7 @@ class StuffsController extends Controller
         $stuff->email = $request->email;
         $stuff->home_district = $request->home_district;
         $stuff->joining_date = $request->joining_date;
+        $stuff->grade = $request->grade;
         $stuff->page_url = $pageUrl;  // Assign the updated page_url
         $stuff->image = $imagePath;
         $stuff->save();
