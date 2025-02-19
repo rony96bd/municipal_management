@@ -110,10 +110,10 @@ class StuffsController extends Controller
 
         // Find the Stuff record to update
         $stuff = Stuff::findOrFail($id);
-
+        dd($request->all());
         // Handle image upload
         $imagePath = null;
-        dd($request->all());
+
         if ($request->hasFile('image')) {
             $image = $request->file('image');
 
