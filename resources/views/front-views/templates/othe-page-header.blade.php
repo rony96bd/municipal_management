@@ -27,7 +27,9 @@
                     <a href="{{ route('homepage') }}"
                         class="anchor transition-duration-0-5s transition-ease-in-out transition-property-all"><img
                             src="
-
+                            @php
+                                $siteSettings = getSiteSettings();
+                            @endphp
                             @if (!empty($siteSettings->site_logo)) {{ $siteSettings->site_logo }}
                             @else
                             {{ asset('images/assets/logo.png') }} @endif
