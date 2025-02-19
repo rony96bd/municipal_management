@@ -90,7 +90,7 @@ class StuffsController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validate the request data
+
         $request->validate([
             'stuff_name' => 'required|string|max:255',
             'designation' => 'required|string|max:255',
@@ -98,37 +98,51 @@ class StuffsController extends Controller
             'home_district' => 'nullable|string|max:255',
             'joining_date' => 'nullable|date',
             'page_url' => 'required|string|alpha_dash|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        dd($request->all());
-        // Find the Stuff record
+
         $stuff = Stuff::findOrFail($id);
 
         // Handle image upload
+        $imagePath = null;
         if ($request->hasFile('image')) {
-            $request->validate([
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            ]);
 
             $image = $request->file('image');
 
             // Generate the file name using the post ID after saving the official
             $imageName = time() . '-' . $request->page_url . '.' . $image->getClientOriginalExtension();
 
-            // Save the image to the public folder, within the 'images/stuffs' directory
+            // Save the image to the public folder, within the 'images/officials' directory
             $image->move('images/stuffs', $imageName);
 
             // Set the image path
             $imagePath = 'images/stuffs/' . $imageName;
 
-            // Update the image path in the database
             $stuff->image = $imagePath;
         }
 
-        // Generate a slug and random number for the page URL
+        // Get the original page_url from the request
+        $pageUrl = $request->page_url;
+
+        // Check if the page_url exists for any other Stuff record, but not for the current one
+        $existingStuff = Stuff::where('page_url', $pageUrl)
+            ->where('id', '!=', $id) // Exclude the current Stuff's ID
+            ->first();
+
+        if ($existingStuff) {
+            // If the page_url exists for another Stuff, append a counter
+            $originalUrl = $pageUrl;
+            $counter = 1;
+
+            // Find a unique page_url by appending a counter
+            while (Stuff::where('page_url', $pageUrl)->exists()) {
+                $pageUrl = $originalUrl . '-' . $counter;
+                $counter++;
+            }
+        }
         $slug = Str::slug($request->stuff_name);
         $randomNumber = mt_rand(1000, 9999);
-
-        // Update the Stuff data
+        // Save the updated Stuff data
         $stuff->stuff_name = $request->stuff_name;
         $stuff->designation = $request->designation;
         $stuff->office_phone = $request->office_phone;
@@ -141,11 +155,8 @@ class StuffsController extends Controller
         $stuff->joining_date = $request->joining_date;
         $stuff->grade = $request->grade;
         $stuff->page_url = $slug . '-' . $randomNumber;  // Assign the updated page_url
-
-        // Save the updated Stuff data
         $stuff->save();
 
-        // Redirect with a success message
         return redirect()->route('stuffslist')->with('success', "সফলভাবে কর্মচারী '{$request->stuff_name}' এর তথ্য আপডেট হয়েছে");
     }
 
