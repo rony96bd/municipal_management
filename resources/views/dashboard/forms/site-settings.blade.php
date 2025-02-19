@@ -28,11 +28,9 @@
             </div>
         </div>
 
-
-
-        @php
+        {{-- @php
             $existingImage = isset($settings) && $settings->site_logo ? asset('storage/' . $settings->site_logo) : null;
-        @endphp
+        @endphp --}}
 
         {{-- Site Name --}}
         <div class="mb-3">
