@@ -127,7 +127,7 @@ class StuffsController extends Controller
 
             $stuff->image = $imagePath;
         }
-
+        dd($request->all());
         // Get the original page_url from the request
         $pageUrl = $request->page_url;
 
@@ -147,7 +147,7 @@ class StuffsController extends Controller
                 $counter++;
             }
         }
-        dd($request->all());
+
         $slug = Str::slug($request->stuff_name);
         $randomNumber = mt_rand(1000, 9999);
 
