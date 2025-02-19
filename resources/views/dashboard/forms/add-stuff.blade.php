@@ -91,6 +91,26 @@
                 <small class="color-danger">{{ $message }}</small>
             @enderror
         </div>
+        {{-- Section --}}
+        <div class="mb-3">
+            <label for="section" class="form-label">শাখা নির্বাচন করুন</label>
+            <select name="section" id="section" class="form-control">
+                <option value="">---শাখা নির্বাচন করুন---</option>
+                <option value="প্রশাসন বিভাগ">প্রশাসন বিভাগ</option>
+                <option value="সাধারন শাখা">সাধারন শাখা</option>
+                <option value="হিসাব শাখা">হিসাব শাখা</option>
+                <option value="কর আদায়/লাইসেন্স শাখা">কর আদায়/লাইসেন্স শাখা</option>
+                <option value="পৌর বাজার শাখা">পৌর বাজার শাখা</option>
+                <option value="প্রকৌশল বিভাগ">প্রকৌশল বিভাগ</option>
+                <option value="পূর্ত/বিদ্যুৎ/যান্ত্রিক শাখা">পূর্ত/বিদ্যুৎ/যান্ত্রিক শাখা</option>
+                <option value="পানি সরবরাহ ও পয়ঃনিস্কাশন শাখা">পানি সরবরাহ ও পয়ঃনিস্কাশন শাখা</option>
+                <option value="পরিচ্ছন্নতা শাখা">পরিচ্ছন্নতা শাখা</option>
+                <option value="স্বাস্থ্য ও পরিবার পরিকল্পনা শাখা">স্বাস্থ্য ও পরিবার পরিকল্পনা শাখা</option>
+            </select>
+            @error('section')
+                <small class="color-danger">{{ $message }}</small>
+            @enderror
+        </div>
         {{-- Image Upload --}}
         <div class="mb-3">
             <label for="image" class="form-label">প্রোফাইল ছবি আপলোড করুন</label>
