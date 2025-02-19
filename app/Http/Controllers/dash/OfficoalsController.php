@@ -130,6 +130,8 @@ class OfficoalsController extends Controller
 
             // Set the image path
             $imagePath = 'images/officials/' . $imageName;
+
+            $official->image = $imagePath;   // Save the image path (if updated)
         }
 
         // Get the original page_url from the request
@@ -165,7 +167,6 @@ class OfficoalsController extends Controller
         $official->home_district = $request->home_district;
         $official->joining_date = $request->joining_date;
         $official->page_url = $pageUrl;  // Assign the updated page_url
-        $official->image = $imagePath;   // Save the image path (if updated)
         $official->save();
 
         return redirect()->route('officialslist')->with('success', "সফলভাবে কর্মকর্তার '{$request->offificial_name}' এর তথ্য আপডেট হয়েছে");
