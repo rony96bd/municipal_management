@@ -2,10 +2,26 @@
         !preg_match(
             '/Mobile|Android|iPhone|iPad|iPod|iPad Mini|iPad Air|iPad Pro|Surface Pro 7|Surface Pro|Tablet|Kindle|Silk|PlayBook|BB10/i',
             request()->header('User-Agent')))
+    <style>
+        .main-menu li:hover {
+            background-color: #ffcc00;
+            /* Change this to your desired hover color */
+            color: #ffffff;
+            /* Change text color on hover if needed */
+        }
+
+        /* Optional: Specific hover effect for <li> with certain classes */
+        .llisting.includs-submenu:hover {
+            background-color: #ffcc00;
+            /* Change this to your desired hover color */
+            color: #ffffff;
+            /* Change text color on hover if needed */
+        }
+    </style>
     <section class="nav-section section background-secondary position-relative z-index-1">
         <div
             class="container site-navbar bradius-12px color-white padt-0 padb-0 z-index-3 m-display-none flex row jsb-ace">
-            <nav class="padt-20 padb-20">
+            <nav>
                 <ul class="main-menu flex row gap-20">
                     @php
                         $top_menus = getTopMenus();
@@ -13,7 +29,7 @@
                     @forelse ($top_menus as $top_menu)
                         {{-- Single Menu Box --}}
                         <li
-                            class="llisting includs-submenu flex row center width-max-content position-relative transition-ease transition">
+                            class="llisting includs-submenu flex row center width-max-content position-relative transition-ease transition padt-20 padb-20">
                             @if ($top_menu->forigen)
                                 @switch($top_menu->forigen_type)
                                     @case(App\Models\officials\officials::class)
