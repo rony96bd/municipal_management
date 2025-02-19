@@ -98,7 +98,6 @@ class StuffsController extends Controller
             'home_district' => 'nullable|string|max:255',
             'joining_date' => 'nullable|date',
             'page_url' => 'required|string|alpha_dash|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         dd($request->all());
         // Find the Stuff record
@@ -106,6 +105,10 @@ class StuffsController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
+            $request->validate([
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+
             $image = $request->file('image');
 
             // Generate the file name using the post ID after saving the official
