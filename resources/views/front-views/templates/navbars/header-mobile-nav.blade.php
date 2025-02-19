@@ -88,24 +88,26 @@
                             @endif
                             {{-- If there is any submenu show these --}}
                             @if (!$top_menu->submenus->isEmpty() && $top_menu->groupmenus->isEmpty())
-                            <img src="{{ asset('images/assets/arrow-down.svg') }}" alt="arrow down"
-                                class="nav-icon z-index-2 position-relative">
+                                <img src="{{ asset('images/assets/arrow-down.svg') }}" alt="arrow down"
+                                    class="nav-icon z-index-2 position-relative">
                             @endif
                             {{-- If there is any submenu show these End --}}
                         </div>
-                        <div class="mob-sub-wrapper display-none">
-                            <ul class="mob-sub-menu padar-10 gap-10 flex column full-width">
-                                <li><a href="#" class="anchor color-link">প্রথম পাতা</a></li>
-                                <li><a href="#" class="anchor color-link">প্রথম পাতা</a></li>
-                                <li><a href="#" class="anchor color-link">প্রথম পাতা</a></li>
-                                <li><a href="#" class="anchor color-link">প্রথম পাতা</a></li>
-                            </ul>
-                        </div>
+                        @if (!$top_menu->submenus->isEmpty() && $top_menu->groupmenus->isEmpty())
+                            <div class="mob-sub-wrapper display-none">
+                                <ul class="mob-sub-menu padar-10 gap-10 flex column full-width">
+                                    <li><a href="#" class="anchor color-link">প্রথম পাতা</a></li>
+                                    <li><a href="#" class="anchor color-link">প্রথম পাতা</a></li>
+                                    <li><a href="#" class="anchor color-link">প্রথম পাতা</a></li>
+                                    <li><a href="#" class="anchor color-link">প্রথম পাতা</a></li>
+                                </ul>
+                            </div>
+                        @endif
                         {{-- If there is any submenu show these End --}}
                     </li>
-                @empty
-                    <li>কোন মেনু যুক্ত করা নেই</li>
-                @endforelse
+                    @empty
+                        <li>কোন মেনু যুক্ত করা নেই</li>
+                    @endforelse
                     {{-- Single Box End --}}
                 </ul>
             </div>
