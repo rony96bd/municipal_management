@@ -15,9 +15,6 @@
             <p class="color-warning">কোন নোটিশ নেই</p>
         @endforelse
         {{-- Primary Button --}}
-        <p href="#"
-            class="anchor flex center primary-button background-primary color-white padl-20 padr-20 padt-10 padb-10 bradius-3px mart-20 marl-auto">
-            সকল
-            নোটিশ</p>
+        <p href="#" class="anchor flex center primary-button background-primary color-white padl-20 padr-20 padt-10 padb-10 bradius-3px mart-20 marl-auto">সকল নোটিশ</p>
     </div>
 </div>

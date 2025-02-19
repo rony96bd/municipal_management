@@ -41,6 +41,13 @@ class FrontController extends Controller
         return view('front-views.pages.officers', compact('page_title', 'officers'));
     }
 
+    public function notices()
+    {
+        $page_title = 'কর্মকর্তাবৃন্দ';
+        $notices = NoticeModel::all();
+        return view('front-views.pages.notices', compact('page_title', 'officers'));
+    }
+
     public function officerDetails($page_url)
     {
         $officer = officials::where('page_url', $page_url)->first();
