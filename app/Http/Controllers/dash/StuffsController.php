@@ -31,7 +31,6 @@ class StuffsController extends Controller
             'mobile' => 'required|string|max:15',
             'home_district' => 'nullable|string|max:255',
             'joining_date' => 'nullable|date',
-            'page_url' => 'required|string|alpha_dash|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         // Handle image upload
@@ -97,7 +96,7 @@ class StuffsController extends Controller
             'mobile' => 'required|string|max:15',
             'home_district' => 'nullable|string|max:255',
             'joining_date' => 'nullable|date',
-            'page_url' => 'required|string|alpha_dash|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         dd($request->all());
         $stuff = Stuff::findOrFail($id);
