@@ -135,7 +135,8 @@ class StuffsController extends Controller
                 $counter++;
             }
         }
-
+        $slug = Str::slug($request->stuff_name);
+        $randomNumber = mt_rand(1000, 9999);
         // Save the updated Stuff data
         $stuff->stuff_name = $request->stuff_name;
         $stuff->designation = $request->designation;
@@ -146,7 +147,7 @@ class StuffsController extends Controller
         $stuff->home_district = $request->home_district;
         $stuff->joining_date = $request->joining_date;
         $stuff->grade = $request->grade;
-        $stuff->page_url = $pageUrl;  // Assign the updated page_url
+        $stuff->page_url = $slug . '-' . $randomNumber;  // Assign the updated page_url
         $stuff->image = $imagePath;
         $stuff->save();
 
