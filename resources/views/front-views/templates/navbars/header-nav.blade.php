@@ -4,7 +4,7 @@
             request()->header('User-Agent')))
     <style>
         .main-menu li:hover {
-            background-color: #ffcc00;
+            background-color: #000325;
             /* Change this to your desired hover color */
             color: #ffffff;
             /* Change text color on hover if needed */
@@ -12,7 +12,7 @@
 
         /* Optional: Specific hover effect for <li> with certain classes */
         .llisting.includs-submenu:hover {
-            background-color: #ffcc00;
+            background-color: #000325;
             /* Change this to your desired hover color */
             color: #ffffff;
             /* Change text color on hover if needed */
