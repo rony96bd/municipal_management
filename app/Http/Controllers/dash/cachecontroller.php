@@ -10,6 +10,7 @@ class cachecontroller extends Controller
 {
     public function clearCache(Request $request)
     {
+        dd('test');
         // Initialize messages
         $messages = [];
 
