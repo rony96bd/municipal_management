@@ -81,38 +81,40 @@
     </style>
     <section class="section">
         <div class="container grid grid-col-5 m-grid-col-1 gap-20">
-            <h1>Notice</h1>
-            <form action="{{ route('notices') }}" method="GET" class="mb-4">
-                <div class="input-group">
-                    <input type="text" name="search" class="form-control" placeholder="Search Notices..."
-                        value="{{ request('search') }}">
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </div>
-            </form>
-
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>ক্রমিক</th>
-                        <th>নোটিশ</th>
-                        <th>প্রকাশের তারিখ</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($notices as $notice)
+            <div>
+                <h1>Notice</h1>
+            </div>
+            <div class="search-form">
+                <form action="{{ route('notices') }}" method="GET">
+                    <input type="text" name="search" placeholder="Search Notices..." value="{{ request('search') }}">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $notice->topic }}</td>
-                            <td>{{ $notice->created_at }}</td>
+                            <th>ক্রমিক</th>
+                            <th>নোটিশ</th>
+                            <th>প্রকাশের তারিখ</th>
                         </tr>
-                    @endforeach
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($notices as $notice)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $notice->topic }}</td>
+                                <td>{{ $notice->created_at }}</td>
+                            </tr>
+                        @endforeach
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
             {{-- @forelse ($notices as $notice)
                 <a href="{{ url('/') }}/notice/{{ $notice->page_url }}" class="flex column gap-0 overflow-hidden bradius-10px border-solid border-1px border-gray">
