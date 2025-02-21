@@ -102,39 +102,57 @@
                     <tbody>
                         @foreach ($notices as $notice)
                             <tr>
-                                <td>{{ englishToBanglaNumber(($notices->currentPage() - 1) * $notices->perPage() + $loop->iteration) }}</td>
+                                <td>{{ englishToBanglaNumber(($notices->currentPage() - 1) * $notices->perPage() + $loop->iteration) }}
+                                </td>
                                 <td>{{ $notice->topic }}</td>
                                 <td>{{ $notice->created_at }}</td>
                             </tr>
                         @endforeach
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
                     </tbody>
                 </table>
+                <!-- Pagination Links -->
+                Pagination Links:
+                @if ($notices->hasPages())
+                    <ul class="pagination pagination-sm">
+                        {{-- Previous Page Link --}}
+                        @if ($notices->onFirstPage())
+                            <li class="disabled"><span>&laquo;</span></li>
+                        @else
+                            <li><a href="{{ $notices->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+                        @endif
+
+                        {{-- Pagination Elements --}}
+                        @foreach ($notices as $element)
+                            {{-- "Three Dots" Separator --}}
+                            @if (is_string($element))
+                                <li class="disabled"><span>{{ $element }}</span></li>
+                            @endif
+
+                            {{-- Array of Links --}}
+                            @if (is_array($element))
+                                @foreach ($element as $page => $url)
+                                    @if ($page == $notices->currentPage())
+                                        <li class="active"><span>{{ $page }}</span></li>
+                                    @else
+                                        <li><a href="{{ $url }}">{{ $page }}</a></li>
+                                    @endif
+                                @endforeach
+                            @endif
+                        @endforeach
+
+                        {{-- Next Page Link --}}
+                        @if ($notices->hasMorePages())
+                            <li><a href="{{ $notices->nextPageUrl() }}" rel="next">&raquo;</a></li>
+                        @else
+                            <li class="disabled"><span>&raquo;</span></li>
+                        @endif
+                    </ul>
+                @endif
+                <!-- Pagination Links -->
+                <div class="pagination">
+                    {{ $notices->links() }}
+                </div>
             </div>
-
-            {{-- @forelse ($notices as $notice)
-                <a href="{{ url('/') }}/notice/{{ $notice->page_url }}" class="flex column gap-0 overflow-hidden bradius-10px border-solid border-1px border-gray">
-                    <div class="flex column padar-20 background-gray flex-auto full-width jfs-ais gap-0">
-                        @if (!empty($notice->topic))
-                            <h3 class="text-center">{{ $notice->topic }}</h3>
-                        @endif
-
-                        @if (!empty($notice->description))
-                            <p class="text-center">{{ $notice->description }}</p>
-                        @endif
-
-                        @if (!empty($notice->created_at))
-                            <p class="text-center mart-10"><strong>{{ $notice->created_at }} BCS</strong></p>
-                        @endif
-                    </div>
-
-                </a>
-            @empty
-            @endforelse --}}
         </div>
     </section>
 @endsection
