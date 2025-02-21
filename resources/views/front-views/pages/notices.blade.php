@@ -103,7 +103,7 @@
                         @foreach ($notices as $notice)
                             <tr>
                                 <td>{{ englishToBanglaNumber(($notices->currentPage() - 1) * $notices->perPage() + $loop->iteration) }}</td>
-                                <td>{{ $notice->topic }}</td>
+                                <td><a href="{{ url('/') }}/notice/{{ $notice->page_url }}">{{ $notice->topic }}</a></td>
                                 <td>{{ $notice->created_at }}</td>
                             </tr>
                         @endforeach
