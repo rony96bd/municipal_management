@@ -5,6 +5,7 @@ namespace App\Http\Controllers\dash;
 use App\Http\Controllers\Controller;
 use App\Models\notice\NoticeModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NoticeController extends Controller
 {
@@ -28,25 +29,26 @@ class NoticeController extends Controller
             'topic' => 'required|string|max:255',
             'description' => 'nullable|string', // Description can be null
             'file_upload' => 'nullable|mimes:pdf,doc,docx,csv,xls,xlsx|max:2048', // File can be null
-            'page_url' => 'required',
         ]);
 
+        $tableName = 'notices'; // Replace with your table name
+        $nextInsertId = DB::select("SHOW TABLE STATUS LIKE '$tableName'")[0]->Auto_increment;
+        $randomNumbers = mt_rand(1000, 9999); // Random 4-digit number
+        $page_url = $nextInsertId . $randomNumbers;
+
+        $official = new NoticeModel();
         // Handle file upload if present
         $filePath = null;
         if ($request->hasFile('file_upload')) {
             $file = $request->file('file_upload');
             $fileName = time() . '_' . $file->getClientOriginalName(); // Generate unique file name
-            $file->move(public_path('attestments'), $fileName); // Save to public/attestments
+            $file->move('attestments', $fileName); // Save to public/attestments
             $filePath = 'attestments/' . $fileName; // Save relative path for database
+            $official->file_path = $filePath; // Save the file path or null if no file uploaded
         }
 
-
-        $page_url = $this->generateUniqueUrl($request->page_url);
-        // Save form data to the database
-        $official = new NoticeModel();
         $official->topic = $validatedData['topic'];
         $official->description = $validatedData['description'] ?? null; // Save null if not provided
-        $official->file_path = $filePath; // Save the file path or null if no file uploaded
         $official->page_url =  $page_url;
         $official->save();
 
@@ -68,7 +70,6 @@ class NoticeController extends Controller
             'topic' => 'required|string|max:255',
             'description' => 'nullable|string', // Description can be null
             'file_upload' => 'nullable|mimes:pdf,doc,docx,csv,xls,xlsx|max:2048', // File can be null
-            'page_url' => 'required',
         ]);
 
         // Handle file upload if present
@@ -76,33 +77,14 @@ class NoticeController extends Controller
         if ($request->hasFile('file_upload')) {
             $file = $request->file('file_upload');
             $fileName = time() . '_' . $file->getClientOriginalName(); // Generate unique file name
-            $file->move(public_path('attestments'), $fileName); // Save to public/attestments
+            $file->move('attestments', $fileName); // Save to public/attestments
             $filePath = 'attestments/' . $fileName; // Save relative path for database
         }
-        // Get the original page_url from the request
-        $pageUrl = $request->page_url;
 
-        // Check if the page_url exists for any other representative, excluding the current one
-        $existingRepresentative = NoticeModel::where('page_url', $pageUrl)
-            ->where('id', '!=', $id) // Exclude the current representative's ID
-            ->first();
-
-        if ($existingRepresentative) {
-            // If the page_url exists for another representative, append a counter
-            $originalUrl = $pageUrl;
-            $counter = 1;
-
-            // Find a unique page_url by appending a counter
-            while (NoticeModel::where('page_url', $pageUrl)->exists()) {
-                $pageUrl = $originalUrl . '-' . $counter;
-                $counter++;
-            }
-        }
         // Save form data to the database
         $notice->topic = $validatedData['topic'];
         $notice->description = $validatedData['description'] ?? null; // Save null if not provided
         $notice->file_path = $filePath; // Save the file path or null if no file uploaded
-        $notice->page_url =  $pageUrl;
         $notice->save();
 
         // Redirect back with success message

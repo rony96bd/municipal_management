@@ -9,6 +9,7 @@
                     <div class="flex column gap-20">
                         <h3>বিষয়: {{ $notice->topic }}</h3>
                         <p>{!! $notice->description !!}</p>
+                        <p><iframe src="{{ url($notice->file_path) }}" width="100%" height="600px"></iframe></p>
                     </div>
                 </div>
             </div>

@@ -34,14 +34,14 @@
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
         </div>
-        <div class="mb-3">
+        {{-- <div class="mb-3">
             <input type="text" name="page_url" id="page_url" class="form-control"
                 value="{{ old('page_url', $page->page_url ?? '') }}"
                 placeholder="url (english and lower case only - no spacing. Example: about-us)" required>
             @error('page_url')
                 <small class="color-danger">{{ $message }}</small>
             @enderror
-        </div>
+        </div> --}}
         <button type="submit" class="btn btn-primary btn-span-2">
             {{ isset($page) ? 'আপডেট করুন' : 'প্রকাশ করুন' }}
         </button>
