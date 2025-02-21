@@ -41,10 +41,15 @@ class FrontController extends Controller
         return view('front-views.pages.officers', compact('page_title', 'officers'));
     }
 
-    public function notices()
+    public function notices(Request $request)
     {
         $page_title = 'নোটিশ';
-        $notices = NoticeModel::all();
+
+        $search = $request->input('search');
+        $notices = NoticeModel::when($search, function ($query, $search) {
+            return $query->where('topic', 'like', "%{$search}%");
+        })->paginate(10);
+        // $notices = NoticeModel::all();
         return view('front-views.pages.notices', compact('page_title', 'notices'));
     }
 
