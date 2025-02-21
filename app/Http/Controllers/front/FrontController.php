@@ -60,6 +60,13 @@ class FrontController extends Controller
         return view('front-views.pages.singe-pages.officials', compact('page_title', 'officer'));
     }
 
+    public function noticeDetails($page_url)
+    {
+        $notice = NoticeModel::where('page_url', $page_url)->first();
+        $page_title = $notice->topic;
+        return view('front-views.pages.singe-pages.notice', compact('page_title', 'notice'));
+    }
+
     public function stuffs()
     {
         $page_title = 'কর্মচারী বৃন্দ';
