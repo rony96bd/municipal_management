@@ -102,7 +102,7 @@
                     <tbody>
                         @foreach ($notices as $notice)
                             <tr>
-                                <td>{{ ($notices->currentPage() - 1) * $notices->perPage() + $loop->iteration }}</td>
+                                <td>{{ englishToBanglaNumber(($notices->currentPage() - 1) * $notices->perPage() + $loop->iteration) }}</td>
                                 <td>{{ $notice->topic }}</td>
                                 <td>{{ $notice->created_at }}</td>
                             </tr>
