@@ -94,16 +94,16 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Price</th>
+                            <th>ক্রমিক</th>
+                            <th>নোটিশ</th>
+                            <th>প্রকাশের তারিখ</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($notices as $notice)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $notice->topic }}</td>
-                                <td>{{ $notice->description }}</td>
                                 <td>{{ $notice->created_at }}</td>
                             </tr>
                         @endforeach
