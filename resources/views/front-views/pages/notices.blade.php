@@ -80,7 +80,7 @@
         }
     </style>
     <section class="section">
-        <div class="container grid grid-col-5 m-grid-col-1 gap-20">
+        <div class="container">
             <div>
                 <h1>Notice</h1>
             </div>
