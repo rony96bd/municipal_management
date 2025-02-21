@@ -21,10 +21,8 @@
                     @if (!empty($officer->offificial_name))
                         <h2 class="heading fs-24-32 font-weight-medium">
                             {{ $officer->offificial_name }}
-                            <span class="fs-18-22 font-weight-medium">({{ $officer->designation }})</span>
                         </h2>
-                        <p class="fs-16-20"> আলমডাঙ্গা পৌরসভা</p>
-                        <p>আলমডাঙ্গা উপজেলা, চুয়াডাঙ্গা</p>
+                        <span class="fs-18-22 font-weight-medium">({{ $officer->designation }})</span>
                     @endif
 
                 </div>
