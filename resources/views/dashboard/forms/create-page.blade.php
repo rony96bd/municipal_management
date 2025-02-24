@@ -31,7 +31,7 @@
         <div class="mb-3 grid-span-2">
             <label for="file_upload" class="form-label">আপলোড করুন (PDF, DOC, CSV, Excel)</label>
             <input type="file" name="file_upload" id="file_upload" class="form-control"
-                accept=".pdf, .doc, .docx, .csv, .xls, .xlsx">
+                accept=".pdf, .doc, .docx, .csv, .xls, .xlsx, .jpg, .jpeg, .png">
             @if (isset($page) && $page->file_path)
                 <div class="mt-2" id="attachment-section">
                     <a href="{{ asset($page->file_path) }}" target="_blank" class="btn btn-info">বর্তমান ফাইল দেখুন</a>

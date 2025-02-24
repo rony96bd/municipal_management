@@ -24,11 +24,11 @@ class PageController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'page_name' => 'required',
-            'page_url' => 'required',
-            'page_data' => 'required','file_upload' => 'nullable|mimes:pdf,doc,docx,csv,xls,xlsx|max:2048', // File can be null
+            'page_name' => 'required','page_url' => 'required',
+            'page_data' => 'required',
+            'file_upload' => 'nullable|mimes:pdf,doc,docx,csv,xls,xlsx,jpg,jpeg,png|max:5048', // File can be null
         ]);
-
+        dd($request->all());
         $page = new createpage();
 
         $filePath = null;
@@ -59,10 +59,10 @@ class PageController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'page_name' => 'required',
+        $request->validate(['page_name' => 'required',
             'page_url' => 'required',
-            'page_data' => 'required','file_upload' => 'nullable|mimes:pdf,doc,docx,csv,xls,xlsx|max:2048', // File can be null
+            'page_data' => 'required',
+            'file_upload' => 'nullable|mimes:pdf,doc,docx,csv,xls,xlsx|max:2048', // File can be null
         ]);
 
         // Find the existing page by ID
