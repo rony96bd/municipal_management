@@ -135,6 +135,7 @@ class StuffsController extends Controller
         $stuff->first_designation = $request->first_designation;
         $stuff->joining_date = $request->joining_date;
         $stuff->grade = $request->grade;
+        $stuff->prl_date = $request->prl_date;
         $stuff->section = $request->section;
         $stuff->page_url = $slug . '-' . $randomNumber;  // Assign the updated page_url
         $stuff->save();
