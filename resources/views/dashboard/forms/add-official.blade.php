@@ -39,6 +39,15 @@
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
         </div>
+        {{-- NID --}}
+        <div class="mb-3">
+            <label for="nid" class="form-label" style="color: #3E7B27">জাতীয় পরিচয়পত্র নম্বর</label>
+            <input type="text" name="nid" id="nid" class="form-control"
+                value="{{ old('nid', isset($page) ? $page->nid : '') }}" placeholder="জাতীয় পরিচয়পত্র নম্বর">
+            @error('nid')
+                <small class="color-danger fs-base">{{ $message }}</small>
+            @enderror
+        </div>
         {{-- Education Qualification --}}
         <div class="mb-3">
             <label for="offificial_name" class="form-label" style="color: #3E7B27">শিক্ষাগত যোগ্যতা</label>
@@ -103,9 +112,39 @@
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
         </div>
+        {{-- First Joining --}}
+        <div class="mb-3">
+            <label for="first_joining" class="form-label">চাকুরীতে প্রথম যোগদানের তারিখ *</label>
+            <input type="date" name="first_joining" id="first_joining" class="form-control"
+                value="{{ old('first_joining', isset($page) && $page->first_joining ? \Carbon\Carbon::parse($page->first_joining)->toDateString() : '') }}"
+                placeholder="চাকুরীতে প্রথম যোগদানের তারিখ">
+            @error('first_joining')
+                <small class="color-danger fs-base">{{ $message }}</small>
+            @enderror
+        </div>
+        {{-- PRL Date --}}
+        <div class="mb-3">
+            <label for="prl_date" class="form-label">চাকুরী হতে অবসরের তারিখ</label>
+            <input type="date" name="prl_date" id="prl_date" class="form-control"
+                value="{{ old('prl_date', isset($page) && $page->prl_date ? \Carbon\Carbon::parse($page->prl_date)->toDateString() : '') }}"
+                placeholder="চাকুরী হতে অবসরের তারিখ">
+            @error('prl_date')
+                <small class="color-danger fs-base">{{ $message }}</small>
+            @enderror
+        </div>
+        {{-- First Designation --}}
+        <div class="mb-3">
+            <label for="first_designation" class="form-label">চাকুরীতে প্রথম যোগদানের পদবী *</label>
+            <input type="text" name="first_designation" id="first_designation" class="form-control"
+                value="{{ old('first_designation', isset($page) ? $page->first_designation : '') }}"
+                placeholder="চাকুরীতে প্রথম যোগদানের পদবী *">
+            @error('first_designation')
+                <small class="color-danger fs-base">{{ $message }}</small>
+            @enderror
+        </div>
         {{-- joining date --}}
         <div class="mb-3">
-            <label for="joining_date" class="form-label" style="color: #3E7B27">যোগদানের তারিখ</label>
+            <label for="joining_date" class="form-label" style="color: #3E7B27">বর্তমান কর্মস্থলে যোগদানের তারিখ</label>
             <input type="date" name="joining_date" id="joining_date" class="form-control"
                 value="{{ old('joining_date', isset($page) ? $page->joining_date->toDateString() : '') }}"
                 placeholder="বর্তমান কর্মস্থলে যোগদানের তারিখ" required>
