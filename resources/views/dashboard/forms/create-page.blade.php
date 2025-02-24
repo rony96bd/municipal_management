@@ -1,4 +1,4 @@
-<form action="{{ isset($page) ? route('update-page', $page->id) : route('store-page') }}" method="POST">
+<form action="{{ isset($page) ? route('update-page', $page->id) : route('store-page') }}" method="POST" enctype="multipart/form-data">
     @csrf
     @if (isset($page))
         @method('POST') <!-- Use method spoofing for PUT if needed -->
