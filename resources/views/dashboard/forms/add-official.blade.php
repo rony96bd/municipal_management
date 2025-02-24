@@ -152,16 +152,6 @@
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
         </div>
-        {{-- Url --}}
-        <div class="mb-3">
-            <label for="offificial_name" class="form-label" style="color: #3E7B27">লিংক (URL)</label>
-            <input type="text" name="page_url" id="page_url" class="form-control"
-                value="{{ old('page_url', isset($page) ? $page->page_url : '') }}"
-                placeholder="url (english and lower case only - no spacing. Example: about-us) *" required>
-            @error('page_url')
-                <small class="color-danger">{{ $message }}</small>
-            @enderror
-        </div>
         {{-- Image Upload --}}
         <div class="mb-3">
             <label for="image" class="form-label" style="color: #3E7B27">প্রোফাইল ছবি আপলোড করুন</label>

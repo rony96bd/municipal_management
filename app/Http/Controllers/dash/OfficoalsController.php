@@ -5,6 +5,7 @@ namespace App\Http\Controllers\dash;
 use App\Http\Controllers\Controller;
 use App\Models\officials\officials;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class OfficoalsController extends Controller
 {
@@ -65,6 +66,8 @@ class OfficoalsController extends Controller
             $counter++;
         }
 
+        $slug = Str::slug($request->stuff_name);
+        $randomNumber = mt_rand(1000, 9999);
         // Save the new official's data
         $official = new officials();
         $official->offificial_name = $request->offificial_name;
@@ -77,9 +80,13 @@ class OfficoalsController extends Controller
         $official->fax = $request->fax;
         $official->mobile = $request->mobile;
         $official->email = $request->email;
+        $official->nid = $request->nid;
+        $official->first_joining = $request->first_joining;
+        $official->prl_date = $request->prl_date;
+        $official->first_designation = $request->first_designation;
         $official->home_district = $request->home_district;
         $official->joining_date = $request->joining_date;
-        $official->page_url = $pageUrl;  // Assign the unique page_url
+        $official->page_url = $slug . '-' . $randomNumber;
         $official->image = $imagePath;  // Save the image path
         $official->save();
 
