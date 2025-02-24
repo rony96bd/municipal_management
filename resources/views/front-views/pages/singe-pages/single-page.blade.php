@@ -12,7 +12,7 @@
                         @if ($page->file_path)
                             <p><iframe src="{{ url($page->file_path) }}" width="100%" height="600px"></iframe></p>
                         @else
-                            <p>No file available to display.</p>
+                            <p></p>
                         @endif
                     </div>
                 </div>
