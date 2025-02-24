@@ -71,6 +71,7 @@ class StuffsController extends Controller
         $stuff->first_joining = $request->first_joining;
         $stuff->first_designation = $request->first_designation;
         $stuff->joining_date = $request->joining_date;
+        $stuff->prl_date = $request->prl_date;
         $stuff->grade = $request->grade;
         $stuff->section = $request->section;
         $stuff->page_url = $slug . '-' . $randomNumber; // Assign the unique page_url

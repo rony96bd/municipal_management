@@ -56,9 +56,19 @@
         <div class="mb-3">
             <label for="first_joining" class="form-label">চাকুরীতে প্রথম যোগদানের তারিখ *</label>
             <input type="date" name="first_joining" id="first_joining" class="form-control"
-                value="{{ old('first_joining', isset($page) && $page->first_joining ? (\Carbon\Carbon::parse($page->first_joining)->toDateString()) : '') }}"
+                value="{{ old('first_joining', isset($page) && $page->first_joining ? \Carbon\Carbon::parse($page->first_joining)->toDateString() : '') }}"
                 placeholder="চাকুরীতে প্রথম যোগদানের তারিখ">
             @error('first_joining')
+                <small class="color-danger fs-base">{{ $message }}</small>
+            @enderror
+        </div>
+        {{-- PRL Date --}}
+        <div class="mb-3">
+            <label for="prl_date" class="form-label">চাকুরী হতে অবসরের তারিখ</label>
+            <input type="date" name="prl_date" id="prl_date" class="form-control"
+                value="{{ old('prl_date', isset($page) && $page->prl_date ? \Carbon\Carbon::parse($page->prl_date)->toDateString() : '') }}"
+                placeholder="চাকুরী হতে অবসরের তারিখ">
+            @error('prl_date')
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
         </div>
@@ -66,7 +76,8 @@
         <div class="mb-3">
             <label for="first_designation" class="form-label">চাকুরীতে প্রথম যোগদানের পদবী *</label>
             <input type="text" name="first_designation" id="first_designation" class="form-control"
-                value="{{ old('first_designation', isset($page) ? $page->first_designation : '') }}" placeholder="চাকুরীতে প্রথম যোগদানের পদবী *">
+                value="{{ old('first_designation', isset($page) ? $page->first_designation : '') }}"
+                placeholder="চাকুরীতে প্রথম যোগদানের পদবী *">
             @error('first_designation')
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
@@ -85,8 +96,7 @@
         <div class="mb-3">
             <label for="grade" class="form-label">কর্মচারীর গ্রেড</label>
             <input type="number" name="grade" id="grade" class="form-control"
-                value="{{ old('grade', isset($page) ? $page->grade : '') }}"
-                placeholder="কর্মচারীর গ্রেড">
+                value="{{ old('grade', isset($page) ? $page->grade : '') }}" placeholder="কর্মচারীর গ্রেড">
             @error('grade')
                 <small class="color-danger">{{ $message }}</small>
             @enderror
@@ -96,16 +106,30 @@
             <label for="section" class="form-label">শাখা নির্বাচন করুন</label>
             <select name="section" id="section" class="form-control">
                 <option value="">---শাখা নির্বাচন করুন---</option>
-                <option value="প্রশাসন বিভাগ" {{ ($page->section ?? '') == 'প্রশাসন বিভাগ' ? 'selected' : '' }}>প্রশাসন বিভাগ</option>
-                <option value="সাধারন শাখা" {{ ($page->section ?? '') == 'সাধারন শাখা' ? 'selected' : '' }}>সাধারন শাখা</option>
-                <option value="হিসাব শাখা" {{ ($page->section ?? '') == 'হিসাব শাখা' ? 'selected' : '' }}>হিসাব শাখা</option>
-                <option value="কর আদায়/লাইসেন্স শাখা" {{ ($page->section ?? '') == 'কর আদায়/লাইসেন্স শাখা' ? 'selected' : '' }}>কর আদায়/লাইসেন্স শাখা</option>
-                <option value="পৌর বাজার শাখা" {{ ($page->section ?? '') == 'পৌর বাজার শাখা' ? 'selected' : '' }}>পৌর বাজার শাখা</option>
-                <option value="প্রকৌশল বিভাগ" {{ ($page->section ?? '') == 'প্রকৌশল বিভাগ' ? 'selected' : '' }}>প্রকৌশল বিভাগ</option>
-                <option value="পূর্ত/বিদ্যুৎ/যান্ত্রিক শাখা" {{ ($page->section ?? '') == 'পূর্ত/বিদ্যুৎ/যান্ত্রিক শাখা' ? 'selected' : '' }}>পূর্ত/বিদ্যুৎ/যান্ত্রিক শাখা</option>
-                <option value="পানি সরবরাহ ও পয়ঃনিস্কাশন শাখা" {{ ($page->section ?? '') == 'পানি সরবরাহ ও পয়ঃনিস্কাশন শাখা' ? 'selected' : '' }}>পানি সরবরাহ ও পয়ঃনিস্কাশন শাখা</option>
-                <option value="পরিচ্ছন্নতা শাখা" {{ ($page->section ?? '') == 'পরিচ্ছন্নতা শাখা' ? 'selected' : '' }}>পরিচ্ছন্নতা শাখা</option>
-                <option value="স্বাস্থ্য ও পরিবার পরিকল্পনা শাখা" {{ ($page->section ?? '') == 'স্বাস্থ্য ও পরিবার পরিকল্পনা শাখা' ? 'selected' : '' }}>স্বাস্থ্য ও পরিবার পরিকল্পনা শাখা</option>
+                <option value="প্রশাসন বিভাগ" {{ ($page->section ?? '') == 'প্রশাসন বিভাগ' ? 'selected' : '' }}>
+                    প্রশাসন বিভাগ</option>
+                <option value="সাধারন শাখা" {{ ($page->section ?? '') == 'সাধারন শাখা' ? 'selected' : '' }}>সাধারন
+                    শাখা</option>
+                <option value="হিসাব শাখা" {{ ($page->section ?? '') == 'হিসাব শাখা' ? 'selected' : '' }}>হিসাব শাখা
+                </option>
+                <option value="কর আদায়/লাইসেন্স শাখা"
+                    {{ ($page->section ?? '') == 'কর আদায়/লাইসেন্স শাখা' ? 'selected' : '' }}>কর আদায়/লাইসেন্স শাখা
+                </option>
+                <option value="পৌর বাজার শাখা" {{ ($page->section ?? '') == 'পৌর বাজার শাখা' ? 'selected' : '' }}>পৌর
+                    বাজার শাখা</option>
+                <option value="প্রকৌশল বিভাগ" {{ ($page->section ?? '') == 'প্রকৌশল বিভাগ' ? 'selected' : '' }}>
+                    প্রকৌশল বিভাগ</option>
+                <option value="পূর্ত/বিদ্যুৎ/যান্ত্রিক শাখা"
+                    {{ ($page->section ?? '') == 'পূর্ত/বিদ্যুৎ/যান্ত্রিক শাখা' ? 'selected' : '' }}>
+                    পূর্ত/বিদ্যুৎ/যান্ত্রিক শাখা</option>
+                <option value="পানি সরবরাহ ও পয়ঃনিস্কাশন শাখা"
+                    {{ ($page->section ?? '') == 'পানি সরবরাহ ও পয়ঃনিস্কাশন শাখা' ? 'selected' : '' }}>পানি সরবরাহ ও
+                    পয়ঃনিস্কাশন শাখা</option>
+                <option value="পরিচ্ছন্নতা শাখা" {{ ($page->section ?? '') == 'পরিচ্ছন্নতা শাখা' ? 'selected' : '' }}>
+                    পরিচ্ছন্নতা শাখা</option>
+                <option value="স্বাস্থ্য ও পরিবার পরিকল্পনা শাখা"
+                    {{ ($page->section ?? '') == 'স্বাস্থ্য ও পরিবার পরিকল্পনা শাখা' ? 'selected' : '' }}>স্বাস্থ্য ও
+                    পরিবার পরিকল্পনা শাখা</option>
             </select>
             @error('section')
                 <small class="color-danger">{{ $message }}</small>
