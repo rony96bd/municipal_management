@@ -28,7 +28,7 @@ class PageController extends Controller
             'page_data' => 'required',
             'file_upload' => 'nullable|mimes:pdf,doc,docx,csv,xls,xlsx,jpg,jpeg,png|max:5048', // File can be null
         ]);
-        dd($request->all());
+
         $page = new createpage();
 
         $filePath = null;
