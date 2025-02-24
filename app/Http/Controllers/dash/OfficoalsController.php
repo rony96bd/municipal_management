@@ -141,26 +141,6 @@ class OfficoalsController extends Controller
             $official->image = $imagePath;   // Save the image path (if updated)
         }
 
-        // Get the original page_url from the request
-        $pageUrl = $request->page_url;
-
-        // Check if the page_url exists for any other official, but not for the current one
-        $existingOfficial = officials::where('page_url', $pageUrl)
-            ->where('id', '!=', $id) // Exclude the current official's ID
-            ->first();
-
-        if ($existingOfficial) {
-            // If the page_url exists for another official, append a counter
-            $originalUrl = $pageUrl;
-            $counter = 1;
-
-            // Find a unique page_url
-            while (officials::where('page_url', $pageUrl)->exists()) {
-                $pageUrl = $originalUrl . '-' . $counter;
-                $counter++;
-            }
-        }
-
         // Update the official's data
         $official->offificial_name = $request->offificial_name;
         $official->designation = $request->designation;
@@ -171,9 +151,12 @@ class OfficoalsController extends Controller
         $official->fax = $request->fax;
         $official->mobile = $request->mobile;
         $official->email = $request->email;
+        $official->nid = $request->nid;
+        $official->first_joining = $request->first_joining;
+        $official->prl_date = $request->prl_date;
+        $official->first_designation = $request->first_designation;
         $official->home_district = $request->home_district;
         $official->joining_date = $request->joining_date;
-        $official->page_url = $pageUrl;  // Assign the updated page_url
         $official->save();
 
         return redirect()->route('officialslist')->with('success', "সফলভাবে কর্মকর্তার '{$request->offificial_name}' এর তথ্য আপডেট হয়েছে");
