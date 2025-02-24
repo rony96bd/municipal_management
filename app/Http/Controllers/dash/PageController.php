@@ -26,13 +26,22 @@ class PageController extends Controller
         $request->validate([
             'page_name' => 'required',
             'page_url' => 'required',
-            'page_data' => 'required',
+            'page_data' => 'required','file_upload' => 'nullable|mimes:pdf,doc,docx,csv,xls,xlsx|max:2048', // File can be null
         ]);
+
+        $page = new createpage();
+
+        $filePath = null;
+        if ($request->hasFile('file_upload')) {
+            $file = $request->file('file_upload');
+            $fileName = time() . '_' . $file->getClientOriginalName(); // Generate unique file name
+            $file->move('pages', $fileName); // Save to public/attestments
+            $filePath = 'pages/' . $fileName; // Save relative path for database
+            $page->file_path = $filePath; // Save the file path or null if no file uploaded
+        }
 
         // Generate a unique URL
         $page_url = $this->generateUniqueUrl($request->page_url);
-
-        $page = new createpage();
         $page->page_name = $request->page_name;
         $page->page_url = $page_url;
         $page->page_data = $request->page_data;
@@ -53,11 +62,19 @@ class PageController extends Controller
         $request->validate([
             'page_name' => 'required',
             'page_url' => 'required',
-            'page_data' => 'required',
+            'page_data' => 'required','file_upload' => 'nullable|mimes:pdf,doc,docx,csv,xls,xlsx|max:2048', // File can be null
         ]);
 
         // Find the existing page by ID
         $page = createpage::findOrFail($id);
+
+        if ($request->hasFile('file_upload')) {
+            $file = $request->file('file_upload');
+            $fileName = time() . '_' . $file->getClientOriginalName(); // Generate unique file name
+            $file->move('pages', $fileName); // Save to public/attestments
+            $filePath = 'pages/' . $fileName; // Save relative path for database
+            $page->file_path = $filePath; // Save the file path or null if no file uploaded
+        }
 
         // Generate a unique URL excluding the current page ID
         $page_url = $this->generateUniqueUrl($request->page_url, $id);
