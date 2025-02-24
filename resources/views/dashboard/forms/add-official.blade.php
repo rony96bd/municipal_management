@@ -42,7 +42,7 @@
         {{-- NID --}}
         <div class="mb-3">
             <label for="nid" class="form-label" style="color: #3E7B27">জাতীয় পরিচয়পত্র নম্বর</label>
-            <input type="text" name="nid" id="nid" class="form-control"
+            <input type="number" name="nid" id="nid" class="form-control"
                 value="{{ old('nid', isset($page) ? $page->nid : '') }}" placeholder="জাতীয় পরিচয়পত্র নম্বর">
             @error('nid')
                 <small class="color-danger fs-base">{{ $message }}</small>
