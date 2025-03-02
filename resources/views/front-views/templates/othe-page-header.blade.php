@@ -26,20 +26,8 @@
                 <div class="flex row gap-20 jfs-ace m-column m-jst-ast">
                     <a href="{{ route('homepage') }}"
                         class="anchor transition-duration-0-5s transition-ease-in-out transition-property-all"><img
-                            src="
-                            @php
-                                $siteSettings = getSiteSettings();
-                            @endphp
-                            @if (!empty($siteSettings->site_logo)) {{ $siteSettings->site_logo }}
-                            @else
-                            {{ asset('images/assets/logo.png') }} @endif
-                            "
-                            alt="
-                            @if (!empty($siteSettings->site_name)) {{ $siteSettings->site_name }}
-                            @else
-                                আলমডাঙ্গা পৌরসভা, চুয়াডাঙ্গা @endif
-                            " alt="আলমডাঙ্গা পৌরসভা"
-                            class="img site-logo bradius-100-per"></a>
+                            src="https://alamdangapouroshava.org/images/site-settings/site_logo_1739946072.jpg"
+                            alt="@if (!empty($siteSettings->site_name)) {{ $siteSettings->site_name }} @else আলমডাঙ্গা পৌরসভা, চুয়াডাঙ্গা @endif " alt="আলমডাঙ্গা পৌরসভা" class="img site-logo bradius-100-per"></a>
                     <div class="flex column jcc-afs">
                         <h1 class="heading fs-h1">আলমডাঙ্গা পৌরসভা </h1>
                         <p class="paragraph">আমাদের প্রতিজ্ঞা দেশকল্যাণ, উদ্ভাবন, জনসেবা, সততা, নিরপেক্ষ ও দারিদ্র মুক্ত
