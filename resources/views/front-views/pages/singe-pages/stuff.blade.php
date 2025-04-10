@@ -45,7 +45,7 @@
                         <p class="flex column gap-10">
                             ফোন নাম্বার (বাসা):
                         </p>
-                        <p class="text-left">{{ $stuff->home_phone }}</p>
+                        <p class="text-left">{{ englishToBanglaNumber($stuff->home_phone) }}</p>
                     </div>
                 @endif
                 @if (!empty($stuff->mobile))
@@ -53,7 +53,7 @@
                         <p class="flex column gap-10">
                             মোবাইল:
                         </p>
-                        <p class="text-left">{{ $stuff->mobile }}</p>
+                        <p class="text-left">{{ englishToBanglaNumber($stuff->mobile) }}</p>
                     </div>
                 @endif
                 @if (!empty($stuff->fax))
