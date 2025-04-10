@@ -99,7 +99,7 @@
                         <p class="flex column gap-10">
                             বর্তমান কর্মস্থলে যোগদানের তারিখ:
                         </p>
-                        <p class="text-left">{{ $officer->joining_date }}</p>
+                        <p class="text-left">{{ \Carbon\Carbon::parse($officer->joining_date)->format('d-m-Y') }}</p>
                     </div>
                 @endif
 
