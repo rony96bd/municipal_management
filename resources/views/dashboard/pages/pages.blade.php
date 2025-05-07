@@ -1,5 +1,11 @@
 @extends('dashboard.templates.main')
 @section('dash-body')
+<style>
+    span.relative {
+        padding-right: 15px;
+    }
+
+</style>
     <div class="flex column full-width gap-20">
         <a href="{{ route('create-page') }}"
             class="outline-button padl-20 padr-20 padt-10 padb-10 border-solid border-1px border-color solid bradius-3px width-max-content">নতুন
@@ -53,7 +59,7 @@
                     @endforelse
                 </div>
                 <!-- Pagination Links -->
-                <div class="pagination-container padt-20">
+                <div class="padt-20">
                     {{ $pages->links() }}
                 </div>
             </div>
