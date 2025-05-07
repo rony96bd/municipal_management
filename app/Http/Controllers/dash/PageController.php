@@ -11,7 +11,7 @@ class PageController extends Controller
     public function pagelist()
     {
         $page_title = 'পাতা সমূহ';
-        $pages = createpage::orderBy('order', 'asc')->get();
+        $pages = createpage::orderBy('order', 'asc')->paginate(20);
         return view('dashboard.pages.pages', compact('page_title', 'pages'));
     }
 

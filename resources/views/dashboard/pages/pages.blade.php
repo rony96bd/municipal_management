@@ -52,6 +52,10 @@
                         কোন তথ্য পাওয়া যায় নি
                     @endforelse
                 </div>
+                <!-- Pagination Links -->
+                <div class="pagination-container padt-20">
+                    {{ $pages->links() }}
+                </div>
             </div>
         </div>
     </div>
