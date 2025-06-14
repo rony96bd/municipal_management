@@ -129,6 +129,25 @@ class PageController extends Controller
         return $url;
     }
 
+    public function deleteAttachment($id)
+    {
+        // Find the page by ID
+        $page = createpage::findOrFail($id);
+
+        // Delete the file from the server if it exists
+        if ($page->file_path && file_exists(public_path($page->file_path))) {
+            unlink(public_path($page->file_path)); // Delete the file
+        }
+
+        // Remove the file path from the database
+        $page->file_path = null;
+        $page->save();
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'ফাইল মুছে ফেলা হয়েছে');
+    }
+
+
     public function destroy($id)
     {
         $page = createpage::findOrFail($id); // Find the page by ID

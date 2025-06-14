@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/create-page', [PageController::class, 'createpage'])->name('create-page');
         Route::post('/create-page', [PageController::class, 'store'])->name('store-page');
         Route::get('/edit-page/{id}', [PageController::class, 'edit'])->name('edit-page');
+        Route::delete('/page/{id}/delete-attestment', [PageController::class, 'deleteAttestment'])->name('pages.delete-attestment');
         Route::post('/edit-page/{id}', [PageController::class, 'update'])->name('update-page');
         Route::delete('/delete-page/{id}', [PageController::class, 'destroy'])->name('delete-page');
         Route::post('/update-page-order', [PageController::class, 'updatePageOrder'])->name('update-page-order');
