@@ -15,10 +15,13 @@
         .button-primary {
             background-color: #007bff;
             color: white;
-            padding: 8px 12px;
+            padding: 6px 10px;
+            /* Reduced padding for a smaller button */
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            font-size: 14px;
+            /* Reduce font size for a smaller look */
         }
 
         .button-primary:hover {
@@ -27,11 +30,12 @@
     </style>
     <div class="flex column full-width gap-20">
         <!-- Search Form -->
-        <form method="GET" action="{{ route('pages') }}" class="flex row gap-10">
+        <form method="GET" action="{{ route('pagelist') }}" class="flex row gap-10">
             <input type="text" name="search" value="{{ old('search', $search) }}" placeholder="Search by page name"
                 class="input-text">
             <button type="submit" class="button-primary">Search</button>
         </form>
+
 
         <a href="{{ route('create-page') }}"
             class="outline-button padl-20 padr-20 padt-10 padb-10 border-solid border-1px border-color solid bradius-3px width-max-content">নতুন
