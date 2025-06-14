@@ -1,3 +1,69 @@
+<style>
+    /* Styling for the file upload section */
+    #file_upload {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    /* Container for the buttons */
+    .file-buttons {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    /* Style the "View File" button */
+    .view-file-btn {
+        display: inline-block;
+        padding: 8px 15px;
+        background-color: #17a2b8;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 14px;
+        transition: background-color 0.3s;
+    }
+
+    .view-file-btn:hover {
+        background-color: #138496;
+    }
+
+    /* Style the "Delete File" button */
+    .delete-file-btn {
+        padding: 8px 15px;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .delete-file-btn:hover {
+        background-color: #c82333;
+    }
+
+    /* Make the delete form display properly */
+    .delete-form {
+        margin: 0;
+    }
+
+    /* Make the buttons responsive on smaller screens */
+    @media (max-width: 768px) {
+        .file-buttons {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .view-file-btn,
+        .delete-file-btn {
+            width: 100%;
+            margin-bottom: 5px;
+        }
+    }
+</style>
 <form action="{{ isset($page) ? route('update-page', $page->id) : route('store-page') }}" method="POST"
     enctype="multipart/form-data">
     @csrf
@@ -35,15 +101,19 @@
                 accept=".pdf, .doc, .docx, .csv, .xls, .xlsx, .jpg, .jpeg, .png">
             @if (isset($page) && $page->file_path)
                 <div class="mt-2" id="attachment-section">
-                    <a href="{{ asset($page->file_path) }}" target="_blank" class="btn btn-info">বর্তমান ফাইল দেখুন</a>
-                    <form class="mart-20" action="{{ route('pages.delete-attestment', $page->id) }}" method="DELETE"
-                        onsubmit="return confirm('আপনি কি নিশ্চিতভাবে মুছে ফেলতে চান?');" style="display:flex;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="background-danger button-default-css color-white padt-10 padb-10 padr-20 padl-20 text-center bradius-3px full-width">
-                            ফাইল মুছে ফেলুন
-                        </button>
-                    </form>
+                    <div class="file-buttons">
+                        <a href="{{ asset($page->file_path) }}" target="_blank"
+                            class="btn btn-info view-file-btn">বর্তমান ফাইল দেখুন</a>
+                        <form class="delete-form" action="{{ route('pages.delete-attestment', $page->id) }}"
+                            method="POST" onsubmit="return confirm('আপনি কি নিশ্চিতভাবে মুছে ফেলতে চান?');"
+                            style="display:flex;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger delete-file-btn">
+                                ফাইল মুছে ফেলুন
+                            </button>
+                        </form>
+                    </div>
                 </div>
             @endif
 
@@ -51,6 +121,7 @@
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
         </div>
+
 
         <button type="submit" class="btn btn-primary">
             {{ isset($page) ? 'আপডেট করুন' : 'প্রকাশ করুন' }}
