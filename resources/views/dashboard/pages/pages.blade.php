@@ -32,8 +32,8 @@
         <!-- Search Form -->
         <form method="GET" action="{{ route('pages') }}" class="flex row gap-10">
             <input type="text" name="search" value="{{ old('search', $search) }}" placeholder="Search by page name"
-                class="input-text">
-            <button type="submit" class="button-primary">Search</button>
+                class="input-text" style="width: 70%;">
+            <button type="submit" class="button-primary" style="width: 30%;">Search</button>
         </form>
 
 
