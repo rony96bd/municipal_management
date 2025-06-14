@@ -1,12 +1,18 @@
 @extends('dashboard.templates.main')
 @section('dash-body')
-<style>
-    span.relative {
-        padding-right: 15px;
-    }
-
-</style>
+    <style>
+        span.relative {
+            padding-right: 15px;
+        }
+    </style>
     <div class="flex column full-width gap-20">
+        <!-- Search Form -->
+        <form method="GET" action="{{ route('pagelist') }}" class="flex row gap-10">
+            <input type="text" name="search" value="{{ old('search', $search) }}" placeholder="Search by page name"
+                class="input-text">
+            <button type="submit" class="button-primary">Search</button>
+        </form>
+
         <a href="{{ route('create-page') }}"
             class="outline-button padl-20 padr-20 padt-10 padb-10 border-solid border-1px border-color solid bradius-3px width-max-content">নতুন
             পাতা খুলুন</a>
@@ -65,52 +71,4 @@
             </div>
         </div>
     </div>
-
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize SortableJS
-            const sortable = new Sortable(document.getElementById('page-list'), {
-                animation: 150, // Smooth drag transition
-                onEnd(evt) {
-                    // Reorder the officials based on the new order
-                    const orderedIds = [];
-                    const items = document.querySelectorAll('.page-repeater');
-                    items.forEach(item => {
-                        orderedIds.push(item.getAttribute('data-id'));
-                    });
-
-                    // Send the new order to the server for updating the database
-                    updateOrder(orderedIds);
-                }
-            });
-
-            // Function to update the order
-            function updateOrder(orderedIds) {
-                fetch('{{ route('update-page-order') }}', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                                'content')
-                        },
-                        body: JSON.stringify({
-                            orderedIds: orderedIds
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('অর্ডার সফলভাবে আপডেট হয়েছে!');
-                        } else {
-                            alert('অর্ডার আপডেট করতে সমস্যা হয়েছে!');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('অর্ডার আপডেট করতে সমস্যা হয়েছে!');
-                    });
-            }
-        });
-    </script>
 @endsection

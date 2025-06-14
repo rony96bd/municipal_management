@@ -8,12 +8,24 @@ use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    public function pagelist()
+    public function pagelist(Request $request)
     {
         $page_title = 'পাতা সমূহ';
-        $pages = createpage::orderBy('created_at', 'desc')->paginate(20);
-        return view('dashboard.pages.pages', compact('page_title', 'pages'));
+        $search = $request->input('search'); // Get the search query
+
+        // If there is a search query, filter the pages
+        if ($search) {
+            $pages = createpage::where('page_name', 'like', '%' . $search . '%')
+                ->orderBy('created_at', 'desc')
+                ->paginate(20);
+        } else {
+            // If no search query, get all pages
+            $pages = createpage::orderBy('created_at', 'desc')->paginate(20);
+        }
+
+        return view('dashboard.pages.pages', compact('page_title', 'pages', 'search'));
     }
+
 
     public function createpage()
     {
@@ -24,7 +36,8 @@ class PageController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'page_name' => 'required','page_url' => 'required',
+            'page_name' => 'required',
+            'page_url' => 'required',
             'page_data' => 'required',
             'file_upload' => 'nullable|mimes:pdf,doc,docx,csv,xls,xlsx,jpg,jpeg,png|max:5048', // File can be null
         ]);
@@ -59,7 +72,8 @@ class PageController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate(['page_name' => 'required',
+        $request->validate([
+            'page_name' => 'required',
             'page_url' => 'required',
             'page_data' => 'required',
             'file_upload' => 'nullable|mimes:pdf,doc,docx,csv,xls,xlsx|max:2048', // File can be null
