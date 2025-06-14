@@ -30,7 +30,7 @@
     </style>
     <div class="flex column full-width gap-20">
         <!-- Search Form -->
-        <form method="GET" action="{{ route('pagelist') }}" class="flex row gap-10">
+        <form method="GET" action="{{ route('pages') }}" class="flex row gap-10">
             <input type="text" name="search" value="{{ old('search', $search) }}" placeholder="Search by page name"
                 class="input-text">
             <button type="submit" class="button-primary">Search</button>
