@@ -19,5 +19,5 @@ Route::get('/stuff/{page_url}', [FrontController::class, 'stuffDetails'])->name(
 Route::get('/representatives', [FrontController::class, 'representatives'])->name('representatives');
 Route::get('/representative/{page_url}', [FrontController::class, 'representativeDetails'])->name('representative-details');
 Route::get('/page/{page_url}', [FrontController::class, 'singlepage'])->name('page-details');
-Route::get('/news', [FrontController::class, 'news'])->name('news');
+Route::get('/news', [FrontController::class, 'news'])->name('news.list');
 Route::get('/news/{page_url}', [FrontController::class, 'newsDetails'])->name('news-details');

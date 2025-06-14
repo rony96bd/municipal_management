@@ -85,7 +85,7 @@
                 <h1>News</h1>
             </div>
             <div class="search-form">
-                <form action="{{ route('news') }}" method="GET">
+                <form action="{{ route('news.list') }}" method="GET">
                     <input type="text" name="search" placeholder="Search news..." value="{{ request('search') }}">
                     <button type="submit">Search</button>
                 </form>
