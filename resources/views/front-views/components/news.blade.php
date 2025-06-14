@@ -1,39 +1,27 @@
 @if ($news->isNotEmpty())
     <style>
         .news-item:nth-child(1) {
-            background-color: #1A237E;
-            /* Deep Blue */
-            color: white;
+            color: #1A237E;
         }
 
         .news-item:nth-child(2) {
-            background-color: #D32F2F;
-            /* Deep Red */
-            color: white;
+            color: #D32F2F;
         }
 
         .news-item:nth-child(3) {
-            background-color: #0288D1;
-            /* Deep Blue */
-            color: white;
+            color: #0288D1;
         }
 
         .news-item:nth-child(4) {
-            background-color: #388E3C;
-            /* Deep Green */
-            color: white;
+            color: #388E3C;
         }
 
         .news-item:nth-child(5) {
-            background-color: #F57C00;
-            /* Deep Orange */
-            color: white;
+            color: #F57C00;
         }
 
         .news-item:nth-child(6) {
-            background-color: #8E24AA;
-            /* Deep Purple */
-            color: white;
+            color: #8E24AA;
         }
 
         /* Repeat for more items or randomize */
