@@ -100,53 +100,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($news as $news)
+                        @foreach ($news as $newsItem)
                             <tr>
-                                <td>{{ englishToBanglaNumber(($news->currentPage() - 1) * $news->perPage() + $loop->iteration) }}</td>
-                                <td><a href="{{ url('/') }}/news/{{ $news->page_url }}">{{ $news->topic }}</a></td>
-                                <td>{{ $news->created_at }}</td>
+                                <td>{{ englishToBanglaNumber($loop->iteration + ($news->currentPage() - 1) * $news->perPage()) }}
+                                </td>
+                                <td><a href="{{ url('/') }}/news/{{ $newsItem->page_url }}">{{ $newsItem->topic }}</a>
+                                </td>
+                                <td>{{ $newsItem->created_at }}</td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-                <!-- Pagination Links -->
-                Pagination Links:
-                @if ($news->hasPages())
-                    <ul class="pagination pagination-sm">
-                        {{-- Previous Page Link --}}
-                        @if ($news->onFirstPage())
-                            <li class="disabled"><span>&laquo;</span></li>
-                        @else
-                            <li><a href="{{ $news->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-                        @endif
-
-                        {{-- Pagination Elements --}}
-                        @foreach ($news as $element)
-                            {{-- "Three Dots" Separator --}}
-                            @if (is_string($element))
-                                <li class="disabled"><span>{{ $element }}</span></li>
-                            @endif
-
-                            {{-- Array of Links --}}
-                            @if (is_array($element))
-                                @foreach ($element as $page => $url)
-                                    @if ($page == $news->currentPage())
-                                        <li class="active"><span>{{ $page }}</span></li>
-                                    @else
-                                        <li><a href="{{ $url }}">{{ $page }}</a></li>
-                                    @endif
-                                @endforeach
-                            @endif
-                        @endforeach
-
-                        {{-- Next Page Link --}}
-                        @if ($news->hasMorePages())
-                            <li><a href="{{ $news->nextPageUrl() }}" rel="next">&raquo;</a></li>
-                        @else
-                            <li class="disabled"><span>&raquo;</span></li>
-                        @endif
-                    </ul>
-                @endif
                 <!-- Pagination Links -->
                 <div class="pagination">
                     {{ $news->links() }}

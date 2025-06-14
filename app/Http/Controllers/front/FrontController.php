@@ -34,12 +34,27 @@ class FrontController extends Controller
         return view('front-views.pages.index', compact('page_title', 'services', 'notices', 'officials', 'representatives', 'official', 'about', 'galleries', 'slidders', 'news', 'sidebars'));
     }
 
-    public function news()
+    public function news(Request $request)
     {
         $page_title = 'সংবাদ সমূহ';
-        $news = NewsModel::orderBy('created_at', 'desc')->paginate(10);
+
+        // Check if a search term is provided
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            // Perform the search query
+            $news = NewsModel::where('topic', 'like', '%' . $search . '%')
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+        } else {
+            // No search term provided, fetch all news
+            $news = NewsModel::orderBy('created_at', 'desc')
+                ->paginate(10);
+        }
+
+        // Return the view with the news data and page title
         return view('front-views.pages.news', compact('page_title', 'news'));
     }
+
 
     public function newsDetails($page_url)
     {
