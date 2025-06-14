@@ -54,7 +54,7 @@
             {{-- Single Service --}}
             <div class="slidder-wrapper-container padt-10 padb-10">
                 <div class="slidder-wrapper flex row gap-5 no-wrap">
-                    @forelse ($news as $singnews)
+                    @forelse ($news as $index => $singnews)
                         <a href="{{ url('/news') . '/' . $singnews->page_url }}"
                             class="single-slidder-item anchor news-item flex row gap-5 center" style="color: {{ $colors[$index % count($colors)] }};">
                             {{ $singnews->topic }}
@@ -64,9 +64,9 @@
                     @endforelse
 
                     {{-- Duplicate news items for seamless loop --}}
-                    @forelse ($news as $singnews)
+                    @forelse ($news as $index => $singnews)
                         <a href="{{ url('/news') . '/' . $singnews->page_url }}"
-                            class="single-slidder-item anchor news-item flex row gap-5 center">
+                            class="single-slidder-item anchor news-item flex row gap-5 center" style="color: {{ $colors[$index % count($colors)] }};">
                             {{ $singnews->topic }}
                         </a>
                     @empty
