@@ -34,6 +34,20 @@ class FrontController extends Controller
         return view('front-views.pages.index', compact('page_title', 'services', 'notices', 'officials', 'representatives', 'official', 'about', 'galleries', 'slidders', 'news', 'sidebars'));
     }
 
+    public function news()
+    {
+        $page_title = 'সংবাদ সমূহ';
+        $news = NewsModel::orderBy('created_at', 'desc')->paginate(10);
+        return view('front-views.pages.news', compact('page_title', 'news'));
+    }
+
+    public function newsDetails($page_url)
+    {
+        $news = NewsModel::where('page_url', $page_url)->first();
+        $page_title = $news->title;
+        return view('front-views.pages.singe-pages.news', compact('page_title', 'news'));
+    }
+
     public function officers()
     {
         $page_title = 'কর্মকর্তাবৃন্দ';
