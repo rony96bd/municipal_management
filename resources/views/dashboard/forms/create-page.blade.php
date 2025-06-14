@@ -69,6 +69,32 @@
             margin-bottom: 10px;
         }
     }
+
+    /* Style the "View File" button */
+    .view-file-btn {
+        display: flex;
+        /* Enables flexbox */
+        justify-content: center;
+        /* Centers text horizontally */
+        align-items: center;
+        /* Centers text vertically */
+        width: 50% !important;
+        /* Set button width */
+        padding: 10px 15px;
+        /* Adjust padding */
+        background-color: #17a2b8;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 14px;
+        transition: background-color 0.3s;
+        text-align: center;
+        /* Ensures text is centered */
+    }
+
+    .view-file-btn:hover {
+        background-color: #138496;
+    }
 </style>
 <form action="{{ isset($page) ? route('update-page', $page->id) : route('store-page') }}" method="POST"
     enctype="multipart/form-data">
@@ -106,16 +132,17 @@
             <input type="file" name="file_upload" id="file_upload" class="form-control"
                 accept=".pdf, .doc, .docx, .csv, .xls, .xlsx, .jpg, .jpeg, .png">
             @if (isset($page) && $page->file_path)
-                <div class="mt-2" id="attachment-section">
+                <div class="mt-2" id="attachment-section" style="width: 300px;">
                     <div class="file-buttons">
-                        <a href="{{ asset($page->file_path) }}" target="_blank"
-                            class="btn btn-info view-file-btn">বর্তমান ফাইল দেখুন</a>
+                        <a href="{{ asset($page->file_path) }}" target="_blank" class="btn btn-info view-file-btn"
+                            style="width: 50% !important;">বর্তমান ফাইল দেখুন</a>
                         <form class="delete-form" action="{{ route('pages.delete-attestment', $page->id) }}"
                             method="POST" onsubmit="return confirm('আপনি কি নিশ্চিতভাবে মুছে ফেলতে চান?');"
                             style="display:flex; gap: 10px;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger delete-file-btn">
+                            <button type="submit" class="btn delete-file-btn"
+                                style="width: 50%; background-color: #dc3545;">
                                 ফাইল মুছে ফেলুন
                             </button>
                         </form>
