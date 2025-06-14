@@ -22,7 +22,7 @@ class FrontController extends Controller
     {
         $page_title = 'স্বাগতম';
         $services = Service::with('singleServices')->get();
-        $notices = NoticeModel::orderBy('order', 'asc')->get();
+        $notices = NoticeModel::orderBy('order', 'asc')->paginate(5);
         $news = NewsModel::orderBy('order', 'asc')->paginate(10);
         $officials = officials::orderBy('order', 'asc')->get();
         $official = officials::where('order', 1)->first();
