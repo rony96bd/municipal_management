@@ -16,6 +16,8 @@
     /* Style the "View File" button */
     .view-file-btn {
         display: inline-block;
+        width: 48%;
+        /* Make both buttons the same width */
         padding: 8px 15px;
         background-color: #17a2b8;
         color: white;
@@ -23,6 +25,7 @@
         border-radius: 5px;
         font-size: 14px;
         transition: background-color 0.3s;
+        text-align: center;
     }
 
     .view-file-btn:hover {
@@ -31,6 +34,8 @@
 
     /* Style the "Delete File" button */
     .delete-file-btn {
+        width: 48%;
+        /* Make both buttons the same width */
         padding: 8px 15px;
         background-color: #dc3545;
         color: white;
@@ -39,6 +44,7 @@
         font-size: 14px;
         cursor: pointer;
         transition: background-color 0.3s;
+        text-align: center;
     }
 
     .delete-file-btn:hover {
@@ -54,13 +60,13 @@
     @media (max-width: 768px) {
         .file-buttons {
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
         }
 
         .view-file-btn,
         .delete-file-btn {
             width: 100%;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
     }
 </style>
@@ -106,7 +112,7 @@
                             class="btn btn-info view-file-btn">বর্তমান ফাইল দেখুন</a>
                         <form class="delete-form" action="{{ route('pages.delete-attestment', $page->id) }}"
                             method="POST" onsubmit="return confirm('আপনি কি নিশ্চিতভাবে মুছে ফেলতে চান?');"
-                            style="display:flex;">
+                            style="display:flex; gap: 10px;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger delete-file-btn">
@@ -121,7 +127,6 @@
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
         </div>
-
 
         <button type="submit" class="btn btn-primary">
             {{ isset($page) ? 'আপডেট করুন' : 'প্রকাশ করুন' }}
