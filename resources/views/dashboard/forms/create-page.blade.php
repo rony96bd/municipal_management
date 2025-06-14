@@ -36,12 +36,11 @@
             @if (isset($page) && $page->file_path)
                 <div class="mt-2" id="attachment-section">
                     <a href="{{ asset($page->file_path) }}" target="_blank" class="btn btn-info">বর্তমান ফাইল দেখুন</a>
-                    <form class="mart-20" action="{{ route('pages.delete-attestment', $page->id) }}" method="POST"
+                    <form class="mart-20" action="{{ route('pages.delete-attestment', $page->id) }}" method="DELETE"
                         onsubmit="return confirm('আপনি কি নিশ্চিতভাবে মুছে ফেলতে চান?');" style="display:flex;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit"
-                            class="background-danger button-default-css color-white padt-10 padb-10 padr-20 padl-20 text-center bradius-3px full-width">
+                        <button type="submit" class="background-danger button-default-css color-white padt-10 padb-10 padr-20 padl-20 text-center bradius-3px full-width">
                             ফাইল মুছে ফেলুন
                         </button>
                     </form>
