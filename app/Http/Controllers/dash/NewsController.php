@@ -120,13 +120,22 @@ class NewsController extends Controller
 
         return redirect()->back()->with('success', 'ফাইল ডিলিট করা হয়েছে।');
     }
-    public function delete($id)
+
+    public function destroy($id)
     {
-        $notice = NewsModel::findOrFail($id);
-        $name = $notice->topic; // Store page name for feedback
-        $notice->delete(); // Delete the page
-        return redirect()->back()->with('success', "'{$name}' নোটিশটি মুছে ফেলা হয়েছে।");
+        // Find the news by its ID
+        $news = NewsModel::findOrFail($id);
+
+        // Store the topic name for feedback
+        $name = $news->topic;
+
+        // Delete the news item
+        $news->delete();
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', "'{$name}' নিউজটি মুছে ফেলা হয়েছে।");
     }
+
 
 
     private function generateUniqueUrl($url, $excludeId = null)

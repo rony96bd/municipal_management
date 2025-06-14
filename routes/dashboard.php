@@ -90,6 +90,7 @@ Route::middleware('auth')->group(function () {
         Route::get('add-notice', [NoticeController::class, 'createnotice'])->name('create-notice');
         Route::post('notice/add', [NoticeController::class, 'store'])->name('store-notice');
         Route::get('edit-notice/{id}', [NoticeController::class, 'edit'])->name('edit-notice');
+        // Attestment
         Route::delete('/delete-attestment/{id}', [NoticeController::class, 'deleteAttestment'])->name('delete-attestment');
         Route::put('/notice-update/{id}', [NoticeController::class, 'update'])->name('notice-update');
         Route::delete('/notice/delete/{id}', [NoticeController::class, 'delete'])->name('notice-delete');
@@ -101,6 +102,7 @@ Route::middleware('auth')->group(function () {
         Route::put('edit-news/{id}', [NewsController::class, 'update'])->name('news-update');
         Route::post('create-news', [NewsController::class, 'store'])->name('store-news');
         Route::post('/update-news-order', [NewsController::class, 'updateNewsOrder'])->name('update-news-order');
+        Route::delete('delete-news/{id}', [NewsController::class, 'destroy'])->name('delete-news');
         // Users
         Route::get('user-list', [UserListController::class, 'UsersList'])->name('users-list');
         // About

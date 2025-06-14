@@ -51,15 +51,17 @@
                                     class="background-primary color-white padt-10 padb-10 padr-20 padl-20 text-center bradius-3px">
                                     সম্পাদনা করুন
                                 </a>
-                                <form action="{{ route('notice-delete', $news->id) }}" method="POST"
+                                <form action="{{ route('delete-news', $news->id) }}" method="POST"
                                     onsubmit="return confirm('আপনি কি নিশ্চিতভাবে মুছে ফেলতে চান?');"
                                     style="display:inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
-                                        class="background-danger button-default-css color-white padt-10 padb-10 padr-20 padl-20 text-center bradius-3px full-width">
+                                        class="background-danger button-default-css color-white padt-10 padb-10 padr-20 padl-20 text-center bradius-3px full-width"
+                                        title="Click to delete this news">
                                         ডিলিট করুন
                                     </button>
+
                                 </form>
 
 
