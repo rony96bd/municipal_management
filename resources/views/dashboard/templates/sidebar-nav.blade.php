@@ -16,6 +16,12 @@
         <span>@include('icons.dashboard-icons.media')</span>
         <span class="nav-title">মিডিয়া</span>
     </a>
+
+    <a href="{{ route('pages') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace"
+        title="পেজ">
+        <span>@include('icons.notice')</span>
+        <span class="nav-title">পেজ</span>
+    </a>
     {{-- <a href="{{ route('notice') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="নোটিশ">
         <span>@include('icons.notice')</span>
         <span class="nav-title">নোটিশ</span>
