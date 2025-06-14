@@ -4,10 +4,30 @@
         span.relative {
             padding-right: 15px;
         }
+
+        .input-text {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: 250px;
+        }
+
+        .button-primary {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .button-primary:hover {
+            background-color: #0056b3;
+        }
     </style>
     <div class="flex column full-width gap-20">
         <!-- Search Form -->
-        <form method="GET" action="{{ route('pagelist') }}" class="flex row gap-10">
+        <form method="GET" action="{{ route('pages') }}" class="flex row gap-10">
             <input type="text" name="search" value="{{ old('search', $search) }}" placeholder="Search by page name"
                 class="input-text">
             <button type="submit" class="button-primary">Search</button>
