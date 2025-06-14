@@ -48,7 +48,7 @@ class FrontController extends Controller
         $search = $request->input('search');
         $notices = NoticeModel::when($search, function ($query, $search) {
             return $query->where('topic', 'like', "%{$search}%");
-        })->paginate(10);
+        })->orderBy('created_at', 'desc')->paginate(10);
         // $notices = NoticeModel::all();
         return view('front-views.pages.notices', compact('page_title', 'notices'));
     }
