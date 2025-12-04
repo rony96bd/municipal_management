@@ -50,6 +50,21 @@
             @enderror
         </div>
 
+        <div class="flex column gap-5">
+            <label class="fs-base font-weight-bold">সংযুক্ত ফাইল (PDF, ঐচ্ছিক)</label>
+            <input type="file" name="attachment" accept="application/pdf">
+            @if (isset($post) && $post->attachment_path)
+                <div class="mart-10">
+                    <a href="{{ asset($post->attachment_path) }}" target="_blank" class="color-primary">
+                        বর্তমান সংযুক্ত PDF দেখুন
+                    </a>
+                </div>
+            @endif
+            @error('attachment')
+                <span class="color-danger fs-small">{{ $message }}</span>
+            @enderror
+        </div>
+
         <div>
             <button type="submit"
                 class="background-primary color-white padt-10 padb-10 padr-30 padl-30 bradius-3px button-default-css">

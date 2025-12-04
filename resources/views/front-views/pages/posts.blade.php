@@ -44,6 +44,23 @@
             color: #333;
         }
 
+        .post-attachment-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #b22222;
+            background: #fff4f4;
+            border-radius: 999px;
+            padding: 4px 10px;
+            margin-top: 6px;
+        }
+
+        .post-attachment-badge svg {
+            width: 14px;
+            height: 14px;
+        }
+
         .post-read-more {
             display: inline-block;
             margin-top: 8px;
@@ -128,6 +145,19 @@
                             <div class="post-text">
                                 {!! nl2br(e(Str::limit($post->content ?? '', 220, ' ...'))) !!}
                             </div>
+
+                            @if ($post->attachment_path)
+                                <div class="mart-5">
+                                    <span class="post-attachment-badge">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#b22222">
+                                            <path
+                                                d="M16.5 6.75V15a4.5 4.5 0 1 1-9 0V5.25a3 3 0 1 1 6 0V14a1.5 1.5 0 1 1-3 0V7.5" />
+                                        </svg>
+                                        <span>সংযুক্ত PDF আছে</span>
+                                    </span>
+                                </div>
+                            @endif
+
                             <a class="post-read-more" href="{{ url('/IUGIP-Projects/' . $post->page_url) }}">পুরো পোস্ট
                                 দেখুন</a>
                         </div>

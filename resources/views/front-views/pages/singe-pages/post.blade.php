@@ -57,6 +57,27 @@
             white-space: pre-wrap;
         }
 
+        .post-attachment-wrapper {
+            margin-top: 20px;
+            padding: 16px 22px 22px 22px;
+            border-top: 1px solid #eee;
+        }
+
+        .post-attachment-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .post-attachment-frame {
+            width: 100%;
+            /* Approx. A4 height feeling on screen */
+            min-height: 820px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
         /* Simple image lightbox */
         .image-lightbox-overlay {
             position: fixed;
@@ -125,6 +146,19 @@
                         <div class="single-post-text">
                             {!! nl2br(e($post->content ?? '')) !!}
                         </div>
+
+                        @if ($post->attachment_path)
+                            <div class="post-attachment-wrapper">
+                                <div class="post-attachment-title">
+                                    সংযুক্ত PDF ডকুমেন্ট
+                                </div>
+                                <div class="post-attachment-frame">
+                                    <iframe src="{{ asset($post->attachment_path) }}" width="100%" height="820"
+                                        style="border:0;" title="সংযুক্ত PDF">
+                                    </iframe>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

@@ -31,17 +31,28 @@ class PostController extends Controller
             'content' => 'nullable|string',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
             'images_order' => 'nullable|string',
+            'attachment' => 'nullable|mimes:pdf|max:5120',
         ]);
 
         // অটো-জেনারেটেড ইউনিক page_url (slug)
         $baseSlug = Str::slug($validated['title'] ?? 'post');
         $pageUrl = $this->generateUniqueSlug($baseSlug);
 
+        // অ্যাটাচমেন্ট (PDF) থাকলে আপলোড করি
+        $attachmentPath = null;
+        if ($request->hasFile('attachment')) {
+            $file = $request->file('attachment');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('attestments'), $fileName);
+            $attachmentPath = 'attestments/' . $fileName;
+        }
+
         // প্রথমে পোস্ট তৈরি করি (main image_path এখন খালি রাখছি বা প্রথম ছবিটি সেট করব)
         $post = Post::create([
             'title' => $validated['title'],
             'content' => $validated['content'] ?? null,
             'image_path' => null,
+            'attachment_path' => $attachmentPath,
             'page_url' => $pageUrl,
         ]);
 
@@ -94,6 +105,7 @@ class PostController extends Controller
             'content' => 'nullable|string',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
             'images_order' => 'nullable|string',
+            'attachment' => 'nullable|mimes:pdf|max:5120',
         ]);
         $post->title = $validated['title'];
         $post->content = $validated['content'] ?? null;
@@ -102,6 +114,14 @@ class PostController extends Controller
         if (!$post->page_url) {
             $baseSlug = Str::slug($validated['title'] ?? 'post');
             $post->page_url = $this->generateUniqueSlug($baseSlug, $post->id);
+        }
+
+        // নতুন অ্যাটাচমেন্ট (PDF) দিলে আপডেট করি
+        if ($request->hasFile('attachment')) {
+            $file = $request->file('attachment');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('attestments'), $fileName);
+            $post->attachment_path = 'attestments/' . $fileName;
         }
 
         $post->save();
