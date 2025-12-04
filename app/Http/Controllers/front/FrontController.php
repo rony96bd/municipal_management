@@ -14,6 +14,7 @@ use App\Models\representatives\representatives;
 use App\Models\stuff\Stuff;
 use App\Models\Service\Service;
 use App\Models\sidebar\SidebarModel;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class FrontController extends Controller
@@ -55,6 +56,24 @@ class FrontController extends Controller
         return view('front-views.pages.news', compact('page_title', 'news'));
     }
 
+    public function posts()
+    {
+        // পেজ হেডার ও ব্রাউজার ট্যাবের জন্য
+        $page_title = 'IUGIP প্রকল্পসমূহ';
+        // একটাই লিংকে ( /posts ) সব পোস্ট ফেসবুক টাইমলাইনের মত দেখানোর জন্য, সাথে সব ছবি eager load
+        $posts = Post::with('images')->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('front-views.pages.posts', compact('page_title', 'posts'));
+    }
+
+    public function postDetails($page_url)
+    {
+        $post = Post::with('images')->where('page_url', $page_url)->firstOrFail();
+        // পেজ হেডার ও ব্রাউজার ট্যাবের জন্য একই টাইটেল
+        $page_title = 'IUGIP প্রকল্পসমূহ';
+
+        return view('front-views.pages.singe-pages.post', compact('page_title', 'post'));
+    }
 
     public function newsDetails($page_url)
     {

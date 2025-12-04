@@ -17,11 +17,16 @@
         <span class="nav-title">মিডিয়া</span>
     </a>
 
-    <a href="{{ route('pages') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace"
-        title="পেজ">
+    <a href="{{ route('pages') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="পেজ">
         <span>@include('icons.notice')</span>
         <span class="nav-title">পেজ</span>
     </a>
+
+    {{-- <a href="{{ route('posts.index') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace"
+        title="IUGIP প্রকল্পসমূহ">
+        <span>@include('icons.news')</span>
+        <span class="nav-title">IUGIP প্রকল্পসমূহ</span>
+    </a> --}}
     {{-- <a href="{{ route('notice') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="নোটিশ">
         <span>@include('icons.notice')</span>
         <span class="nav-title">নোটিশ</span>

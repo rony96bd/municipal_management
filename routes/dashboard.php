@@ -18,6 +18,7 @@ use App\Http\Controllers\dash\SiteSettings;
 use App\Http\Controllers\dash\SiteSettingsController;
 use App\Http\Controllers\dash\StuffsController;
 use App\Http\Controllers\dash\UserListController;
+use App\Http\Controllers\dash\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -151,5 +152,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/media', [MediaController::class, 'index'])->name('media-library');
         Route::post('/media', [MediaController::class, 'store'])->name('media-store');
         Route::delete('/media/delete/{id}', [MediaController::class, 'destroy'])->name('media-destroy');
+
+        // Dynamic Posts (text + image like Facebook without reactions)
+        Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+        Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
+        Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+        Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
+        Route::put('/posts/{id}', [PostController::class, 'update'])->name('posts.update');
+        Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
     });
 });

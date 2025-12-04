@@ -21,3 +21,7 @@ Route::get('/representative/{page_url}', [FrontController::class, 'representativ
 Route::get('/page/{page_url}', [FrontController::class, 'singlepage'])->name('page-details');
 Route::get('/news', [FrontController::class, 'news'])->name('news.list');
 Route::get('/news/{page_url}', [FrontController::class, 'newsDetails'])->name('news-details');
+
+// Dynamic posts (text + image, no social actions)
+Route::get('/IUGIP-Projects', [FrontController::class, 'posts'])->name('posts.list');
+Route::get('/IUGIP-Projects/{page_url}', [FrontController::class, 'postDetails'])->name('posts.details');

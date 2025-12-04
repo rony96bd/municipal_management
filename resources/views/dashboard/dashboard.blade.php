@@ -31,6 +31,16 @@
                 <p class="grid-menu-name">নতুন নিউজ যুক্ত করুন, নিউজ এর তালিকা ও তথ্য পরিবর্তন করুন</p>
             </div>
         </a>
+        {{-- IUGIP Projects Grid Menu --}}
+        <a href="{{ route('posts.index') }}" class="anchor grid-menu flex row gap-0 bradius-6px jfs-ace overflow-hidden">
+            <div class="grid-menu-icon-box padar-20 flex row center background-primary">
+                @include('icons.news')
+            </div>
+            <div class="flex-column padar-20">
+                <strong class="grid-menu-name">IUGIP প্রকল্পসমূহ</strong>
+                <p class="grid-menu-name">IUGIP প্রকল্পের পোস্ট যুক্ত করুন, তালিকা ও তথ্য পরিবর্তন করুন</p>
+            </div>
+        </a>
         {{-- Officer Grid Menu --}}
         <a href="{{ route('officialslist') }}" class="anchor grid-menu flex row gap-0 bradius-6px jfs-ace overflow-hidden">
             <div class="grid-menu-icon-box padar-20 flex row center background-primary">
