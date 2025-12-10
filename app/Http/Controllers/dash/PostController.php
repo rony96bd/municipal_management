@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 
 class PostController extends Controller
 {
@@ -43,7 +44,8 @@ class PostController extends Controller
         if ($request->hasFile('attachment')) {
             $file = $request->file('attachment');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('attestments'), $fileName);
+            $targetDir = $this->publicUploadPath('attestments');
+            $file->move($targetDir, $fileName);
             $attachmentPath = 'attestments/' . $fileName;
         }
 
@@ -67,7 +69,8 @@ class PostController extends Controller
                     continue;
                 }
                 $fileName = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('uploads/posts'), $fileName);
+                $targetDir = $this->publicUploadPath('uploads/posts');
+                $image->move($targetDir, $fileName);
                 $imagePath = 'uploads/posts/' . $fileName;
 
                 // প্রথম ছবিটাকে main image হিসেবে রাখি
@@ -120,7 +123,8 @@ class PostController extends Controller
         if ($request->hasFile('attachment')) {
             $file = $request->file('attachment');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('attestments'), $fileName);
+            $targetDir = $this->publicUploadPath('attestments');
+            $file->move($targetDir, $fileName);
             $post->attachment_path = 'attestments/' . $fileName;
         }
 
@@ -139,7 +143,8 @@ class PostController extends Controller
                     continue;
                 }
                 $fileName = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('uploads/posts'), $fileName);
+                $targetDir = $this->publicUploadPath('uploads/posts');
+                $image->move($targetDir, $fileName);
                 $imagePath = 'uploads/posts/' . $fileName;
 
                 // যদি main image না থাকে তবে প্রথম নতুন ছবিটাই main image হিসেবে সেট করি
@@ -218,6 +223,27 @@ class PostController extends Controller
         });
 
         return $files;
+    }
+
+    /**
+     * public_html-এ আপলোড সংরক্ষণ করার জন্য ফোল্ডার রেজল্ভ করে (লোকালেও কাজ করবে)
+     */
+    private function publicUploadPath(string $subDir): string
+    {
+        // চেষ্টা করি public_html ব্যবহার করতে (লাইভ cPanel এর মত সিস্টেমে)
+        $publicHtml = base_path('../public_html');
+        if (is_dir($publicHtml)) {
+            $dir = rtrim($publicHtml, '/\\') . DIRECTORY_SEPARATOR . trim($subDir, '/\\');
+        } else {
+            // লোকাল/ডিফল্ট: Laravel public/ ডিরেক্টরি
+            $dir = public_path($subDir);
+        }
+
+        if (!File::exists($dir)) {
+            File::makeDirectory($dir, 0755, true);
+        }
+
+        return $dir;
     }
 }
 
