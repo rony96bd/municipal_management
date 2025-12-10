@@ -230,14 +230,17 @@ class PostController extends Controller
      */
     private function publicUploadPath(string $subDir): string
     {
-        // চেষ্টা করি public_html ব্যবহার করতে (লাইভ cPanel এর মত সিস্টেমে)
-        $publicHtml = base_path('../public_html');
-        if (is_dir($publicHtml)) {
-            $dir = rtrim($publicHtml, '/\\') . DIRECTORY_SEPARATOR . trim($subDir, '/\\');
+        // প্রথম পছন্দ: .env থেকে এক্সপ্লিসিট রুট, যেমন /home/USER/public_html
+        $root = env('UPLOAD_PUBLIC_ROOT');
+        if ($root) {
+            $root = rtrim($root, '/\\');
         } else {
-            // লোকাল/ডিফল্ট: Laravel public/ ডিরেক্টরি
-            $dir = public_path($subDir);
+            // দ্বিতীয় পছন্দ: প্রজেক্টের উপরের লেভেলে public_html চেষ্টা করা
+            $probe = base_path('../public_html');
+            $root = is_dir($probe) ? $probe : public_path(); // লোকালে public/ এ fallback
         }
+
+        $dir = rtrim($root, '/\\') . DIRECTORY_SEPARATOR . trim($subDir, '/\\');
 
         if (!File::exists($dir)) {
             File::makeDirectory($dir, 0755, true);
