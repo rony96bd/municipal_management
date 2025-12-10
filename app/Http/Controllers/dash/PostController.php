@@ -49,10 +49,12 @@ class PostController extends Controller
             $attachmentPath = 'attestments/' . $fileName;
         }
 
+        $cleanContent = $this->sanitizeContent($validated['content'] ?? null);
+
         // প্রথমে পোস্ট তৈরি করি (main image_path এখন খালি রাখছি বা প্রথম ছবিটি সেট করব)
         $post = Post::create([
             'title' => $validated['title'],
-            'content' => $validated['content'] ?? null,
+            'content' => $cleanContent,
             'image_path' => null,
             'attachment_path' => $attachmentPath,
             'page_url' => $pageUrl,
@@ -111,7 +113,7 @@ class PostController extends Controller
             'attachment' => 'nullable|mimes:pdf|max:5120',
         ]);
         $post->title = $validated['title'];
-        $post->content = $validated['content'] ?? null;
+        $post->content = $this->sanitizeContent($validated['content'] ?? null);
 
         // যদি আগে page_url না থাকে বা ফাঁকা থাকে, তাহলে অটো-জেনারেট করি
         if (!$post->page_url) {
@@ -247,6 +249,18 @@ class PostController extends Controller
         }
 
         return $dir;
+    }
+
+    /**
+     * পোস্ট কনটেন্ট থেকে HTML ট্যাগ সরিয়ে নিরাপদ টেক্সট রাখে
+     */
+    private function sanitizeContent(?string $text): ?string
+    {
+        if (!$text) {
+            return null;
+        }
+        $clean = trim(strip_tags($text));
+        return $clean === '' ? null : $clean;
     }
 }
 
