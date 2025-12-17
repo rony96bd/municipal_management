@@ -59,8 +59,7 @@ class FrontController extends Controller
     public function posts()
     {
         // পেজ হেডার ও ব্রাউজার ট্যাবের জন্য
-        $page_title = 'IUGIP প্রকল্পসমূহ';
-        // একটাই লিংকে ( /posts ) সব পোস্ট ফেসবুক টাইমলাইনের মত দেখানোর জন্য, সাথে সব ছবি eager load
+        $page_title = 'IUGIP প্রকল্প';
         $posts = Post::with('images')->orderBy('created_at', 'desc')->paginate(10);
 
         return view('front-views.pages.posts', compact('page_title', 'posts'));

@@ -107,7 +107,7 @@
     <section class="section">
         <div class="container">
             <div class="posts-wrapper">
-                <div class="marb-20" style="text-align: center;">
+                <div class="marb-20" style="text-align: center; border-bottom: 5px solid black; padding-bottom: 5px;">
                     <h1 style="font-size:28px;font-weight:700;margin-bottom:4px;">
                         IUGIP প্রকল্পসমূহ
                     </h1>
@@ -118,13 +118,18 @@
 
                 @foreach ($posts as $post)
                     <div class="post-card">
-                        @if ($post->images && $post->images->count())
+
+                        <div class="post-content">
+                            <div class="post-title">
+                                <a href="{{ url('/IUGIP-Projects/' . $post->page_url) }}">{{ $post->title }}</a>
+                            </div>
+                            @if ($post->images && $post->images->count())
                             <div class="post-image">
                                 <img src="{{ asset($post->images->first()->image_path) }}" alt="{{ $post->title }}"
                                     class="clickable-post-image">
                             </div>
                             @if ($post->images->count() > 1)
-                                <div class="padl-20 padr-20 padt-10 padb-0">
+                                <div class="padt-10 padb-10">
                                     <div class="flex row gap-10 flex-wrap">
                                         @foreach ($post->images->slice(1) as $image)
                                             <img src="{{ asset($image->image_path) }}" alt="{{ $post->title }}"
@@ -135,10 +140,6 @@
                                 </div>
                             @endif
                         @endif
-                        <div class="post-content">
-                            <div class="post-title">
-                                <a href="{{ url('/IUGIP-Projects/' . $post->page_url) }}">{{ $post->title }}</a>
-                            </div>
                             <div class="post-meta">
                                 {{ $post->created_at?->format('d M Y, h:i A') }}
                             </div>
