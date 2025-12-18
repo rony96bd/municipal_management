@@ -109,7 +109,7 @@
             <div class="posts-wrapper">
                 <div class="marb-20" style="text-align: center; border-bottom: 5px solid black; padding-bottom: 5px;">
                     <h1 style="font-size:28px;font-weight:700;margin-bottom:4px;">
-                        IUGIP প্রকল্পসমূহ
+                        IUGIP প্রকল্প
                     </h1>
                     <p style="font-size:14px;color:#666;">
                         এখানে IUGIP প্রকল্পের আওতাভুক্ত সকল তথ্য, অগ্রগতি ও সম্পর্কিত পোস্টগুলো প্রদর্শিত হচ্ছে।
