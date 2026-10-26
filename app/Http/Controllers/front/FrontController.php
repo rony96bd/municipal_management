@@ -109,7 +109,7 @@ class FrontController extends Controller
 
     public function noticeDetails($page_url)
     {
-        $notice = NoticeModel::where('page_url', $page_url)->first();
+        $notice = NoticeModel::where('page_url', $page_url)->firstOrFail();
         $page_title = $notice->topic;
         return view('front-views.pages.singe-pages.notice', compact('page_title', 'notice'));
     }
