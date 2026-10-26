@@ -15,15 +15,21 @@ class officials extends Model
 
     // Define the fillable attributes for mass assignment
     protected $fillable = [
+        'order',
         'offificial_name',
         'designation',
         'bcs',
         'bcsid',
+        'edu',
         'office_phone',
         'home_phone',
         'fax',
         'mobile',
         'email',
+        'nid',
+        'first_joining',
+        'prl_date',
+        'first_designation',
         'home_district',
         'joining_date',
         'page_url',

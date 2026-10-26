@@ -29,38 +29,39 @@ class StuffsController extends Controller
             'stuff_name' => 'required|string|max:255',
             'designation' => 'required|string|max:255',
             'mobile' => 'required|string|max:15',
+            'email' => 'nullable|email|max:255',
             'home_district' => 'nullable|string|max:255',
+            'first_joining' => 'nullable|date',
+            'first_designation' => 'nullable|string|max:255',
             'joining_date' => 'nullable|date',
+            'prl_date' => 'nullable|date',
+            'grade' => 'nullable|string|max:50',
+            'section' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        // Generate unique page_url
+        $slug = Str::slug($request->stuff_name);
+        $baseSlug = $slug !== '' ? $slug : 'staff';
+        do {
+            $pageUrl = $baseSlug . '-' . mt_rand(1000, 9999);
+        } while (Stuff::where('page_url', $pageUrl)->exists());
+
         // Handle image upload
         $imagePath = null;
         if ($request->hasFile('image')) {
             $image = $request->file('image');
 
-            // Generate the file name using the post ID after saving the official
-            $imageName = time() . '-' . $request->page_url . '.' . $image->getClientOriginalExtension();
+            // Generate the file name using the unique page_url
+            $imageName = time() . '-' . $pageUrl . '.' . $image->getClientOriginalExtension();
 
-            // Save the image to the public folder, within the 'images/officials' directory
+            // Save the image to the public folder, within the 'images/stuffs' directory
             $image->move('images/stuffs', $imageName);
 
             // Set the image path
             $imagePath = 'images/stuffs/' . $imageName;
         }
 
-        // Generate unique page_url
-        $pageUrl = $request->page_url;
-        $originalUrl = $pageUrl;
-        $counter = 1;
-
-        // Check if the page_url already exists
-        while (Stuff::where('page_url', $pageUrl)->exists()) {
-            $pageUrl = $originalUrl . '-' . $counter;
-            $counter++;
-        }
-
-        $slug = Str::slug($request->stuff_name);
-        $randomNumber = mt_rand(1000, 9999);
         // Save the new stuff's data
         $stuff = new Stuff();
         $stuff->stuff_name = $request->stuff_name;
@@ -74,7 +75,7 @@ class StuffsController extends Controller
         $stuff->prl_date = $request->prl_date;
         $stuff->grade = $request->grade;
         $stuff->section = $request->section;
-        $stuff->page_url = $slug . '-' . $randomNumber; // Assign the unique page_url
+        $stuff->page_url = $pageUrl; // Assign the unique page_url
         $stuff->image = $imagePath;
         $stuff->save();
 
@@ -96,23 +97,29 @@ class StuffsController extends Controller
             'stuff_name' => 'required|string|max:255',
             'designation' => 'required|string|max:255',
             'mobile' => 'required|string|max:15',
+            'email' => 'nullable|email|max:255',
             'home_district' => 'nullable|string|max:255',
+            'first_joining' => 'nullable|date',
+            'first_designation' => 'nullable|string|max:255',
             'joining_date' => 'nullable|date',
+            'prl_date' => 'nullable|date',
+            'grade' => 'nullable|string|max:50',
+            'section' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $stuff = Stuff::findOrFail($id);
 
         // Handle image upload
-        $imagePath = null;
+        $imagePath = $stuff->image;
         if ($request->hasFile('image')) {
 
             $image = $request->file('image');
 
-            // Generate the file name using the post ID after saving the official
-            $imageName = time() . '-' . $request->page_url . '.' . $image->getClientOriginalExtension();
+            // Generate the file name using the stuff ID
+            $imageName = time() . '-' . $id . '.' . $image->getClientOriginalExtension();
 
-            // Save the image to the public folder, within the 'images/officials' directory
+            // Save the image to the public folder, within the 'images/stuffs' directory
             $image->move('images/stuffs', $imageName);
 
             // Set the image path
@@ -121,8 +128,6 @@ class StuffsController extends Controller
             $stuff->image = $imagePath;
         }
 
-        $slug = Str::slug($request->stuff_name);
-        $randomNumber = mt_rand(1000, 9999);
         // Save the updated Stuff data
         $stuff->stuff_name = $request->stuff_name;
         $stuff->designation = $request->designation;
@@ -137,7 +142,14 @@ class StuffsController extends Controller
         $stuff->grade = $request->grade;
         $stuff->prl_date = $request->prl_date;
         $stuff->section = $request->section;
-        $stuff->page_url = $slug . '-' . $randomNumber;  // Assign the updated page_url
+        if (empty($stuff->page_url)) {
+            $slug = Str::slug($request->stuff_name);
+            $baseSlug = $slug !== '' ? $slug : 'staff';
+            do {
+                $pageUrl = $baseSlug . '-' . mt_rand(1000, 9999);
+            } while (Stuff::where('page_url', $pageUrl)->exists());
+            $stuff->page_url = $pageUrl;
+        }
         $stuff->save();
 
         return redirect()->route('stuffslist')->with('success', "সফলভাবে কর্মচারী '{$request->stuff_name}' এর তথ্য আপডেট হয়েছে");
@@ -146,10 +158,10 @@ class StuffsController extends Controller
     public function destroy($id)
     {
         $page = Stuff::findOrFail($id); // Find the page by ID
-        $page_name = $page->page_name; // Store page name for feedback
+        $page_name = $page->stuff_name; // Store staff name for feedback
         $page->delete(); // Delete the page
 
-        return redirect()->back()->with('success', "{$page_name} কর্মকর্তার তথ্য সফলভাবে মুছে ফেলা হয়েছে।");
+        return redirect()->back()->with('success', "{$page_name} কর্মচারীর তথ্য সফলভাবে মুছে ফেলা হয়েছে।");
     }
 
     /**

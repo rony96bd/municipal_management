@@ -30,22 +30,35 @@ class OfficoalsController extends Controller
             'designation' => 'required|string|max:255',
             'bcs' => 'nullable|string|max:255',
             'bcsid' => 'nullable|string|max:255',
+            'edu' => 'nullable|string|max:255',
             'office_phone' => 'required|string|max:15',
+            'home_phone' => 'nullable|string|max:15',
             'fax' => 'nullable|string|max:255',
             'mobile' => 'required|string|max:15',
-            'email' => 'required|email|max:255',
+            'email' => 'nullable|email|max:255',
+            'nid' => 'nullable|string|max:50',
+            'first_joining' => 'nullable|date',
+            'prl_date' => 'nullable|date',
+            'first_designation' => 'nullable|string|max:255',
             'home_district' => 'nullable|string|max:255',
             'joining_date' => 'nullable|date',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        // Generate unique page_url
+        $slug = Str::slug($request->offificial_name);
+        $baseSlug = $slug !== '' ? $slug : 'official';
+        do {
+            $pageUrl = $baseSlug . '-' . mt_rand(1000, 9999);
+        } while (officials::where('page_url', $pageUrl)->exists());
 
         // Handle image upload
         $imagePath = null;
         if ($request->hasFile('image')) {
             $image = $request->file('image');
 
-            // Generate the file name using the post ID after saving the official
-            $imageName = time() . '-' . $request->page_url . '.' . $image->getClientOriginalExtension();
+            // Generate the file name using the unique page_url
+            $imageName = time() . '-' . $pageUrl . '.' . $image->getClientOriginalExtension();
 
             // Save the image to the public folder, within the 'images/officials' directory
             $image->move('images/officials', $imageName);
@@ -54,19 +67,6 @@ class OfficoalsController extends Controller
             $imagePath = 'images/officials/' . $imageName;
         }
 
-        // Generate unique page_url
-        $pageUrl = $request->page_url;
-        $originalUrl = $pageUrl;
-        $counter = 1;
-
-        // Check if the page_url already exists
-        while (officials::where('page_url', $pageUrl)->exists()) {
-            $pageUrl = $originalUrl . '-' . $counter;
-            $counter++;
-        }
-
-        $slug = Str::slug($request->stuff_name);
-        $randomNumber = mt_rand(1000, 9999);
         // Save the new official's data
         $official = new officials();
         $official->offificial_name = $request->offificial_name;
@@ -85,7 +85,7 @@ class OfficoalsController extends Controller
         $official->first_designation = $request->first_designation;
         $official->home_district = $request->home_district;
         $official->joining_date = $request->joining_date;
-        $official->page_url = $slug . '-' . $randomNumber;
+        $official->page_url = $pageUrl;
         $official->image = $imagePath;  // Save the image path
         $official->save();
 
@@ -110,11 +110,16 @@ class OfficoalsController extends Controller
             'designation' => 'required|string|max:255',
             'bcs' => 'nullable|string|max:255',
             'bcsid' => 'nullable|string|max:255',
+            'edu' => 'nullable|string|max:255',
             'office_phone' => 'required|string|max:15',
-            'home_phone' => 'required|string|max:15',
+            'home_phone' => 'nullable|string|max:15',
             'fax' => 'nullable|string|max:255',
             'mobile' => 'required|string|max:15',
-            'email' => 'required|email|max:255',
+            'email' => 'nullable|email|max:255',
+            'nid' => 'nullable|string|max:50',
+            'first_joining' => 'nullable|date',
+            'prl_date' => 'nullable|date',
+            'first_designation' => 'nullable|string|max:255',
             'home_district' => 'nullable|string|max:255',
             'joining_date' => 'nullable|date',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -128,7 +133,7 @@ class OfficoalsController extends Controller
             $image = $request->file('image');
 
             // Generate the new filename with a timestamp and the page_url
-            $imageName = time() . '-' . $request->id . '.' . $image->getClientOriginalExtension();
+            $imageName = time() . '-' . $id . '.' . $image->getClientOriginalExtension();
 
             // Move the image to the public folder with the new filename
             $image->move('images/officials', $imageName);
@@ -144,6 +149,7 @@ class OfficoalsController extends Controller
         $official->designation = $request->designation;
         $official->bcs = $request->bcs;
         $official->bcsid = $request->bcsid;
+        $official->edu = $request->edu;
         $official->office_phone = $request->office_phone;
         $official->home_phone = $request->home_phone;
         $official->fax = $request->fax;
@@ -165,7 +171,7 @@ class OfficoalsController extends Controller
     public function destroy($id)
     {
         $page = officials::findOrFail($id); // Find the page by ID
-        $page_name = $page->page_name; // Store page name for feedback
+        $page_name = $page->offificial_name; // Store official name for feedback
         $page->delete(); // Delete the page
 
         return redirect()->back()->with('success', "{$page_name} কর্মকর্তার তথ্য সফলভাবে মুছে ফেলা হয়েছে।");

@@ -23,6 +23,7 @@ class Stuff extends Model
      * @var array
      */
     protected $fillable = [
+        'order',
         'stuff_name',
         'designation',
         'office_phone',
@@ -30,7 +31,12 @@ class Stuff extends Model
         'mobile',
         'email',
         'home_district',
+        'first_joining',
+        'first_designation',
         'joining_date',
+        'prl_date',
+        'grade',
+        'section',
         'page_url',
         'image',
     ];

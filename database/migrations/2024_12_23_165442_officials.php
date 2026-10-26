@@ -18,11 +18,16 @@ return new class extends Migration
             $table->string('designation'); // Official's designation
             $table->string('bcs')->nullable(); // BCS batch (optional)
             $table->string('bcsid')->nullable(); // BCS ID (optional)
-            $table->string('office_phone'); // Office phone
+            $table->string('edu')->nullable(); // Education qualification (optional)
+            $table->string('office_phone')->nullable(); // Office phone
             $table->string('home_phone')->nullable(); // Home phone
             $table->string('fax')->nullable(); // Fax (optional)
             $table->string('mobile'); // Mobile phone
-            $table->string('email')->unique(); // Email address (must be unique)
+            $table->string('email')->nullable(); // Email address (can be shared municipal email or optional)
+            $table->string('nid')->nullable(); // NID number (optional)
+            $table->date('first_joining')->nullable(); // First joining date (optional)
+            $table->date('prl_date')->nullable(); // PRL date (optional)
+            $table->string('first_designation')->nullable(); // First designation (optional)
             $table->string('home_district')->nullable(); // Home district (optional)
             $table->date('joining_date')->nullable(); // Joining date (optional)
             $table->string('page_url')->unique(); // Unique URL for the page

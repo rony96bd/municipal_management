@@ -98,7 +98,7 @@
         <div class="mb-3">
             <label for="offificial_name" class="form-label" style="color: #3E7B27">ইমেইল</label>
             <input type="email" name="email" id="email" class="form-control"
-                value="{{ old('email', isset($page) ? $page->email : '') }}" placeholder="ই-মেইল *" required>
+                value="{{ old('email', isset($page) ? $page->email : '') }}" placeholder="ই-মেইল">
             @error('email')
                 <small class="color-danger fs-base">{{ $message }}</small>
             @enderror
@@ -146,7 +146,7 @@
         <div class="mb-3">
             <label for="joining_date" class="form-label" style="color: #3E7B27">বর্তমান কর্মস্থলে যোগদানের তারিখ</label>
             <input type="date" name="joining_date" id="joining_date" class="form-control"
-                value="{{ old('joining_date', isset($page) ? $page->joining_date->toDateString() : '') }}"
+                value="{{ old('joining_date', isset($page) && $page->joining_date ? \Carbon\Carbon::parse($page->joining_date)->toDateString() : '') }}"
                 placeholder="বর্তমান কর্মস্থলে যোগদানের তারিখ" required>
             @error('joining_date')
                 <small class="color-danger fs-base">{{ $message }}</small>
