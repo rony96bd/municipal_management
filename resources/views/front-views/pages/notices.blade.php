@@ -28,29 +28,21 @@
             gap: 6px;
         }
 
-        .notices-hero-badge {
+        .notices-hero-title {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            width: max-content;
-            background: rgba(255, 255, 255, 0.16);
-            color: var(--white-color, #ffffff);
-            padding: 4px 12px;
-            border-radius: 999px;
-            font-size: 13px;
-        }
-
-        .notices-hero-badge svg {
-            width: 15px;
-            height: 15px;
-            stroke: currentColor;
-        }
-
-        .notices-hero-title {
+            gap: 10px;
             font-size: clamp(22px, 2.4vw, 28px);
             font-weight: 700;
             margin: 0;
             color: var(--white-color, #ffffff);
+        }
+
+        .notices-hero-title svg {
+            width: 28px;
+            height: 28px;
+            stroke: currentColor;
+            flex-shrink: 0;
         }
 
         .notices-hero-subtitle {
@@ -461,17 +453,16 @@
                 {{-- Hero Header & Search Bar --}}
                 <div class="notices-hero-card">
                     <div class="notices-hero-info">
-                        <span class="notices-hero-badge">
+                        <h1 class="notices-hero-title">
                             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" />
                                 <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" />
                             </svg>
-                            <span>দাফতরিক বিজ্ঞপ্তি</span>
-                        </span>
-                        <h1 class="notices-hero-title">নোটিশ বোর্ড</h1>
-                        <p class="notices-hero-subtitle">পৌরসভার সকল দাফতরিক নোটিশ, বিজ্ঞপ্তি ও আদেশসমূহ</p>
+                            <span>নোটিশ বোর্ড</span>
+                        </h1>
+                        <p class="notices-hero-subtitle">পৌরসভার সকল নোটিশ, বিজ্ঞপ্তি ও আদেশসমূহ</p>
                     </div>
 
                     <form action="{{ route('notices') }}" method="GET" class="notices-search-form">

@@ -350,9 +350,6 @@
                         </svg>
                         <span>সকল নোটিশ দেখুন</span>
                     </a>
-                    <span class="notice-breadcrumb-badge">
-                        দাফতরিক বিজ্ঞপ্তি
-                    </span>
                 </div>
 
                 {{-- Main Notice Card --}}
