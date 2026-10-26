@@ -107,18 +107,31 @@
 
         </div>
 
+        @php
+            $currentFont = old('google_font', !empty($siteSettings->google_font) ? $siteSettings->google_font : 'Tiro Bangla');
+            $availableFonts = [
+                'Tiro Bangla',
+                'Hind Siliguri',
+                'Noto Sans Bengali',
+                'Noto Serif Bengali',
+                'Baloo Da 2',
+                'Galada',
+                'Mina',
+                'Atma',
+                'Anek Bangla',
+            ];
+            if ($currentFont && !in_array($currentFont, $availableFonts)) {
+                array_unshift($availableFonts, $currentFont);
+            }
+        @endphp
         <div class="mb-3">
             <label for="google_font" class="form-label">Site Font</label>
             <select name="google_font" id="google_font" class="form-control">
-                @if (!empty($siteSettings))
-                    <!-- Add other font options dynamically -->
-                    <option value="{{ $siteSettings->google_font }}" selected disabled>
-                        {{ $siteSettings->google_font }}
+                @foreach ($availableFonts as $font)
+                    <option value="{{ $font }}" {{ $currentFont === $font ? 'selected' : '' }}>
+                        {{ $font }}
                     </option>
-                @else
-                    <option value="Tiro Bangla" selected disabled>Tiro Bangla</option>
-                @endif
-                <!-- Add more fonts as needed -->
+                @endforeach
             </select>
         </div>
 
@@ -148,7 +161,9 @@
                 siteLogoPrevBox.style.backgroundPosition = 'center';
             };
             reader.readAsDataURL(file);
-            removeButton.style.display = 'block'; // Show the remove button when an image is selected
+            if (removeButton) {
+                removeButton.style.display = 'block'; // Show the remove button when an image is selected
+            }
         }
     }
 
@@ -179,39 +194,12 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // URL to fetch the Google Fonts list
-        const googleFontsAPI =
-            'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBcng4phxxZSOn-Lw8gBMD9ASsUTP3peqo';
-
-        // Get the select field
         const fontSelect = document.getElementById('google_font');
+        const initialFont = fontSelect ? fontSelect.value : 'Tiro Bangla';
 
-        // Fetch the Google Fonts list
-        fetch(googleFontsAPI)
-            .then(response => response.json())
-            .then(data => {
-                const fonts = data.items;
-                fonts.forEach(font => {
-                    const option = document.createElement('option');
-                    option.value = font.family;
-                    option.textContent = font.family;
-                    fontSelect.appendChild(option);
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching Google Fonts:', error);
-            });
-    });
-</script>
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const fontSelect = document.getElementById('google_font');
-
-        // Dynamically load the font from Google Fonts
+        // Dynamically load the current font from Google Fonts
         const fontLink = document.createElement('link');
-        fontLink.href = `https://fonts.googleapis.com/css2?family=Tiro+Bangla&display=swap`;
+        fontLink.href = `https://fonts.googleapis.com/css2?family=${initialFont.replace(/\s+/g, '+')}&display=swap`;
         fontLink.rel = 'stylesheet';
         document.head.appendChild(fontLink);
 
@@ -224,11 +212,11 @@
                 document.body.style.fontFamily = selectedFont;
 
                 // Dynamically load the selected font from Google Fonts
-                const fontLink = document.createElement('link');
-                fontLink.href =
-                    `https://fonts.googleapis.com/css2?family=${selectedFont.replace(' ', '+')}&display=swap`;
-                fontLink.rel = 'stylesheet';
-                document.head.appendChild(fontLink);
+                const newFontLink = document.createElement('link');
+                newFontLink.href =
+                    `https://fonts.googleapis.com/css2?family=${selectedFont.replace(/\s+/g, '+')}&display=swap`;
+                newFontLink.rel = 'stylesheet';
+                document.head.appendChild(newFontLink);
             }
         });
     });
