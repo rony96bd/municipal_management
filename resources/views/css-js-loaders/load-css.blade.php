@@ -7,10 +7,7 @@
     integrity="sha512-yOW3WV01iPnrQrlHYlpnfVooIAQl/hujmnCmiM3+u8F/6cCgA3BdFjqQfu8XaOtPilD/yYBJR3Io4PO8QUQKWA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-@if (request()->header('User-Agent') &&
-        (strpos(request()->header('User-Agent'), 'Mobile') !== false || request()->header('User-Agent') === 'iPhone'))
-    <link rel="stylesheet" href="{{ asset('css/mobile-main.min.css') }}">
-@endif
+<link rel="stylesheet" href="{{ asset('css/mobile-main.min.css') }}">
 
 @php
     $siteSettings = \App\Models\SiteSettings::first();

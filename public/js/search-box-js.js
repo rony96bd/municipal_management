@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const searchButton = document.querySelector('.search');
+    const searchButtons = document.querySelectorAll('.search');
     const searchClose = document.querySelector('.close-search');
     const searchFormBox = document.querySelector('.search-form-box');
     const body = document.body;
@@ -17,9 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Open search form
-    if (searchButton) {
-        searchButton.addEventListener('click', function () {
-            openSearchForm();
+    if (searchButtons.length) {
+        searchButtons.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                openSearchForm();
+            });
         });
     }
 
