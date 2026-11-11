@@ -5,7 +5,7 @@ use App\Http\Controllers\front\SearchController;
 use Illuminate\Support\Facades\Route;
 
 
-require __DIR__ . '/web.php';
+// require __DIR__ . '/web.php';
 
 //==== front.php ======//
 Route::get('/', [FrontController::class, 'index'])->name('homepage');

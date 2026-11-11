@@ -12,7 +12,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        if (class_exists(\Municipal\Attestation\AttestationServiceProvider::class)) {
+            $this->app->register(\Municipal\Attestation\AttestationServiceProvider::class);
+        }
     }
 
     /**

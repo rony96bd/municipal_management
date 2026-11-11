@@ -22,10 +22,12 @@
         <span class="nav-title">পেজ</span>
     </a>
 
-    <a href="{{ route('attestation.index') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="প্রত্যয়ন ব্যবস্থাপনা">
-        <span>@include('icons.dashboard-icons.service')</span>
-        <span class="nav-title">প্রত্যয়ন</span>
-    </a>
+    @if (Route::has('attestation.index'))
+        <a href="{{ route('attestation.index') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="প্রত্যয়ন ব্যবস্থাপনা">
+            <span>@include('icons.dashboard-icons.service')</span>
+            <span class="nav-title">প্রত্যয়ন</span>
+        </a>
+    @endif
 
     {{-- <a href="{{ route('posts.index') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace"
         title="IUGIP প্রকল্পসমূহ">
