@@ -108,6 +108,13 @@ Route::middleware('auth')->group(function () {
         Route::delete('delete-news/{id}', [NewsController::class, 'destroy'])->name('delete-news');
         // Users
         Route::get('user-list', [UserListController::class, 'UsersList'])->name('users-list');
+        Route::get('create-user', [UserListController::class, 'create'])->name('create-user');
+        Route::post('create-user', [UserListController::class, 'store'])->name('store-user');
+        Route::get('edit-user/{id}', [UserListController::class, 'edit'])->name('edit-user');
+        Route::match(['post', 'put'], 'edit-user/{id}', [UserListController::class, 'update'])->name('update-user');
+        Route::get('change-password-user/{id}', [UserListController::class, 'changePassword'])->name('change-password-user');
+        Route::match(['post', 'put'], 'change-password-user/{id}', [UserListController::class, 'updatePassword'])->name('update-password-user');
+        Route::delete('delete-user/{id}', [UserListController::class, 'destroy'])->name('delete-user');
         // About
         Route::get('about', [AboutController::class, 'index'])->name('about');
         Route::post('about', [AboutController::class, 'store'])->name('about.store');

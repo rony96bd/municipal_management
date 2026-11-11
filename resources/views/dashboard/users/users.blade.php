@@ -1,53 +1,197 @@
 @extends('dashboard.templates.main')
 @section('dash-body')
-    <div class="flex column full-width gap-20">
-        <a href="{{ route('create-stuff') }}"
-            class="outline-button padl-20 padr-20 padt-10 padb-10 border-solid border-1px border-color solid bradius-3px width-max-content">
-            নতুন ইউজার যুক্ত করুন</a>
+    <style>
+        .users-table-container {
+            background: #ffffff;
+            border-radius: 6px;
+            border: 1px solid #dcdcdc;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .users-table-header {
+            background-color: var(--primary-color, #000325);
+            color: #ffffff;
+            display: grid;
+            grid-template-columns: 2fr 2.5fr 1.5fr 2fr;
+            padding: 12px 20px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .users-table-row {
+            display: grid;
+            grid-template-columns: 2fr 2.5fr 1.5fr 2fr;
+            padding: 12px 20px;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s;
+        }
+        .users-table-row:last-child {
+            border-bottom: none;
+        }
+        .users-table-row:hover {
+            background-color: #f8fafc;
+        }
+        .user-name {
+            font-weight: 600;
+            color: var(--primary-color, #000325);
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .user-email a {
+            color: var(--secondary-color, #3361d9);
+            font-size: 15px;
+            word-break: break-all;
+        }
+        .user-date {
+            font-size: 14px;
+            color: #64748b;
+        }
+        .user-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 13px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            border: none;
+            line-height: 1.4;
+        }
+        .btn-action-primary {
+            background-color: var(--primary-color, #000325);
+            color: #ffffff !important;
+        }
+        .btn-action-primary:hover {
+            opacity: 0.88;
+        }
+        .btn-action-secondary {
+            background-color: var(--secondary-color, #3361d9);
+            color: #ffffff !important;
+        }
+        .btn-action-secondary:hover {
+            opacity: 0.88;
+        }
+        .btn-action-danger {
+            background-color: var(--danger-color, #e74c3c);
+            color: #ffffff !important;
+        }
+        .btn-action-danger:hover {
+            opacity: 0.88;
+        }
+        .badge-current-user {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            border: 1px solid #bae6fd;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        @media (max-width: 900px) {
+            .users-table-header {
+                display: none;
+            }
+            .users-table-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 16px;
+            }
+            .user-actions {
+                justify-content: flex-start;
+                margin-top: 8px;
+            }
+        }
+    </style>
 
-        <div class="flex full-width justify-content-end flex column gap-10 mart-20 bradius-3px overflow-hidden">
-            <h2 class="fs-h2">সকল ইউজার</h2>
-            <div class="flex column gap-0 border-solid border-1px border-color-primary bradius-3px overflow-hidden">
-                <div
-                    class="page-header background-primary color-white grid grid-col-3 border-color-primary full-width gap-20 padl-20 padr-20 padt-10 padb-10 m-display-none">
-                    <h3 class="fs-h3 font-weight-bold">নাম</h3>
-                    <h3 class="fs-h3 font-weight-bold">ই-মেইল</h3>
-                    <h3 class="fs-h3 font-weight-bold text-center">অ্যাকশান</h3>
-                </div>
-                <div id="stuffs-list" class="sortable-list">
-                    @forelse ($users as $user)
-                        <div class="page-repeater grid grid-col-3 border-color-primary full-width gap-10 m-grid-col-1 m-gap-0"
-                            data-id="{{ $user->id }}">
-                            <div class="flex row">
-                                <div class="drag-box flex center padl-20 padr-20 padt-10 padb-10 m-display-none">
-                                    @include('icons.drag')
-                                </div>
-                                <a href="{{ url('/user') }}/{{ $user->page_url }}"
-                                    class="fs-h3 padt-10 padb-10 padl-0 padr-20 flex row jst-ace flex-auto m-padl-20"
-                                    target="_blank">{{ $user->name }}</a>
-                            </div>
-                            <a class="fs-base padt-10 padb-10 padl-20 padr-20 flex row jst-ace"
-                                href="mailto:{{ $user->email }}" target="_blank">{{ $user->email }}</a>
-                            <div class="flex row jfe-ace gap-10 padt-10 padb-10 padl-20 padr-20 m-column m-jst-ast">
-                                {{-- <a href="{{ route('edit-stuff', $page->id) }}"
-                                    class="background-primary color-white padt-10 padb-10 padr-20 padl-20 text-center bradius-3px">সম্পাদনা
-                                    করুন</a>
-                                <form action="{{ route('delete-stuff', $page->id) }}" method="POST"
-                                    onsubmit="return confirm('আপনি কি নিশ্চিতভাবে মুছে ফেলতে চান?');"
-                                    style="display:inline;">
+    <div class="flex column full-width gap-20">
+        <div class="flex row jsb-ace full-width wrap gap-10">
+            <div>
+                <h2 class="fs-h2">{{ $page_title ?? 'ইউজার লিস্ট' }}</h2>
+                <small class="color-paragraph" style="font-size: 14px;">মোট ইউজার: {{ $users->count() }} জন</small>
+            </div>
+            <a href="{{ route('create-user') }}"
+                class="btn-action btn-action-primary padl-20 padr-20 padt-10 padb-10 bradius-4px font-weight-bold"
+                style="font-size: 15px;">
+                + নতুন ইউজার যুক্ত করুন
+            </a>
+        </div>
+
+        <div class="users-table-container">
+            <div class="users-table-header">
+                <div>নাম</div>
+                <div>ই-মেইল</div>
+                <div>তৈরির তারিখ</div>
+                <div style="text-align: right;">অ্যাকশন</div>
+            </div>
+
+            <div class="users-table-body">
+                @forelse ($users as $user)
+                    <div class="users-table-row" data-id="{{ $user->id }}">
+                        <div class="user-name">
+                            <span>{{ $user->name }}</span>
+                            @if (auth()->id() === $user->id)
+                                <span class="badge-current-user">বর্তমান একাউন্ট</span>
+                            @endif
+                        </div>
+
+                        <div class="user-email">
+                            <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
+                        </div>
+
+                        <div class="user-date">
+                            {{ $user->created_at ? $user->created_at->format('d M, Y') : '—' }}
+                        </div>
+
+                        <div class="user-actions">
+                            <a href="{{ route('edit-user', $user->id) }}"
+                                class="btn-action btn-action-primary"
+                                title="ইউজার সম্পাদনা করুন">
+                                সম্পাদনা
+                            </a>
+
+                            <a href="{{ route('change-password-user', $user->id) }}"
+                                class="btn-action btn-action-secondary"
+                                title="পাসওয়ার্ড পরিবর্তন করুন">
+                                পাসওয়ার্ড
+                            </a>
+
+                            @if (auth()->id() !== $user->id)
+                                <form action="{{ route('delete-user', $user->id) }}" method="POST"
+                                    onsubmit="return confirm('আপনি কি নিশ্চিতভাবে এই ইউজারকে ({{ $user->name }}) মুছে ফেলতে চান?');"
+                                    style="display:inline; margin: 0;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
-                                        class="background-danger button-default-css color-white padt-10 padb-10 padr-20 padl-20 text-center bradius-3px full-width">ডিলিট
-                                        করুন</button>
-                                </form> --}}
-                            </div>
+                                        class="btn-action btn-action-danger"
+                                        title="ইউজার মুছে ফেলুন">
+                                        ডিলিট
+                                    </button>
+                                </form>
+                            @else
+                                <span style="font-size: 12px; color: #94a3b8; font-style: italic; padding: 4px 6px;">
+                                    (সক্রিয়)
+                                </span>
+                            @endif
                         </div>
-                    @empty
-                        <div class="flex row center padar-10 text-center color-danger font-weight-bold">কোন তথ্য পাওয়া যায়
-                            নি। </div>
-                    @endforelse
-                </div>
+                    </div>
+                @empty
+                    <div class="padar-20 text-center color-danger font-weight-bold">
+                        কোন ইউজার পাওয়া যায় নি।
+                    </div>
+                @endforelse
             </div>
         </div>
     </div>

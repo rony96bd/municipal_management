@@ -15,6 +15,15 @@ class AttestationSystemTest extends TestCase
 {
     use DatabaseTransactions;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        if (AttestationType::count() === 0) {
+            $this->seed(\Municipal\Attestation\Database\Seeders\AttestationSignatorySeeder::class);
+            $this->seed(\Municipal\Attestation\Database\Seeders\AttestationTypeSeeder::class);
+        }
+    }
+
     public function test_seeded_types_and_public_pages_load(): void
     {
         $this->assertGreaterThanOrEqual(28, AttestationType::count());

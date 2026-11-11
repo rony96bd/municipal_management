@@ -21,6 +21,12 @@ yarn-error.log
 /.idea
 /.vscode
 /.zed
+/.codex
+/.cursor
+/.gemini
+.mcp.json
+opencode.json
+node_modules/.vite
 public/images/officials
 public/uploads
 public/attestments
