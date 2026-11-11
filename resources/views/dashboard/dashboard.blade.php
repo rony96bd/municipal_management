@@ -1,6 +1,16 @@
 @extends('dashboard.templates.main')
 @section('dash-body')
     <div class="dashboard-menu-wrapper grid gap-20">
+        {{-- Attestation Management System Grid Menu --}}
+        <a href="{{ route('attestation.index') }}" class="anchor grid-menu flex row gap-0 bradius-6px jfs-ace overflow-hidden">
+            <div class="grid-menu-icon-box padar-20 flex row center background-primary">
+                @include('icons.dashboard-icons.service')
+            </div>
+            <div class="flex-column padar-20">
+                <strong class="grid-menu-name">প্রত্যয়ন ব্যবস্থাপনা</strong>
+                <p class="grid-menu-name">নাগরিকদের বিভিন্ন প্রত্যয়নপত্র তৈরি, আবেদন অনুমোদন, প্রিন্ট ও রেজিস্টার</p>
+            </div>
+        </a>
         {{-- Page Grid Menu --}}
         <a href="{{ route('pages') }}" class="anchor grid-menu flex row gap-0 bradius-6px jfs-ace overflow-hidden">
             <div class="grid-menu-icon-box padar-20 flex row center background-primary">

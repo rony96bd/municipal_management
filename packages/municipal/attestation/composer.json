@@ -1,0 +1,29 @@
+{
+    "name": "municipal/attestation",
+    "description": "প্রত্যয়ন (certificate) management package for Bangladeshi Pourashava / Union Parishad Laravel apps.",
+    "type": "library",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^11.0|^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Municipal\\Attestation\\": "src/",
+            "Municipal\\Attestation\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Municipal\\Attestation\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Municipal\\Attestation\\AttestationServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable"
+}
