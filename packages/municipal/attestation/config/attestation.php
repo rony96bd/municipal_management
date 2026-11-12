@@ -74,6 +74,7 @@ return [
         'paper'               => 'A4',
         'with_header_default' => true,
         'watermark_default'   => true,
+        'pad_top'             => 1.5, // ইঞ্চি: প্যাডে প্রিন্টের জন্য উপরে ফাঁকা মার্জিন
     ],
 
     // ---- Payment (manual) -----------------------------------------------------------

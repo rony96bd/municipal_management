@@ -187,6 +187,7 @@ class TypeController extends Controller
         $printOptions = array_merge($existingOpts, [
             'with_header' => $r->boolean('with_header', true),
             'watermark'   => $r->boolean('watermark', true),
+            'pad_top'     => (float) $r->input('pad_top', $existingOpts['pad_top'] ?? 1.5),
             'icon'        => $r->input('icon', $existingOpts['icon'] ?? '📜'),
             'language'    => $r->input('language', $existingOpts['language'] ?? 'bn'),
         ]);

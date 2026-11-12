@@ -122,6 +122,13 @@ class AttestationSystemTest extends TestCase
         $printResponse->assertSee($cert->memo_no);
         $printResponse->assertSee($cert->verification_code);
 
+        // 4b. Pad mode print view with custom margin
+        $padPrintResponse = $this->actingAs($admin)
+            ->get(route('attestation.certificates.print', [$cert, 'with_header' => 0, 'pad' => 1.8]));
+        $padPrintResponse->assertStatus(200);
+        $padPrintResponse->assertSee('প্যাড মার্জিন');
+        $padPrintResponse->assertSee('1.8');
+
         // 5. Public QR verify page renders cleanly
         $verifyResponse = $this->get(route('attestation.verify.show', $cert->verification_code));
         $verifyResponse->assertStatus(200);

@@ -181,7 +181,9 @@ class CertificateController extends Controller
             ? $r->boolean('watermark')
             : (bool) ($snapshot['print_options']['watermark'] ?? config('attestation.print.watermark_default', true));
 
-        return view('attestation::print.default', compact('certificate', 'logo', 'snapshot', 'withHeader', 'withWatermark'));
+        $padTop = (float) ($r->input('pad') ?? ($snapshot['print_options']['pad_top'] ?? config('attestation.print.pad_top', 1.5)));
+
+        return view('attestation::print.default', compact('certificate', 'logo', 'snapshot', 'withHeader', 'withWatermark', 'padTop'));
     }
 
     public function handover(Request $r, Attestation $certificate)
@@ -217,3 +219,5 @@ class CertificateController extends Controller
             ->with('success', "প্রত্যয়ন ({$certificate->memo_no}) বাতিল করা হয়েছে।");
     }
 }
+
+

@@ -7,6 +7,7 @@
         : \Municipal\Attestation\Support\BengaliHelper::toBengaliDigits($issueDateFormatted);
     $verifyUrl = route('attestation.verify.show', $certificate->verification_code);
     $signatories = $snapshot['signatories'] ?? [];
+    $padTop = $padTop ?? 1.5;
 @endphp
 <!DOCTYPE html>
 <html lang="{{ $isEnglish ? 'en' : 'bn' }}">
@@ -18,18 +19,23 @@
 <style>
   :root{
     --brand:#0f6b3a; --brand-2:#14a05a; --ink:#1b2430; --muted:#5d6b7a; --line:#d9e2dc; --paper:#fff;
+    --pad-top:{{ $padTop }}in;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:{{ $isEnglish ? "'Times New Roman','Noto Sans Bengali',serif" : "'Noto Sans Bengali',sans-serif" }};color:var(--ink);background:#e9eeeb;padding:24px;
        -webkit-print-color-adjust:exact;print-color-adjust:exact}
   .toolbar{max-width:210mm;margin:0 auto 14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-family:'Noto Sans Bengali',sans-serif}
-  .toolbar .btn-group{display:flex;gap:8px;flex-wrap:wrap}
+  .toolbar .btn-group{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .toolbar a,.toolbar button{font:600 13px 'Noto Sans Bengali';padding:8px 14px;border:0;border-radius:8px;background:var(--brand);color:#fff;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
   .toolbar a.alt,.toolbar button.alt{background:#fff;color:var(--ink);border:1px solid #cbd5e1}
   .toolbar button.active-edit{background:#1d4ed8;color:#fff;border-color:#1d4ed8}
 
+  .pad-preset-btn{background:#f8fafc;border:1px solid #cbd5e1;border-radius:4px;padding:3px 6px;font-size:11.5px;color:#334155;cursor:pointer}
+  .pad-preset-btn:hover{background:#0f6b3a;color:#fff;border-color:#0f6b3a}
+
   .sheet{position:relative;width:210mm;min-height:297mm;margin:0 auto;background:var(--paper);
          padding:14mm 16mm 46mm;box-shadow:0 10px 40px rgba(0,0,0,.15);overflow:hidden}
+  .sheet.pad-mode{padding-top:0 !important}
   .sheet[contenteditable="true"]{outline:3px dashed #2563eb;outline-offset:-4px;background:#fffef7}
   @if ($withHeader)
   /* frame */
@@ -49,7 +55,20 @@
   .org{font-size:25px;font-weight:700;color:var(--brand);line-height:1.25}
   .sub{font-size:12px;color:var(--muted)}
   header .spacer{width:22mm}
-  .pad-spacer{height:2.5in;border-bottom:1px dashed transparent}
+
+  .pad-spacer{
+    position:relative;
+    width:100%;
+    height:var(--pad-top, 1.5in);
+    border-bottom:1.5px dashed #cbd5e1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#94a3b8;
+    font-size:12px;
+    margin-bottom:4mm;
+    user-select:none;
+  }
 
   .meta{position:relative;display:flex;justify-content:space-between;margin-top:4.5mm;font-size:13.5px}
   .meta b{color:var(--brand);font-weight:600}
@@ -98,6 +117,8 @@
     body{background:none;padding:0}
     .toolbar{display:none}
     .sheet{box-shadow:none;margin:0;outline:none !important;background:#fff !important}
+    .pad-spacer{border-bottom:none !important;margin-bottom:0 !important}
+    .pad-spacer *{display:none !important}
   }
 </style>
 </head>
@@ -111,13 +132,30 @@
     <a href="{{ route('attestation.certificates.print', [$certificate, 'with_header' => $withHeader ? 1 : 0, 'watermark' => $withWatermark ? 0 : 1]) }}" class="alt">
       {{ $withWatermark ? '💧 জলছাপ বন্ধ করুন' : '💧 জলছাপ চালু করুন' }}
     </a>
+
+    @unless ($withHeader)
+      <div style="display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #cbd5e1;border-radius:8px;padding:4px 9px;font:600 13px 'Noto Sans Bengali';color:#1b2430">
+        <span style="color:#0f6b3a;">⬍ প্যাড মার্জিন:</span>
+        <button type="button" onclick="stepPad(-0.1)" title="০.১ ইঞ্চি কমান" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;padding:2px 7px;font-weight:700;cursor:pointer;color:#0f6b3a;">−</button>
+        <input type="number" id="padTopInput" min="0" max="6" step="0.1" value="{{ $padTop }}" style="width:58px;padding:3px 5px;border:1px solid #cbd5e1;border-radius:5px;text-align:center;font-weight:700;">
+        <span style="font-size:12px;color:#64748b;">ইঞ্চি</span>
+        <button type="button" onclick="stepPad(0.1)" title="০.১ ইঞ্চি বাড়ান" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;padding:2px 7px;font-weight:700;cursor:pointer;color:#0f6b3a;">+</button>
+        <div style="display:inline-flex;gap:4px;margin-left:4px;">
+          <button type="button" onclick="setPadVal(1.0)" class="pad-preset-btn">1.0″</button>
+          <button type="button" onclick="setPadVal(1.5)" class="pad-preset-btn">1.5″</button>
+          <button type="button" onclick="setPadVal(1.8)" class="pad-preset-btn">1.8″</button>
+          <button type="button" onclick="setPadVal(2.0)" class="pad-preset-btn">2.0″</button>
+        </div>
+      </div>
+    @endunless
+
     <button type="button" class="alt" id="directEditBtn" onclick="togglePrintEdit()">✎ সরাসরি এডিট</button>
     <button type="button" class="alt" onclick="exportDocFile()">📄 Word (.doc)</button>
   </div>
   <button onclick="window.print()">🖨 প্রিন্ট করুন (A4)</button>
 </div>
 
-<div class="sheet" id="sheet">
+<div class="sheet {{ !$withHeader ? 'pad-mode' : '' }}" id="sheet">
   @if (!empty($snapshot['override_html']))
     {!! $snapshot['override_html'] !!}
   @else
@@ -152,7 +190,9 @@
         <div class="spacer"></div>
       </header>
     @else
-      <div class="pad-spacer"></div>
+      <div class="pad-spacer" id="padSpacer">
+        <span>[ ⬍ প্যাড মার্জিন: <b id="padGuideVal">{{ $padTop }}</b> ইঞ্চি ফাঁকা (নিচে প্রিন্ট শুরু) ]</span>
+      </div>
     @endif
 
     <div class="meta">
@@ -278,6 +318,45 @@
   const sheetEl = document.getElementById('sheet');
   sheetEl.style.setProperty('--logo', `url('${logo}')`);
 
+  // Pad Top Controller
+  (function () {
+    const inp = document.getElementById('padTopInput');
+    const guideVal = document.getElementById('padGuideVal');
+    const key = 'attestation_pad_top';
+    const urlHas = new URLSearchParams(location.search).has('pad');
+    const saved = localStorage.getItem(key);
+
+    if (inp) {
+      if (!urlHas && saved !== null && saved !== '') {
+        inp.value = saved;
+      }
+
+      window.setPadVal = function (v) {
+        inp.value = v;
+        applyPad();
+      };
+
+      window.stepPad = function (delta) {
+        let cur = parseFloat(inp.value) || 1.5;
+        cur = Math.round((cur + delta) * 10) / 10;
+        if (cur < 0) cur = 0;
+        if (cur > 6) cur = 6;
+        inp.value = cur;
+        applyPad();
+      };
+
+      function applyPad() {
+        const v = Math.max(0, Math.min(6, parseFloat(inp.value) || 0));
+        sheetEl.style.setProperty('--pad-top', v + 'in');
+        if (guideVal) guideVal.textContent = v;
+        localStorage.setItem(key, v);
+      }
+
+      inp.addEventListener('input', applyPad);
+      applyPad();
+    }
+  })();
+
   const url = @json($verifyUrl);
   const qrEl = document.getElementById('qr') || sheetEl.querySelector('.att-a4-qr');
   if (qrEl && typeof qrcode === 'function') {
@@ -315,5 +394,3 @@
 </script>
 </body>
 </html>
-
-

@@ -45,6 +45,7 @@
         'signatories'         => $defaultSigs,
         'guardian_signatures' => !empty($type->print_options['guardian_signatures']) || $type->slug === 'obhibhabak-sommoti',
         'with_header'         => $withHeader,
+        'pad_top'             => (float) ($type->print_options['pad_top'] ?? config('attestation.print.pad_top', 1.5)),
         'org'                 => $org,
         'logo'                => $logoUrl,
     ];
@@ -154,6 +155,9 @@
         overflow: hidden;
         transform-origin: top center;
     }
+    .att-a4-sheet.pad-mode {
+        padding-top: 0 !important;
+    }
     .att-a4-sheet.en-font {
         font-family: 'Times New Roman', 'Noto Sans Bengali', serif;
     }
@@ -223,13 +227,17 @@
     .att-a4-header .h-org { font-size: 24px; font-weight: 700; color: #0f6b3a; line-height: 1.25; }
     .att-a4-header .h-sub { font-size: 12px; color: #5d6b7a; }
     .att-a4-pad-spacer {
-        height: 2.5in;
-        border-bottom: 1px dashed #cbd5e1;
+        position: relative;
+        width: 100%;
+        height: var(--preview-pad-top, 1.5in);
+        border-bottom: 1.5px dashed #cbd5e1;
         display: flex;
         align-items: center;
         justify-content: center;
         color: #94a3b8;
         font-size: 12px;
+        margin-bottom: 4mm;
+        user-select: none;
     }
     .att-a4-meta {
         position: relative;
@@ -355,6 +363,11 @@
             <button type="button" class="att-preview-btn" id="togglePadModeBtn">
                 {{ $withHeader ? '📄 প্যাড মোড দেখুন' : '🏛️ লেটারহেড মোড দেখুন' }}
             </button>
+            <div id="livePadControls" style="display:{{ $withHeader ? 'none' : 'inline-flex' }};align-items:center;gap:4px;background:#fff;border:1px solid #cbd5e1;border-radius:6px;padding:3px 8px;font-size:12px;">
+                <span style="color:#0f6b3a;font-weight:600;">⬍ প্যাড:</span>
+                <input type="number" id="livePadTopInput" min="0" max="6" step="0.1" value="{{ (float) ($type->print_options['pad_top'] ?? 1.5) }}" style="width:52px;padding:2px 4px;border:1px solid #cbd5e1;border-radius:4px;text-align:center;font-weight:700;">
+                <span style="color:#64748b;">ইঞ্চি</span>
+            </div>
             <button type="button" class="att-preview-btn" id="toggleDirectEditBtn">
                 ✎ সরাসরি এডিট
             </button>
@@ -379,6 +392,8 @@
         const previewCol = document.getElementById('livePreviewCol');
         const overrideInput = document.getElementById('override_html_input');
         const togglePadBtn = document.getElementById('togglePadModeBtn');
+        const livePadInput = document.getElementById('livePadTopInput');
+        const livePadControls = document.getElementById('livePadControls');
         const toggleEditBtn = document.getElementById('toggleDirectEditBtn');
         const resetEditBtn = document.getElementById('resetDirectEditBtn');
         const directEditBadge = document.getElementById('directEditBadge');
@@ -490,7 +505,8 @@
                         </div>`;
                 }
             } else {
-                headerHtml = `<div class="att-a4-pad-spacer">[ প্যাড মোড: উপরে ২.৬ ইঞ্চি ফাঁকা রাখা হয়েছে ]</div>`;
+                const padVal = livePadInput ? (parseFloat(livePadInput.value) || 1.5) : (CFG.pad_top || 1.5);
+                headerHtml = `<div class="att-a4-pad-spacer">[ ⬍ প্যাড মার্জিন: ${padVal} ইঞ্চি ফাঁকা (নিচে প্রিন্ট শুরু) ]</div>`;
             }
 
             // Meta
@@ -659,6 +675,10 @@
         function updatePreview() {
             if (!sheet) return;
             sheet.classList.toggle('with-frame', showHeader);
+            sheet.classList.toggle('pad-mode', !showHeader);
+            const padVal = livePadInput ? (parseFloat(livePadInput.value) || 1.5) : (CFG.pad_top || 1.5);
+            sheet.style.setProperty('--preview-pad-top', padVal + 'in');
+
             const customHtml = overrideInput ? overrideInput.value.trim() : '';
             if (customHtml) {
                 if (!isDirectEdit) {
@@ -693,6 +713,15 @@
             togglePadBtn.addEventListener('click', function () {
                 showHeader = !showHeader;
                 this.textContent = showHeader ? '📄 প্যাড মোড দেখুন' : '🏛️ লেটারহেড মোড দেখুন';
+                if (livePadControls) {
+                    livePadControls.style.display = showHeader ? 'none' : 'inline-flex';
+                }
+                updatePreview();
+            });
+        }
+
+        if (livePadInput) {
+            livePadInput.addEventListener('input', function () {
                 updatePreview();
             });
         }

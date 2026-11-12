@@ -62,6 +62,11 @@
                             <option value="en" {{ old('language', $type->language ?? 'bn') === 'en' ? 'selected' : '' }}>🌐 English (ইংরেজি)</option>
                         </select>
                     </div>
+
+                    <div class="att-field">
+                        <label>প্যাডে উপরে ফাঁকা মার্জিন (ইঞ্চি — ডিফল্ট: 1.5)</label>
+                        <input type="number" step="0.1" min="0" max="6" name="pad_top" class="att-input" value="{{ old('pad_top', $type->print_options['pad_top'] ?? 1.5) }}" placeholder="1.5">
+                    </div>
                 </div>
 
                 <div class="att-field">
