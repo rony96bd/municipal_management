@@ -272,7 +272,7 @@
   @endif
 </div>
 
-<script src="{{ asset('vendor/attestation/qrcode.js') }}"></script>
+<script>{!! \Municipal\Attestation\Support\AssetHelper::qrcodeJs() !!}</script>
 <script>
   const logo = @json($logo);
   const sheetEl = document.getElementById('sheet');
@@ -315,4 +315,5 @@
 </script>
 </body>
 </html>
+
 

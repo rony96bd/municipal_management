@@ -38,6 +38,14 @@ class LogoHelper
         }
 
         $defaultLogo = config('attestation.default_logo', 'vendor/attestation/default-logo.jpg');
-        return asset($defaultLogo);
+        if (file_exists(public_path($defaultLogo))) {
+            return asset($defaultLogo);
+        }
+
+        // Assets not published (e.g. live server): embed the packaged logo directly.
+        $pkg = dirname(__DIR__, 2) . '/resources/assets/default-logo.jpg';
+        return file_exists($pkg) ? 'data:image/jpeg;base64,' . base64_encode(file_get_contents($pkg)) : asset($defaultLogo);
     }
 }
+
+
