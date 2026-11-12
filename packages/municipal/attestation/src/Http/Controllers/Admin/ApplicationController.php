@@ -40,7 +40,9 @@ class ApplicationController extends Controller
             ->take(8)
             ->get();
 
-        return view('attestation::admin.dashboard', compact('page_title', 'stats', 'recentApplications', 'recentCertificates'));
+        $types = AttestationType::active()->orderBy('order')->orderBy('id')->get();
+
+        return view('attestation::admin.dashboard', compact('page_title', 'stats', 'recentApplications', 'recentCertificates', 'types'));
     }
 
     public function index(Request $r)
@@ -123,6 +125,7 @@ class ApplicationController extends Controller
         ]);
 
         $paymentStatus = $r->input('payment_status', $application->payment_status);
+        $attachments   = \Municipal\Attestation\Support\AttachmentHelper::processUploads($r, $application->attachments ?? []);
 
         $application->update([
             'applicant_name' => $r->input('applicant_name'),
@@ -138,6 +141,7 @@ class ApplicationController extends Controller
             'upazila'        => $r->input('upazila'),
             'district'       => $r->input('district'),
             'data'           => $r->input('data', $application->data ?? []),
+            'attachments'    => $attachments,
             'payment_status' => $paymentStatus,
             'paid_amount'    => $r->input('paid_amount'),
             'receipt_no'     => $r->input('receipt_no'),

@@ -1,12 +1,14 @@
 @extends(config('attestation.admin_layout', 'dashboard.templates.main'))
 @section(config('attestation.admin_section', 'dash-body'))
-    <div class="att-wrap">
+    <div class="att-wrap" style="max-width:1440px;">
         @include('attestation::admin._nav')
 
-        <div class="att-card">
+        <div class="att-card" style="padding:16px 20px;">
             <div class="att-card-header">
                 <div>
-                    <h1 class="att-title">আবেদন নং: <code>{{ $application->tracking_no }}</code> — {{ $application->type?->name }}</h1>
+                    <h1 class="att-title">
+                        {{ $application->type?->icon ?? '📜' }} আবেদন নং: <code>{{ $application->tracking_no }}</code> — {{ $application->type?->name }}
+                    </h1>
                     <div style="margin-top:6px;">
                         <span class="att-badge att-badge-{{ $application->status->badge() }}">{{ $application->status->label() }}</span>
                         @if ($application->attestation)
@@ -23,42 +25,52 @@
                 </div>
             </div>
 
-            <form method="POST" action="{{ route('attestation.applications.update', $application) }}">
-                @csrf
-                @method('PUT')
+            <div class="att-live-split">
+                <div class="att-live-form-col">
+                    <form method="POST" action="{{ route('attestation.applications.update', $application) }}" enctype="multipart/form-data" id="attLiveForm">
+                        @csrf
+                        @method('PUT')
 
-                @include('attestation::partials.person_and_fields', ['type' => $application->type, 'application' => $application, 'requireMobile' => false])
+                        @include('attestation::partials.person_and_fields', ['type' => $application->type, 'application' => $application, 'requireMobile' => false])
 
-                <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-bottom:18px;">
-                    <h3 style="font-size:16px;font-weight:700;color:#0f6b3a;margin:0 0 12px 0;">💳 ম্যানুয়াল পেমেন্ট ও অ্যাডমিন নোট</h3>
-                    <div class="att-grid att-grid-3">
-                        <div class="att-field">
-                            <label>পেমেন্ট অবস্থা</label>
-                            <select name="payment_status" class="att-select">
-                                <option value="unpaid" {{ $application->payment_status === 'unpaid' ? 'selected' : '' }}>অপরিশোধিত (Unpaid)</option>
-                                <option value="paid" {{ $application->payment_status === 'paid' ? 'selected' : '' }}>পরিশোধিত (Paid)</option>
-                                <option value="waived" {{ $application->payment_status === 'waived' ? 'selected' : '' }}>মওকুফ (Waived)</option>
-                            </select>
+                        @include('attestation::partials.attachments_box', ['application' => $application])
+
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:16px;">
+                            <h3 style="font-size:15px;font-weight:700;color:#0f6b3a;margin:0 0 10px 0;">💳 ম্যানুয়াল পেমেন্ট ও অ্যাডমিন নোট</h3>
+                            <div class="att-grid att-grid-3">
+                                <div class="att-field">
+                                    <label>পেমেন্ট অবস্থা</label>
+                                    <select name="payment_status" class="att-select">
+                                        <option value="unpaid" {{ $application->payment_status === 'unpaid' ? 'selected' : '' }}>অপরিশোধিত (Unpaid)</option>
+                                        <option value="paid" {{ $application->payment_status === 'paid' ? 'selected' : '' }}>পরিশোধিত (Paid)</option>
+                                        <option value="waived" {{ $application->payment_status === 'waived' ? 'selected' : '' }}>মওকুফ (Waived)</option>
+                                    </select>
+                                </div>
+                                <div class="att-field">
+                                    <label>আদায়কৃত টাকা (৳)</label>
+                                    <input type="number" step="0.01" name="paid_amount" class="att-input" value="{{ old('paid_amount', $application->paid_amount ?? $application->fee) }}">
+                                </div>
+                                <div class="att-field">
+                                    <label>রসিদ নম্বর (Receipt No)</label>
+                                    <input type="text" name="receipt_no" class="att-input" value="{{ old('receipt_no', $application->receipt_no) }}" placeholder="রসিদ নম্বর">
+                                </div>
+                            </div>
+                            <div class="att-field" style="margin-bottom:0;">
+                                <label>অ্যাডমিন নোট (ঐচ্ছিক)</label>
+                                <textarea name="admin_note" rows="2" class="att-textarea exclude-tyne">{{ old('admin_note', $application->admin_note) }}</textarea>
+                            </div>
                         </div>
-                        <div class="att-field">
-                            <label>আদায়কৃত টাকা (৳)</label>
-                            <input type="number" step="0.01" name="paid_amount" class="att-input" value="{{ old('paid_amount', $application->paid_amount ?? $application->fee) }}">
-                        </div>
-                        <div class="att-field">
-                            <label>রসিদ নম্বর (Receipt No)</label>
-                            <input type="text" name="receipt_no" class="att-input" value="{{ old('receipt_no', $application->receipt_no) }}" placeholder="রসিদ নম্বর">
-                        </div>
-                    </div>
-                    <div class="att-field" style="margin-bottom:0;">
-                        <label>অ্যাডমিন নোট (ঐচ্ছিক)</label>
-                        <textarea name="admin_note" rows="2" class="att-textarea exclude-tyne">{{ old('admin_note', $application->admin_note) }}</textarea>
-                    </div>
+
+                        <button type="submit" class="att-btn att-btn-secondary" style="width:100%;justify-content:center;padding:10px;">
+                            💾 আবেদনের পরিবর্তন সংরক্ষণ করুন
+                        </button>
+                    </form>
                 </div>
 
-                <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                    <button type="submit" class="att-btn att-btn-secondary">💾 পরিবর্তন সংরক্ষণ করুন</button>
-                </div>
-            </form>
+                @if ($application->type)
+                    @include('attestation::partials.live_preview_workspace', ['type' => $application->type])
+                @endif
+            </div>
         </div>
 
         <div class="att-grid att-grid-2">

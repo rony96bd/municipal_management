@@ -62,6 +62,16 @@ class AttestationType extends Model
         return $this->hasMany(Attestation::class, 'attestation_type_id');
     }
 
+    public function getIconAttribute(): string
+    {
+        return $this->print_options['icon'] ?? '📜';
+    }
+
+    public function getLanguageAttribute(): string
+    {
+        return $this->print_options['language'] ?? 'bn';
+    }
+
     public static function standardPersonFields(): array
     {
         $holderLabel = config('attestation.organization.holder_label', 'পৌর');

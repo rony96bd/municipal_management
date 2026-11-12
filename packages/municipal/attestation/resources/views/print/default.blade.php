@@ -1,11 +1,15 @@
 @php
     $org = $snapshot['organization'] ?? config('attestation.organization', []);
-    $issueDateBn = \Municipal\Attestation\Support\BengaliHelper::toBengaliDigits($certificate->issue_date ? $certificate->issue_date->format('d/m/Y') : now()->format('d/m/Y'));
+    $isEnglish = (($snapshot['language'] ?? $certificate->type?->language ?? 'bn') === 'en');
+    $issueDateFormatted = $certificate->issue_date ? $certificate->issue_date->format('d/m/Y') : now()->format('d/m/Y');
+    $issueDateDisplay = $isEnglish
+        ? $issueDateFormatted
+        : \Municipal\Attestation\Support\BengaliHelper::toBengaliDigits($issueDateFormatted);
     $verifyUrl = route('attestation.verify.show', $certificate->verification_code);
     $signatories = $snapshot['signatories'] ?? [];
 @endphp
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="{{ $isEnglish ? 'en' : 'bn' }}">
 <head>
 <meta charset="utf-8">
 <title>{{ $certificate->memo_no }} — {{ $snapshot['type_name'] ?? 'প্রত্যয়ন পত্র' }}</title>
@@ -16,20 +20,24 @@
     --brand:#0f6b3a; --brand-2:#14a05a; --ink:#1b2430; --muted:#5d6b7a; --line:#d9e2dc; --paper:#fff;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Noto Sans Bengali',sans-serif;color:var(--ink);background:#e9eeeb;padding:24px;
+  body{font-family:{{ $isEnglish ? "'Times New Roman','Noto Sans Bengali',serif" : "'Noto Sans Bengali',sans-serif" }};color:var(--ink);background:#e9eeeb;padding:24px;
        -webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .toolbar{max-width:210mm;margin:0 auto 14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+  .toolbar{max-width:210mm;margin:0 auto 14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-family:'Noto Sans Bengali',sans-serif}
   .toolbar .btn-group{display:flex;gap:8px;flex-wrap:wrap}
-  .toolbar a,.toolbar button{font:600 13.5px 'Noto Sans Bengali';padding:8px 16px;border:0;border-radius:8px;background:var(--brand);color:#fff;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
-  .toolbar a.alt{background:#fff;color:var(--ink);border:1px solid #cbd5e1}
+  .toolbar a,.toolbar button{font:600 13px 'Noto Sans Bengali';padding:8px 14px;border:0;border-radius:8px;background:var(--brand);color:#fff;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+  .toolbar a.alt,.toolbar button.alt{background:#fff;color:var(--ink);border:1px solid #cbd5e1}
+  .toolbar button.active-edit{background:#1d4ed8;color:#fff;border-color:#1d4ed8}
 
   .sheet{position:relative;width:210mm;min-height:297mm;margin:0 auto;background:var(--paper);
          padding:14mm 16mm 46mm;box-shadow:0 10px 40px rgba(0,0,0,.15);overflow:hidden}
+  .sheet[contenteditable="true"]{outline:3px dashed #2563eb;outline-offset:-4px;background:#fffef7}
+  @if ($withHeader)
   /* frame */
   .sheet::before{content:"";position:absolute;inset:6mm;border:1.2px solid var(--brand);border-radius:6px;pointer-events:none}
   .sheet::after{content:"";position:absolute;inset:7.6mm;border:.5px solid var(--brand-2);border-radius:4px;pointer-events:none;opacity:.6}
   .topbar{position:absolute;top:6mm;left:6mm;right:6mm;height:3mm;border-radius:6px 6px 0 0;
           background:linear-gradient(90deg,var(--brand),var(--brand-2))}
+  @endif
   .watermark{position:absolute;left:50%;top:52%;width:120mm;height:120mm;transform:translate(-50%,-50%);
              background:var(--logo) center/contain no-repeat;opacity:.07;filter:grayscale(1);mix-blend-mode:multiply;pointer-events:none}
 
@@ -41,7 +49,7 @@
   .org{font-size:25px;font-weight:700;color:var(--brand);line-height:1.25}
   .sub{font-size:12px;color:var(--muted)}
   header .spacer{width:22mm}
-  .pad-spacer{height:28mm;border-bottom:1px dashed var(--line)}
+  .pad-spacer{height:2.5in;border-bottom:1px dashed transparent}
 
   .meta{position:relative;display:flex;justify-content:space-between;margin-top:4.5mm;font-size:13.5px}
   .meta b{color:var(--brand);font-weight:600}
@@ -89,7 +97,7 @@
   @media print{
     body{background:none;padding:0}
     .toolbar{display:none}
-    .sheet{box-shadow:none;margin:0}
+    .sheet{box-shadow:none;margin:0;outline:none !important;background:#fff !important}
   }
 </style>
 </head>
@@ -103,161 +111,206 @@
     <a href="{{ route('attestation.certificates.print', [$certificate, 'with_header' => $withHeader ? 1 : 0, 'watermark' => $withWatermark ? 0 : 1]) }}" class="alt">
       {{ $withWatermark ? '💧 জলছাপ বন্ধ করুন' : '💧 জলছাপ চালু করুন' }}
     </a>
+    <button type="button" class="alt" id="directEditBtn" onclick="togglePrintEdit()">✎ সরাসরি এডিট</button>
+    <button type="button" class="alt" onclick="exportDocFile()">📄 Word (.doc)</button>
   </div>
   <button onclick="window.print()">🖨 প্রিন্ট করুন (A4)</button>
 </div>
 
 <div class="sheet" id="sheet">
-  <div class="topbar"></div>
-  @if ($withWatermark)
-    <div class="watermark"></div>
-  @endif
-
-  @if ($withHeader)
-    <header>
-      <img class="logo" id="logoImg" src="{{ $logo }}" alt="logo">
-      <div class="titles">
-        @if (!empty($org['bismillah']))
-          <div class="bismillah">{{ $org['bismillah'] }}</div>
-        @endif
-        <div class="gov">{{ $org['gov_line'] ?? 'গণপ্রজাতন্ত্রী বাংলাদেশ সরকার' }}</div>
-        <div class="org">{{ $org['name'] ?? 'আলমডাঙ্গা পৌরসভা' }}</div>
-        <div class="sub">{{ $org['address'] ?? ($org['sub_title'] ?? 'আলমডাঙ্গা, চুয়াডাঙ্গা') }}</div>
-        @if (!empty($org['mobile']) || !empty($org['email']))
-          <div class="sub">মোবাইল: {{ $org['mobile'] ?? '' }} {{ !empty($org['email']) ? '| ই-মেইল: ' . $org['email'] : '' }}</div>
-        @endif
-      </div>
-      <div class="spacer"></div>
-    </header>
+  @if (!empty($snapshot['override_html']))
+    {!! $snapshot['override_html'] !!}
   @else
-    <div class="pad-spacer"></div>
-  @endif
+    @if ($withHeader)
+      <div class="topbar"></div>
+    @endif
+    @if ($withWatermark)
+      <div class="watermark"></div>
+    @endif
 
-  <div class="meta">
-    <div><b>স্মারক নং:</b> {{ $certificate->memo_no }}</div>
-    <div><b>তারিখ:</b> {{ $issueDateBn }}</div>
-  </div>
+    @if ($withHeader)
+      <header>
+        <img class="logo" id="logoImg" src="{{ $logo }}" alt="logo">
+        <div class="titles">
+          @if ($isEnglish)
+            <div class="gov">Government of the People's Republic of Bangladesh</div>
+            <div class="org">Office of the Alamdanga Pourashava</div>
+            <div class="sub">Alamdanga, Chuadanga</div>
+            <div class="sub">Phone: 02477786245 | Email: alamdangapourashava@gmail.com | Web: www.alamdangapourashava.org</div>
+          @else
+            @if (!empty($org['bismillah']))
+              <div class="bismillah">{{ $org['bismillah'] }}</div>
+            @endif
+            <div class="gov">{{ $org['gov_line'] ?? 'গণপ্রজাতন্ত্রী বাংলাদেশ সরকার' }}</div>
+            <div class="org">{{ $org['name'] ?? 'আলমডাঙ্গা পৌরসভা' }}</div>
+            <div class="sub">{{ $org['address'] ?? ($org['sub_title'] ?? 'আলমডাঙ্গা, চুয়াডাঙ্গা') }}</div>
+            @if (!empty($org['mobile']) || !empty($org['email']))
+              <div class="sub">মোবাইল: {{ $org['mobile'] ?? '' }} {{ !empty($org['email']) ? '| ই-মেইল: ' . $org['email'] : '' }}</div>
+            @endif
+          @endif
+        </div>
+        <div class="spacer"></div>
+      </header>
+    @else
+      <div class="pad-spacer"></div>
+    @endif
 
-  <div class="title"><span>{{ $snapshot['type_name'] ?? $certificate->type?->name }}</span></div>
+    <div class="meta">
+      <div><b>{{ $isEnglish ? 'Memo No:' : 'স্মারক নং:' }}</b> {{ $certificate->memo_no }}</div>
+      <div><b>{{ $isEnglish ? 'Date:' : 'তারিখ:' }}</b> {{ $issueDateDisplay }}</div>
+    </div>
 
-  <p class="lead">{{ $snapshot['lead_line'] ?? 'এতদ্বারা প্রত্যয়ন করা যাচ্ছে যে,' }}</p>
+    <div class="title"><span>{{ $snapshot['type_name'] ?? $certificate->type?->name }}</span></div>
 
-  @if (!empty($snapshot['person_rows']))
-    <table class="details">
-      @foreach ($snapshot['person_rows'] as $row)
-        <tr>
-          <td>{{ $row['label'] }}</td>
-          <td>:</td>
-          <td>{{ $row['value'] }}</td>
-        </tr>
-      @endforeach
-    </table>
-  @endif
+    <p class="lead">{{ $snapshot['lead_line'] ?? ($isEnglish ? 'This is to certify that,' : 'এতদ্বারা প্রত্যয়ন করা যাচ্ছে যে,') }}</p>
 
-  @if (!empty($snapshot['rendered_body']))
-    <p class="body">{!! $snapshot['rendered_body'] !!}</p>
-  @endif
+    @if (!empty($snapshot['person_rows']))
+      <table class="details">
+        @foreach ($snapshot['person_rows'] as $row)
+          <tr>
+            <td>{{ $row['label'] }}</td>
+            <td>:</td>
+            <td>{{ $row['value'] }}</td>
+          </tr>
+        @endforeach
+      </table>
+    @endif
 
-  @if (!empty($snapshot['tables']))
-    @foreach ($snapshot['tables'] as $tbl)
-      <div class="rep-wrap">
-        @if (!empty($tbl['label']))
-          <div class="rep-title">{{ $tbl['label'] }}:</div>
-        @endif
-        <table class="rep-table">
-          <thead>
-            <tr>
-              @foreach ($tbl['columns'] as $col)
-                <th>{{ $col['label'] ?? $col['key'] }}</th>
-              @endforeach
-            </tr>
-          </thead>
-          <tbody>
-            @foreach ($tbl['rows'] as $r)
+    @if (!empty($snapshot['rendered_body']))
+      <p class="body">{!! $snapshot['rendered_body'] !!}</p>
+    @endif
+
+    @if (!empty($snapshot['tables']))
+      @foreach ($snapshot['tables'] as $tbl)
+        <div class="rep-wrap">
+          @if (!empty($tbl['label']))
+            <div class="rep-title">{{ $tbl['label'] }}:</div>
+          @endif
+          <table class="rep-table">
+            <thead>
               <tr>
                 @foreach ($tbl['columns'] as $col)
-                  <td>{{ $r[$col['key']] ?? '' }}</td>
+                  <th>{{ $col['label'] ?? $col['key'] }}</th>
                 @endforeach
               </tr>
-            @endforeach
-          </tbody>
-        </table>
-      </div>
-    @endforeach
-  @endif
-
-  @if (!empty($snapshot['closing_line']))
-    <p class="wish">{{ $snapshot['closing_line'] }}</p>
-  @endif
-
-  @if (!empty($snapshot['guardian_signatures']))
-    <div class="guardians">
-      <div class="guardian-box">
-        <div class="line">
-          ১ম অভিভাবকের স্বাক্ষর
-          <div style="font-weight:400;color:var(--muted);font-size:11.5px;">
-            {{ $snapshot['data']['guardian_1_name'] ?? '' }}
-            {{ !empty($snapshot['data']['guardian_1_relation']) ? '(' . $snapshot['data']['guardian_1_relation'] . ')' : '' }}
-          </div>
-        </div>
-      </div>
-      <div class="guardian-box">
-        <div class="line">
-          ২য় অভিভাবকের স্বাক্ষর
-          <div style="font-weight:400;color:var(--muted);font-size:11.5px;">
-            {{ $snapshot['data']['guardian_2_name'] ?? '' }}
-            {{ !empty($snapshot['data']['guardian_2_relation']) ? '(' . $snapshot['data']['guardian_2_relation'] . ')' : '' }}
-          </div>
-        </div>
-      </div>
-    </div>
-  @endif
-
-  <div class="footer">
-    <div class="verify">
-      <div class="qr" id="qr"></div>
-      <div class="txt">
-        <b>অনলাইনে যাচাই করুন</b>
-        QR কোড স্ক্যান করে প্রত্যয়নের সত্যতা যাচাই করা যাবে।
-        <div class="code">কোড: {{ $certificate->verification_code }}</div>
-      </div>
-    </div>
-
-    <div class="signs">
-      @foreach ($signatories as $sig)
-        <div class="sign">
-          <div class="space"></div>
-          <div class="line">
-            @if (!empty($sig['name']))
-              <div>{{ $sig['name'] }}</div>
-            @endif
-            <small><b>{{ $sig['designation'] ?? '' }}</b></small>
-            @if (!empty($sig['office_line']))
-              <small>{{ $sig['office_line'] }}</small>
-            @endif
-            @if (!empty($sig['extra_line']))
-              <small>{{ $sig['extra_line'] }}</small>
-            @endif
-          </div>
+            </thead>
+            <tbody>
+              @foreach ($tbl['rows'] as $r)
+                <tr>
+                  @foreach ($tbl['columns'] as $col)
+                    <td>{{ $r[$col['key']] ?? '' }}</td>
+                  @endforeach
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
         </div>
       @endforeach
-    </div>
-  </div>
+    @endif
 
-  <div class="bottomnote">এটি কম্পিউটার-নির্মিত প্রত্যয়ন; কর্তৃপক্ষের স্বাক্ষর ও সিল ব্যতীত বৈধ নয়।</div>
+    @if (!empty($snapshot['closing_line']))
+      <p class="wish">{{ $snapshot['closing_line'] }}</p>
+    @endif
+
+    @if (!empty($snapshot['guardian_signatures']))
+      <div class="guardians">
+        <div class="guardian-box">
+          <div class="line">
+            ১ম অভিভাবকের স্বাক্ষর
+            <div style="font-weight:400;color:var(--muted);font-size:11.5px;">
+              {{ $snapshot['data']['guardian_1_name'] ?? '' }}
+              {{ !empty($snapshot['data']['guardian_1_relation']) ? '(' . $snapshot['data']['guardian_1_relation'] . ')' : '' }}
+            </div>
+          </div>
+        </div>
+        <div class="guardian-box">
+          <div class="line">
+            ২য় অভিভাবকের স্বাক্ষর
+            <div style="font-weight:400;color:var(--muted);font-size:11.5px;">
+              {{ $snapshot['data']['guardian_2_name'] ?? '' }}
+              {{ !empty($snapshot['data']['guardian_2_relation']) ? '(' . $snapshot['data']['guardian_2_relation'] . ')' : '' }}
+            </div>
+          </div>
+        </div>
+      </div>
+    @endif
+
+    <div class="footer">
+      <div class="verify">
+        <div class="qr" id="qr"></div>
+        <div class="txt">
+          <b>{{ $isEnglish ? 'Verify Online' : 'অনলাইনে যাচাই করুন' }}</b>
+          {{ $isEnglish ? 'Scan QR code to verify authenticity of this certificate.' : 'QR কোড স্ক্যান করে প্রত্যয়নের সত্যতা যাচাই করা যাবে।' }}
+          <div class="code">{{ $isEnglish ? 'Code:' : 'কোড:' }} {{ $certificate->verification_code }}</div>
+        </div>
+      </div>
+
+      <div class="signs">
+        @foreach ($signatories as $sig)
+          <div class="sign">
+            <div class="space"></div>
+            <div class="line">
+              @if (!empty($sig['name']))
+                <div>{{ $sig['name'] }}</div>
+              @endif
+              <small><b>{{ $sig['designation'] ?? '' }}</b></small>
+              @if (!empty($sig['office_line']))
+                <small>{{ $sig['office_line'] }}</small>
+              @endif
+              @if (!empty($sig['extra_line']))
+                <small>{{ $sig['extra_line'] }}</small>
+              @endif
+            </div>
+          </div>
+        @endforeach
+      </div>
+    </div>
+
+    <div class="bottomnote">
+      {{ $isEnglish ? 'Computer generated certificate; invalid without authorized signature and seal.' : 'এটি কম্পিউটার-নির্মিত প্রত্যয়ন; কর্তৃপক্ষের স্বাক্ষর ও সিল ব্যতীত বৈধ নয়।' }}
+    </div>
+  @endif
 </div>
 
 <script src="{{ asset('vendor/attestation/qrcode.js') }}"></script>
 <script>
   const logo = @json($logo);
-  document.getElementById('sheet').style.setProperty('--logo', `url('${logo}')`);
+  const sheetEl = document.getElementById('sheet');
+  sheetEl.style.setProperty('--logo', `url('${logo}')`);
 
   const url = @json($verifyUrl);
-  if (typeof qrcode === 'function') {
+  const qrEl = document.getElementById('qr') || sheetEl.querySelector('.att-a4-qr');
+  if (qrEl && typeof qrcode === 'function') {
     const qr = qrcode(0, 'M');
     qr.addData(url);
     qr.make();
-    document.getElementById('qr').innerHTML = qr.createSvgTag({cellSize: 4, margin: 0, scalable: true});
+    qrEl.innerHTML = qr.createSvgTag({cellSize: 4, margin: 0, scalable: true});
+  }
+
+  let isPrintEditable = false;
+  function togglePrintEdit() {
+    isPrintEditable = !isPrintEditable;
+    const btn = document.getElementById('directEditBtn');
+    btn.classList.toggle('active-edit', isPrintEditable);
+    btn.textContent = isPrintEditable ? '✔ সরাসরি এডিট বন্ধ করুন' : '✎ সরাসরি এডিট';
+    if (isPrintEditable) {
+      sheetEl.setAttribute('contenteditable', 'true');
+      sheetEl.setAttribute('spellcheck', 'false');
+      sheetEl.focus();
+    } else {
+      sheetEl.removeAttribute('contenteditable');
+    }
+  }
+
+  function exportDocFile() {
+    const clone = sheetEl.cloneNode(true);
+    clone.removeAttribute('contenteditable');
+    const html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>{{ $certificate->memo_no }}</title></head><body style="font-family:\'Noto Sans Bengali\',sans-serif;font-size:12pt;">' + clone.innerHTML + '</body></html>';
+    const blob = new Blob(['\ufeff' + html], { type: 'application/msword;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = @json(($snapshot['type_name'] ?? 'Certificate') . ' - ' . $certificate->subject_name . '.doc');
+    a.click();
   }
 </script>
 </body>

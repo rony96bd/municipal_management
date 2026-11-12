@@ -38,8 +38,12 @@
                             <tr>
                                 <td>{{ \Municipal\Attestation\Support\BengaliHelper::toBengaliDigits($t->order) }}</td>
                                 <td>
+                                    <span style="font-size:18px;margin-right:4px;">{{ $t->icon }}</span>
                                     <strong>{{ $t->name }}</strong>
-                                    <div style="font-size:12px;color:#64748b;"><code>{{ $t->slug }}</code></div>
+                                    @if ($t->language === 'en')
+                                        <span class="att-badge att-badge-info" style="margin-left:4px;">🌐 EN</span>
+                                    @endif
+                                    <div style="font-size:12px;color:#64748b;"><code>{{ $t->slug }}</code> {{ $t->description ? '— ' . $t->description : '' }}</div>
                                 </td>
                                 <td>{{ $t->memo_name }}</td>
                                 <td>{{ \Municipal\Attestation\Support\BengaliHelper::toBengaliDigits(number_format((float)$t->fee)) }} ৳</td>

@@ -63,8 +63,9 @@ class ApplyController extends Controller
 
         $r->validate($rules);
 
-        $org        = config('attestation.organization', []);
-        $trackingNo = AttestationApplication::generateTrackingNo();
+        $org         = config('attestation.organization', []);
+        $trackingNo  = AttestationApplication::generateTrackingNo();
+        $attachments = \Municipal\Attestation\Support\AttachmentHelper::processUploads($r, []);
 
         $app = AttestationApplication::create([
             'tracking_no'         => $trackingNo,
@@ -82,6 +83,7 @@ class ApplyController extends Controller
             'upazila'             => $r->input('upazila', $org['default_upazila'] ?? 'আলমডাঙ্গা'),
             'district'            => $r->input('district', $org['default_district'] ?? 'চুয়াডাঙ্গা'),
             'data'                => $r->input('data', []),
+            'attachments'         => $attachments,
             'status'              => ApplicationStatus::Pending,
             'fee'                 => $type->fee,
             'payment_status'      => 'unpaid',

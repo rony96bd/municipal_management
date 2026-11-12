@@ -26,19 +26,25 @@ class AttestationSystemTest extends TestCase
 
     public function test_seeded_types_and_public_pages_load(): void
     {
-        $this->assertGreaterThanOrEqual(28, AttestationType::count());
+        $this->assertGreaterThanOrEqual(46, AttestationType::count());
 
         $bibahit = AttestationType::where('slug', 'bibahit-pratyayan')->firstOrFail();
         $this->assertSame('বিবাহিত প্রত্যয়ন', $bibahit->memo_name);
         $this->assertStringContainsString('বিবাহিত', $bibahit->body_template);
 
+        $enChar = AttestationType::where('slug', 'en-character-certificate')->firstOrFail();
+        $this->assertSame('en', $enChar->language);
+
         $response = $this->get(route('attestation.apply.index'));
         $response->assertStatus(200);
         $response->assertSee('অনলাইন প্রত্যয়ন সেবা');
+        $response->assertSee('সনদের সেবাসমূহ');
+        $response->assertSee('Character Certificate');
 
         $formResponse = $this->get(route('attestation.apply.show', $bibahit->slug));
         $formResponse->assertStatus(200);
         $formResponse->assertSee($bibahit->name);
+        $formResponse->assertSee('প্রমাণক সংযুক্তি');
     }
 
     public function test_citizen_can_apply_and_track_and_admin_can_edit_and_approve(): void
@@ -142,5 +148,10 @@ class AttestationSystemTest extends TestCase
         $this->assertSame('আঃপৌঃ/অবিবাহিত প্রত্যয়ন/২০৩০/০২', $m2['memo_no']);
         $this->assertSame('আঃপৌঃ/অবিবাহিত প্রত্যয়ন/২০৩১/০১', $m3['memo_no']);
         $this->assertSame('আঃপৌঃ/বিবাহিত প্রত্যয়ন/২০৩০/০১', $m4['memo_no']);
+
+        // English certificate memo check
+        $enType = AttestationType::where('slug', 'en-character-certificate')->firstOrFail();
+        $mEn = MemoGenerator::next($enType->id, $enType->memo_name, 2030);
+        $this->assertSame('A:P:/Character Certificate/2030/01', $mEn['memo_no']);
     }
 }

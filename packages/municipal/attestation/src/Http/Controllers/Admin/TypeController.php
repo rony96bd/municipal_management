@@ -183,10 +183,13 @@ class TypeController extends Controller
             }
         }
 
-        $printOptions = [
+        $existingOpts = $ignoreId ? (AttestationType::find($ignoreId)?->print_options ?? []) : [];
+        $printOptions = array_merge($existingOpts, [
             'with_header' => $r->boolean('with_header', true),
             'watermark'   => $r->boolean('watermark', true),
-        ];
+            'icon'        => $r->input('icon', $existingOpts['icon'] ?? '📜'),
+            'language'    => $r->input('language', $existingOpts['language'] ?? 'bn'),
+        ]);
 
         return [
             'name'           => $r->input('name'),

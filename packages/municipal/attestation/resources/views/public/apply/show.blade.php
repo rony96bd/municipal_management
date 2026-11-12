@@ -41,10 +41,12 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('attestation.apply.store', $type->slug) }}">
+        <form method="POST" action="{{ route('attestation.apply.store', $type->slug) }}" enctype="multipart/form-data">
             @csrf
 
             @include('attestation::partials.person_and_fields', ['type' => $type, 'application' => null, 'requireMobile' => true])
+
+            @include('attestation::partials.attachments_box', ['application' => null])
 
             <div style="background:#fffbeb;border:1px solid #fde68a;color:#92400e;padding:12px 16px;border-radius:8px;margin-bottom:18px;font-size:14px;">
                 ℹ️ <strong>গুরুত্বপূর্ণ নির্দেশনা:</strong> অনলাইনে আবেদন জমা দেওয়ার পর আপনাকে একটি <strong>ট্র্যাকিং নম্বর</strong> প্রদান করা হবে। আবেদনটি অনুমোদিত হলে পৌরসভা কার্যালয়ে উপস্থিত হয়ে মূল প্রত্যয়নপত্র সংগ্রহ করতে হবে।

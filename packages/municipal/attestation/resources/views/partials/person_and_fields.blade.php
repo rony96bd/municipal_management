@@ -216,6 +216,87 @@
     </div>
 @endif
 
+@if (empty($requireMobile))
+    @php
+        $isEnglish = ($type->language ?? 'bn') === 'en';
+        $defaultLead = $isEnglish
+            ? 'This is to certify that,'
+            : ($isDeceased ? 'এই মর্মে প্রত্যয়ন পত্র প্রদান করা যাচ্ছে যে,' : 'এতদ্বারা প্রত্যয়ন করা যাচ্ছে যে,');
+        $presetMap = \Municipal\Attestation\Models\AttestationSignatory::whereNotNull('preset_key')->get()->keyBy('preset_key');
+        $idMap     = \Municipal\Attestation\Models\AttestationSignatory::all()->keyBy('id');
+        $sigSlots  = $type->signatories ?? [['preset_key' => $isEnglish ? 'EN_A' : 'A']];
+    @endphp
+    <input type="hidden" name="data[_override_html]" id="override_html_input" value="{{ $existingData['_override_html'] ?? '' }}">
+
+    <details style="background:#f4fbf7;border:1px solid #cce3d6;border-radius:8px;padding:12px 14px;margin-bottom:18px;">
+        <summary style="cursor:pointer;font-weight:700;color:#0f6b3a;font-size:14.5px;user-select:none;">
+            📝 শিরোনাম, স্থির লেখা ও স্বাক্ষর এডিট করুন (প্রয়োজনে পরিবর্তন করুন)
+        </summary>
+        <div style="margin-top:12px;">
+            <div class="att-grid att-grid-2">
+                <div class="att-field">
+                    <label>প্রিন্টের শিরোনাম (Title Override)</label>
+                    <input type="text" name="data[_override_title]" class="att-input"
+                        value="{{ $existingData['_override_title'] ?? '' }}"
+                        placeholder="{{ $type->name }}">
+                </div>
+                <div class="att-field">
+                    <label>শুরুর বাক্য (Lead Line Override)</label>
+                    <input type="text" name="data[_override_lead]" class="att-input"
+                        value="{{ $existingData['_override_lead'] ?? '' }}"
+                        placeholder="{{ $defaultLead }}">
+                </div>
+            </div>
+
+            <div class="att-field">
+                <label>মূল বক্তব্যের টেমপ্লেট (Body Override — ফাঁকা রাখলে ডিফল্ট বসবে)</label>
+                <textarea name="data[_override_body]" rows="2" class="att-textarea exclude-tyne"
+                    placeholder="{{ $type->body_template }}">{{ $existingData['_override_body'] ?? '' }}</textarea>
+            </div>
+
+            <div class="att-field">
+                <label>সমাপনী দোয়া / মঙ্গল কামনা লাইন (Closing Line Override)</label>
+                <input type="text" name="data[_override_closing]" class="att-input"
+                    value="{{ $existingData['_override_closing'] ?? '' }}"
+                    placeholder="{{ $type->closing_line }}">
+            </div>
+
+            <div style="border-top:1px dashed #b9decb;padding-top:10px;margin-top:6px;">
+                <strong style="font-size:13.5px;color:#0f5a3e;display:block;margin-bottom:8px;">✍️ স্বাক্ষরকারীগণের নাম ও পদবী (এই সনদের জন্য ওভাররাইড):</strong>
+                <div class="att-grid att-grid-3">
+                    @foreach ($sigSlots as $sIdx => $slot)
+                        @php
+                            $sigModel = !empty($slot['signatory_id']) ? ($idMap[$slot['signatory_id']] ?? null) : (!empty($slot['preset_key']) ? ($presetMap[$slot['preset_key']] ?? null) : null);
+                            $defName = $sigModel?->name ?? ($slot['name'] ?? '');
+                            $defDesig = $sigModel?->designation ?? ($slot['designation'] ?? '');
+                            $ovSig = $existingData['_override_signatories'][$sIdx] ?? [];
+                        @endphp
+                        <div style="background:#fff;border:1px solid #d1e7dd;border-radius:7px;padding:10px;">
+                            <div style="font-size:12.5px;font-weight:700;color:#0f6b3a;margin-bottom:6px;">
+                                স্লট #{{ $sIdx + 1 }} {{ !empty($slot['label']) ? "({$slot['label']})" : '' }}
+                            </div>
+                            <div class="att-field" style="margin-bottom:6px;">
+                                <label style="font-size:12px;">কর্মকর্তার নাম</label>
+                                <input type="text" name="data[_override_signatories][{{ $sIdx }}][name]" class="att-input"
+                                    style="padding:6px 9px;font-size:13px;"
+                                    value="{{ $ovSig['name'] ?? '' }}"
+                                    placeholder="{{ $defName ?: 'নাম লিখুন' }}">
+                            </div>
+                            <div class="att-field" style="margin-bottom:0;">
+                                <label style="font-size:12px;">পদবী</label>
+                                <input type="text" name="data[_override_signatories][{{ $sIdx }}][designation]" class="att-input"
+                                    style="padding:6px 9px;font-size:13px;"
+                                    value="{{ $ovSig['designation'] ?? '' }}"
+                                    placeholder="{{ $defDesig ?: 'পদবী লিখুন' }}">
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </details>
+@endif
+
 <script>
     function addRepeaterRow(fieldKey, columns) {
         const table = document.getElementById('repeater-' + fieldKey);
@@ -238,14 +319,20 @@
         actionTd.innerHTML = '<button type="button" class="att-btn att-btn-danger att-btn-sm" onclick="removeRepeaterRow(this)">✕</button>';
         tr.appendChild(actionTd);
         tbody.appendChild(tr);
+        if (typeof window.triggerLiveAttestationPreview === 'function') {
+            window.triggerLiveAttestationPreview();
+        }
     }
 
     function removeRepeaterRow(btn) {
         const tbody = btn.closest('tbody');
         if (tbody.querySelectorAll('tr').length <= 1) {
             btn.closest('tr').querySelectorAll('input').forEach(i => i.value = '');
-            return;
+        } else {
+            btn.closest('tr').remove();
         }
-        btn.closest('tr').remove();
+        if (typeof window.triggerLiveAttestationPreview === 'function') {
+            window.triggerLiveAttestationPreview();
+        }
     }
 </script>

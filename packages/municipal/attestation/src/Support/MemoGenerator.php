@@ -45,12 +45,19 @@ class MemoGenerator
             }
 
             $seqFormatted = str_pad((string) $newSeq, $serialPad, '0', STR_PAD_LEFT);
-            $bengaliYear  = BengaliHelper::toBengaliDigits($year);
-            $bengaliSeq   = BengaliHelper::toBengaliDigits($seqFormatted);
-            $prefix       = config('attestation.organization.short_name', 'আঃপৌঃ');
+            $isEnglish    = (bool) preg_match('/^[A-Za-z0-9\s\-\/\(\)\.]+$/', $memoName);
+
+            if ($isEnglish) {
+                $memoString = "A:P:/{$memoName}/{$year}/{$seqFormatted}";
+            } else {
+                $bengaliYear = BengaliHelper::toBengaliDigits($year);
+                $bengaliSeq  = BengaliHelper::toBengaliDigits($seqFormatted);
+                $prefix      = config('attestation.organization.short_name', 'আঃপৌঃ');
+                $memoString  = "{$prefix}/{$memoName}/{$bengaliYear}/{$bengaliSeq}";
+            }
 
             $result = [
-                'memo_no' => "{$prefix}/{$memoName}/{$bengaliYear}/{$bengaliSeq}",
+                'memo_no' => $memoString,
                 'year'    => $year,
                 'serial'  => $newSeq,
             ];

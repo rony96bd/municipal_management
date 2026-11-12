@@ -89,9 +89,10 @@ class CertificateController extends Controller
         $year = (int) $issueDate->format('Y');
 
         $certificate = DB::transaction(function () use ($r, $type, $issueDate, $year) {
-            $org = config('attestation.organization', []);
+            $org           = config('attestation.organization', []);
             $paymentStatus = $r->input('payment_status', 'paid');
             $paidAmount    = $r->filled('paid_amount') ? (float) $r->input('paid_amount') : (float) $type->fee;
+            $attachments   = \Municipal\Attestation\Support\AttachmentHelper::processUploads($r, []);
 
             $application = AttestationApplication::create([
                 'tracking_no'         => AttestationApplication::generateTrackingNo(),
@@ -109,6 +110,7 @@ class CertificateController extends Controller
                 'upazila'             => $r->input('upazila', $org['default_upazila'] ?? 'আলমডাঙ্গা'),
                 'district'            => $r->input('district', $org['default_district'] ?? 'চুয়াডাঙ্গা'),
                 'data'                => $r->input('data', []),
+                'attachments'         => $attachments,
                 'status'              => ApplicationStatus::Approved,
                 'fee'                 => $type->fee,
                 'payment_status'      => $paymentStatus,

@@ -49,6 +49,19 @@
                         <label>ক্রম নম্বর (Order)</label>
                         <input type="number" name="order" class="att-input" value="{{ old('order', $type->order ?? 0) }}">
                     </div>
+
+                    <div class="att-field">
+                        <label>সেবার আইকন / ইমোজি (Icon)</label>
+                        <input type="text" name="icon" class="att-input" value="{{ old('icon', $type->icon ?? '📜') }}" placeholder="যেমন: 📜, 💍, 🏠">
+                    </div>
+
+                    <div class="att-field">
+                        <label>ভাষা (Language)</label>
+                        <select name="language" class="att-select">
+                            <option value="bn" {{ old('language', $type->language ?? 'bn') === 'bn' ? 'selected' : '' }}>বাংলা (Bangla)</option>
+                            <option value="en" {{ old('language', $type->language ?? 'bn') === 'en' ? 'selected' : '' }}>🌐 English (ইংরেজি)</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="att-field">

@@ -47,7 +47,7 @@
     <a href="{{ route('attestation.certificates.create') }}" class="{{ request()->routeIs('attestation.certificates.create') ? 'active' : '' }}">➕ সরাসরি প্রত্যয়ন ইস্যু</a>
     <a href="{{ route('attestation.applications.index') }}" class="{{ request()->routeIs('attestation.applications.*') ? 'active' : '' }}">📥 নাগরিক আবেদনসমূহ</a>
     <a href="{{ route('attestation.certificates.index') }}" class="{{ request()->routeIs('attestation.certificates.index') || request()->routeIs('attestation.certificates.show') ? 'active' : '' }}">📜 ইস্যুকৃত সনদসমূহ</a>
-    <a href="{{ route('attestation.types.index') }}" class="{{ request()->routeIs('attestation.types.*') ? 'active' : '' }}">🗂️ প্রত্যয়নের ধরন (২৮+)</a>
+    <a href="{{ route('attestation.types.index') }}" class="{{ request()->routeIs('attestation.types.*') ? 'active' : '' }}">🗂️ প্রত্যয়নের ধরনসমূহ</a>
     <a href="{{ route('attestation.signatories.index') }}" class="{{ request()->routeIs('attestation.signatories.*') ? 'active' : '' }}">✍️ স্বাক্ষরকারী</a>
     <a href="{{ route('attestation.reports.index') }}" class="{{ request()->routeIs('attestation.reports.*') ? 'active' : '' }}">📈 রেজিস্টার ও রিপোর্ট</a>
     <div class="spacer"></div>

@@ -22,6 +22,13 @@
             </div>
         </div>
 
+        @if (isset($types) && $types->isNotEmpty())
+            @include('attestation::partials.service_grid', [
+                'types'     => $types,
+                'routeMode' => 'admin',
+            ])
+        @endif
+
         <div class="att-grid att-grid-2">
             <div class="att-card">
                 <div class="att-card-header">

@@ -42,6 +42,25 @@
                     <p style="margin:6px 0;"><strong>পেমেন্ট:</strong> {{ $certificate->payment_status }} ({{ \Municipal\Attestation\Support\BengaliHelper::toBengaliDigits(number_format((float)$certificate->paid_amount)) }} ৳) — রসিদ: {{ $certificate->receipt_no ?: '-' }}</p>
                     <p style="margin:6px 0;"><strong>পাবলিক যাচাই লিংক:</strong> <a href="{{ route('attestation.verify.show', $certificate->verification_code) }}" target="_blank">{{ route('attestation.verify.show', $certificate->verification_code) }}</a></p>
 
+                    @php
+                        $certAttachments = is_array($certificate->application?->attachments) ? $certificate->application->attachments : [];
+                    @endphp
+                    @if (count($certAttachments) > 0)
+                        <div style="margin-top:14px;padding:12px;background:#f0fdf4;border:1px solid #86efac;border-radius:8px;">
+                            <strong style="color:#166534;font-size:14px;display:block;margin-bottom:8px;">
+                                📎 সংযুক্ত প্রমাণক ফাইলসমূহ ({{ \Municipal\Attestation\Support\BengaliHelper::toBengaliDigits(count($certAttachments)) }} টি):
+                            </strong>
+                            <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                                @foreach ($certAttachments as $att)
+                                    <a href="{{ asset($att['path'] ?? '') }}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #bbf7d0;padding:6px 10px;border-radius:6px;font-size:13px;color:#0f6b3a;text-decoration:none;font-weight:600;">
+                                        <span>{{ str_contains($att['mime'] ?? '', 'pdf') ? '📄' : '🖼️' }}</span>
+                                        <span>{{ $att['label'] ?? 'প্রমাণক' }}: {{ $att['name'] ?? 'দেখুন' }} ↗</span>
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
                     @if (!$certificate->is_cancelled)
                         <form action="{{ route('attestation.certificates.destroy', $certificate) }}" method="POST" style="margin-top:18px;" onsubmit="return confirm('আপনি কি নিশ্চিতভাবে এই সনদটি বাতিল করতে চান?');">
                             @csrf
