@@ -79,15 +79,15 @@
   .guardian-box .line{border-top:1px dashed var(--ink);padding-top:4px;font-weight:600}
 
   .footer{position:absolute;left:16mm;right:16mm;bottom:13mm;display:flex;align-items:flex-end;justify-content:space-between;gap:6mm}
-  .verify{display:flex;align-items:center;gap:9px}
-  .qr{padding:5px;border:1px solid var(--line);border-radius:10px;background:#fff;line-height:0}
-  .qr svg,.qr img{width:23mm;height:23mm}
-  .verify .txt{font-size:10px;color:var(--muted);line-height:1.55;max-width:48mm}
-  .verify .txt b{display:block;color:var(--ink);font-size:11px}
-  .verify .code{font-family:monospace;font-size:10.5px;color:var(--brand);letter-spacing:.8px}
+  .verify{display:flex;flex-direction:column;align-items:flex-start;gap:3px;flex:0 0 auto;width:30mm}
+  .qr{flex:0 0 auto;padding:4px;border:1px solid var(--line);border-radius:10px;background:#fff;line-height:0}
+  .qr svg,.qr img{width:22mm;height:22mm;display:block}
+  .verify .txt{font-size:8.5px;color:var(--muted);line-height:1.35;max-width:30mm}
+  .verify .txt b{display:block;color:var(--ink);font-size:9.5px}
+  .verify .code{font-family:monospace;font-size:8.5px;white-space:nowrap;color:var(--brand);letter-spacing:.8px}
 
-  .signs{display:flex;align-items:flex-end;justify-content:flex-end;gap:6mm;flex:1}
-  .sign{text-align:center;min-width:44mm;max-width:62mm;font-size:12.5px}
+  .signs{display:flex;align-items:flex-end;justify-content:flex-end;gap:4mm;flex:1 1 auto;min-width:0}
+  .sign{text-align:center;flex:1 1 0;min-width:0;max-width:62mm;font-size:11.5px}
   .sign .space{height:14mm}
   .sign .line{border-top:1px solid var(--ink);padding-top:4px;font-weight:600}
   .sign small{display:block;color:var(--muted);font-weight:400;line-height:1.35}
@@ -315,3 +315,4 @@
 </script>
 </body>
 </html>
+
