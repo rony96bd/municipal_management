@@ -13,17 +13,17 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('attestation.track.track') }}" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:20px;">
+        <form method="POST" action="{{ route('attestation.track.track') }}" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:10px;">
             @csrf
             <div>
-                <label style="display:block;font-size:13.5px;font-weight:600;margin-bottom:4px;">ট্র্যাকিং নম্বর *</label>
-                <input type="text" name="tracking_no" required value="{{ old('tracking_no', request('tracking_no')) }}"
+                <label style="display:block;font-size:13.5px;font-weight:600;margin-bottom:4px;">ট্র্যাকিং নম্বর</label>
+                <input type="text" name="tracking_no" value="{{ old('tracking_no', request('tracking_no')) }}"
                     placeholder="যেমন: ATT-2026-12345" style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:7px;">
             </div>
             <div>
-                <label style="display:block;font-size:13.5px;font-weight:600;margin-bottom:4px;">মোবাইল নম্বর *</label>
-                <input type="text" name="mobile" required value="{{ old('mobile', request('mobile')) }}"
-                    placeholder="01XXXXXXXXX" style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:7px;">
+                <label style="display:block;font-size:13.5px;font-weight:600;margin-bottom:4px;">মোবাইল নম্বর</label>
+                <input type="text" name="mobile" value="{{ old('mobile', request('mobile')) }}"
+                    placeholder="যেমন: 01XXXXXXXXX" style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:7px;">
             </div>
             <div style="display:flex;align-items:flex-end;">
                 <button type="submit" style="width:100%;background:#0f6b3a;color:#fff;border:0;padding:11px 18px;border-radius:7px;font-weight:700;cursor:pointer;">
@@ -31,6 +31,10 @@
                 </button>
             </div>
         </form>
+
+        <p style="font-size:12.5px;color:#64748b;margin:0 0 20px 0;">
+            💡 <em>ট্র্যাকিং নম্বর অথবা মোবাইল নম্বর—যেকোনো একটি দিলেই আবেদনের অবস্থা দেখতে পারবেন।</em>
+        </p>
 
         @if ($application)
             <div style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:10px;padding:20px;margin-top:16px;">
@@ -76,6 +80,43 @@
                 @else
                     <div style="margin-top:14px;padding:12px 16px;background:#fef3c7;color:#92400e;border-radius:8px;">
                         ⏳ আপনার আবেদনটি বর্তমানে পর্যালোচনাধীন রয়েছে। অনুমোদিত হলে এখানে স্ট্যাটাস আপডেট হবে।
+                    </div>
+                @endif
+            </div>
+        @elseif (isset($applications) && $applications->total() > 1)
+            <div style="margin-top:20px;">
+                <h3 style="font-size:16px;font-weight:700;color:#0f6b3a;margin-bottom:12px;">
+                    📋 প্রাপ্ত আবেদনসমূহ (মোট: {{ \Municipal\Attestation\Support\BengaliHelper::toBengaliDigits($applications->total()) }}টি):
+                </h3>
+                <div style="display:flex;flex-direction:column;gap:12px;">
+                    @foreach ($applications as $item)
+                        <div style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:9px;padding:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+                            <div>
+                                <div style="font-size:15px;font-weight:700;color:#000325;margin-bottom:3px;">
+                                    {{ $item->type?->name }}
+                                </div>
+                                <div style="font-size:13px;color:#64748b;">
+                                    ট্র্যাকিং: <strong style="font-family:monospace;color:#0f6b3a;">{{ $item->tracking_no }}</strong> |
+                                    আবেদনকারী: <strong>{{ $item->applicant_name }}</strong> |
+                                    তারিখ: {{ \Municipal\Attestation\Support\BengaliHelper::toBengaliDigits($item->created_at?->format('d/m/Y')) }}
+                                </div>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:10px;">
+                                <span style="padding:4px 12px;border-radius:999px;font-weight:700;font-size:12.5px;background:#dcfce7;color:#166534;">
+                                    {{ $item->status->label() }}
+                                </span>
+                                <a href="{{ route('attestation.track.index', ['tracking_no' => $item->tracking_no]) }}"
+                                    style="background:#0f6b3a;color:#fff;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:600;text-decoration:none;">
+                                    বিস্তারিত দেখুন
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                @if ($applications->hasPages())
+                    <div style="margin-top:20px;">
+                        {{ $applications->links() }}
                     </div>
                 @endif
             </div>

@@ -8,41 +8,93 @@ use Municipal\Attestation\Models\AttestationApplication;
 
 class TrackController extends Controller
 {
+    private function normalizeDigits(?string $input): string
+    {
+        if ($input === null) {
+            return '';
+        }
+        $bn = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+        $en = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        return trim(str_replace($bn, $en, $input));
+    }
+
     public function index(Request $r)
     {
-        $page_title  = 'প্রত্যয়ন আবেদনের অবস্থা যাচাই';
-        $application = null;
+        $page_title   = 'প্রত্যয়ন আবেদনের অবস্থা যাচাই';
+        $application  = null;
+        $applications = null;
 
-        if ($r->filled('tracking_no') && $r->filled('mobile')) {
-            $application = AttestationApplication::where('tracking_no', trim($r->tracking_no))
-                ->where('mobile', trim($r->mobile))
-                ->with(['type', 'attestation', 'logs'])
-                ->first();
+        $trackingNo = $this->normalizeDigits($r->input('tracking_no'));
+        $mobile     = $this->normalizeDigits($r->input('mobile'));
+
+        if ($trackingNo !== '' || $mobile !== '') {
+            $query = AttestationApplication::query()->with(['type', 'attestation', 'logs']);
+
+            if ($trackingNo !== '' && $mobile !== '') {
+                $query->where('tracking_no', $trackingNo)->where('mobile', $mobile);
+            } elseif ($trackingNo !== '') {
+                $query->where('tracking_no', $trackingNo);
+            } else {
+                $query->where('mobile', $mobile);
+            }
+
+            $paginated = $query->latest('id')->paginate(20)->withQueryString();
+
+            if ($paginated->total() === 1) {
+                $application = $paginated->first();
+                $page_title  = "আবেদনের অবস্থা: {$application->tracking_no}";
+            } elseif ($paginated->total() > 1) {
+                $applications = $paginated;
+                $page_title   = "আবেদনসমূহের অবস্থা ({$paginated->total()}টি)";
+            }
         }
 
-        return view('attestation::public.track.index', compact('page_title', 'application'));
+        return view('attestation::public.track.index', compact('page_title', 'application', 'applications'));
     }
 
     public function track(Request $r)
     {
-        $r->validate([
-            'tracking_no' => 'required|string|max:50',
-            'mobile'      => 'required|string|max:20',
+        $r->merge([
+            'tracking_no' => $this->normalizeDigits($r->input('tracking_no')),
+            'mobile'      => $this->normalizeDigits($r->input('mobile')),
         ]);
 
-        $application = AttestationApplication::where('tracking_no', trim($r->tracking_no))
-            ->where('mobile', trim($r->mobile))
-            ->with(['type', 'attestation', 'logs'])
-            ->first();
+        $r->validate([
+            'tracking_no' => 'required_without:mobile|nullable|string|max:50',
+            'mobile'      => 'required_without:tracking_no|nullable|string|max:20',
+        ], [
+            'tracking_no.required_without' => 'অনুগ্রহ করে ট্র্যাকিং নম্বর অথবা মোবাইল নম্বর দিন।',
+            'mobile.required_without'      => 'অনুগ্রহ করে ট্র্যাকিং নম্বর অথবা মোবাইল নম্বর দিন।',
+        ]);
 
-        if (!$application) {
-            return back()
-                ->withInput()
-                ->withErrors(['tracking_no' => 'আবেদন পাওয়া যায়নি। অনুগ্রহ করে ট্র্যাকিং নম্বর ও মোবাইল নম্বর সঠিকভাবে লিখুন।']);
+        $trackingNo = $r->input('tracking_no');
+        $mobile     = $r->input('mobile');
+
+        $query = AttestationApplication::query()->with(['type', 'attestation', 'logs']);
+
+        if (!empty($trackingNo) && !empty($mobile)) {
+            $query->where('tracking_no', $trackingNo)->where('mobile', $mobile);
+        } elseif (!empty($trackingNo)) {
+            $query->where('tracking_no', $trackingNo);
+        } elseif (!empty($mobile)) {
+            $query->where('mobile', $mobile);
         }
 
-        $page_title = "আবেদনের অবস্থা: {$application->tracking_no}";
+        $paginated = $query->latest('id')->paginate(20)->withQueryString();
 
-        return view('attestation::public.track.index', compact('page_title', 'application'));
+        if ($paginated->isEmpty()) {
+            return back()
+                ->withInput()
+                ->withErrors(['tracking_no' => 'কোনো আবেদন পাওয়া যায়নি। অনুগ্রহ করে ট্র্যাকিং নম্বর অথবা মোবাইল নম্বর সঠিকভাবে লিখুন।']);
+        }
+
+        $application  = $paginated->total() === 1 ? $paginated->first() : null;
+        $applications = $paginated->total() > 1 ? $paginated : null;
+
+        $page_title = $application
+            ? "আবেদনের অবস্থা: {$application->tracking_no}"
+            : "আবেদনসমূহের অবস্থা ({$paginated->total()}টি)";
+
+        return view('attestation::public.track.index', compact('page_title', 'application', 'applications'));
     }
 }

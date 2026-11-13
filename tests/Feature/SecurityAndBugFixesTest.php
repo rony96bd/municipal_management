@@ -118,7 +118,7 @@ class SecurityAndBugFixesTest extends TestCase
         $this->assertFileDoesNotExist($uploadedFullPath);
     }
 
-    public function test_attestation_get_track_requires_mobile_to_prevent_idor(): void
+    public function test_attestation_track_supports_tracking_no_or_mobile_flexibly(): void
     {
         if (AttestationType::count() === 0) {
             $this->seed(\Municipal\Attestation\Database\Seeders\AttestationTypeSeeder::class);
@@ -128,26 +128,25 @@ class SecurityAndBugFixesTest extends TestCase
         $app = AttestationApplication::create([
             'attestation_type_id' => $type->id,
             'tracking_no'         => 'ATT-TEST-99999',
-            'applicant_name'      => 'গোপন আবেদনকারী',
+            'applicant_name'      => 'আবেদনকারী টেস্ট',
             'mobile'              => '01799887766',
             'status'              => ApplicationStatus::Pending,
             'form_data'           => [],
         ]);
 
-        // GET with only tracking_no (no mobile) must NOT leak applicant details
-        $withoutMobile = $this->get(route('attestation.track.index', [
+        // GET with only tracking_no
+        $withTrackingOnly = $this->get(route('attestation.track.index', [
             'tracking_no' => 'ATT-TEST-99999',
         ]));
-        $withoutMobile->assertStatus(200);
-        $withoutMobile->assertDontSee('গোপন আবেদনকারী');
+        $withTrackingOnly->assertStatus(200);
+        $withTrackingOnly->assertSee('আবেদনকারী টেস্ট');
 
-        // GET with matching tracking_no AND mobile shows the application
-        $withMobile = $this->get(route('attestation.track.index', [
-            'tracking_no' => 'ATT-TEST-99999',
-            'mobile'      => '01799887766',
+        // GET with only mobile
+        $withMobileOnly = $this->get(route('attestation.track.index', [
+            'mobile' => '01799887766',
         ]));
-        $withMobile->assertStatus(200);
-        $withMobile->assertSee('গোপন আবেদনকারী');
+        $withMobileOnly->assertStatus(200);
+        $withMobileOnly->assertSee('আবেদনকারী টেস্ট');
     }
 
     public function test_non_admin_user_cannot_access_user_management(): void

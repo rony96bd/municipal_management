@@ -10,7 +10,7 @@ Route::get('/apply/{type:slug}', [ApplyController::class, 'show'])->name('apply.
 Route::post('/apply/{type:slug}', [ApplyController::class, 'store'])->name('apply.store');
 Route::get('/confirmation/{tracking}', [ApplyController::class, 'confirmation'])->name('apply.confirmation');
 
-Route::get('/track', [TrackController::class, 'index'])->name('track.index');
-Route::post('/track', [TrackController::class, 'track'])->name('track.track');
+Route::get('/track', [TrackController::class, 'index'])->middleware('throttle:15,1,track')->name('track.index');
+Route::post('/track', [TrackController::class, 'track'])->middleware('throttle:15,1,track')->name('track.track');
 
 Route::get('/verify/{code}', [VerifyController::class, 'show'])->name('verify.show');
