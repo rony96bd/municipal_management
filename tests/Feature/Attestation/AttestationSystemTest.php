@@ -26,7 +26,7 @@ class AttestationSystemTest extends TestCase
 
     public function test_seeded_types_and_public_pages_load(): void
     {
-        $this->assertGreaterThanOrEqual(46, AttestationType::count());
+        $this->assertGreaterThanOrEqual(66, AttestationType::count());
 
         $bibahit = AttestationType::where('slug', 'bibahit-pratyayan')->firstOrFail();
         $this->assertSame('বিবাহিত প্রত্যয়ন', $bibahit->memo_name);
