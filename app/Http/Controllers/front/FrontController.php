@@ -144,7 +144,7 @@ class FrontController extends Controller
 
     public function singlepage($page_url)
     {
-        $page = createpage::where('page_url', $page_url)->first();
+        $page = createpage::where('page_url', $page_url)->firstOrFail();
         $page_title = $page->page_name;
         return view('front-views.pages.singe-pages.single-page', compact('page_title', 'page'));
     }

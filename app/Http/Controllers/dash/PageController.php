@@ -5,6 +5,7 @@ namespace App\Http\Controllers\dash;
 use App\Http\Controllers\Controller;
 use App\Models\page\createpage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PageController extends Controller
 {
@@ -44,13 +45,12 @@ class PageController extends Controller
 
         $page = new createpage();
 
-        $filePath = null;
         if ($request->hasFile('file_upload')) {
             $file = $request->file('file_upload');
-            $fileName = time() . '_' . $file->getClientOriginalName(); // Generate unique file name
-            $file->move('pages', $fileName); // Save to public/attestments
-            $filePath = 'pages/' . $fileName; // Save relative path for database
-            $page->file_path = $filePath; // Save the file path or null if no file uploaded
+            $ext = strtolower($file->getClientOriginalExtension() ?: 'bin');
+            $fileName = time() . '_' . Str::random(10) . '.' . $ext;
+            $file->move(public_path('pages'), $fileName);
+            $page->file_path = 'pages/' . $fileName;
         }
 
         // Generate a unique URL
@@ -82,12 +82,14 @@ class PageController extends Controller
         // Find the existing page by ID
         $page = createpage::findOrFail($id);
 
+        $oldFilePath = null;
         if ($request->hasFile('file_upload')) {
             $file = $request->file('file_upload');
-            $fileName = time() . '_' . $file->getClientOriginalName(); // Generate unique file name
-            $file->move('pages', $fileName); // Save to public/attestments
-            $filePath = 'pages/' . $fileName; // Save relative path for database
-            $page->file_path = $filePath; // Save the file path or null if no file uploaded
+            $ext = strtolower($file->getClientOriginalExtension() ?: 'bin');
+            $fileName = time() . '_' . Str::random(10) . '.' . $ext;
+            $file->move(public_path('pages'), $fileName);
+            $oldFilePath = $page->file_path;
+            $page->file_path = 'pages/' . $fileName;
         }
 
         // Generate a unique URL excluding the current page ID
@@ -98,6 +100,8 @@ class PageController extends Controller
         $page->page_url = $page_url;
         $page->page_data = $request->page_data;
         $page->save();
+
+        $this->deleteStoredFile($oldFilePath);
 
         // Redirect with a success message
         return redirect()->route('pages')->with('success', "সফলভাবে {$request->page_name} পাতা আপডেট হয়েছে");
@@ -131,30 +135,42 @@ class PageController extends Controller
 
     public function deleteAttachment($id)
     {
-        // Find the page by ID
         $page = createpage::findOrFail($id);
+        $oldFilePath = $page->file_path;
 
-        // Delete the file from the server if it exists
-        if ($page->file_path && file_exists(public_path($page->file_path))) {
-            unlink(public_path($page->file_path)); // Delete the file
-        }
-
-        // Remove the file path from the database
+        // Remove the file path from the database first
         $page->file_path = null;
         $page->save();
 
-        // Redirect back with a success message
+        $this->deleteStoredFile($oldFilePath);
+
         return redirect()->back()->with('success', 'ফাইল মুছে ফেলা হয়েছে');
     }
 
-
     public function destroy($id)
     {
-        $page = createpage::findOrFail($id); // Find the page by ID
-        $page_name = $page->page_name; // Store page name for feedback
-        $page->delete(); // Delete the page
+        $page = createpage::findOrFail($id);
+        $page_name = $page->page_name;
+        $oldFilePath = $page->file_path;
+        $page->delete();
+
+        $this->deleteStoredFile($oldFilePath);
 
         return redirect()->back()->with('success', "{$page_name} পাতা সফলভাবে মুছে ফেলা হয়েছে।");
+    }
+
+    private function deleteStoredFile(?string $relativePath): void
+    {
+        if (!$relativePath) {
+            return;
+        }
+
+        $baseDir = realpath(public_path('pages'));
+        $filePath = realpath(public_path($relativePath));
+
+        if ($baseDir && $filePath && str_starts_with($filePath, $baseDir . DIRECTORY_SEPARATOR) && is_file($filePath)) {
+            @unlink($filePath);
+        }
     }
 
 

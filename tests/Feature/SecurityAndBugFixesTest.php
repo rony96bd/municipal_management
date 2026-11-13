@@ -204,4 +204,25 @@ class SecurityAndBugFixesTest extends TestCase
             ->get(route('dashboard'))
             ->assertRedirect(route('login'));
     }
+
+    public function test_single_page_renders_redesigned_view_sanitizes_html_and_returns_404_when_missing(): void
+    {
+        $page = new \App\Models\page\createpage();
+        $page->page_name = 'পৌরসভার বাজেট ২০২৬';
+        $page->page_url = 'test-budget-2026';
+        $page->page_data = '<p>বাজেট তথ্য</p><script>alert(1)</script>';
+        $page->file_path = 'pages/sample-budget.pdf';
+        $page->save();
+
+        $response = $this->get(route('page-details', 'test-budget-2026'));
+        $response->assertStatus(200);
+        $response->assertSee('পৌরসভার বাজেট ২০২৬');
+        $response->assertSee('বাজেট তথ্য');
+        $response->assertDontSee('<script>alert(1)</script>', false);
+        $response->assertSee('ডাউনলোড করুন');
+        $response->assertSee('detail-card.css');
+        $response->assertSee('detail-lightbox.js');
+
+        $this->get(route('page-details', 'non-existent-page-xyz'))->assertStatus(404);
+    }
 }
