@@ -37,9 +37,8 @@
     .nav-section .main-menu > li.llisting {
         display: flex;
         flex-direction: row;
-        align-items: center;
-        gap: 8px;
-        padding: 15px 18px;
+        align-items: stretch;
+        padding: 0;
         position: relative;
         cursor: pointer;
         border-right: 1px solid rgba(255, 255, 255, 0.28);
@@ -52,12 +51,24 @@
 
     .nav-section .main-menu > li.llisting > a,
     .nav-section .main-menu > li.llisting > p {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 15px 18px;
         color: var(--white-color);
         font-size: 16px;
         line-height: 1.4;
         white-space: nowrap;
         margin: 0;
         text-decoration: none;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+    }
+
+    .nav-section .main-menu > li.llisting:has(.nav-icon) > a,
+    .nav-section .main-menu > li.llisting:has(.nav-icon) > p {
+        padding-right: 6px;
     }
 
     .nav-section .main-menu > li.llisting:hover {
@@ -66,14 +77,17 @@
         box-shadow: inset 0 -3px 0 rgba(255, 255, 255, 0.9);
     }
 
-    .nav-section .main-menu > li.llisting > .nav-icon {
+    .nav-section .main-menu > li.llisting .nav-icon {
         width: 14px;
         height: 14px;
         transition: transform 0.25s ease;
         flex-shrink: 0;
+        margin-right: 14px;
+        align-self: center;
+        pointer-events: none;
     }
 
-    .nav-section .main-menu > li.llisting:hover > .nav-icon {
+    .nav-section .main-menu > li.llisting:hover .nav-icon {
         transform: rotate(180deg);
     }
 

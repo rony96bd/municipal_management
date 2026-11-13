@@ -8,50 +8,49 @@ document.addEventListener('DOMContentLoaded', () => {
             container.classList.toggle('full-width');
         });
     }
-});
 
-// Select all elements with the class '.includs-submenu'
-const includesSubmenus = document.querySelectorAll('.includs-submenu');
-const primaryHeader = document.querySelector('.nav-section');
-
-includesSubmenus.forEach(submenu => {
-    // Select the sub-menu inside the current '.includs-submenu'
-    const subMenu = submenu.querySelector('.sub-menu');
-
-    if (subMenu) {
-        // Add event listener for mouseenter (hover) on '.includs-submenu'
-        submenu.addEventListener('mouseenter', function () {
-            subMenu.classList.add('active');
-            if (primaryHeader) {
-                primaryHeader.classList.add('z-index-3');
+    // 1. Desktop Navigation: Ensure full-box clickability
+    document.querySelectorAll('.nav-section .main-menu > li.llisting').forEach(li => {
+        li.addEventListener('click', function (e) {
+            // If the click is inside a dropdown submenu or mega menu, let the submenu link handle it
+            if (e.target.closest('.sub-menu, .mega-menu')) {
+                return;
+            }
+            const directLink = li.querySelector(':scope > a');
+            // If click was on li padding, gap, or arrow icon (not direct <a>), trigger the link click
+            if (directLink && e.target !== directLink && !directLink.contains(e.target)) {
+                directLink.click();
             }
         });
+    });
 
-        // Add event listener for mouseleave (when the hover is removed) on '.includs-submenu'
-        submenu.addEventListener('mouseleave', function () {
-            setTimeout(() => {
-                if (!submenu.matches(':hover') && !subMenu.matches(':hover')) {
-                    subMenu.classList.remove('active');
-                    if (primaryHeader) {
-                        primaryHeader.classList.remove('z-index-3');
-                    }
-                }
-            }, 50);
-        });
+    // 2. Desktop Dropdowns: Smooth hover with 250ms grace period (no click interference)
+    const includesSubmenus = document.querySelectorAll('.nav-section .includs-submenu');
+    includesSubmenus.forEach(submenu => {
+        const subMenu = submenu.querySelector('.sub-menu, .mega-menu');
+        if (!subMenu) return;
 
-        // Ensure the sub-menu stays active when hovered directly on the sub-menu
-        subMenu.addEventListener('mouseenter', function () {
+        let closeTimer = null;
+
+        const openSubmenu = () => {
+            if (closeTimer) {
+                clearTimeout(closeTimer);
+                closeTimer = null;
+            }
             subMenu.classList.add('active');
-        });
+        };
 
-        subMenu.addEventListener('mouseleave', function () {
-            setTimeout(() => {
-                if (!submenu.matches(':hover')) {
-                    subMenu.classList.remove('active');
-                }
-            }, 50);
-        });
-    }
+        const closeSubmenu = () => {
+            closeTimer = setTimeout(() => {
+                subMenu.classList.remove('active');
+            }, 250);
+        };
+
+        submenu.addEventListener('mouseenter', openSubmenu);
+        submenu.addEventListener('mouseleave', closeSubmenu);
+        subMenu.addEventListener('mouseenter', openSubmenu);
+        subMenu.addEventListener('mouseleave', closeSubmenu);
+    });
 });
 
 // Mobile Nav JS
@@ -62,7 +61,7 @@ jQuery(document).ready(function ($) {
         $('.mobile-nav').stop(true, true).slideToggle(220);
     });
 
-    // Submenu Toggle on Mobile
+    // Submenu Toggle on Mobile or direct link navigation
     $('.mobile-nav .nav-toggle').on('click', function (e) {
         var currentSubmenu = $(this).next('.mob-sub-wrapper');
         if (currentSubmenu.length) {
@@ -74,7 +73,19 @@ jQuery(document).ready(function ($) {
             // Close all other submenus
             $('.mob-sub-wrapper').not(currentSubmenu).slideUp(200);
             $('.mob-menu-item').not(parentItem).removeClass('open');
+        } else {
+            // Direct item without submenu: tapping anywhere on the row opens the link
+            var link = $(this).find('a').first();
+            if (link.length && e.target !== link[0] && !link[0].contains(e.target)) {
+                var url = link.attr('href');
+                if (url && url !== '#') {
+                    if (link.attr('target') === '_blank') {
+                        window.open(url, '_blank');
+                    } else {
+                        window.location.href = url;
+                    }
+                }
+            }
         }
     });
 });
-

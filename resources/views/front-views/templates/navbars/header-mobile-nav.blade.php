@@ -152,6 +152,9 @@
         margin: 0;
         text-decoration: none;
         flex: 1;
+        display: flex;
+        align-items: center;
+        width: 100%;
     }
 
     .mobile-nav .nav-toggle > .nav-icon {
@@ -160,6 +163,7 @@
         transition: transform 0.25s ease;
         flex-shrink: 0;
         margin-left: 10px;
+        pointer-events: none;
     }
 
     .mobile-nav .mob-menu-item.open > .nav-toggle > .nav-icon {

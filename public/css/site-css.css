@@ -161,6 +161,7 @@ header .anchor {
   transform: scale(0.65);
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
 }
 .search-form-box::after {
   position: absolute;
@@ -179,6 +180,7 @@ header .anchor {
   visibility: visible;
   opacity: 1;
   transform: scale(1);
+  pointer-events: auto;
 }
 
 .no-scrolling {
