@@ -25,3 +25,20 @@ Route::get('/news/{page_url}', [FrontController::class, 'newsDetails'])->name('n
 // Dynamic posts (text + image, no social actions)
 Route::get('/IUGIP-Projects', [FrontController::class, 'posts'])->name('posts.list');
 Route::get('/IUGIP-Projects/{page_url}', [FrontController::class, 'postDetails'])->name('posts.details');
+
+// Fallback asset routes for servers where Apache DocumentRoot does not directly serve newly pushed public assets
+Route::get('/css/detail-card.css', function () {
+    $path = public_path('css/detail-card.css');
+    if (file_exists($path)) {
+        return response(file_get_contents($path), 200, ['Content-Type' => 'text/css; charset=UTF-8']);
+    }
+    abort(404);
+});
+Route::get('/js/detail-lightbox.js', function () {
+    $path = public_path('js/detail-lightbox.js');
+    if (file_exists($path)) {
+        return response(file_get_contents($path), 200, ['Content-Type' => 'application/javascript; charset=UTF-8']);
+    }
+    abort(404);
+});
+

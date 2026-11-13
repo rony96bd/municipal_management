@@ -24,6 +24,7 @@ class NoticeModel extends Model
 
     // Specify the attributes that are mass assignable
     protected $fillable = [
+        'page_url',
         'topic',
         'description',
         'file_path',

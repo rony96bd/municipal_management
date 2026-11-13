@@ -1,7 +1,7 @@
 @extends('front-views.templates.othe-page-header')
 
 @section('page-body')
-    <link rel="stylesheet" href="{{ asset('css/detail-card.css') }}?v={{ filemtime(public_path('css/detail-card.css')) }}">
+    @include('front-views.templates.detail-card-styles')
 
     @php
         $hasFile = !empty($notice->file_path);
@@ -168,12 +168,10 @@
         </div>
     </section>
 
-    @if ($isImage)
-        <div id="detail-lightbox-overlay" class="detail-lightbox-overlay">
-            <span class="detail-lightbox-close">&times;</span>
-            <img id="detail-lightbox-image" src="" alt="">
-        </div>
-    @endif
+    <div id="detail-lightbox-overlay" class="detail-lightbox-overlay">
+        <span class="detail-lightbox-close">&times;</span>
+        <img id="detail-lightbox-image" src="" alt="">
+    </div>
 
-    <script src="{{ asset('js/detail-lightbox.js') }}?v={{ filemtime(public_path('js/detail-lightbox.js')) }}" defer></script>
+    @include('front-views.templates.detail-card-scripts')
 @endsection

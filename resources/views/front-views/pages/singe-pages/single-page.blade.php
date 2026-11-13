@@ -1,7 +1,7 @@
 @extends('front-views.templates.othe-page-header')
 
 @section('page-body')
-    <link rel="stylesheet" href="{{ asset('css/detail-card.css') }}?v={{ filemtime(public_path('css/detail-card.css')) }}">
+    @include('front-views.templates.detail-card-styles')
 
     @php
         $extension = $page->file_path ? strtolower(pathinfo($page->file_path, PATHINFO_EXTENSION)) : '';
@@ -182,5 +182,5 @@
         <img id="detail-lightbox-image" src="" alt="">
     </div>
 
-    <script src="{{ asset('js/detail-lightbox.js') }}?v={{ filemtime(public_path('js/detail-lightbox.js')) }}" defer></script>
+    @include('front-views.templates.detail-card-scripts')
 @endsection

@@ -220,8 +220,8 @@ class SecurityAndBugFixesTest extends TestCase
         $response->assertSee('বাজেট তথ্য');
         $response->assertDontSee('<script>alert(1)</script>', false);
         $response->assertSee('ডাউনলোড করুন');
-        $response->assertSee('detail-card.css');
-        $response->assertSee('detail-lightbox.js');
+        $response->assertSee('detail-card');
+        $response->assertSee('detail-lightbox');
 
         $this->get(route('page-details', 'non-existent-page-xyz'))->assertStatus(404);
     }

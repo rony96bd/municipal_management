@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\notice\NoticeModel;
 use App\Models\page\createpage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -23,9 +24,41 @@ class SinglePageRenderingTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('সিটিজেন চার্টার');
         $response->assertSee('পৌরসভা সেবা বিবরণী');
-        $response->assertSee('detail-card.css');
-        $response->assertSee('detail-lightbox.js');
+        $response->assertSee('detail-card');
+        $response->assertSee('detail-lightbox');
         $response->assertSee('id="detail-lightbox-overlay"', false);
+    }
+
+    public function test_notice_page_renders_successfully_with_embedded_styles(): void
+    {
+        $notice = NoticeModel::create([
+            'topic' => 'উচ্ছেদ অভিযান নোটিশ',
+            'page_url' => 'notice-216172',
+            'description' => '<p>উচ্ছেদ অভিযান সংক্রান্ত জরুরি নোটিশ</p>',
+            'file_path' => 'attestments/test_notice.pdf',
+        ]);
+
+        $response = $this->get('/notice/' . $notice->page_url);
+
+        $response->assertStatus(200);
+        $response->assertSee('উচ্ছেদ অভিযান নোটিশ');
+        $response->assertSee('উচ্ছেদ অভিযান সংক্রান্ত জরুরি নোটিশ');
+        $response->assertSee('detail-card');
+        $response->assertSee('detail-lightbox');
+        $response->assertSee('id="detail-lightbox-overlay"', false);
+    }
+
+    public function test_fallback_asset_routes_serve_css_and_js_successfully(): void
+    {
+        $cssResponse = $this->get('/css/detail-card.css');
+        $cssResponse->assertStatus(200);
+        $this->assertStringContainsString('text/css', $cssResponse->headers->get('Content-Type'));
+        $this->assertStringContainsString('.detail-card', $cssResponse->getContent());
+
+        $jsResponse = $this->get('/js/detail-lightbox.js');
+        $jsResponse->assertStatus(200);
+        $this->assertStringContainsString('javascript', $jsResponse->headers->get('Content-Type'));
+        $this->assertStringContainsString('detail-lightbox-overlay', $jsResponse->getContent());
     }
 
     public function test_single_page_preserves_base64_document_scans(): void
@@ -57,7 +90,7 @@ class SinglePageRenderingTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('শিরোনাম');
         $response->assertSee('নিরাপদ লেখা');
-        $response->assertDontSee('<script>', false);
+        $response->assertDontSee('<script>alert("XSS")</script>', false);
         $response->assertDontSee('alert("XSS")', false);
         $response->assertDontSee('onclick', false);
         $response->assertDontSee('javascript:alert(1)', false);
