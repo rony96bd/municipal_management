@@ -31,7 +31,7 @@ class createpage extends Model
      *
      * @var array
      */
-    protected $fillable = ['page_name', 'page_url', 'page_data'];
+    protected $fillable = ['page_name', 'page_url', 'page_data', 'file_path'];
 
     /**
      * Indicates if the model should be timestamped.

@@ -64,4 +64,34 @@ class HtmlSanitizerTest extends TestCase
         $this->assertStringContainsString('color: #0f6b3a', $cleaned);
         $this->assertStringContainsString('text-align: center', $cleaned);
     }
+
+    public function test_preserves_safe_base64_images_in_src(): void
+    {
+        $input = '<p><img src="data:image/jpeg;base64,/9j/4AAQSkZJRg==" alt="সিটিজেন চার্টার ১"></p>';
+        $cleaned = HtmlSanitizer::clean($input);
+
+        $this->assertStringContainsString('src="data:image/jpeg;base64,/9j/4AAQSkZJRg=="', $cleaned);
+        $this->assertStringContainsString('alt="সিটিজেন চার্টার ১"', $cleaned);
+    }
+
+    public function test_blocks_malicious_data_uris_and_data_uris_in_href(): void
+    {
+        $input = '<a href="data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==">Link</a><img src="data:text/html;base64,PHNjcmlwdD4=">';
+        $cleaned = HtmlSanitizer::clean($input);
+
+        $this->assertStringNotContainsString('data:text/html', $cleaned);
+        $this->assertStringNotContainsString('href=', $cleaned);
+        $this->assertStringNotContainsString('src=', $cleaned);
+    }
+
+    public function test_preserves_layout_attributes_and_safe_css_for_tables(): void
+    {
+        $input = '<table align="center" style="width: 100%; border-collapse: collapse; vertical-align: middle;"><tr><td align="center" valign="middle" style="text-align: center; vertical-align: middle;">বাজেট</td></tr></table>';
+        $cleaned = HtmlSanitizer::clean($input);
+
+        $this->assertStringContainsString('align="center"', $cleaned);
+        $this->assertStringContainsString('valign="middle"', $cleaned);
+        $this->assertStringContainsString('border-collapse: collapse', $cleaned);
+        $this->assertStringContainsString('vertical-align: middle', $cleaned);
+    }
 }

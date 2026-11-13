@@ -14,7 +14,7 @@ class HtmlSanitizer
         'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
         'blockquote', 'pre', 'code', 'hr',
         'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td',
-        'a', 'img', 'div', 'span',
+        'a', 'img', 'div', 'span', 'small', 'center', 'font',
     ];
 
     private const DROP_WITH_CONTENT_TAGS = [
@@ -25,6 +25,7 @@ class HtmlSanitizer
     private const ALLOWED_ATTRIBUTES = [
         'href', 'src', 'alt', 'title', 'target', 'rel', 'class', 'style',
         'colspan', 'rowspan', 'width', 'height',
+        'align', 'valign', 'border', 'cellpadding', 'cellspacing', 'start', 'type',
     ];
 
     private const ALLOWED_CSS_PROPERTIES = [
@@ -32,7 +33,12 @@ class HtmlSanitizer
         'text-align', 'text-decoration', 'line-height',
         'margin', 'margin-top', 'margin-right', 'margin-bottom', 'margin-left',
         'padding', 'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
-        'border', 'border-radius', 'width', 'max-width', 'height',
+        'border', 'border-radius', 'border-color', 'border-style', 'border-width',
+        'border-top', 'border-right', 'border-bottom', 'border-left',
+        'border-collapse', 'border-spacing',
+        'width', 'max-width', 'min-width', 'height', 'max-height', 'min-height',
+        'display', 'vertical-align', 'white-space', 'word-break', 'overflow-wrap',
+        'float', 'clear', 'list-style', 'list-style-type', 'table-layout', 'box-sizing',
     ];
 
     /** @var array<string, string> */
@@ -80,7 +86,7 @@ class HtmlSanitizer
         };
 
         $cleaned = (function_exists('app') && app()->bound('cache'))
-            ? Cache::remember("html_clean:{$hash}", 3600, $compute)
+            ? Cache::remember("html_clean_v4:{$hash}", 3600, $compute)
             : $compute();
 
         if (count(self::$cache) >= 200) {
@@ -140,7 +146,8 @@ class HtmlSanitizer
             $value = trim($element->getAttribute($name));
 
             if ($lower === 'href' || $lower === 'src') {
-                if (!self::isSafeUrl($value)) {
+                $isSrc = ($lower === 'src');
+                if (!self::isSafeUrl($value, $isSrc)) {
                     $element->removeAttribute($name);
                 }
             } elseif ($lower === 'style') {
@@ -156,7 +163,7 @@ class HtmlSanitizer
         }
     }
 
-    private static function isSafeUrl(string $url): bool
+    private static function isSafeUrl(string $url, bool $isSrc = false): bool
     {
         if ($url === '') {
             return false;
@@ -164,7 +171,19 @@ class HtmlSanitizer
 
         // Decode entities and strip whitespace/control chars before checking scheme
         $decoded = html_entity_decode($url, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        $normalized = preg_replace('/[\x00-\x20]+/', '', $decoded);
+        $normalized = trim(preg_replace('/[\x00-\x20]+/', '', $decoded));
+
+        // Allow safe base64 images exclusively for src attributes
+        if ($isSrc && str_starts_with(strtolower($normalized), 'data:image/')) {
+            if (preg_match('/^data:image\/(png|jpe?g|gif|webp);base64,/i', $normalized)) {
+                $commaPos = strpos($normalized, ',');
+                if ($commaPos !== false) {
+                    $payload = substr($normalized, $commaPos + 1);
+                    return !preg_match('/[^A-Za-z0-9+\/=\s]/', $payload);
+                }
+            }
+            return false;
+        }
 
         if (str_starts_with($normalized, '/') || str_starts_with($normalized, '#')) {
             return !str_starts_with($normalized, '//');

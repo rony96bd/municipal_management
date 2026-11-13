@@ -177,12 +177,10 @@
         </div>
     </section>
 
-    @if ($isImage)
-        <div id="detail-lightbox-overlay" class="detail-lightbox-overlay">
-            <span class="detail-lightbox-close">&times;</span>
-            <img id="detail-lightbox-image" src="" alt="">
-        </div>
-    @endif
+    <div id="detail-lightbox-overlay" class="detail-lightbox-overlay">
+        <span class="detail-lightbox-close">&times;</span>
+        <img id="detail-lightbox-image" src="" alt="">
+    </div>
 
     <script src="{{ asset('js/detail-lightbox.js') }}?v={{ filemtime(public_path('js/detail-lightbox.js')) }}" defer></script>
 @endsection
