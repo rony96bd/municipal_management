@@ -10,7 +10,7 @@
     "require": {
         "php": "^8.2",
         "browner12/helpers": "^3.6",
-        "laravel/framework": "^11.9",
+        "laravel/framework": "12.69",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9"
     },

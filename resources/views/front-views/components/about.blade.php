@@ -6,7 +6,7 @@
         </h3>
         <div class="flex column gap-20 m-gap-10 padar-20 m-padar-10">
             @if ($about)
-                {!! $about->about_institute !!}
+                {!! \App\Support\HtmlSanitizer::clean($about->about_institute) !!}
             @else
                 <p class="color-warning">কোন প্রশাসক যুক্ত করা নেয়</p>
             @endif

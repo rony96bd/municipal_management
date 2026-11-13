@@ -7,10 +7,12 @@
         <span>@include('icons.dashboard-icons.page')</span>
         <span class="nav-title">পেজ</span>
     </a> --}}
-    <a href="{{ route('menus') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="মেনু">
-        <span>@include('icons.dashboard-icons.menu')</span>
-        <span class="nav-title">মেনু</span>
-    </a>
+    @if (auth()->user()?->isAdmin())
+        <a href="{{ route('menus') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="মেনু">
+            <span>@include('icons.dashboard-icons.menu')</span>
+            <span class="nav-title">মেনু</span>
+        </a>
+    @endif
     <a href="{{ route('media-library') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace"
         title="মিডিয়া লাইব্রেরী">
         <span>@include('icons.dashboard-icons.media')</span>
@@ -42,17 +44,19 @@
         <span>@include('icons.news')</span>
         <span class="nav-title">নিউজ</span>
     </a> --}}
-    <a href="{{ route('users-list') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="ইউজার">
-        <span>@include('icons.users')</span>
-        <span class="nav-title">ইউজার</span>
-    </a>
+    @if (auth()->user()?->isAdmin())
+        <a href="{{ route('users-list') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace" title="ইউজার">
+            <span>@include('icons.users')</span>
+            <span class="nav-title">ইউজার</span>
+        </a>
 
-    {{-- Site Settings --}}
-    <a href="{{ route('site-setting') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace mart-auto"
-        title="সেটিংস">
-        <span>@include('icons.dashboard-icons.settings')</span>
-        <span class="nav-title">সেটিংস</span>
-    </a>
+        {{-- Site Settings --}}
+        <a href="{{ route('site-setting') }}" class="anchor sidebar-nav flex row gap-5 color-white jfs-ace mart-auto"
+            title="সেটিংস">
+            <span>@include('icons.dashboard-icons.settings')</span>
+            <span class="nav-title">সেটিংস</span>
+        </a>
+    @endif
 
     {{-- Collapse Menu --}}
     <div href="#" class="anchor collapse-menu sidebar-nav flex row gap-5 color-white jfs-ace" title="Collapse">

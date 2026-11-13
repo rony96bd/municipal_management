@@ -7,10 +7,17 @@ use App\Models\menu\SubMenuModel;
 use App\Models\sidebar\SidebarModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class createpage extends Model
 {
     use HasFactory;
+
+    protected static function booted(): void
+    {
+        static::saved(fn () => Cache::forget('public_search_corpus'));
+        static::deleted(fn () => Cache::forget('public_search_corpus'));
+    }
 
     /**
      * The table associated with the model.

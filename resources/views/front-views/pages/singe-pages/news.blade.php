@@ -8,7 +8,7 @@
                 <div class="flex column gap-20">
                     <div class="flex column gap-20">
                         <h3>বিষয়: {{ $news->topic }}</h3>
-                        <p>{!! $news->description !!}</p>
+                        <p>{!! \App\Support\HtmlSanitizer::clean($news->description) !!}</p>
                         @php
                             $extension = pathinfo($news->file_path, PATHINFO_EXTENSION);
                         @endphp

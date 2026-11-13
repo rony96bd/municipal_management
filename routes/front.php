@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 //==== front.php ======//
 Route::get('/', [FrontController::class, 'index'])->name('homepage');
-Route::get('/search', [SearchController::class, 'search'])->name('search');
+Route::get('/search', [SearchController::class, 'search'])->middleware('throttle:30,1')->name('search');
 Route::get('/officers', [FrontController::class, 'officers'])->name('officers');
 Route::get('/notices', [FrontController::class, 'notices'])->name('notices');
 Route::get('/officer/{page_url}', [FrontController::class, 'officerDetails'])->name('officer-details');

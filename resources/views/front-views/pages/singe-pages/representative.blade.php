@@ -132,7 +132,7 @@
                         <p class="flex column gap-10">
                             বর্তমান ঠিকানা:
                         </p>
-                        <div>{!! $representative->presentaddress !!}</div>
+                        <div>{!! \App\Support\HtmlSanitizer::clean($representative->presentaddress) !!}</div>
                     </div>
                 @endif
                 @if (!empty($representative->permanentaddress))
@@ -140,7 +140,7 @@
                         <p class="flex column gap-10">
                             স্থায়ী ঠিকানা:
                         </p>
-                        <div>{!! $representative->permanentaddress !!}
+                        <div>{!! \App\Support\HtmlSanitizer::clean($representative->permanentaddress) !!}
                         </div>
                     </div>
                 @endif

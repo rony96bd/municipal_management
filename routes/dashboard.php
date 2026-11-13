@@ -20,20 +20,22 @@ use App\Http\Controllers\dash\StuffsController;
 use App\Http\Controllers\dash\UserListController;
 use App\Http\Controllers\dash\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\EnsureAdmin;
+use App\Http\Middleware\SyncUserRoleSession;
 use Illuminate\Support\Facades\Route;
 
 //==== dashboard.php ======//
 
 require __DIR__ . '/auth.php';
-Route::get('/dashboard', [dashboardController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::middleware('auth')->group(function () {
+Route::get('/dashboard', [dashboardController::class, 'dashboard'])->middleware(['auth', 'verified', SyncUserRoleSession::class])->name('dashboard');
+Route::middleware(['auth', SyncUserRoleSession::class])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::prefix('dashboard')->group(function () {
-        // Cache Clear
-        Route::post('/clear-cache', [cachecontroller::class, 'clearCache'])->name('clear.cache');
+        // Cache Clear (Admin-only)
+        Route::post('/clear-cache', [cachecontroller::class, 'clearCache'])->middleware(EnsureAdmin::class)->name('clear.cache');
         // Pages Routes
         Route::get('/pages', [PageController::class, 'pagelist'])->name('pages');
         Route::get('/create-page', [PageController::class, 'createpage'])->name('create-page');
@@ -84,10 +86,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/update-service-order', [ServiceController::class, 'updateServiceOrder'])->name('update-service-order');
         Route::post('/update-sin-service-order', [ServiceController::class, 'updateSingleServiceOrder'])->name('update-sin-service-order');
 
-        // Site Settings
-        Route::get('/site-setting', [SiteSettingsController::class, 'index'])->name('site-setting');
-        Route::post('/site-setting', [SiteSettingsController::class, 'storeOrUpdate'])->name('setting-update');
-        Route::delete('/site-settings', [SiteSettingsController::class, 'reset'])->name('site-settings.reset');
+        // Site Settings (Admin-only)
+        Route::middleware(EnsureAdmin::class)->group(function () {
+            Route::get('/site-setting', [SiteSettingsController::class, 'index'])->name('site-setting');
+            Route::post('/site-setting', [SiteSettingsController::class, 'storeOrUpdate'])->name('setting-update');
+            Route::delete('/site-settings', [SiteSettingsController::class, 'reset'])->name('site-settings.reset');
+        });
         // Notice
         Route::get('/notice', [NoticeController::class, 'index'])->name('notice');
         Route::get('add-notice', [NoticeController::class, 'createnotice'])->name('create-notice');
@@ -106,15 +110,17 @@ Route::middleware('auth')->group(function () {
         Route::post('create-news', [NewsController::class, 'store'])->name('store-news');
         Route::post('/update-news-order', [NewsController::class, 'updateNewsOrder'])->name('update-news-order');
         Route::delete('delete-news/{id}', [NewsController::class, 'destroy'])->name('delete-news');
-        // Users
-        Route::get('user-list', [UserListController::class, 'UsersList'])->name('users-list');
-        Route::get('create-user', [UserListController::class, 'create'])->name('create-user');
-        Route::post('create-user', [UserListController::class, 'store'])->name('store-user');
-        Route::get('edit-user/{id}', [UserListController::class, 'edit'])->name('edit-user');
-        Route::match(['post', 'put'], 'edit-user/{id}', [UserListController::class, 'update'])->name('update-user');
-        Route::get('change-password-user/{id}', [UserListController::class, 'changePassword'])->name('change-password-user');
-        Route::match(['post', 'put'], 'change-password-user/{id}', [UserListController::class, 'updatePassword'])->name('update-password-user');
-        Route::delete('delete-user/{id}', [UserListController::class, 'destroy'])->name('delete-user');
+        // Users (Admin-only RBAC)
+        Route::middleware(EnsureAdmin::class)->group(function () {
+            Route::get('user-list', [UserListController::class, 'UsersList'])->name('users-list');
+            Route::get('create-user', [UserListController::class, 'create'])->name('create-user');
+            Route::post('create-user', [UserListController::class, 'store'])->name('store-user');
+            Route::get('edit-user/{id}', [UserListController::class, 'edit'])->name('edit-user');
+            Route::match(['post', 'put'], 'edit-user/{id}', [UserListController::class, 'update'])->name('update-user');
+            Route::get('change-password-user/{id}', [UserListController::class, 'changePassword'])->name('change-password-user');
+            Route::match(['post', 'put'], 'change-password-user/{id}', [UserListController::class, 'updatePassword'])->name('update-password-user');
+            Route::delete('delete-user/{id}', [UserListController::class, 'destroy'])->name('delete-user');
+        });
         // About
         Route::get('about', [AboutController::class, 'index'])->name('about');
         Route::post('about', [AboutController::class, 'store'])->name('about.store');
@@ -128,32 +134,35 @@ Route::middleware('auth')->group(function () {
         Route::get('create-banner-slidder', [BannerSlidderController::class, 'create'])->name('create-banner-slidder');
         Route::post('create-banner-slidder', [BannerSlidderController::class, 'store'])->name('store-banner-slidder');
 
-        // Sidebar
-        Route::get('sidebar', [SidebarController::class, 'index'])->name('sidebar');
-        Route::post('create-sidebar', [SidebarController::class, 'store'])->name('store-sidebar');
-        Route::post('update-sidebar-order', [SidebarController::class, 'updatesidebarOrder'])->name('update-sidebar-order');
-        Route::delete('delete-sidebar/{id}', [SidebarController::class, 'destroy'])->name('delete-sidebar');
+        // Sidebar & Menus (Admin-only)
+        Route::middleware(EnsureAdmin::class)->group(function () {
+            // Sidebar
+            Route::get('sidebar', [SidebarController::class, 'index'])->name('sidebar');
+            Route::post('create-sidebar', [SidebarController::class, 'store'])->name('store-sidebar');
+            Route::post('update-sidebar-order', [SidebarController::class, 'updatesidebarOrder'])->name('update-sidebar-order');
+            Route::delete('delete-sidebar/{id}', [SidebarController::class, 'destroy'])->name('delete-sidebar');
 
-        //Top Menus
-        Route::get('menus', [MenuController::class, 'index'])->name('menus');
-        Route::post('create-menu', [MenuController::class, 'storetopmenu'])->name('store-top-menu');
-        Route::delete('delete/top-menu/{id}', [MenuController::class, 'deletetopmenu'])->name('delete-top-menu');
-        Route::post('update-top-menu-order', [MenuController::class, 'updatemainmenuorder'])->name('update-main-menu-order');
-        // Simple Sub Menus
-        Route::get('add-single-submenu/{id}', [MenuController::class, 'addsimplesubmenu'])->name('add-single-submenu');
-        Route::post('add-simple-submenu', [MenuController::class, 'storesimplesubmenu'])->name('add-simple-submenu');
-        Route::delete('delete-simple-submenu/{id}', [MenuController::class, 'deletesinglesubmenu'])->name('delete-singles-ubmenu');
-        Route::post('update-simple-submenu-order', [MenuController::class, 'updatesubmenuorder'])->name('update-submenu-order');
-        // Group Menu
-        Route::get('/create-group-menu/{id}', [MenuController::class, 'groupmenupage'])->name('group-menu-page');
-        Route::post('/create-group-menu', [MenuController::class, 'storegroupmenu'])->name('store-group-menu');
-        Route::delete('/delete-group-menu/{id}', [MenuController::class, 'deletemenugroup'])->name('delete-menu-group');
-        Route::post('/update-group-menu-order', [MenuController::class, 'updategroupmenuorder'])->name('update-group-menu-order');
-        // Single Submen For Group
-        Route::get('/single-group-menu/{id}', [MenuController::class, 'singlegroupmenu'])->name('single-group-menu');
-        Route::post('/single-group-menu', [MenuController::class, 'storesinglegroupmenu'])->name('store-single-group-menu');
-        Route::delete('/delete-single-group-menu/{id}', [MenuController::class, 'deletegroupsubmenu'])->name('delete-group-submenu');
-        Route::post('/update-group-sub-menu-order', [MenuController::class, 'updategroupsubmenuorder'])->name('update-group-submenu-order');
+            //Top Menus
+            Route::get('menus', [MenuController::class, 'index'])->name('menus');
+            Route::post('create-menu', [MenuController::class, 'storetopmenu'])->name('store-top-menu');
+            Route::delete('delete/top-menu/{id}', [MenuController::class, 'deletetopmenu'])->name('delete-top-menu');
+            Route::post('update-top-menu-order', [MenuController::class, 'updatemainmenuorder'])->name('update-main-menu-order');
+            // Simple Sub Menus
+            Route::get('add-single-submenu/{id}', [MenuController::class, 'addsimplesubmenu'])->name('add-single-submenu');
+            Route::post('add-simple-submenu', [MenuController::class, 'storesimplesubmenu'])->name('add-simple-submenu');
+            Route::delete('delete-simple-submenu/{id}', [MenuController::class, 'deletesinglesubmenu'])->name('delete-singles-ubmenu');
+            Route::post('update-simple-submenu-order', [MenuController::class, 'updatesubmenuorder'])->name('update-submenu-order');
+            // Group Menu
+            Route::get('/create-group-menu/{id}', [MenuController::class, 'groupmenupage'])->name('group-menu-page');
+            Route::post('/create-group-menu', [MenuController::class, 'storegroupmenu'])->name('store-group-menu');
+            Route::delete('/delete-group-menu/{id}', [MenuController::class, 'deletemenugroup'])->name('delete-menu-group');
+            Route::post('/update-group-menu-order', [MenuController::class, 'updategroupmenuorder'])->name('update-group-menu-order');
+            // Single Submen For Group
+            Route::get('/single-group-menu/{id}', [MenuController::class, 'singlegroupmenu'])->name('single-group-menu');
+            Route::post('/single-group-menu', [MenuController::class, 'storesinglegroupmenu'])->name('store-single-group-menu');
+            Route::delete('/delete-single-group-menu/{id}', [MenuController::class, 'deletegroupsubmenu'])->name('delete-group-submenu');
+            Route::post('/update-group-sub-menu-order', [MenuController::class, 'updategroupsubmenuorder'])->name('update-group-submenu-order');
+        });
 
         // Media Library
         Route::get('/media', [MediaController::class, 'index'])->name('media-library');

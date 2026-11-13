@@ -5,7 +5,7 @@ namespace App\Http\Controllers\dash;
 use App\Http\Controllers\Controller;
 use App\Models\notice\NoticeModel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class NoticeController extends Controller
 {
@@ -31,29 +31,27 @@ class NoticeController extends Controller
             'file_upload' => 'nullable|mimes:pdf,doc,docx,csv,xls,xlsx|max:2048', // File can be null
         ]);
 
-        $tableName = 'notices'; // Replace with your table name
-        $nextInsertId = DB::select("SHOW TABLE STATUS LIKE '$tableName'")[0]->Auto_increment;
-        $randomNumbers = mt_rand(1000, 9999); // Random 4-digit number
-        $page_url = $nextInsertId . $randomNumbers;
+        do {
+            $page_url = now()->format('Ymd') . '-' . Str::lower(Str::random(8));
+        } while (NoticeModel::where('page_url', $page_url)->exists());
 
         $official = new NoticeModel();
         // Handle file upload if present
-        $filePath = null;
         if ($request->hasFile('file_upload')) {
             $file = $request->file('file_upload');
-            $fileName = time() . '_' . $file->getClientOriginalName(); // Generate unique file name
-            $file->move('attestments', $fileName); // Save to public/attestments
-            $filePath = 'attestments/' . $fileName; // Save relative path for database
-            $official->file_path = $filePath; // Save the file path or null if no file uploaded
+            $ext = strtolower($file->getClientOriginalExtension() ?: 'bin');
+            $fileName = time() . '_' . Str::random(10) . '.' . $ext;
+            $file->move(public_path('attestments'), $fileName);
+            $official->file_path = 'attestments/' . $fileName;
         }
 
         $official->topic = $validatedData['topic'];
         $official->description = $validatedData['description'] ?? null; // Save null if not provided
-        $official->page_url =  $page_url;
+        $official->page_url = $page_url;
         $official->save();
 
         // Redirect back with success message
-        return redirect()->route('notice')->with('success', "সফলভাবে {$request->topic} কর্মকর্তা যুক্ত হয়েছে");
+        return redirect()->route('notice')->with('success', "সফলভাবে {$validatedData['topic']} নোটিশ যুক্ত হয়েছে");
     }
 
     public function edit($id)
@@ -72,20 +70,26 @@ class NoticeController extends Controller
             'file_upload' => 'nullable|mimes:pdf,doc,docx,csv,xls,xlsx|max:2048', // File can be null
         ]);
 
-        // Handle file upload if present
-        $filePath = null;
+        $oldFilePath = null;
         if ($request->hasFile('file_upload')) {
             $file = $request->file('file_upload');
-            $fileName = time() . '_' . $file->getClientOriginalName(); // Generate unique file name
-            $file->move('attestments', $fileName); // Save to public/attestments
-            $filePath = 'attestments/' . $fileName; // Save relative path for database
+            $ext = strtolower($file->getClientOriginalExtension() ?: 'bin');
+            $fileName = time() . '_' . Str::random(10) . '.' . $ext;
+            $file->move(public_path('attestments'), $fileName);
+
+            $oldFilePath = $notice->file_path;
+            $notice->file_path = 'attestments/' . $fileName;
         }
 
-        // Save form data to the database
+        // Save form data to the database first
         $notice->topic = $validatedData['topic'];
         $notice->description = $validatedData['description'] ?? null; // Save null if not provided
-        $notice->file_path = $filePath; // Save the file path or null if no file uploaded
         $notice->save();
+
+        // Remove old file only after DB save succeeds
+        if ($oldFilePath && file_exists(public_path($oldFilePath))) {
+            @unlink(public_path($oldFilePath));
+        }
 
         // Redirect back with success message
         return redirect()->route('notice')->with('success', "সফলভাবে {$request->topic} নোটিশ আপডেট হয়েছে");

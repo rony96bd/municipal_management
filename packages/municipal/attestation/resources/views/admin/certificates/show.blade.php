@@ -31,7 +31,7 @@
                         @endforeach
                     </table>
                     <div style="margin-top:14px;padding:12px;background:#fff;border-radius:6px;border:1px solid #e2e8f0;line-height:1.8;">
-                        {!! $certificate->snapshot['rendered_body'] ?? '' !!}
+                        {!! \App\Support\HtmlSanitizer::clean($certificate->snapshot['rendered_body'] ?? '') !!}
                     </div>
                 </div>
 

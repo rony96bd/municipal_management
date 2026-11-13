@@ -157,7 +157,7 @@
 
 <div class="sheet {{ !$withHeader ? 'pad-mode' : '' }}" id="sheet">
   @if (!empty($snapshot['override_html']))
-    {!! $snapshot['override_html'] !!}
+    {!! \App\Support\HtmlSanitizer::clean($snapshot['override_html']) !!}
   @else
     @if ($withHeader)
       <div class="topbar"></div>
@@ -217,7 +217,7 @@
     @endif
 
     @if (!empty($snapshot['rendered_body']))
-      <p class="body">{!! $snapshot['rendered_body'] !!}</p>
+      <p class="body">{!! \App\Support\HtmlSanitizer::clean($snapshot['rendered_body']) !!}</p>
     @endif
 
     @if (!empty($snapshot['tables']))

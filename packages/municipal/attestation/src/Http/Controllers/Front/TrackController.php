@@ -13,9 +13,9 @@ class TrackController extends Controller
         $page_title  = 'প্রত্যয়ন আবেদনের অবস্থা যাচাই';
         $application = null;
 
-        if ($r->filled('tracking_no')) {
+        if ($r->filled('tracking_no') && $r->filled('mobile')) {
             $application = AttestationApplication::where('tracking_no', trim($r->tracking_no))
-                ->when($r->filled('mobile'), fn ($q) => $q->where('mobile', trim($r->mobile)))
+                ->where('mobile', trim($r->mobile))
                 ->with(['type', 'attestation', 'logs'])
                 ->first();
         }

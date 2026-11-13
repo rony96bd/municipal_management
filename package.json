@@ -17,7 +17,6 @@
         "vite": "^5.0"
     },
     "dependencies": {
-        "build": "^0.1.4",
         "nestable2": "^1.6.0"
     }
 }

@@ -404,7 +404,7 @@
                     <div class="notice-card-body">
                         @if ($cleanDescription !== '')
                             <div class="notice-description-box">
-                                {!! $notice->description !!}
+                                {!! \App\Support\HtmlSanitizer::clean($notice->description) !!}
                             </div>
                         @endif
 

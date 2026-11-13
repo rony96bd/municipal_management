@@ -131,6 +131,17 @@
                     @enderror
                 </div>
 
+                <div class="user-form-group">
+                    <label for="role" class="user-label">ইউজারের ভূমিকা (Role) <span class="color-danger">*</span></label>
+                    <select name="role" id="role" class="user-input" required>
+                        <option value="admin" {{ old('role', $user->role ?? 'admin') === 'admin' ? 'selected' : '' }}>সুপার অ্যাডমিন (Admin)</option>
+                        <option value="staff" {{ old('role', $user->role ?? 'admin') === 'staff' ? 'selected' : '' }}>স্টাফ / অপারেটর (Staff)</option>
+                    </select>
+                    @error('role')
+                        <small class="color-danger fs-base">{{ $message }}</small>
+                    @enderror
+                </div>
+
                 <div class="password-section-box">
                     <div class="marb-10">
                         <span class="user-label">পাসওয়ার্ড পরিবর্তন (ঐচ্ছিক)</span>
