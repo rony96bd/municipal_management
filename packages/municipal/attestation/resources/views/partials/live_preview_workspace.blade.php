@@ -51,6 +51,10 @@
     ];
 @endphp
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+
 <style>
     .att-live-split {
         display: grid;
@@ -121,7 +125,7 @@
         color: #1e293b;
         padding: 5px 11px;
         border-radius: 6px;
-        font: 600 12.5px 'Noto Sans Bengali', sans-serif;
+        font: 600 12.5px 'Tiro Bangla', serif;
         cursor: pointer;
         transition: all .15s;
     }
@@ -151,7 +155,7 @@
         padding: 14mm 16mm 44mm;
         box-shadow: 0 8px 30px rgba(0,0,0,.18);
         color: #1b2430;
-        font-family: 'Noto Sans Bengali', sans-serif;
+        font-family: 'Tiro Bangla', serif;
         overflow: hidden;
         transform-origin: top center;
     }
@@ -159,7 +163,7 @@
         padding-top: 0 !important;
     }
     .att-a4-sheet.en-font {
-        font-family: 'Times New Roman', 'Noto Sans Bengali', serif;
+        font-family: 'Tiro Bangla', 'Times New Roman', serif;
     }
     .att-a4-sheet[contenteditable="true"] {
         outline: 3px dashed #2563eb;

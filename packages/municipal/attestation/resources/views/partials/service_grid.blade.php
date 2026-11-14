@@ -7,6 +7,10 @@
     $totalCount = $types->count();
 @endphp
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+
 <style>
     .sonod-panel {
         background: #ffffff;
@@ -16,7 +20,7 @@
         padding: 18px 20px 22px;
         box-shadow: 0 2px 10px rgba(0,0,0,.04);
         margin-bottom: 22px;
-        font-family: 'Noto Sans Bengali', sans-serif;
+        font-family: 'Tiro Bangla', serif;
     }
     .sonod-panel-head {
         display: flex;
@@ -61,7 +65,7 @@
         border: 0;
         background: transparent;
         padding: 7px 13px;
-        font: 600 13px 'Noto Sans Bengali', sans-serif;
+        font: 600 13px 'Tiro Bangla', serif;
         color: #475569;
         cursor: pointer;
         transition: all .15s;
@@ -76,7 +80,7 @@
         padding: 8px 13px;
         border: 1px solid #cfd6dd;
         border-radius: 6px;
-        font: 14px 'Noto Sans Bengali', sans-serif;
+        font: 14px 'Tiro Bangla', serif;
         outline: none;
         background: #ffffff;
     }

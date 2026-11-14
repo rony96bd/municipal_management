@@ -40,11 +40,15 @@ class AttestationSystemTest extends TestCase
         $response->assertSee('অনলাইন প্রত্যয়ন সেবা');
         $response->assertSee('সনদের সেবাসমূহ');
         $response->assertSee('Character Certificate');
+        $response->assertSee('Tiro Bangla');
 
         $formResponse = $this->get(route('attestation.apply.show', $bibahit->slug));
         $formResponse->assertStatus(200);
         $formResponse->assertSee($bibahit->name);
         $formResponse->assertSee('প্রমাণক সংযুক্তি');
+        $formResponse->assertSee('Tiro Bangla');
+
+        $this->assertSame('Tiro Bangla', config('attestation.print.font'));
     }
 
     public function test_citizen_can_apply_and_track_and_admin_can_edit_and_approve(): void
@@ -121,6 +125,8 @@ class AttestationSystemTest extends TestCase
         $printResponse->assertStatus(200);
         $printResponse->assertSee($cert->memo_no);
         $printResponse->assertSee($cert->verification_code);
+        $printResponse->assertSee('Tiro Bangla');
+        $printResponse->assertDontSee('Noto Sans Bengali');
 
         // 4b. Pad mode print view with custom margin
         $padPrintResponse = $this->actingAs($admin)
@@ -134,6 +140,7 @@ class AttestationSystemTest extends TestCase
         $verifyResponse->assertStatus(200);
         $verifyResponse->assertSee($cert->memo_no);
         $verifyResponse->assertSee('প্রত্যয়নপত্রটি বৈধ ও সত্য');
+        $verifyResponse->assertSee('Tiro Bangla');
     }
 
     public function test_memo_sequence_increments_per_type_and_resets_yearly(): void

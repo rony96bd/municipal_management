@@ -1,6 +1,9 @@
 @extends(config('attestation.public_layout', 'front-views.templates.othe-page-header'))
 @section(config('attestation.public_section', 'page-body'))
-<div style="max-width:680px;margin:32px auto 56px;padding:0 16px;font-family:'Noto Sans Bengali',sans-serif;">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+<div style="max-width:680px;margin:32px auto 56px;padding:0 16px;font-family:'Tiro Bangla',serif;">
     <div style="background:#fff;border:1px solid #86efac;border-radius:12px;padding:32px;text-align:center;box-shadow:0 6px 24px rgba(15,107,58,0.08);">
         <div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;color:#166534;font-size:32px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:14px;">✔</div>
         <h1 style="font-size:24px;font-weight:700;color:#166534;margin:0 0 8px 0;">আপনার আবেদন সফলভাবে গৃহীত হয়েছে!</h1>

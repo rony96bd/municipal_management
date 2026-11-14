@@ -1,7 +1,11 @@
 @extends(config('attestation.public_layout', 'front-views.templates.othe-page-header'))
 @section(config('attestation.public_section', 'page-body'))
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+
 <style>
-    .pub-form-wrap { max-width: 960px; margin: 24px auto 48px; padding: 0 16px; font-family: 'Noto Sans Bengali', sans-serif; }
+    .pub-form-wrap { max-width: 960px; margin: 24px auto 48px; padding: 0 16px; font-family: 'Tiro Bangla', serif; }
     .pub-box { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 18px rgba(0,0,0,0.05); }
     .att-grid { display: grid; gap: 14px; }
     .att-grid-2 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }

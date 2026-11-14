@@ -1,5 +1,9 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+
 <style>
-    .att-wrap { font-family: 'Noto Sans Bengali', sans-serif; color: #1e293b; max-width: 1280px; margin: 0 auto; }
+    .att-wrap { font-family: 'Tiro Bangla', serif; color: #1e293b; max-width: 1280px; margin: 0 auto; }
     .att-subnav { display: flex; flex-wrap: wrap; gap: 8px; background: #ffffff; padding: 12px 16px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; align-items: center; border: 1px solid #e2e8f0; }
     .att-subnav a { text-decoration: none; padding: 8px 14px; border-radius: 7px; font-size: 14px; font-weight: 600; color: #334155; transition: all .15s; display: inline-flex; align-items: center; gap: 6px; }
     .att-subnav a:hover { background: #f1f5f9; color: #0f6b3a; }

@@ -70,7 +70,7 @@ return [
 
     // ---- Print -------------------------------------------------------------------
     'print' => [
-        'font'                => 'Noto Sans Bengali',
+        'font'                => 'Tiro Bangla',
         'paper'               => 'A4',
         'with_header_default' => true,
         'watermark_default'   => true,

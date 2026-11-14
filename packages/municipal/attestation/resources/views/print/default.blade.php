@@ -15,18 +15,19 @@
 <meta charset="utf-8">
 <title>{{ $certificate->memo_no }} — {{ $snapshot['type_name'] ?? 'প্রত্যয়ন পত্র' }}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root{
     --brand:#0f6b3a; --brand-2:#14a05a; --ink:#1b2430; --muted:#5d6b7a; --line:#d9e2dc; --paper:#fff;
     --pad-top:{{ $padTop }}in;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:{{ $isEnglish ? "'Times New Roman','Noto Sans Bengali',serif" : "'Noto Sans Bengali',sans-serif" }};color:var(--ink);background:#e9eeeb;padding:24px;
+  body{font-family:{{ $isEnglish ? "'Tiro Bangla', 'Times New Roman', serif" : "'Tiro Bangla', serif" }};color:var(--ink);background:#e9eeeb;padding:24px;
        -webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .toolbar{max-width:210mm;margin:0 auto 14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-family:'Noto Sans Bengali',sans-serif}
+  .toolbar{max-width:210mm;margin:0 auto 14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-family:'Tiro Bangla', serif}
   .toolbar .btn-group{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-  .toolbar a,.toolbar button{font:600 13px 'Noto Sans Bengali';padding:8px 14px;border:0;border-radius:8px;background:var(--brand);color:#fff;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+  .toolbar a,.toolbar button{font:600 13px 'Tiro Bangla', serif;padding:8px 14px;border:0;border-radius:8px;background:var(--brand);color:#fff;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
   .toolbar a.alt,.toolbar button.alt{background:#fff;color:var(--ink);border:1px solid #cbd5e1}
   .toolbar button.active-edit{background:#1d4ed8;color:#fff;border-color:#1d4ed8}
 
@@ -134,7 +135,7 @@
     </a>
 
     @unless ($withHeader)
-      <div style="display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #cbd5e1;border-radius:8px;padding:4px 9px;font:600 13px 'Noto Sans Bengali';color:#1b2430">
+      <div style="display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #cbd5e1;border-radius:8px;padding:4px 9px;font:600 13px 'Tiro Bangla', serif;color:#1b2430">
         <span style="color:#0f6b3a;">⬍ প্যাড মার্জিন:</span>
         <button type="button" onclick="stepPad(-0.1)" title="০.১ ইঞ্চি কমান" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;padding:2px 7px;font-weight:700;cursor:pointer;color:#0f6b3a;">−</button>
         <input type="number" id="padTopInput" min="0" max="6" step="0.1" value="{{ $padTop }}" style="width:58px;padding:3px 5px;border:1px solid #cbd5e1;border-radius:5px;text-align:center;font-weight:700;">
@@ -384,7 +385,7 @@
   function exportDocFile() {
     const clone = sheetEl.cloneNode(true);
     clone.removeAttribute('contenteditable');
-    const html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>{{ $certificate->memo_no }}</title></head><body style="font-family:\'Noto Sans Bengali\',sans-serif;font-size:12pt;">' + clone.innerHTML + '</body></html>';
+    const html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>{{ $certificate->memo_no }}</title></head><body style="font-family:\'Tiro Bangla\',serif;font-size:12pt;">' + clone.innerHTML + '</body></html>';
     const blob = new Blob(['\ufeff' + html], { type: 'application/msword;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);

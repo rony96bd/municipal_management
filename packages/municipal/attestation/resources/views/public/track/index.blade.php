@@ -1,6 +1,9 @@
 @extends(config('attestation.public_layout', 'front-views.templates.othe-page-header'))
 @section(config('attestation.public_section', 'page-body'))
-<div style="max-width:740px;margin:28px auto 56px;padding:0 16px;font-family:'Noto Sans Bengali',sans-serif;">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+<div style="max-width:740px;margin:28px auto 56px;padding:0 16px;font-family:'Tiro Bangla',serif;">
     <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:24px;box-shadow:0 4px 18px rgba(0,0,0,0.05);">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid #e2e8f0;">
             <h1 style="font-size:22px;font-weight:700;color:#0f6b3a;margin:0;">🔍 প্রত্যয়ন আবেদনের অবস্থা যাচাই</h1>

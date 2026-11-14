@@ -3,8 +3,12 @@
 @php
     $logoUrl = \Municipal\Attestation\Support\LogoHelper::url();
 @endphp
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+
 <style>
-    .pub-att-wrap { max-width: 1140px; margin: 24px auto 48px; padding: 0 16px; font-family: 'Noto Sans Bengali', sans-serif; }
+    .pub-att-wrap { max-width: 1140px; margin: 24px auto 48px; padding: 0 16px; font-family: 'Tiro Bangla', serif; }
     .pub-hero { background: linear-gradient(135deg, #0f6b3a 0%, #14a05a 100%); color: #fff; border-radius: 12px; padding: 24px 28px; margin-bottom: 22px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; box-shadow: 0 6px 24px rgba(15,107,58,0.18); }
     .pub-hero-left { display: flex; align-items: center; gap: 16px; }
     .pub-hero-logo { width: 64px; height: 64px; border-radius: 50%; background: #fff; padding: 4px; object-fit: contain; box-shadow: 0 3px 10px rgba(0,0,0,.2); }
