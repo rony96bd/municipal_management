@@ -20,10 +20,10 @@ class BannerSlidderController extends Controller
     }
     public function store(Request $request)
     {
-        // Validate input fields
+        // Validate input fields (allows up to 15MB, compressed to print/web quality)
         $validateData = $request->validate([
             'title' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:3072',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:15360',
         ]);
 
         // Create a new instance of BannerSlidderModel
@@ -32,14 +32,15 @@ class BannerSlidderController extends Controller
 
         // Handle image upload if present
         if ($request->hasFile('image')) {
-            $image = $request->file('image'); // Get the uploaded image
-            $imageName = time() . '.' . $image->getClientOriginalExtension(); // Generate a unique name
+            $image = $request->file('image');
+            $ext = strtolower($image->getClientOriginalExtension() ?: 'jpg');
+            $imageName = time() . '.' . $ext;
+            $targetPath = public_path('images/slidders/' . $imageName);
 
-            // Move the image to the public directory (images/slidders)
-            $image->move('images/slidders', $imageName);
+            $optimizer = new \App\Services\ImageOptimizer();
+            $optimizer->optimizeUploadedFile($image, $targetPath);
 
-            // Store the image path in the database (for later retrieval)
-            $slidder->image = 'images/slidders/' . $imageName;  // Save the relative path
+            $slidder->image = 'images/slidders/' . $imageName;
         }
 
         // Save the BannerSlidderModel to the database

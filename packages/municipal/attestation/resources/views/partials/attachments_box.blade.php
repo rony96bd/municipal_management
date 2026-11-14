@@ -75,6 +75,7 @@
     </div>
 </div>
 
+<script src="{{ asset('js/client-image-optimizer.js') }}"></script>
 <script>
     function addExtraAttachmentRow() {
         const container = document.getElementById('extra-attachments-container');

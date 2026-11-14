@@ -37,7 +37,7 @@ class RepresntativesController extends Controller
             'joining_date' => 'required|date',
             'page_url' => 'required|string|alpha_dash|max:255',
             'elected_type' => 'nullable|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
             'presentaddress' => 'nullable|string|max:255',
             'permanentaddress' => 'nullable|string|max:255',
         ]);
@@ -46,7 +46,15 @@ class RepresntativesController extends Controller
         $imagePath = null;
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imagePath = $image->store('images/stuffs', 'public');
+            $ext = strtolower($image->getClientOriginalExtension() ?: 'jpg');
+            $fileName = 'rep_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
+            $targetDir = storage_path('app/public/images/stuffs');
+            $targetPath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
+
+            $optimizer = new \App\Services\ImageOptimizer();
+            $optimizer->optimizeUploadedFile($image, $targetPath);
+
+            $imagePath = 'images/stuffs/' . $fileName;
         }
 
         // Generate unique page_url
@@ -112,7 +120,7 @@ class RepresntativesController extends Controller
             'joining_date' => 'required|date',
             'page_url' => 'required|string|alpha_dash|max:255',
             'elected_type' => 'nullable|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
             'presentaddress' => 'nullable|string|max:255',
             'permanentaddress' => 'nullable|string|max:255',
         ]);
@@ -123,7 +131,15 @@ class RepresntativesController extends Controller
         $imagePath = null;
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imagePath = $image->store('images/stuffs', 'public');
+            $ext = strtolower($image->getClientOriginalExtension() ?: 'jpg');
+            $fileName = 'rep_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
+            $targetDir = storage_path('app/public/images/stuffs');
+            $targetPath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
+
+            $optimizer = new \App\Services\ImageOptimizer();
+            $optimizer->optimizeUploadedFile($image, $targetPath);
+
+            $imagePath = 'images/stuffs/' . $fileName;
         }
 
         // Get the original page_url from the request

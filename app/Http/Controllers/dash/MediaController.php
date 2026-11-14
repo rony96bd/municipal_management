@@ -17,24 +17,29 @@ class MediaController extends Controller
 
     public function store(Request $request)
     {
-        // Validation rules
+        // Validation rules (allows up to 15MB which will be optimized to lightweight print quality)
         $request->validate([
-            'file' => 'required|file|mimes:jpg,jpeg,png,gif,pdf,doc,docx|max:2048',
+            'file' => 'required|file|mimes:jpg,jpeg,png,gif,pdf,doc,docx|max:15360',
         ]);
 
         $file = $request->file('file');
-        $size = $file->getSize() ?: 0;
-        $mimeType = $file->getMimeType() ?: $file->getClientMimeType();
         $timestamp = now()->format('YmdHis') . '_' . bin2hex(random_bytes(4));
-        $fileName = $timestamp . '.' . strtolower($file->getClientOriginalExtension());
-        $file->move(public_path('uploads/media/'), $fileName);
+        $ext = strtolower($file->getClientOriginalExtension());
+        $fileName = $timestamp . '.' . $ext;
+        $destPath = public_path('uploads/media/' . $fileName);
+
+        $optimizer = new \App\Services\ImageOptimizer();
+        $optResult = $optimizer->optimizeUploadedFile($file, $destPath);
+
+        $finalSize = file_exists($destPath) ? filesize($destPath) : ($optResult['size'] ?: 0);
+        $finalMime = $optResult['mime_type'] ?: ($file->getMimeType() ?: $file->getClientMimeType());
 
         // Save the new media data
         $media = new MediaModel();
         $media->file_name = $fileName;
         $media->file_path = 'uploads/media/' . $fileName;
-        $media->size = $size;
-        $media->mime_type = $mimeType;
+        $media->size = $finalSize;
+        $media->mime_type = $finalMime;
         $media->save();
 
         // Redirect back with success message

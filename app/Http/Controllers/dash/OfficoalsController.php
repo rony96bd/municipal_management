@@ -42,7 +42,7 @@ class OfficoalsController extends Controller
             'first_designation' => 'nullable|string|max:255',
             'home_district' => 'nullable|string|max:255',
             'joining_date' => 'nullable|date',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
         ]);
 
         // Generate unique page_url
@@ -56,12 +56,14 @@ class OfficoalsController extends Controller
         $imagePath = null;
         if ($request->hasFile('image')) {
             $image = $request->file('image');
+            $ext = strtolower($image->getClientOriginalExtension() ?: 'jpg');
 
             // Generate the file name using the unique page_url
-            $imageName = time() . '-' . $pageUrl . '.' . $image->getClientOriginalExtension();
+            $imageName = time() . '-' . $pageUrl . '.' . $ext;
+            $targetPath = public_path('images/officials/' . $imageName);
 
-            // Save the image to the public folder, within the 'images/officials' directory
-            $image->move('images/officials', $imageName);
+            $optimizer = new \App\Services\ImageOptimizer();
+            $optimizer->optimizeUploadedFile($image, $targetPath);
 
             // Set the image path
             $imagePath = 'images/officials/' . $imageName;
@@ -122,7 +124,7 @@ class OfficoalsController extends Controller
             'first_designation' => 'nullable|string|max:255',
             'home_district' => 'nullable|string|max:255',
             'joining_date' => 'nullable|date',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
         ]);
 
         $official = officials::findOrFail($id);
@@ -131,12 +133,14 @@ class OfficoalsController extends Controller
         $imagePath = $official->image; // Keep the current image if no new one is uploaded
         if ($request->hasFile('image')) {
             $image = $request->file('image');
+            $ext = strtolower($image->getClientOriginalExtension() ?: 'jpg');
 
             // Generate the new filename with a timestamp and the page_url
-            $imageName = time() . '-' . $id . '.' . $image->getClientOriginalExtension();
+            $imageName = time() . '-' . $id . '.' . $ext;
+            $targetPath = public_path('images/officials/' . $imageName);
 
-            // Move the image to the public folder with the new filename
-            $image->move('images/officials', $imageName);
+            $optimizer = new \App\Services\ImageOptimizer();
+            $optimizer->optimizeUploadedFile($image, $targetPath);
 
             // Set the image path
             $imagePath = 'images/officials/' . $imageName;

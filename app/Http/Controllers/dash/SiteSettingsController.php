@@ -25,8 +25,8 @@ class SiteSettingsController extends Controller
         $request->validate([
             'site_name' => 'required|string|max:255',
             'meta_description' => 'nullable|string|max:150',
-            'site_logo' => 'nullable|image|mimes:jpeg,png,jpg|max:1024',
-            'site_banner' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'site_logo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
+            'site_banner' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:15360',
             'primary_color' => 'nullable|string|max:7',  // Hex color validation
             'secondary_color' => 'nullable|string|max:7',
             'paragraph_color' => 'nullable|string|max:7',
@@ -40,7 +40,7 @@ class SiteSettingsController extends Controller
 
         // Fetch the first site settings record or create a new one
         $settings = SiteSettings::firstOrNew();
-        // dd(url($settings->site_logo));
+        $optimizer = new \App\Services\ImageOptimizer();
 
         // Set basic fields
         $settings->site_name = $request->site_name;
@@ -52,11 +52,11 @@ class SiteSettingsController extends Controller
             if ($settings->site_logo && File::exists(public_path($settings->site_logo))) {
                 File::delete(public_path($settings->site_logo));
             }
-            // Handle image upload directly to the public directory
             $logo = $request->file('site_logo');
-            $logoName = 'site_logo_' . time() . '.' . $logo->getClientOriginalExtension();
-            // $logoPath = public_path('images/site-settings/' . $logoName);
-            $logo->move('images/site-settings', $logoName);
+            $logoExt = strtolower($logo->getClientOriginalExtension() ?: 'png');
+            $logoName = 'site_logo_' . time() . '.' . $logoExt;
+            $targetPath = public_path('images/site-settings/' . $logoName);
+            $optimizer->optimizeUploadedFile($logo, $targetPath);
             $settings->site_logo = 'images/site-settings/' . $logoName;
         }
 
@@ -66,11 +66,11 @@ class SiteSettingsController extends Controller
             if ($settings->site_banner && File::exists(public_path($settings->site_banner))) {
                 File::delete(public_path($settings->site_banner));
             }
-            // Handle image upload directly to the public directory
             $banner = $request->file('site_banner');
-            $bannerName = 'site_banner_' . time() . '.' . $banner->getClientOriginalExtension();
-            // $bannerPath = public_path('images/site-settings/' . $bannerName);
-            $banner->move('images/site-settings', $bannerName);
+            $bannerExt = strtolower($banner->getClientOriginalExtension() ?: 'jpg');
+            $bannerName = 'site_banner_' . time() . '.' . $bannerExt;
+            $targetPath = public_path('images/site-settings/' . $bannerName);
+            $optimizer->optimizeUploadedFile($banner, $targetPath);
             $settings->site_banner = 'images/site-settings/' . $bannerName;
         }
 

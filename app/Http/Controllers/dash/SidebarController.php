@@ -46,7 +46,7 @@ class SidebarController extends Controller
             'link_text' => 'nullable|string',
             'link_url' => 'nullable|string',
             'tab' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:15360',
         ]);
 
         if ($validator->fails()) {
@@ -96,12 +96,12 @@ class SidebarController extends Controller
 
             // Get the uploaded image
             $image = $request->file('image');
+            $ext = strtolower($image->getClientOriginalExtension() ?: 'jpg');
+            $imageName = 'sidebar-image-' . $sidebar->id . '.' . $ext;
+            $targetPath = public_path('uploads/sidebar/' . $imageName);
 
-            // Generate the new file name based on the sidebar ID
-            $imageName = 'sidebar-image-' . $sidebar->id . '.' . $image->getClientOriginalExtension(); // Generate name like sidebar-image-id.extension
-
-            // Save the image in the public directory
-            $imagePath = $image->move(public_path('uploads/sidebar/'), $imageName);
+            $optimizer = new \App\Services\ImageOptimizer();
+            $optimizer->optimizeUploadedFile($image, $targetPath);
 
             // Assign the image path to the sidebar model
             $sidebar->image = 'uploads/sidebar/' . $imageName; // Store path relative to the public folder

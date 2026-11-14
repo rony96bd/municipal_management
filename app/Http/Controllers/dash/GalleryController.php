@@ -25,7 +25,7 @@ class GalleryController extends Controller
             'topic' => 'required|string|max:255',
             'description' => 'nullable|string',
             'page_url' => 'required|string|max:255',
-            'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:10240', // Validate images with specific formats
+            'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:15360', // Allow up to 15MB, automatically optimized to print/web quality
         ]);
         // Save other data to the database
         $page = GalleryModel::create([
@@ -36,8 +36,9 @@ class GalleryController extends Controller
 
         // Create a folder for the gallery post using its ID if not exists
         $uploadPath = "uploads/{$page->id}";
-        if (!file_exists($uploadPath)) {
-            mkdir($uploadPath, 0777, true); // Create folder with proper permissions
+        $fullUploadPath = public_path($uploadPath);
+        if (!file_exists($fullUploadPath)) {
+            mkdir($fullUploadPath, 0775, true); // Create folder with proper permissions
         }
 
         // Initialize an array to store image paths
@@ -46,15 +47,21 @@ class GalleryController extends Controller
         // Handle image uploads
         if ($request->hasFile('images')) {
             $imageCounter = 1; // Initialize image counter for sequential naming
+            $optimizer = new \App\Services\ImageOptimizer();
+
             foreach ($request->file('images') as $image) {
+                if (!$image->isValid()) {
+                    continue;
+                }
                 // Extract file extension
-                $extension = $image->getClientOriginalExtension();
+                $extension = strtolower($image->getClientOriginalExtension() ?: 'jpg');
 
                 // Construct a new image name (e.g., uploads-id-1.jpg, uploads-id-2.png, etc.)
                 $filename = "uploads-{$page->id}-{$imageCounter}.{$extension}";
+                $targetPath = $fullUploadPath . DIRECTORY_SEPARATOR . $filename;
 
-                // Move the image to the gallery's folder
-                $image->move($uploadPath, $filename);
+                // Move and optimize the image to the gallery's folder
+                $optimizer->optimizeUploadedFile($image, $targetPath);
 
                 // Store image path in the array
                 $imagePaths[] = "uploads/{$page->id}/{$filename}";

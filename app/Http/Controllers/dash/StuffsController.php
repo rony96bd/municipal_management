@@ -37,7 +37,7 @@ class StuffsController extends Controller
             'prl_date' => 'nullable|date',
             'grade' => 'nullable|string|max:50',
             'section' => 'nullable|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
         ]);
 
         // Generate unique page_url
@@ -51,12 +51,14 @@ class StuffsController extends Controller
         $imagePath = null;
         if ($request->hasFile('image')) {
             $image = $request->file('image');
+            $ext = strtolower($image->getClientOriginalExtension() ?: 'jpg');
 
             // Generate the file name using the unique page_url
-            $imageName = time() . '-' . $pageUrl . '.' . $image->getClientOriginalExtension();
+            $imageName = time() . '-' . $pageUrl . '.' . $ext;
+            $targetPath = public_path('images/stuffs/' . $imageName);
 
-            // Save the image to the public folder, within the 'images/stuffs' directory
-            $image->move('images/stuffs', $imageName);
+            $optimizer = new \App\Services\ImageOptimizer();
+            $optimizer->optimizeUploadedFile($image, $targetPath);
 
             // Set the image path
             $imagePath = 'images/stuffs/' . $imageName;
@@ -105,7 +107,7 @@ class StuffsController extends Controller
             'prl_date' => 'nullable|date',
             'grade' => 'nullable|string|max:50',
             'section' => 'nullable|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
         ]);
 
         $stuff = Stuff::findOrFail($id);
@@ -115,12 +117,14 @@ class StuffsController extends Controller
         if ($request->hasFile('image')) {
 
             $image = $request->file('image');
+            $ext = strtolower($image->getClientOriginalExtension() ?: 'jpg');
 
             // Generate the file name using the stuff ID
-            $imageName = time() . '-' . $id . '.' . $image->getClientOriginalExtension();
+            $imageName = time() . '-' . $id . '.' . $ext;
+            $targetPath = public_path('images/stuffs/' . $imageName);
 
-            // Save the image to the public folder, within the 'images/stuffs' directory
-            $image->move('images/stuffs', $imageName);
+            $optimizer = new \App\Services\ImageOptimizer();
+            $optimizer->optimizeUploadedFile($image, $targetPath);
 
             // Set the image path
             $imagePath = 'images/stuffs/' . $imageName;

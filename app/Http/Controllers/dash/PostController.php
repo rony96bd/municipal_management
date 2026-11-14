@@ -30,9 +30,9 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'nullable|string',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
             'images_order' => 'nullable|string',
-            'attachment' => 'nullable|mimes:pdf|max:5120',
+            'attachment' => 'nullable|mimes:pdf|max:15360',
         ]);
 
         // অটো-জেনারেটেড ইউনিক page_url (slug)
@@ -65,6 +65,7 @@ class PostController extends Controller
             $order = 1;
             $files = $request->file('images');
             $files = $this->sortFilesByOrder($files, $request->input('images_order'));
+            $optimizer = new \App\Services\ImageOptimizer();
 
             foreach ($files as $image) {
                 if (!$image->isValid()) {
@@ -72,7 +73,8 @@ class PostController extends Controller
                 }
                 $fileName = time() . '_' . $image->getClientOriginalName();
                 $targetDir = $this->publicUploadPath('uploads/posts');
-                $image->move($targetDir, $fileName);
+                $targetPath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
+                $optimizer->optimizeUploadedFile($image, $targetPath);
                 $imagePath = 'uploads/posts/' . $fileName;
 
                 // প্রথম ছবিটাকে main image হিসেবে রাখি
@@ -108,9 +110,9 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'nullable|string',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
             'images_order' => 'nullable|string',
-            'attachment' => 'nullable|mimes:pdf|max:5120',
+            'attachment' => 'nullable|mimes:pdf|max:15360',
         ]);
         $post->title = $validated['title'];
         $post->content = $this->sanitizeContent($validated['content'] ?? null);
@@ -139,6 +141,7 @@ class PostController extends Controller
 
             $files = $request->file('images');
             $files = $this->sortFilesByOrder($files, $request->input('images_order'));
+            $optimizer = new \App\Services\ImageOptimizer();
 
             foreach ($files as $image) {
                 if (!$image->isValid()) {
@@ -146,7 +149,8 @@ class PostController extends Controller
                 }
                 $fileName = time() . '_' . $image->getClientOriginalName();
                 $targetDir = $this->publicUploadPath('uploads/posts');
-                $image->move($targetDir, $fileName);
+                $targetPath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
+                $optimizer->optimizeUploadedFile($image, $targetPath);
                 $imagePath = 'uploads/posts/' . $fileName;
 
                 // যদি main image না থাকে তবে প্রথম নতুন ছবিটাই main image হিসেবে সেট করি

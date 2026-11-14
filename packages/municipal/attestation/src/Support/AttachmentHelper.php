@@ -94,6 +94,10 @@ class AttachmentHelper
                     if ($stored) {
                         $items[] = $stored;
                     }
+                    unset($file);
+                    if (class_exists(\App\Services\ImageOptimizer::class)) {
+                        \App\Services\ImageOptimizer::freeMemory();
+                    }
                 }
             }
         }
@@ -112,6 +116,10 @@ class AttachmentHelper
                     if ($stored) {
                         $items[] = $stored;
                     }
+                    unset($file);
+                    if (class_exists(\App\Services\ImageOptimizer::class)) {
+                        \App\Services\ImageOptimizer::freeMemory();
+                    }
                 }
             }
         }
@@ -128,9 +136,6 @@ class AttachmentHelper
         }
 
         $origName = $file->getClientOriginalName();
-        $size     = $file->getSize();
-        $mime     = $file->getClientMimeType();
-
         $subDir   = 'uploads/attestation/attachments/' . date('Y/m');
         $destDir  = public_path($subDir);
         if (!is_dir($destDir)) {
@@ -138,15 +143,40 @@ class AttachmentHelper
         }
 
         $filename = date('Ymd_His') . '_' . Str::random(8) . '.' . $ext;
-        $file->move($destDir, $filename);
+        $targetPath = $destDir . DIRECTORY_SEPARATOR . $filename;
+
+        // Use ImageOptimizer for all image attachments
+        $optimizerOptions = config('attestation.uploads.optimizer', []);
+        $optimizer = class_exists(\App\Services\ImageOptimizer::class)
+            ? new \App\Services\ImageOptimizer($optimizerOptions)
+            : null;
+
+        if ($optimizer) {
+            $optResult = $optimizer->optimizeUploadedFile($file, $targetPath, $optimizerOptions);
+            $finalSize = file_exists($targetPath) ? filesize($targetPath) : ($file->getSize() ?: 0);
+            $finalMime = $optResult['mime_type'] ?? ($file->getClientMimeType() ?: 'application/octet-stream');
+            $width     = $optResult['width'] ?? null;
+            $height    = $optResult['height'] ?? null;
+            $optimized = !empty($optResult['optimized']);
+        } else {
+            $file->move($destDir, $filename);
+            $finalSize = file_exists($targetPath) ? filesize($targetPath) : ($file->getSize() ?: 0);
+            $finalMime = $file->getClientMimeType() ?: 'application/octet-stream';
+            $width     = null;
+            $height    = null;
+            $optimized = false;
+        }
 
         return [
             'slot'        => $slot,
             'label'       => $label,
             'name'        => $origName,
             'path'        => $subDir . '/' . $filename,
-            'mime'        => $mime,
-            'size'        => $size,
+            'mime'        => $finalMime,
+            'size'        => $finalSize,
+            'width'       => $width,
+            'height'      => $height,
+            'optimized'   => $optimized,
             'uploaded_at' => now()->toDateTimeString(),
         ];
     }

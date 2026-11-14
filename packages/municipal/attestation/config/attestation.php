@@ -85,8 +85,14 @@ return [
 
     // ---- Uploads --------------------------------------------------------------------
     'uploads' => [
-        'disk'   => 'public',
-        'path'   => 'attestation',
-        'max_kb' => 2048,
+        'disk'      => 'public',
+        'path'      => 'attestation',
+        'max_kb'    => 15360, // 15MB capacity (automatically optimized to print quality <500KB)
+        'optimizer' => [
+            'max_dimension'   => 2048,
+            'jpeg_quality'    => 82,
+            'png_compression' => 7,
+            'auto_orient'     => true,
+        ],
     ],
 ];
