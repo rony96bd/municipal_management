@@ -50,8 +50,13 @@ class PageController extends Controller
             $file = $request->file('file_upload');
             $ext = strtolower($file->getClientOriginalExtension() ?: 'bin');
             $fileName = time() . '_' . Str::random(10) . '.' . $ext;
-            $targetPath = public_path('pages/' . $fileName);
+            $destDir = \App\Services\ImageOptimizer::publicUploadRoot('pages');
+            if (!is_dir($destDir)) {
+                @mkdir($destDir, 0775, true);
+            }
+            $targetPath = $destDir . DIRECTORY_SEPARATOR . $fileName;
             $optimizer->optimizeUploadedFile($file, $targetPath);
+            \App\Services\ImageOptimizer::syncToLocalPublic($targetPath, 'pages', $fileName);
             $page->file_path = 'pages/' . $fileName;
         }
 
@@ -90,8 +95,13 @@ class PageController extends Controller
             $file = $request->file('file_upload');
             $ext = strtolower($file->getClientOriginalExtension() ?: 'bin');
             $fileName = time() . '_' . Str::random(10) . '.' . $ext;
-            $targetPath = public_path('pages/' . $fileName);
+            $destDir = \App\Services\ImageOptimizer::publicUploadRoot('pages');
+            if (!is_dir($destDir)) {
+                @mkdir($destDir, 0775, true);
+            }
+            $targetPath = $destDir . DIRECTORY_SEPARATOR . $fileName;
             $optimizer->optimizeUploadedFile($file, $targetPath);
+            \App\Services\ImageOptimizer::syncToLocalPublic($targetPath, 'pages', $fileName);
             $oldFilePath = $page->file_path;
             $page->file_path = 'pages/' . $fileName;
         }
@@ -169,11 +179,17 @@ class PageController extends Controller
             return;
         }
 
-        $baseDir = realpath(public_path('pages'));
-        $filePath = realpath(public_path($relativePath));
+        $baseDir = realpath(\App\Services\ImageOptimizer::publicUploadRoot('pages'));
+        $filePath = realpath(\App\Services\ImageOptimizer::publicUploadRoot($relativePath));
 
         if ($baseDir && $filePath && str_starts_with($filePath, $baseDir . DIRECTORY_SEPARATOR) && is_file($filePath)) {
             @unlink($filePath);
+        }
+
+        $localBase = realpath(public_path('pages'));
+        $localFile = realpath(public_path($relativePath));
+        if ($localBase && $localFile && str_starts_with($localFile, $localBase . DIRECTORY_SEPARATOR) && is_file($localFile)) {
+            @unlink($localFile);
         }
     }
 

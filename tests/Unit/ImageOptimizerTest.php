@@ -368,4 +368,19 @@ class ImageOptimizerTest extends TestCase
         $normalHtml = '<p>সাধারণ লেখা <img src="/uploads/media/sample.jpg" alt="sample"></p>';
         $this->assertSame($normalHtml, $optimizer->optimizeHtmlContent($normalHtml, $this->tempDir, '/uploads/editor-test'));
     }
+
+    public function test_public_upload_root_respects_env_upload_public_root(): void
+    {
+        $customRoot = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'custom_public_html';
+        putenv("UPLOAD_PUBLIC_ROOT={$customRoot}");
+        $_ENV['UPLOAD_PUBLIC_ROOT'] = $customRoot;
+
+        $resolved = ImageOptimizer::publicUploadRoot('uploads/editor/2026/11');
+        $expected = $customRoot . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'editor' . DIRECTORY_SEPARATOR . '2026' . DIRECTORY_SEPARATOR . '11';
+
+        putenv('UPLOAD_PUBLIC_ROOT');
+        unset($_ENV['UPLOAD_PUBLIC_ROOT']);
+
+        $this->assertSame($expected, $resolved);
+    }
 }

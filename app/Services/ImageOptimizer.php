@@ -272,7 +272,7 @@ class ImageOptimizer
         }
 
         $subDir    = 'uploads/editor/' . date('Y/m');
-        $destDir   = $customStorageDir ?: (function_exists('public_path') ? public_path($subDir) : sys_get_temp_dir());
+        $destDir   = $customStorageDir ?: self::publicUploadRoot($subDir);
         $urlPrefix = $customUrlPrefix ?: ('/' . $subDir);
 
         if (!is_dir($destDir)) {
@@ -281,7 +281,7 @@ class ImageOptimizer
 
         $pattern = '/(<img\b[^>]*?\bsrc\s*=\s*(["\']))(data:image\/(png|jpe?g|webp|gif);base64,([^"\']+))(\2[^>]*>)/i';
 
-        $result = preg_replace_callback($pattern, function (array $matches) use ($destDir, $urlPrefix) {
+        $result = preg_replace_callback($pattern, function (array $matches) use ($destDir, $urlPrefix, $subDir, $customStorageDir) {
             $prefixTag  = $matches[1];
             $rawSubtype = strtolower($matches[4]);
             $b64Payload = preg_replace('/\s+/', '', $matches[5]);
@@ -319,6 +319,9 @@ class ImageOptimizer
             }
 
             if (file_exists($targetPath) && filesize($targetPath) > 0) {
+                if ($customStorageDir === null) {
+                    self::syncToLocalPublic($targetPath, $subDir, $filename);
+                }
                 $publicUrl = rtrim($urlPrefix, '/') . '/' . $filename;
                 return $prefixTag . $publicUrl . $suffixTag;
             }
@@ -327,6 +330,55 @@ class ImageOptimizer
         }, $html);
 
         return is_string($result) ? $result : $html;
+    }
+
+    /**
+     * Resolves the absolute public upload directory respecting UPLOAD_PUBLIC_ROOT (e.g. cPanel public_html)
+     * with graceful fallback to base_path('../public_html') or Laravel's public_path().
+     */
+    public static function publicUploadRoot(?string $subDir = null): string
+    {
+        $root = env('UPLOAD_PUBLIC_ROOT');
+        if ($root && is_string($root) && trim($root) !== '') {
+            $base = rtrim(trim($root), '/\\');
+        } else {
+            $probe = function_exists('base_path') ? base_path('../public_html') : null;
+            $base = ($probe && is_dir($probe))
+                ? $probe
+                : (function_exists('public_path') ? public_path() : sys_get_temp_dir());
+        }
+
+        if ($subDir !== null && trim($subDir) !== '') {
+            $normalizedSubDir = trim(str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $subDir), DIRECTORY_SEPARATOR);
+            return $base . DIRECTORY_SEPARATOR . $normalizedSubDir;
+        }
+
+        return $base;
+    }
+
+    /**
+     * Ensures target directory exists and optionally mirrors file to secondary local public_path.
+     */
+    public static function syncToLocalPublic(string $sourceFilePath, string $subDir, string $fileName): void
+    {
+        if (!function_exists('public_path') || !is_file($sourceFilePath)) {
+            return;
+        }
+
+        $localPublicRoot = public_path();
+        if (!is_dir($localPublicRoot)) {
+            return;
+        }
+
+        $localDir = $localPublicRoot . DIRECTORY_SEPARATOR . trim(str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $subDir), DIRECTORY_SEPARATOR);
+        $localFile = $localDir . DIRECTORY_SEPARATOR . $fileName;
+
+        if (realpath($sourceFilePath) !== realpath($localFile)) {
+            if (!is_dir($localDir)) {
+                @mkdir($localDir, 0775, true);
+            }
+            @copy($sourceFilePath, $localFile);
+        }
     }
 
     protected function createImageResource(string $path, string $format)

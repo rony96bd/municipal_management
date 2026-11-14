@@ -25,7 +25,7 @@ class EditorImageController extends Controller
         }
 
         $subDir   = 'uploads/editor/' . date('Y/m');
-        $destDir  = public_path($subDir);
+        $destDir  = ImageOptimizer::publicUploadRoot($subDir);
         if (!is_dir($destDir)) {
             @mkdir($destDir, 0775, true);
         }
@@ -36,6 +36,7 @@ class EditorImageController extends Controller
         $optimizer = new ImageOptimizer();
         $result    = $optimizer->optimizeUploadedFile($file, $targetPath);
         ImageOptimizer::freeMemory();
+        ImageOptimizer::syncToLocalPublic($targetPath, $subDir, $fileName);
 
         $relativePath = $subDir . '/' . $fileName;
         $finalSize    = file_exists($targetPath) ? filesize($targetPath) : ($result['size'] ?? 0);

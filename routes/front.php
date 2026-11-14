@@ -42,3 +42,62 @@ Route::get('/js/detail-lightbox.js', function () {
     abort(404);
 });
 
+Route::get('/js/client-image-optimizer.js', function () {
+    $path = public_path('js/client-image-optimizer.js');
+    if (file_exists($path)) {
+        return response(file_get_contents($path), 200, ['Content-Type' => 'application/javascript; charset=UTF-8']);
+    }
+    abort(404);
+});
+
+Route::get('/uploads/{path}', function (string $path) {
+    $cleanPath = trim(str_replace(['..', '\\'], ['', '/'], $path), '/');
+    if ($cleanPath === '') {
+        abort(404);
+    }
+    $subPath = 'uploads/' . $cleanPath;
+
+    $publicHtmlFile = \App\Services\ImageOptimizer::publicUploadRoot($subPath);
+    if (file_exists($publicHtmlFile) && is_file($publicHtmlFile)) {
+        return response()->file($publicHtmlFile);
+    }
+
+    $localPublicFile = public_path($subPath);
+    if (file_exists($localPublicFile) && is_file($localPublicFile)) {
+        // Self-heal: sync copy to public_html so Apache serves directly next time
+        $dir = dirname($publicHtmlFile);
+        if (!is_dir($dir)) {
+            @mkdir($dir, 0775, true);
+        }
+        @copy($localPublicFile, $publicHtmlFile);
+        return response()->file($localPublicFile);
+    }
+
+    abort(404);
+})->where('path', '.*');
+
+Route::get('/pages/{path}', function (string $path) {
+    $cleanPath = trim(str_replace(['..', '\\'], ['', '/'], $path), '/');
+    if ($cleanPath === '') {
+        abort(404);
+    }
+    $subPath = 'pages/' . $cleanPath;
+
+    $publicHtmlFile = \App\Services\ImageOptimizer::publicUploadRoot($subPath);
+    if (file_exists($publicHtmlFile) && is_file($publicHtmlFile)) {
+        return response()->file($publicHtmlFile);
+    }
+
+    $localPublicFile = public_path($subPath);
+    if (file_exists($localPublicFile) && is_file($localPublicFile)) {
+        $dir = dirname($publicHtmlFile);
+        if (!is_dir($dir)) {
+            @mkdir($dir, 0775, true);
+        }
+        @copy($localPublicFile, $publicHtmlFile);
+        return response()->file($localPublicFile);
+    }
+
+    abort(404);
+})->where('path', '.*');
+

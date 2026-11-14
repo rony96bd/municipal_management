@@ -441,4 +441,48 @@ class ImageAttachmentOptimizationTest extends TestCase
         $response->assertSee('paste_data_images: true', false);
         $response->assertSee('automatic_uploads: true', false);
     }
+
+    public function test_uploads_fallback_route_serves_files_and_heals_to_public_html(): void
+    {
+        $customPublicHtml = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'test_public_html_' . uniqid();
+        @mkdir($customPublicHtml, 0775, true);
+        putenv("UPLOAD_PUBLIC_ROOT={$customPublicHtml}");
+        $_ENV['UPLOAD_PUBLIC_ROOT'] = $customPublicHtml;
+
+        try {
+            $admin = User::factory()->create();
+            $img = $this->createLargeFakeImage('test_cpanel.jpg', 600, 400, 'jpg');
+
+            $uploadResponse = $this->actingAs($admin)->postJson(route('editor.image.upload'), [
+                'file' => $img,
+            ]);
+
+            $uploadResponse->assertStatus(200);
+            $data = $uploadResponse->json();
+            $this->assertStringStartsWith('/uploads/editor/', $data['location']);
+
+            // File is written to custom public html
+            $expectedDisk = $customPublicHtml . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $data['path']);
+            $this->assertFileExists($expectedDisk);
+
+            // Test fallback route serves it
+            $subPath = str_replace('uploads/', '', $data['path']);
+            $routeResponse = $this->get('/uploads/' . $subPath);
+            $routeResponse->assertStatus(200);
+        } finally {
+            putenv('UPLOAD_PUBLIC_ROOT');
+            unset($_ENV['UPLOAD_PUBLIC_ROOT']);
+            // Clean up test dir
+            if (is_dir($customPublicHtml)) {
+                $files = new \RecursiveIteratorIterator(
+                    new \RecursiveDirectoryIterator($customPublicHtml, \RecursiveDirectoryIterator::SKIP_DOTS),
+                    \RecursiveIteratorIterator::CHILD_FIRST
+                );
+                foreach ($files as $fileinfo) {
+                    $fileinfo->isDir() ? @rmdir($fileinfo->getRealPath()) : @unlink($fileinfo->getRealPath());
+                }
+                @rmdir($customPublicHtml);
+            }
+        }
+    }
 }
