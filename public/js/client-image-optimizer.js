@@ -6,9 +6,7 @@
 (function () {
     'use strict';
 
-    if (window.MunicipalImageOptimizer) {
-        return;
-    }
+    window.MunicipalImageOptimizer = window.MunicipalImageOptimizer || {};
 
     const CONFIG = {
         maxDimension: 2048,
@@ -276,12 +274,11 @@
     }
 
     // Export global helper for TinyMCE & custom scripts
-    window.MunicipalImageOptimizer = {
-        compressImageFile: compressImageFile,
-        uploadEditorImage: uploadEditorImage,
-        tinymceUploadHandler: tinymceUploadHandler,
-        tinymceFilePicker: tinymceFilePicker,
-    };
+    window.MunicipalImageOptimizer = window.MunicipalImageOptimizer || {};
+    window.MunicipalImageOptimizer.compressImageFile = compressImageFile;
+    window.MunicipalImageOptimizer.uploadEditorImage = uploadEditorImage;
+    window.MunicipalImageOptimizer.tinymceUploadHandler = tinymceUploadHandler;
+    window.MunicipalImageOptimizer.tinymceFilePicker = tinymceFilePicker;
 
     document.addEventListener('change', handleFileInputChange, true);
 })();
