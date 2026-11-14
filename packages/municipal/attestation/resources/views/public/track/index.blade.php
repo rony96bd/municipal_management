@@ -46,7 +46,17 @@
                         <span style="font-size:13px;color:#64748b;">ট্র্যাকিং নম্বর:</span>
                         <strong style="font-family:monospace;font-size:16px;">{{ $application->tracking_no }}</strong>
                     </div>
-                    <span style="padding:5px 14px;border-radius:999px;font-weight:700;font-size:13.5px;background:#dcfce7;color:#166534;">
+                    <span style="padding:5px 14px;border-radius:999px;font-weight:700;font-size:13.5px;
+                        @if ($application->status->value === 'issued')
+                            background:#e0f2fe;color:#0369a1;
+                        @elseif ($application->status->value === 'approved')
+                            background:#dcfce7;color:#166534;
+                        @elseif ($application->status->value === 'rejected')
+                            background:#fee2e2;color:#991b1b;
+                        @else
+                            background:#fef3c7;color:#92400e;
+                        @endif
+                    ">
                         বর্তমান অবস্থা: {{ $application->status->label() }}
                     </span>
                 </div>
@@ -69,19 +79,41 @@
                             <td style="padding:7px 0;color:#64748b;">স্মারক নম্বর</td>
                             <td style="padding:7px 0;font-weight:700;color:#0f6b3a;">{{ $application->attestation->memo_no }}</td>
                         </tr>
+                        @if ($application->attestation->verification_code)
+                            <tr>
+                                <td style="padding:7px 0;color:#64748b;">অনলাইন যাচাই কোড</td>
+                                <td style="padding:7px 0;">
+                                    <a href="{{ route('attestation.verify.show', $application->attestation->verification_code) }}" target="_blank" style="font-family:monospace;font-weight:700;color:#0f6b3a;text-decoration:underline;">
+                                        {{ $application->attestation->verification_code }}
+                                    </a>
+                                </td>
+                            </tr>
+                        @endif
+                        @if ($application->status->value === 'issued' && $application->attestation->handed_over_at)
+                            <tr>
+                                <td style="padding:7px 0;color:#64748b;">হস্তান্তরের তারিখ</td>
+                                <td style="padding:7px 0;font-weight:600;color:#0369a1;">
+                                    {{ \Municipal\Attestation\Support\BengaliHelper::toBengaliDigits($application->attestation->handed_over_at->format('d/m/Y')) }}
+                                </td>
+                            </tr>
+                        @endif
                     @endif
                 </table>
 
-                @if ($application->status->value === 'approved' || $application->status->value === 'issued')
-                    <div style="margin-top:14px;padding:12px 16px;background:#dcfce7;color:#166534;border-radius:8px;font-weight:600;">
+                @if ($application->status->value === 'issued')
+                    <div style="margin-top:14px;padding:12px 16px;background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0;border-radius:8px;font-weight:600;">
+                        ✅ আপনার প্রত্যয়নপত্রটি সফলভাবে হস্তান্তর করা হয়েছে@if ($application->attestation?->handed_over_at) (তারিখ: {{ \Municipal\Attestation\Support\BengaliHelper::toBengaliDigits($application->attestation->handed_over_at->format('d/m/Y')) }})@endif। পৌর ডিজিটাল সেবা গ্রহণের জন্য আপনাকে ধন্যবাদ।
+                    </div>
+                @elseif ($application->status->value === 'approved')
+                    <div style="margin-top:14px;padding:12px 16px;background:#dcfce7;color:#166534;border:1px solid #86efac;border-radius:8px;font-weight:600;">
                         🎉 আপনার প্রত্যয়নপত্র প্রস্তুত হয়েছে! অনুগ্রহ করে পৌরসভা কার্যালয়ে উপস্থিত হয়ে মূল কপি সংগ্রহ করুন।
                     </div>
                 @elseif ($application->status->value === 'rejected')
-                    <div style="margin-top:14px;padding:12px 16px;background:#fee2e2;color:#991b1b;border-radius:8px;">
+                    <div style="margin-top:14px;padding:12px 16px;background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;border-radius:8px;">
                         <strong>আবেদনটি বাতিল হয়েছে।</strong> কারণ: {{ $application->reject_reason ?: 'বিস্তারিত জানতে কার্যালয়ে যোগাযোগ করুন।' }}
                     </div>
                 @else
-                    <div style="margin-top:14px;padding:12px 16px;background:#fef3c7;color:#92400e;border-radius:8px;">
+                    <div style="margin-top:14px;padding:12px 16px;background:#fef3c7;color:#92400e;border:1px solid #fde68a;border-radius:8px;">
                         ⏳ আপনার আবেদনটি বর্তমানে পর্যালোচনাধীন রয়েছে। অনুমোদিত হলে এখানে স্ট্যাটাস আপডেট হবে।
                     </div>
                 @endif
@@ -105,7 +137,17 @@
                                 </div>
                             </div>
                             <div style="display:flex;align-items:center;gap:10px;">
-                                <span style="padding:4px 12px;border-radius:999px;font-weight:700;font-size:12.5px;background:#dcfce7;color:#166534;">
+                                <span style="padding:4px 12px;border-radius:999px;font-weight:700;font-size:12.5px;
+                                    @if ($item->status->value === 'issued')
+                                        background:#e0f2fe;color:#0369a1;
+                                    @elseif ($item->status->value === 'approved')
+                                        background:#dcfce7;color:#166534;
+                                    @elseif ($item->status->value === 'rejected')
+                                        background:#fee2e2;color:#991b1b;
+                                    @else
+                                        background:#fef3c7;color:#92400e;
+                                    @endif
+                                ">
                                     {{ $item->status->label() }}
                                 </span>
                                 <a href="{{ route('attestation.track.index', ['tracking_no' => $item->tracking_no]) }}"

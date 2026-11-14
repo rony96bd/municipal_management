@@ -121,4 +121,28 @@ class AttestationTrackFlexibleTest extends TestCase
         $postTrackRoute = app('router')->getRoutes()->getByName('attestation.track.track');
         $this->assertContains('throttle:15,1,track', $postTrackRoute->gatherMiddleware());
     }
+
+    public function test_track_displays_delivered_message_when_status_is_issued(): void
+    {
+        $app = $this->createSampleApplication('ATT-2026-ISSUED', '01711002233', 'মোঃ হাসান আলী');
+        $app->update(['status' => ApplicationStatus::Issued]);
+
+        $response = $this->get(route('attestation.track.index', ['tracking_no' => 'ATT-2026-ISSUED']));
+        $response->assertStatus(200);
+        $response->assertSee('হস্তান্তরিত');
+        $response->assertSee('আপনার প্রত্যয়নপত্রটি সফলভাবে হস্তান্তর করা হয়েছে');
+        $response->assertDontSee('অনুগ্রহ করে পৌরসভা কার্যালয়ে উপস্থিত হয়ে মূল কপি সংগ্রহ করুন');
+    }
+
+    public function test_track_displays_ready_message_when_status_is_approved(): void
+    {
+        $app = $this->createSampleApplication('ATT-2026-APPROVED', '01711004455', 'মোছাঃ সালমা খাতুন');
+        $app->update(['status' => ApplicationStatus::Approved]);
+
+        $response = $this->get(route('attestation.track.index', ['tracking_no' => 'ATT-2026-APPROVED']));
+        $response->assertStatus(200);
+        $response->assertSee('অনুমোদিত');
+        $response->assertSee('আপনার প্রত্যয়নপত্র প্রস্তুত হয়েছে! অনুগ্রহ করে পৌরসভা কার্যালয়ে উপস্থিত হয়ে মূল কপি সংগ্রহ করুন');
+        $response->assertDontSee('আপনার প্রত্যয়নপত্রটি সফলভাবে হস্তান্তর করা হয়েছে');
+    }
 }
