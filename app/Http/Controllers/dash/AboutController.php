@@ -20,8 +20,9 @@ class AboutController extends Controller
         $validated = request()->validate([
             'about_institute' => 'required',
         ]);
+        $optimizer = new \App\Services\ImageOptimizer();
         $about = AboutModel::firstOrNew();
-        $about->about_institute = $validated['about_institute'];
+        $about->about_institute = $optimizer->optimizeHtmlContent($validated['about_institute']);
         $about->save();
 
         return back()->with('success', 'সফলভাবে সেভ হয়েছে');

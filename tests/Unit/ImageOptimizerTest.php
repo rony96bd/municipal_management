@@ -295,4 +295,77 @@ class ImageOptimizerTest extends TestCase
         $cleaned = ImageOptimizer::freeMemory();
         $this->assertIsInt($cleaned);
     }
+
+    public function test_optimize_html_content_converts_embedded_base64_images_to_optimized_files(): void
+    {
+        $optimizer = new ImageOptimizer([
+            'max_dimension' => 1200,
+            'jpeg_quality'  => 80,
+        ]);
+
+        $sourcePath = $this->createTestImage(2400, 1600, 'jpeg');
+        $rawBytes = file_get_contents($sourcePath);
+        $base64Uri = 'data:image/jpeg;base64,' . base64_encode($rawBytes);
+
+        $html = '<h2>পৌরসভা উন্নয়ন প্রতিবেদন</h2><p><img class="editor-img" src="' . $base64Uri . '" alt="উন্নয়ন চিত্র"></p><p>সমাপ্ত</p>';
+
+        $optimizedHtml = $optimizer->optimizeHtmlContent($html, $this->tempDir, '/uploads/editor-test');
+
+        $this->assertStringNotContainsString('data:image/jpeg;base64,', $optimizedHtml);
+        $this->assertStringContainsString('src="/uploads/editor-test/', $optimizedHtml);
+        $this->assertStringContainsString('alt="উন্নয়ন চিত্র"', $optimizedHtml);
+        $this->assertStringContainsString('পৌরসভা উন্নয়ন প্রতিবেদন', $optimizedHtml);
+
+        // Verify the extracted file on disk is resized and compressed
+        preg_match('/src="\/uploads\/editor-test\/([^"]+)"/', $optimizedHtml, $matches);
+        $this->assertNotEmpty($matches[1] ?? null);
+
+        $savedFile = $this->tempDir . DIRECTORY_SEPARATOR . $matches[1];
+        $this->assertFileExists($savedFile);
+
+        $info = getimagesize($savedFile);
+        $this->assertSame(1200, $info[0]);
+        $this->assertSame(800, $info[1]);
+        $this->assertLessThan(strlen($rawBytes), filesize($savedFile));
+    }
+
+    public function test_optimize_html_content_handles_multiple_pasted_png_images(): void
+    {
+        $optimizer = new ImageOptimizer([
+            'max_dimension' => 1000,
+            'jpeg_quality'  => 82,
+        ]);
+
+        $png1 = $this->createTestImage(1800, 1200, 'png');
+        $png2 = $this->createTestImage(1600, 900, 'png');
+
+        $uri1 = 'data:image/png;base64,' . base64_encode(file_get_contents($png1));
+        $uri2 = 'data:image/png;base64,' . base64_encode(file_get_contents($png2));
+
+        $html = '<p><img src="' . $uri1 . '"></p><p><img src=\'' . $uri2 . '\'></p>';
+
+        $resultHtml = $optimizer->optimizeHtmlContent($html, $this->tempDir, '/uploads/editor-test');
+
+        $this->assertStringNotContainsString('data:image/png;base64,', $resultHtml);
+        preg_match_all('/src=["\']\/uploads\/editor-test\/([^"\']+)["\']/', $resultHtml, $matches);
+        $this->assertCount(2, $matches[1]);
+
+        foreach ($matches[1] as $fileName) {
+            $diskFile = $this->tempDir . DIRECTORY_SEPARATOR . $fileName;
+            $this->assertFileExists($diskFile);
+            $info = getimagesize($diskFile);
+            $this->assertLessThanOrEqual(1000, $info[0]);
+        }
+    }
+
+    public function test_optimize_html_content_preserves_normal_images_and_handles_empty_input(): void
+    {
+        $optimizer = new ImageOptimizer();
+
+        $this->assertNull($optimizer->optimizeHtmlContent(null));
+        $this->assertSame('', $optimizer->optimizeHtmlContent(''));
+
+        $normalHtml = '<p>সাধারণ লেখা <img src="/uploads/media/sample.jpg" alt="sample"></p>';
+        $this->assertSame($normalHtml, $optimizer->optimizeHtmlContent($normalHtml, $this->tempDir, '/uploads/editor-test'));
+    }
 }

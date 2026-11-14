@@ -27,10 +27,11 @@ class GalleryController extends Controller
             'page_url' => 'required|string|max:255',
             'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:15360', // Allow up to 15MB, automatically optimized to print/web quality
         ]);
+        $optimizer = new \App\Services\ImageOptimizer();
         // Save other data to the database
         $page = GalleryModel::create([
             'topic' => $validated['topic'],
-            'description' => $validated['description'],
+            'description' => $optimizer->optimizeHtmlContent($validated['description'] ?? null),
             'page_url' => $validated['page_url'],
         ]);
 

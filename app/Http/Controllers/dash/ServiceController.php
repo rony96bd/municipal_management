@@ -153,9 +153,10 @@ class ServiceController extends Controller
         }
 
         // Save the new service data with the service_id from the parent service
+        $optimizer = new \App\Services\ImageOptimizer();
         $service = new SingleService();
         $service->service_item_name = $request->service_item_name;
-        $service->service_item_description = $request->service_item_description;
+        $service->service_item_description = $optimizer->optimizeHtmlContent($request->service_item_description);
         $service->page_url = $pageUrl;
         $service->service_id = $request->service_id;
         $service->save();
@@ -208,8 +209,9 @@ class ServiceController extends Controller
         }
 
         // Save the new service data with the service_id from the parent service
+        $optimizer = new \App\Services\ImageOptimizer();
         $service->service_item_name = $request->service_item_name;
-        $service->service_item_description = $request->service_item_description;
+        $service->service_item_description = $optimizer->optimizeHtmlContent($request->service_item_description);
         $service->page_url = $pageUrl;
         $service->service_id = $request->service_id;
         $service->save();

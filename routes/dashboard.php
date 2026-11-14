@@ -4,6 +4,7 @@ use App\Http\Controllers\dash\AboutController;
 use App\Http\Controllers\dash\BannerSlidderController;
 use App\Http\Controllers\dash\cachecontroller;
 use App\Http\Controllers\dash\dashboardController;
+use App\Http\Controllers\dash\EditorImageController;
 use App\Http\Controllers\dash\GalleryController;
 use App\Http\Controllers\dash\MediaController;
 use App\Http\Controllers\dash\MenuController;
@@ -168,6 +169,9 @@ Route::middleware(['auth', SyncUserRoleSession::class])->group(function () {
         Route::get('/media', [MediaController::class, 'index'])->name('media-library');
         Route::post('/media', [MediaController::class, 'store'])->name('media-store');
         Route::delete('/media/delete/{id}', [MediaController::class, 'destroy'])->name('media-destroy');
+
+        // TinyMCE Rich Text Editor Image Upload & Paste Compression
+        Route::post('/editor/upload-image', [EditorImageController::class, 'upload'])->name('editor.image.upload');
 
         // Dynamic Posts (text + image like Facebook without reactions)
         Route::get('/posts', [PostController::class, 'index'])->name('posts.index');

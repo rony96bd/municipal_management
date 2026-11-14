@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\gallery\GalleryModel;
 use App\Models\media\MediaModel;
+use App\Models\notice\NoticeModel;
+use App\Models\page\createpage;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -331,5 +333,112 @@ class ImageAttachmentOptimizationTest extends TestCase
         $diskPath = public_path($att['path']);
         $this->filesToCleanup[] = $diskPath;
         $this->assertFileExists($diskPath);
+    }
+
+    public function test_tinymce_editor_image_upload_endpoint_optimizes_and_returns_url(): void
+    {
+        // Guest cannot upload to editor endpoint
+        $guestImg = $this->createLargeFakeImage('unauth.jpg', 800, 600, 'jpg');
+        $this->post(route('editor.image.upload'), ['file' => $guestImg])
+            ->assertRedirect(route('login'));
+
+        $admin = User::factory()->create();
+        $largeImg = $this->createLargeFakeImage('pasted_screenshot.png', 2800, 1800, 'png');
+        $rawSize = filesize($largeImg->getRealPath());
+
+        $response = $this->actingAs($admin)->postJson(route('editor.image.upload'), [
+            'file' => $largeImg,
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'location',
+                'path',
+                'size',
+                'width',
+                'height',
+                'optimized',
+            ]);
+
+        $data = $response->json();
+        $this->assertTrue($data['optimized']);
+        $this->assertLessThanOrEqual(2048, $data['width']);
+        $this->assertLessThanOrEqual(2048, $data['height']);
+
+        $diskPath = public_path($data['path']);
+        $this->filesToCleanup[] = $diskPath;
+        $this->assertFileExists($diskPath);
+        $this->assertLessThan($rawSize, filesize($diskPath));
+    }
+
+    public function test_create_and_update_page_and_notice_extract_and_compress_pasted_base64_images(): void
+    {
+        $admin = User::factory()->create();
+
+        // Create a large image and encode as base64 (simulating direct copy-paste in TinyMCE)
+        $pastedFile = $this->createLargeFakeImage('clipboard_paste.jpg', 2600, 1600, 'jpg');
+        $base64Uri = 'data:image/jpeg;base64,' . base64_encode(file_get_contents($pastedFile->getRealPath()));
+        $attachmentImg = $this->createLargeFakeImage('page_attachment.jpg', 2500, 1500, 'jpg');
+
+        $htmlContent = '<h3>পৌরসভার উন্নয়ন চিত্র</h3><p><img src="' . $base64Uri . '" alt="Pasted Photo"></p><p>বিস্তারিত বিবরণ</p>';
+
+        $response = $this->actingAs($admin)->post(route('store-page'), [
+            'page_name'   => 'উন্নয়ন প্রকল্প পাতা',
+            'page_url'    => 'dev-project-page',
+            'page_data'   => $htmlContent,
+            'file_upload' => $attachmentImg,
+        ]);
+        $response->assertRedirect();
+
+        $page = createpage::latest('id')->firstOrFail();
+
+        // 1. Pasted base64 image in page_data is extracted to an optimized file URL
+        $this->assertStringNotContainsString('data:image/jpeg;base64,', $page->page_data);
+        $this->assertStringContainsString('/uploads/editor/', $page->page_data);
+        $this->assertStringContainsString('alt="Pasted Photo"', $page->page_data);
+
+        preg_match('/src="[^"]*?(uploads\/editor\/[^"]+)"/', $page->page_data, $matches);
+        $this->assertNotEmpty($matches[1] ?? null);
+        $editorImgDiskPath = public_path($matches[1]);
+        $this->filesToCleanup[] = $editorImgDiskPath;
+        $this->assertFileExists($editorImgDiskPath);
+        $editorImgInfo = getimagesize($editorImgDiskPath);
+        $this->assertLessThanOrEqual(2048, $editorImgInfo[0]);
+
+        // 2. Direct file_upload on create-page is also optimized
+        $this->assertNotNull($page->file_path);
+        $pageFileDiskPath = public_path($page->file_path);
+        $this->filesToCleanup[] = $pageFileDiskPath;
+        $this->assertFileExists($pageFileDiskPath);
+        $pageFileInfo = getimagesize($pageFileDiskPath);
+        $this->assertLessThanOrEqual(2048, $pageFileInfo[0]);
+
+        // 3. Notice creation also extracts & optimizes pasted base64 images
+        $noticeResponse = $this->actingAs($admin)->post(route('store-notice'), [
+            'topic'       => 'জরুরি ছবি সংবলিত নোটিশ',
+            'description' => '<p>নোটিশ ছবি: <img src="' . $base64Uri . '"></p>',
+        ]);
+        $noticeResponse->assertRedirect();
+
+        $notice = NoticeModel::latest('id')->firstOrFail();
+        $this->assertStringNotContainsString('data:image/jpeg;base64,', $notice->description);
+        $this->assertStringContainsString('/uploads/editor/', $notice->description);
+
+        preg_match('/src="[^"]*?(uploads\/editor\/[^"]+)"/', $notice->description, $noticeMatches);
+        if (!empty($noticeMatches[1])) {
+            $this->filesToCleanup[] = public_path($noticeMatches[1]);
+        }
+    }
+
+    public function test_dashboard_header_configures_tinymce_direct_upload_and_paste_compression(): void
+    {
+        $admin = User::factory()->create();
+
+        $response = $this->actingAs($admin)->get(route('create-page'));
+        $response->assertStatus(200);
+        $response->assertSee('images_upload_handler', false);
+        $response->assertSee('file_picker_callback', false);
+        $response->assertSee('paste_data_images: true', false);
+        $response->assertSee('automatic_uploads: true', false);
     }
 }

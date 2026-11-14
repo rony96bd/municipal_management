@@ -253,6 +253,82 @@ class ImageOptimizer
         ], true);
     }
 
+    /**
+     * Scan HTML content (e.g. from TinyMCE) for embedded base64 data:image/* URIs,
+     * extract, compress/resize each image to print/web quality on disk, and replace
+     * the heavy base64 string with a fast-loading public URL.
+     */
+    public function optimizeHtmlContent(
+        ?string $html,
+        ?string $customStorageDir = null,
+        ?string $customUrlPrefix = null
+    ): ?string {
+        if ($html === null || trim($html) === '') {
+            return $html;
+        }
+
+        if (stripos($html, 'data:image/') === false) {
+            return $html;
+        }
+
+        $subDir    = 'uploads/editor/' . date('Y/m');
+        $destDir   = $customStorageDir ?: (function_exists('public_path') ? public_path($subDir) : sys_get_temp_dir());
+        $urlPrefix = $customUrlPrefix ?: ('/' . $subDir);
+
+        if (!is_dir($destDir)) {
+            @mkdir($destDir, 0775, true);
+        }
+
+        $pattern = '/(<img\b[^>]*?\bsrc\s*=\s*(["\']))(data:image\/(png|jpe?g|webp|gif);base64,([^"\']+))(\2[^>]*>)/i';
+
+        $result = preg_replace_callback($pattern, function (array $matches) use ($destDir, $urlPrefix) {
+            $prefixTag  = $matches[1];
+            $rawSubtype = strtolower($matches[4]);
+            $b64Payload = preg_replace('/\s+/', '', $matches[5]);
+            $suffixTag  = $matches[6];
+
+            $decoded = base64_decode($b64Payload, true);
+            unset($b64Payload);
+
+            if ($decoded === false || strlen($decoded) < 16) {
+                return $matches[0];
+            }
+
+            $ext = match ($rawSubtype) {
+                'jpeg', 'jpg' => 'jpg',
+                'png'         => 'png',
+                'webp'        => 'webp',
+                'gif'         => 'gif',
+                default       => 'jpg',
+            };
+
+            $tempFile = tempnam(sys_get_temp_dir(), 'tinymce_b64_') . '.' . $ext;
+            file_put_contents($tempFile, $decoded);
+            unset($decoded);
+
+            $filename   = 'editor_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
+            $targetPath = rtrim($destDir, '/\\') . DIRECTORY_SEPARATOR . $filename;
+
+            try {
+                $this->optimizeFile($tempFile, $targetPath);
+            } finally {
+                if (file_exists($tempFile)) {
+                    @unlink($tempFile);
+                }
+                self::freeMemory();
+            }
+
+            if (file_exists($targetPath) && filesize($targetPath) > 0) {
+                $publicUrl = rtrim($urlPrefix, '/') . '/' . $filename;
+                return $prefixTag . $publicUrl . $suffixTag;
+            }
+
+            return $matches[0];
+        }, $html);
+
+        return is_string($result) ? $result : $html;
+    }
+
     protected function createImageResource(string $path, string $format)
     {
         return match ($format) {

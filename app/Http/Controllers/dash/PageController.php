@@ -40,16 +40,18 @@ class PageController extends Controller
             'page_name' => 'required',
             'page_url' => 'required',
             'page_data' => 'required',
-            'file_upload' => 'nullable|mimes:pdf,doc,docx,csv,xls,xlsx,jpg,jpeg,png|max:5048', // File can be null
+            'file_upload' => 'nullable|mimes:pdf,doc,docx,csv,xls,xlsx,jpg,jpeg,png,webp|max:15360',
         ]);
 
         $page = new createpage();
+        $optimizer = new \App\Services\ImageOptimizer();
 
         if ($request->hasFile('file_upload')) {
             $file = $request->file('file_upload');
             $ext = strtolower($file->getClientOriginalExtension() ?: 'bin');
             $fileName = time() . '_' . Str::random(10) . '.' . $ext;
-            $file->move(public_path('pages'), $fileName);
+            $targetPath = public_path('pages/' . $fileName);
+            $optimizer->optimizeUploadedFile($file, $targetPath);
             $page->file_path = 'pages/' . $fileName;
         }
 
@@ -57,7 +59,7 @@ class PageController extends Controller
         $page_url = $this->generateUniqueUrl($request->page_url);
         $page->page_name = $request->page_name;
         $page->page_url = $page_url;
-        $page->page_data = $request->page_data;
+        $page->page_data = $optimizer->optimizeHtmlContent($request->page_data);
         $page->save();
 
         return redirect()->back()->with('success', "সফলভাবে {$request->page_name} পাতা তৈরি হয়েছে");
@@ -76,18 +78,20 @@ class PageController extends Controller
             'page_name' => 'required',
             'page_url' => 'required',
             'page_data' => 'required',
-            'file_upload' => 'nullable|mimes:pdf,doc,docx,csv,xls,xlsx|max:2048', // File can be null
+            'file_upload' => 'nullable|mimes:pdf,doc,docx,csv,xls,xlsx,jpg,jpeg,png,webp|max:15360',
         ]);
 
         // Find the existing page by ID
         $page = createpage::findOrFail($id);
+        $optimizer = new \App\Services\ImageOptimizer();
 
         $oldFilePath = null;
         if ($request->hasFile('file_upload')) {
             $file = $request->file('file_upload');
             $ext = strtolower($file->getClientOriginalExtension() ?: 'bin');
             $fileName = time() . '_' . Str::random(10) . '.' . $ext;
-            $file->move(public_path('pages'), $fileName);
+            $targetPath = public_path('pages/' . $fileName);
+            $optimizer->optimizeUploadedFile($file, $targetPath);
             $oldFilePath = $page->file_path;
             $page->file_path = 'pages/' . $fileName;
         }
@@ -98,7 +102,7 @@ class PageController extends Controller
         // Update the page data
         $page->page_name = $request->page_name;
         $page->page_url = $page_url;
-        $page->page_data = $request->page_data;
+        $page->page_data = $optimizer->optimizeHtmlContent($request->page_data);
         $page->save();
 
         $this->deleteStoredFile($oldFilePath);

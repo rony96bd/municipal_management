@@ -36,6 +36,7 @@ class NoticeController extends Controller
         } while (NoticeModel::where('page_url', $page_url)->exists());
 
         $official = new NoticeModel();
+        $optimizer = new \App\Services\ImageOptimizer();
         // Handle file upload if present
         if ($request->hasFile('file_upload')) {
             $file = $request->file('file_upload');
@@ -46,7 +47,7 @@ class NoticeController extends Controller
         }
 
         $official->topic = $validatedData['topic'];
-        $official->description = $validatedData['description'] ?? null; // Save null if not provided
+        $official->description = $optimizer->optimizeHtmlContent($validatedData['description'] ?? null); // Save null if not provided
         $official->page_url = $page_url;
         $official->save();
 
@@ -82,8 +83,9 @@ class NoticeController extends Controller
         }
 
         // Save form data to the database first
+        $optimizer = new \App\Services\ImageOptimizer();
         $notice->topic = $validatedData['topic'];
-        $notice->description = $validatedData['description'] ?? null; // Save null if not provided
+        $notice->description = $optimizer->optimizeHtmlContent($validatedData['description'] ?? null); // Save null if not provided
         $notice->save();
 
         // Remove old file only after DB save succeeds

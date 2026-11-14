@@ -8,6 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
+    <script src="{{ asset('js/client-image-optimizer.js') }}"></script>
     <script src="https://cdn.tiny.cloud/1/w5vu2tz4pnqfzczmcofjbcky17ok19mug2ek9jmeozezjzjt/tinymce/7/tinymce.min.js"
         referrerpolicy="origin"></script>
 
@@ -18,14 +19,28 @@
                 // Core editing features
                 'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media',
                 'searchreplace', 'table', 'visualblocks', 'wordcount',
-                // Your account includes a free trial of TinyMCE premium features
-                // // Try the most popular premium features until Jan 5, 2025:
-                // 'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker',
-                // 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage',
-                // 'advtemplate', 'ai'  , 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags',
-                // 'autocorrect', 'typography', 'inlinecss', 'markdown', 'importword', 'exportword', 'exportpdf'
             ],
             toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            automatic_uploads: true,
+            paste_data_images: true,
+            images_file_types: 'jpg,jpeg,png,gif,webp',
+            file_picker_types: 'image',
+            relative_urls: false,
+            remove_script_host: false,
+            convert_urls: true,
+            images_upload_handler: (blobInfo, progress) => window.MunicipalImageOptimizer.tinymceUploadHandler(
+                blobInfo,
+                progress,
+                '{{ route('editor.image.upload') }}',
+                '{{ csrf_token() }}'
+            ),
+            file_picker_callback: (callback, value, meta) => window.MunicipalImageOptimizer.tinymceFilePicker(
+                callback,
+                value,
+                meta,
+                '{{ route('editor.image.upload') }}',
+                '{{ csrf_token() }}'
+            ),
             tinycomments_mode: 'embedded',
             tinycomments_author: 'Author name',
             mergetags_list: [{

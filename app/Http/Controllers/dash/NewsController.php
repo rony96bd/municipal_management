@@ -40,10 +40,11 @@ class NewsController extends Controller
             $filePath = 'attestments/' . $fileName; // Save relative path for database
         }
         $page_url = $this->generateUniqueUrl($request->page_url);
+        $optimizer = new \App\Services\ImageOptimizer();
         // Save form data to the database
         $official = new NewsModel();
         $official->topic = $validatedData['topic'];
-        $official->description = $validatedData['description'] ?? null; // Save null if not provided
+        $official->description = $optimizer->optimizeHtmlContent($validatedData['description'] ?? null); // Save null if not provided
         $official->file_path = $filePath; // Save the file path or null if no file uploaded
         $official->page_url =  $page_url;
         $official->save();
@@ -97,8 +98,9 @@ class NewsController extends Controller
             }
         }
         // Save form data to the database
+        $optimizer = new \App\Services\ImageOptimizer();
         $notice->topic = $validatedData['topic'];
-        $notice->description = $validatedData['description'] ?? null; // Save null if not provided
+        $notice->description = $optimizer->optimizeHtmlContent($validatedData['description'] ?? null); // Save null if not provided
         $notice->file_path = $filePath; // Save the file path or null if no file uploaded
         $notice->page_url =  $pageUrl;
         $notice->save();
