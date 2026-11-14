@@ -76,13 +76,18 @@
                 'searchreplace', 'table', 'visualblocks', 'wordcount',
             ],
             toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            image_title: true,
+            image_description: true,
+            image_uploadtab: true,
+            images_upload_url: EDITOR_UPLOAD_URL,
             automatic_uploads: true,
             paste_data_images: true,
             images_file_types: 'jpg,jpeg,png,gif,webp',
             file_picker_types: 'image',
+            convert_urls: false,
             relative_urls: false,
             remove_script_host: false,
-            convert_urls: true,
+            document_base_url: '{{ url('/') }}/',
             images_upload_handler: (blobInfo, progress) => {
                 if (window.MunicipalImageOptimizer && typeof window.MunicipalImageOptimizer.tinymceUploadHandler === 'function') {
                     return window.MunicipalImageOptimizer.tinymceUploadHandler(
@@ -118,6 +123,7 @@
                 const input = document.createElement('input');
                 input.setAttribute('type', 'file');
                 input.setAttribute('accept', 'image/jpeg,image/png,image/webp,image/gif');
+                input.dataset.editorPicker = 'true';
 
                 input.addEventListener('change', async function () {
                     const file = input.files && input.files[0];

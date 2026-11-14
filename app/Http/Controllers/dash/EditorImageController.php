@@ -39,9 +39,12 @@ class EditorImageController extends Controller
 
         $relativePath = $subDir . '/' . $fileName;
         $finalSize    = file_exists($targetPath) ? filesize($targetPath) : ($result['size'] ?? 0);
+        $rootRelative = '/' . ltrim($relativePath, '/');
+        $fullUrl      = $request->schemeAndHttpHost() . $rootRelative;
 
         return response()->json([
-            'location'  => asset($relativePath),
+            'location'  => $rootRelative,
+            'url'       => $fullUrl,
             'path'      => $relativePath,
             'size'      => $finalSize,
             'width'     => $result['width'] ?? null,

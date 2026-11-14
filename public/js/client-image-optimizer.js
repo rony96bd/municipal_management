@@ -198,6 +198,7 @@
         const input = document.createElement('input');
         input.setAttribute('type', 'file');
         input.setAttribute('accept', 'image/jpeg,image/png,image/webp,image/gif');
+        input.dataset.editorPicker = 'true';
 
         input.addEventListener('change', async function () {
             const file = input.files && input.files[0];
@@ -226,7 +227,7 @@
         if (!input || input.tagName !== 'INPUT' || input.type !== 'file') {
             return;
         }
-        if (input.dataset.compressing === 'true' || !input.files || input.files.length === 0) {
+        if (input.dataset.editorPicker === 'true' || input.dataset.compressing === 'true' || !input.files || input.files.length === 0) {
             return;
         }
         if (typeof DataTransfer === 'undefined') {
