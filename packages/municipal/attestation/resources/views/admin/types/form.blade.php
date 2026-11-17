@@ -127,23 +127,85 @@
                     </div>
                 </div>
 
-                <div style="display:flex;flex-wrap:wrap;gap:20px;margin:16px 0;background:#f8fafc;padding:14px;border-radius:8px;border:1px solid #e2e8f0;">
-                    <label style="display:inline-flex;align-items:center;gap:6px;font-weight:600;cursor:pointer;">
-                        <input type="checkbox" name="with_header" value="1" {{ old('with_header', $type->print_options['with_header'] ?? true) ? 'checked' : '' }}>
-                        প্রিন্টে লেটারহেড (হেডার) ছাপাবে
-                    </label>
-                    <label style="display:inline-flex;align-items:center;gap:6px;font-weight:600;cursor:pointer;">
-                        <input type="checkbox" name="watermark" value="1" {{ old('watermark', $type->print_options['watermark'] ?? true) ? 'checked' : '' }}>
-                        জলছাপ (Watermark) লোগো দেখাবে
-                    </label>
-                    <label style="display:inline-flex;align-items:center;gap:6px;font-weight:600;cursor:pointer;">
-                        <input type="checkbox" name="is_public" value="1" {{ old('is_public', $type->is_public ?? true) ? 'checked' : '' }}>
-                        নাগরিক অনলাইনে আবেদন করতে পারবে
-                    </label>
-                    <label style="display:inline-flex;align-items:center;gap:6px;font-weight:600;cursor:pointer;">
-                        <input type="checkbox" name="is_active" value="1" {{ old('is_active', $type->is_active ?? true) ? 'checked' : '' }}>
-                        সক্রিয় (Active)
-                    </label>
+                <div style="background:#f8fafc;padding:16px;border-radius:8px;border:1px solid #e2e8f0;margin:20px 0;">
+                    <h3 style="margin:0 0 12px 0;font-size:15px;color:#0f6b3a;font-weight:700;">🖨️ প্রিন্ট লেআউট ও প্রদর্শন অপশন</h3>
+                    
+                    <div style="display:flex;flex-wrap:wrap;gap:20px;margin-bottom:16px;">
+                        <label style="display:inline-flex;align-items:center;gap:6px;font-weight:600;cursor:pointer;">
+                            <input type="checkbox" name="with_header" value="1" {{ old('with_header', $type->print_options['with_header'] ?? true) ? 'checked' : '' }}>
+                            প্রিন্টে লেটারহেড (হেডার) ছাপাবে
+                        </label>
+                        <label style="display:inline-flex;align-items:center;gap:6px;font-weight:600;cursor:pointer;">
+                            <input type="checkbox" name="watermark" value="1" {{ old('watermark', $type->print_options['watermark'] ?? true) ? 'checked' : '' }}>
+                            জলছাপ (Watermark) লোগো দেখাবে
+                        </label>
+                        <label style="display:inline-flex;align-items:center;gap:6px;font-weight:600;cursor:pointer;">
+                            <input type="checkbox" name="is_public" value="1" {{ old('is_public', $type->is_public ?? true) ? 'checked' : '' }}>
+                            নাগরিক অনলাইনে আবেদন করতে পারবে
+                        </label>
+                        <label style="display:inline-flex;align-items:center;gap:6px;font-weight:600;cursor:pointer;">
+                            <input type="checkbox" name="is_active" value="1" {{ old('is_active', $type->is_active ?? true) ? 'checked' : '' }}>
+                            সক্রিয় (Active)
+                        </label>
+                    </div>
+
+                    @php
+                        $curFont = old('print_font', $type->print_options['font_family'] ?? '');
+                        $curFontSize = old('print_font_size', $type->print_options['font_size'] ?? '14px');
+                        $curLineHeight = old('print_line_height', $type->print_options['line_height'] ?? '1.8');
+                        $curSpacing = old('print_spacing', $type->print_options['section_spacing'] ?? 'normal');
+                    @endphp
+
+                    <div class="att-grid att-grid-4" style="margin-top:14px;">
+                        <div class="att-field">
+                            <label>ডিফল্ট ফন্ট</label>
+                            <select name="print_font" class="att-select">
+                                <option value="" {{ empty($curFont) ? 'selected' : '' }}>ওয়েবসাইটের ফন্ট (ডিফল্ট)</option>
+                                <option value="Tiro Bangla" {{ $curFont === 'Tiro Bangla' ? 'selected' : '' }}>Tiro Bangla (টিরো বাংলা)</option>
+                                <option value="Hind Siliguri" {{ $curFont === 'Hind Siliguri' ? 'selected' : '' }}>Hind Siliguri (হিন্দ শিলিগুড়ি)</option>
+                                <option value="Noto Sans Bengali" {{ $curFont === 'Noto Sans Bengali' ? 'selected' : '' }}>Noto Sans Bengali (নোতো সান্স)</option>
+                                <option value="Noto Serif Bengali" {{ $curFont === 'Noto Serif Bengali' ? 'selected' : '' }}>Noto Serif Bengali (নোতো সেরিফ)</option>
+                                <option value="Anek Bangla" {{ $curFont === 'Anek Bangla' ? 'selected' : '' }}>Anek Bangla (অনেক বাংলা)</option>
+                                <option value="Baloo Da 2" {{ $curFont === 'Baloo Da 2' ? 'selected' : '' }}>Baloo Da 2 (বালু দা)</option>
+                                <option value="'Kalpurush', 'SolaimanLipi', sans-serif" {{ str_contains($curFont, 'Kalpurush') ? 'selected' : '' }}>Kalpurush / SolaimanLipi</option>
+                            </select>
+                        </div>
+                        <div class="att-field">
+                            <label>ডিফল্ট ফন্ট সাইজ</label>
+                            <select name="print_font_size" class="att-select">
+                                <option value="15px" {{ $curFontSize === '15px' ? 'selected' : '' }}>১৫ px (বড়)</option>
+                                <option value="14.5px" {{ $curFontSize === '14.5px' ? 'selected' : '' }}>১৪.৫ px</option>
+                                <option value="14px" {{ $curFontSize === '14px' || empty($curFontSize) ? 'selected' : '' }}>১৪ px (স্ট্যান্ডার্ড)</option>
+                                <option value="13.5px" {{ $curFontSize === '13.5px' ? 'selected' : '' }}>১৩.৫ px</option>
+                                <option value="13px" {{ $curFontSize === '13px' ? 'selected' : '' }}>১৩ px (লেখা বেশি হলে উপযুক্ত)</option>
+                                <option value="12.5px" {{ $curFontSize === '12.5px' ? 'selected' : '' }}>১২.৫ px</option>
+                                <option value="12px" {{ $curFontSize === '12px' ? 'selected' : '' }}>১২ px (অনেক বড় লেখার জন্য)</option>
+                            </select>
+                        </div>
+                        <div class="att-field">
+                            <label>ডিফল্ট লাইন হাইট</label>
+                            <select name="print_line_height" class="att-select">
+                                <option value="1.95" {{ (string)$curLineHeight === '1.95' ? 'selected' : '' }}>১.৯৫ (খোলামেলা)</option>
+                                <option value="1.85" {{ (string)$curLineHeight === '1.85' ? 'selected' : '' }}>১.৮৫</option>
+                                <option value="1.8" {{ (string)$curLineHeight === '1.8' || empty($curLineHeight) ? 'selected' : '' }}>১.৮০ (স্ট্যান্ডার্ড)</option>
+                                <option value="1.7" {{ (string)$curLineHeight === '1.7' ? 'selected' : '' }}>১.৭০</option>
+                                <option value="1.6" {{ (string)$curLineHeight === '1.6' ? 'selected' : '' }}>১.৬০ (আঁটোসাঁটো)</option>
+                                <option value="1.5" {{ (string)$curLineHeight === '1.5' ? 'selected' : '' }}>১.৫০ (কমপ্যাক্ট)</option>
+                            </select>
+                        </div>
+                        <div class="att-field">
+                            <label>ডিফল্ট স্পেসিং</label>
+                            <select name="print_spacing" class="att-select">
+                                <option value="compact" {{ $curSpacing === 'compact' ? 'selected' : '' }}>আঁটোসাঁটো (Compact)</option>
+                                <option value="normal" {{ $curSpacing === 'normal' || empty($curSpacing) ? 'selected' : '' }}>স্বাভাবিক (Normal)</option>
+                                <option value="spacious" {{ $curSpacing === 'spacious' ? 'selected' : '' }}>খোলামেলা (Spacious)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <p style="margin:10px 0 0 0;font-size:12.5px;color:#64748b;line-height:1.5;">
+                        💡 <strong>পরামর্শ:</strong> যেসব সনদে লেখার পরিমাণ বেশি (যেমন: অনাপত্তি সনদ, ওয়ারিশান ইত্যাদি), সেগুলোতে ফন্ট সাইজ ১৩px বা লাইন হাইট ১.৬৫ এবং স্পেসিং আঁটোসাঁটো নির্বাচন করলে স্বাক্ষরের জায়গায় লেখা ঢুকে যাওয়া রোধ হবে। এছাড়া প্রিন্ট প্রিভিউ পেজ থেকেও তাৎক্ষণিক পরিবর্তন করা যাবে।
+                    </p>
                 </div>
 
                 <button type="submit" class="att-btn att-btn-primary">💾 সংরক্ষণ করুন</button>

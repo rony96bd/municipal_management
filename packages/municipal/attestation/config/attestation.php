@@ -71,6 +71,9 @@ return [
     // ---- Print -------------------------------------------------------------------
     'print' => [
         'font'                => 'Tiro Bangla',
+        'font_size'           => '14px',
+        'line_height'         => '1.8',
+        'section_spacing'     => 'normal',
         'paper'               => 'A4',
         'with_header_default' => true,
         'watermark_default'   => true,

@@ -222,7 +222,14 @@ class SnapshotBuilder
             'closing_line'        => !empty($data['_override_closing']) ? $data['_override_closing'] : ($type->closing_line ?: $defaultClosing),
             'signatories'         => $resolvedSignatories,
             'guardian_signatures' => !empty($type->print_options['guardian_signatures']) || $type->slug === 'obhibhabak-sommoti',
-            'print_options'       => $type->print_options ?? ['with_header' => true, 'watermark' => true],
+            'print_options'       => array_merge([
+                'with_header'     => true,
+                'watermark'       => true,
+                'font_family'     => null,
+                'font_size'       => '14px',
+                'line_height'     => '1.8',
+                'section_spacing' => 'normal',
+            ], $type->print_options ?? []),
             'organization'        => $org,
         ];
     }

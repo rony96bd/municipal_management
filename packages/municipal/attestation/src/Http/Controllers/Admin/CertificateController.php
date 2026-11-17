@@ -169,21 +169,51 @@ class CertificateController extends Controller
         $certificate->update(['last_printed_at' => now()]);
         AttestationLog::record($certificate, 'printed', ['printed_count' => $certificate->printed_count]);
 
-        $logo     = LogoHelper::url();
-        $snapshot = $certificate->snapshot ?? [];
+        $logo         = LogoHelper::url();
+        $snapshot     = $certificate->snapshot ?? [];
+        $printOptions = $snapshot['print_options'] ?? ($certificate->type?->print_options ?? []);
+
+        // Resolve site font
+        $siteSettings = class_exists(\App\Models\SiteSettings::class) ? \App\Models\SiteSettings::first() : null;
+        $siteFont     = !empty($siteSettings?->google_font) ? $siteSettings->google_font : config('attestation.print.font', 'Tiro Bangla');
 
         // Allow toggling header/watermark via query string on print preview
         $withHeader = $r->has('with_header')
             ? $r->boolean('with_header')
-            : (bool) ($snapshot['print_options']['with_header'] ?? config('attestation.print.with_header_default', true));
+            : (bool) ($printOptions['with_header'] ?? config('attestation.print.with_header_default', true));
 
         $withWatermark = $r->has('watermark')
             ? $r->boolean('watermark')
-            : (bool) ($snapshot['print_options']['watermark'] ?? config('attestation.print.watermark_default', true));
+            : (bool) ($printOptions['watermark'] ?? config('attestation.print.watermark_default', true));
 
-        $padTop = (float) ($r->input('pad') ?? ($snapshot['print_options']['pad_top'] ?? config('attestation.print.pad_top', 1.5)));
+        $padTop = (float) ($r->input('pad') ?? ($printOptions['pad_top'] ?? config('attestation.print.pad_top', 1.5)));
 
-        return view('attestation::print.default', compact('certificate', 'logo', 'snapshot', 'withHeader', 'withWatermark', 'padTop'));
+        // Font and layout options
+        $fontSize = $r->input('font_size')
+            ?? ($printOptions['font_size'] ?? config('attestation.print.font_size', '14px'));
+
+        $lineHeight = $r->input('line_height')
+            ?? ($printOptions['line_height'] ?? config('attestation.print.line_height', '1.8'));
+
+        $fontFamily = $r->input('font_family')
+            ?? ($printOptions['font_family'] ?? $siteFont);
+
+        $sectionSpacing = $r->input('section_spacing')
+            ?? ($printOptions['section_spacing'] ?? config('attestation.print.section_spacing', 'normal'));
+
+        return view('attestation::print.default', compact(
+            'certificate',
+            'logo',
+            'snapshot',
+            'withHeader',
+            'withWatermark',
+            'padTop',
+            'siteFont',
+            'fontFamily',
+            'fontSize',
+            'lineHeight',
+            'sectionSpacing'
+        ));
     }
 
     public function handover(Request $r, Attestation $certificate)

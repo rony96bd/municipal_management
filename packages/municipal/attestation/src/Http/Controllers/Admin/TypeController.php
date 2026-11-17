@@ -185,11 +185,15 @@ class TypeController extends Controller
 
         $existingOpts = $ignoreId ? (AttestationType::find($ignoreId)?->print_options ?? []) : [];
         $printOptions = array_merge($existingOpts, [
-            'with_header' => $r->boolean('with_header', true),
-            'watermark'   => $r->boolean('watermark', true),
-            'pad_top'     => (float) $r->input('pad_top', $existingOpts['pad_top'] ?? 1.5),
-            'icon'        => $r->input('icon', $existingOpts['icon'] ?? '📜'),
-            'language'    => $r->input('language', $existingOpts['language'] ?? 'bn'),
+            'with_header'     => $r->boolean('with_header', true),
+            'watermark'       => $r->boolean('watermark', true),
+            'pad_top'         => (float) $r->input('pad_top', $existingOpts['pad_top'] ?? 1.5),
+            'icon'            => $r->input('icon', $existingOpts['icon'] ?? '📜'),
+            'language'        => $r->input('language', $existingOpts['language'] ?? 'bn'),
+            'font_family'     => $r->filled('print_font') ? $r->input('print_font') : ($existingOpts['font_family'] ?? null),
+            'font_size'       => $r->input('print_font_size', $existingOpts['font_size'] ?? '14px'),
+            'line_height'     => $r->input('print_line_height', $existingOpts['line_height'] ?? '1.8'),
+            'section_spacing' => $r->input('print_spacing', $existingOpts['section_spacing'] ?? 'normal'),
         ]);
 
         return [
