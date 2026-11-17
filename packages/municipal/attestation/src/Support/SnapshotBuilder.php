@@ -63,6 +63,22 @@ class SnapshotBuilder
         // Build person rows for the certificate table
         $isDeceased = ($type->subject_status === 'deceased') || (($data['subject_status'] ?? '') === 'deceased');
 
+        $curFather = $app->father_name ?: ($person['father_name'] !== '-' ? $person['father_name'] : null);
+        $curSpouse = $app->spouse_name ?: ($person['spouse_name'] !== '-' ? $person['spouse_name'] : null);
+        $guardianRelation = $data['guardian_relation'] ?? null;
+        if (!$guardianRelation) {
+            if (!empty($curFather) && !empty($curSpouse)) {
+                $guardianRelation = 'both';
+            } elseif (!empty($curSpouse) && empty($curFather)) {
+                $guardianRelation = 'husband';
+            } else {
+                $guardianRelation = 'father';
+            }
+        }
+
+        $spouseLabelBn = ($guardianRelation === 'husband' || $isDeceased) ? 'স্বামীর নাম' : 'স্বামী / স্ত্রীর নাম';
+        $spouseLabelEn = ($guardianRelation === 'husband' || $isDeceased) ? "Husband's Name" : 'Husband / Wife Name';
+
         if ($isEnglish) {
             $nameLabel = $isDeceased ? 'Name of Deceased' : 'Name';
             $idLabel   = match ($app->id_type) {
@@ -75,7 +91,7 @@ class SnapshotBuilder
                 'id_no'          => $idLabel,
                 'father_name'    => "Father's Name",
                 'mother_name'    => "Mother's Name",
-                'spouse_name'    => 'Husband / Wife Name',
+                'spouse_name'    => $spouseLabelEn,
                 'ward_no'        => 'Ward No',
                 'holding_no'     => 'Holding No',
                 'mohalla'        => 'Village / Road / Mohalla',
@@ -89,7 +105,7 @@ class SnapshotBuilder
                 'id_no'          => $idLabel,
                 'father_name'    => 'পিতার নাম',
                 'mother_name'    => 'মাতার নাম',
-                'spouse_name'    => 'স্বামী / স্ত্রীর নাম',
+                'spouse_name'    => $spouseLabelBn,
                 'ward_no'        => "{$holderLabel} ওয়ার্ড নম্বর",
                 'holding_no'     => 'হোল্ডিং নম্বর',
                 'mohalla'        => 'মহল্লা / গ্রাম',
@@ -98,7 +114,12 @@ class SnapshotBuilder
         }
 
         $activePersonFields = $type->person_fields ?: ['applicant_name', 'id_no', 'father_name', 'mother_name', 'ward_no', 'holding_no', 'mohalla', 'upazila'];
+
+        $showFather = in_array($guardianRelation, ['father', 'both']);
+        $showSpouse = in_array($guardianRelation, ['husband', 'both']) || (empty($data['guardian_relation']) && !empty($person['spouse_name']) && $person['spouse_name'] !== '-');
+
         $personRows = [];
+        $handledGuardian = false;
 
         foreach ($activePersonFields as $pf) {
             if ($pf === 'district') {
@@ -113,16 +134,45 @@ class SnapshotBuilder
                 ];
                 continue;
             }
+            if ($pf === 'father_name') {
+                $handledGuardian = true;
+                if ($showFather) {
+                    $personRows[] = [
+                        'label' => $allLabels['father_name'],
+                        'value' => $person['father_name'] ?? '-',
+                    ];
+                }
+                if ($showSpouse && (!empty($person['spouse_name']) && $person['spouse_name'] !== '-')) {
+                    $personRows[] = [
+                        'label' => $allLabels['spouse_name'],
+                        'value' => $person['spouse_name'],
+                    ];
+                }
+                continue;
+            }
+            if ($pf === 'spouse_name') {
+                if (!$handledGuardian && $showSpouse && (!empty($person['spouse_name']) && $person['spouse_name'] !== '-')) {
+                    $personRows[] = [
+                        'label' => $allLabels['spouse_name'],
+                        'value' => $person['spouse_name'],
+                    ];
+                }
+                continue;
+            }
             if (isset($allLabels[$pf])) {
                 $val = $person[$pf] ?? '-';
-                if ($pf === 'spouse_name' && ($val === '-' || $val === '')) {
-                    continue;
-                }
                 $personRows[] = [
                     'label' => $allLabels[$pf],
                     'value' => $val,
                 ];
             }
+        }
+
+        if (!$handledGuardian && $showSpouse && (!empty($person['spouse_name']) && $person['spouse_name'] !== '-')) {
+            $personRows[] = [
+                'label' => $allLabels['spouse_name'],
+                'value' => $person['spouse_name'],
+            ];
         }
 
         // Merge person + dynamic data for template rendering

@@ -94,6 +94,10 @@ class CertificateController extends Controller
             $paidAmount    = $r->filled('paid_amount') ? (float) $r->input('paid_amount') : (float) $type->fee;
             $attachments   = \Municipal\Attestation\Support\AttachmentHelper::processUploads($r, []);
 
+            $guardianRel = $r->input('data.guardian_relation');
+            $fatherName  = ($guardianRel === 'husband') ? null : $r->input('father_name');
+            $spouseName  = ($guardianRel === 'father') ? null : $r->input('spouse_name');
+
             $application = AttestationApplication::create([
                 'tracking_no'         => AttestationApplication::generateTrackingNo(),
                 'attestation_type_id' => $type->id,
@@ -101,9 +105,9 @@ class CertificateController extends Controller
                 'mobile'              => $r->input('mobile'),
                 'id_type'             => $r->input('id_type', 'nid'),
                 'id_no'               => $r->input('id_no'),
-                'father_name'         => $r->input('father_name'),
+                'father_name'         => $fatherName,
                 'mother_name'         => $r->input('mother_name'),
-                'spouse_name'         => $r->input('spouse_name'),
+                'spouse_name'         => $spouseName,
                 'ward_no'             => $r->input('ward_no'),
                 'holding_no'          => $r->input('holding_no'),
                 'mohalla'             => $r->input('mohalla'),

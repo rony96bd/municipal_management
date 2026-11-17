@@ -42,11 +42,63 @@
             </div>
         @endif
 
-        @if (in_array('father_name', $activePersonFields))
-            <div class="att-field">
-                <label>পিতার নাম</label>
-                <input type="text" name="father_name" class="att-input"
-                    value="{{ old('father_name', $app?->father_name) }}" placeholder="পিতার নাম">
+        @php
+            $hasFatherOrSpouse = in_array('father_name', $activePersonFields)
+                || in_array('spouse_name', $activePersonFields)
+                || $isDeceased
+                || (($type->slug ?? '') === 'warish-sonod')
+                || (($type->id ?? 0) == 34);
+
+            $curFather = old('father_name', $app?->father_name);
+            $curSpouse = old('spouse_name', $app?->spouse_name);
+            $savedRelation = old('data.guardian_relation', $existingData['guardian_relation'] ?? null);
+
+            if (!$savedRelation) {
+                if (!empty($curFather) && !empty($curSpouse)) {
+                    $savedRelation = 'both';
+                } elseif (!empty($curSpouse) && empty($curFather)) {
+                    $savedRelation = 'husband';
+                } else {
+                    $savedRelation = 'father';
+                }
+            }
+        @endphp
+
+        @if ($hasFatherOrSpouse)
+            <div style="grid-column: 1 / -1; background: #ffffff; border: 1.5px solid #86efac; border-radius: 8px; padding: 12px 14px; margin: 4px 0 10px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                    <label style="font-weight:700; color:#166534; font-size:13.5px; margin:0; display:flex; align-items:center; gap:6px;">
+                        <span>👥</span> অভিভাবক / সম্পর্কের ধরন নির্বাচন করুন:
+                    </label>
+                    <div style="display:inline-flex; background:#f1f5f9; padding:3px; border-radius:7px; gap:4px; border:1px solid #cbd5e1;">
+                        <label class="guardian-rel-btn {{ $savedRelation === 'father' ? 'active' : '' }}" style="display:inline-flex; align-items:center; gap:5px; cursor:pointer; padding:5px 12px; border-radius:5px; font-size:13px; font-weight:600; user-select:none; transition:all .15s; {{ $savedRelation === 'father' ? 'background:#0f6b3a;color:#ffffff;' : 'background:transparent;color:#334155;' }}">
+                            <input type="radio" name="data[guardian_relation]" value="father" {{ $savedRelation === 'father' ? 'checked' : '' }} onchange="toggleGuardianRelation('father')" style="margin:0;">
+                            <span>👨 পিতার নাম</span>
+                        </label>
+                        <label class="guardian-rel-btn {{ $savedRelation === 'husband' ? 'active' : '' }}" style="display:inline-flex; align-items:center; gap:5px; cursor:pointer; padding:5px 12px; border-radius:5px; font-size:13px; font-weight:600; user-select:none; transition:all .15s; {{ $savedRelation === 'husband' ? 'background:#0f6b3a;color:#ffffff;' : 'background:transparent;color:#334155;' }}">
+                            <input type="radio" name="data[guardian_relation]" value="husband" {{ $savedRelation === 'husband' ? 'checked' : '' }} onchange="toggleGuardianRelation('husband')" style="margin:0;">
+                            <span>💍 স্বামীর নাম</span>
+                        </label>
+                        <label class="guardian-rel-btn {{ $savedRelation === 'both' ? 'active' : '' }}" style="display:inline-flex; align-items:center; gap:5px; cursor:pointer; padding:5px 12px; border-radius:5px; font-size:13px; font-weight:600; user-select:none; transition:all .15s; {{ $savedRelation === 'both' ? 'background:#0f6b3a;color:#ffffff;' : 'background:transparent;color:#334155;' }}">
+                            <input type="radio" name="data[guardian_relation]" value="both" {{ $savedRelation === 'both' ? 'checked' : '' }} onchange="toggleGuardianRelation('both')" style="margin:0;">
+                            <span>👨💍 উভয়ই (পিতা ও স্বামী)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="att-grid att-grid-2" style="margin-bottom:0; gap:12px;">
+                    <div class="att-field" id="guardian_father_wrap" style="{{ in_array($savedRelation, ['father', 'both']) ? '' : 'display:none;' }}; {{ $savedRelation === 'father' ? 'grid-column: 1 / -1;' : '' }} margin-bottom:0;">
+                        <label style="font-size:13px; font-weight:600; color:#334155;">পিতার নাম</label>
+                        <input type="text" name="father_name" id="father_name_input" class="att-input"
+                            value="{{ old('father_name', $app?->father_name) }}" placeholder="পিতার নাম লিখুন">
+                    </div>
+
+                    <div class="att-field" id="guardian_spouse_wrap" style="{{ in_array($savedRelation, ['husband', 'both']) ? '' : 'display:none;' }}; {{ $savedRelation === 'husband' ? 'grid-column: 1 / -1;' : '' }} margin-bottom:0;">
+                        <label style="font-size:13px; font-weight:600; color:#334155;">স্বামীর নাম</label>
+                        <input type="text" name="spouse_name" id="spouse_name_input" class="att-input"
+                            value="{{ old('spouse_name', $app?->spouse_name) }}" placeholder="স্বামীর নাম লিখুন">
+                    </div>
+                </div>
             </div>
         @endif
 
@@ -55,14 +107,6 @@
                 <label>মাতার নাম</label>
                 <input type="text" name="mother_name" class="att-input"
                     value="{{ old('mother_name', $app?->mother_name) }}" placeholder="মাতার নাম">
-            </div>
-        @endif
-
-        @if (in_array('spouse_name', $activePersonFields))
-            <div class="att-field">
-                <label>স্বামী / স্ত্রীর নাম (প্রযোজ্য হলে)</label>
-                <input type="text" name="spouse_name" class="att-input"
-                    value="{{ old('spouse_name', $app?->spouse_name) }}" placeholder="স্বামী বা স্ত্রীর নাম">
             </div>
         @endif
 
@@ -298,6 +342,56 @@
 @endif
 
 <script>
+    function toggleGuardianRelation(rel) {
+        const fatherWrap = document.getElementById('guardian_father_wrap');
+        const spouseWrap = document.getElementById('guardian_spouse_wrap');
+        const btnLabels = document.querySelectorAll('.guardian-rel-btn');
+
+        btnLabels.forEach(function (lbl) {
+            const inp = lbl.querySelector('input');
+            if (inp && inp.value === rel) {
+                lbl.classList.add('active');
+                lbl.style.background = '#0f6b3a';
+                lbl.style.color = '#ffffff';
+            } else {
+                lbl.classList.remove('active');
+                lbl.style.background = 'transparent';
+                lbl.style.color = '#334155';
+            }
+        });
+
+        if (rel === 'father') {
+            if (fatherWrap) {
+                fatherWrap.style.display = '';
+                fatherWrap.style.gridColumn = '1 / -1';
+            }
+            if (spouseWrap) {
+                spouseWrap.style.display = 'none';
+            }
+        } else if (rel === 'husband') {
+            if (fatherWrap) {
+                fatherWrap.style.display = 'none';
+            }
+            if (spouseWrap) {
+                spouseWrap.style.display = '';
+                spouseWrap.style.gridColumn = '1 / -1';
+            }
+        } else {
+            if (fatherWrap) {
+                fatherWrap.style.display = '';
+                fatherWrap.style.gridColumn = 'auto';
+            }
+            if (spouseWrap) {
+                spouseWrap.style.display = '';
+                spouseWrap.style.gridColumn = 'auto';
+            }
+        }
+
+        if (typeof window.triggerLiveAttestationPreview === 'function') {
+            window.triggerLiveAttestationPreview();
+        }
+    }
+
     function addRepeaterRow(fieldKey, columns) {
         const table = document.getElementById('repeater-' + fieldKey);
         if (!table) return;

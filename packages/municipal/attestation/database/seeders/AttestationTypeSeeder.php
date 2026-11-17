@@ -10,8 +10,8 @@ class AttestationTypeSeeder extends Seeder
     public function run(): void
     {
         $stdPerson      = ['applicant_name', 'id_no', 'father_name', 'mother_name', 'ward_no', 'holding_no', 'mohalla', 'upazila', 'district'];
-        $marriedPerson  = ['applicant_name', 'id_no', 'father_name', 'mother_name', 'spouse_name', 'ward_no', 'holding_no', 'mohalla', 'upazila', 'district'];
-        $deceasedPerson = ['applicant_name', 'id_no', 'father_name', 'mother_name', 'ward_no', 'mohalla', 'upazila', 'district'];
+        $marriedPerson  = ['applicant_name', 'id_no', 'father_name', 'spouse_name', 'mother_name', 'ward_no', 'holding_no', 'mohalla', 'upazila', 'district'];
+        $deceasedPerson = ['applicant_name', 'id_no', 'father_name', 'spouse_name', 'mother_name', 'ward_no', 'mohalla', 'upazila', 'district'];
 
         $presetA = [['preset_key' => 'A']];
         $presetB = [['preset_key' => 'B1'], ['preset_key' => 'A']];

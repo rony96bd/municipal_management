@@ -31,13 +31,25 @@
         ];
     }
 
+    $pFields = $type->person_fields ?: ['applicant_name', 'id_no', 'father_name', 'mother_name', 'ward_no', 'holding_no', 'mohalla', 'upazila'];
+    if ((in_array('father_name', $pFields) || $isDeceased || ($type->slug ?? '') === 'warish-sonod') && !in_array('spouse_name', $pFields)) {
+        $newP = [];
+        foreach ($pFields as $pf) {
+            $newP[] = $pf;
+            if ($pf === 'father_name') {
+                $newP[] = 'spouse_name';
+            }
+        }
+        $pFields = $newP;
+    }
+
     $previewConfig = [
         'type_name'           => $type->name,
         'memo_name'           => $type->memo_name,
         'language'            => $isEnglish ? 'en' : 'bn',
         'is_deceased'         => $isDeceased,
         'holder_label'        => $org['holder_label'] ?? 'পৌর',
-        'person_fields'       => $type->person_fields ?: ['applicant_name', 'id_no', 'father_name', 'mother_name', 'ward_no', 'holding_no', 'mohalla', 'upazila'],
+        'person_fields'       => $pFields,
         'fields'              => $type->fields ?? [],
         'body_template'       => (string) $type->body_template,
         'closing_line'        => (string) ($type->closing_line ?: ($isEnglish ? 'I wish him/her every success and prosperity in life.' : ($isDeceased ? 'আমি তাঁর আত্মার মাগফিরাত কামনা করি।' : 'আমি তাঁর সার্বিক মঙ্গল কামনা করি।'))),
@@ -416,6 +428,8 @@
         function readFormVal(name) {
             const form = getFormEl();
             if (!form) return '';
+            const radioChecked = form.querySelector(`input[type="radio"][name="${CSS.escape(name)}"]:checked`);
+            if (radioChecked) return (radioChecked.value || '').trim();
             const el = form.querySelector(`[name="${CSS.escape(name)}"]`);
             return el ? (el.value || '').trim() : '';
         }
@@ -530,23 +544,39 @@
             const closingText = readFormVal('data[_override_closing]') || CFG.closing_line;
 
             // Person rows
+            const formGuardianRel = readFormVal('data[guardian_relation]');
+            let guardianRelation = formGuardianRel;
+            if (!guardianRelation) {
+                if (spouseName && (!fatherName || fatherName === '-')) {
+                    guardianRelation = 'husband';
+                } else if (spouseName && fatherName && fatherName !== '-') {
+                    guardianRelation = 'both';
+                } else {
+                    guardianRelation = 'father';
+                }
+            }
+
+            const isDeceased = !!CFG.is_deceased;
+            const spouseLabelBn = (guardianRelation === 'husband' || isDeceased) ? 'স্বামীর নাম' : 'স্বামী / স্ত্রীর নাম';
+            const spouseLabelEn = (guardianRelation === 'husband' || isDeceased) ? "Husband's Name" : 'Husband / Wife Name';
+
             const labelsBn = {
-                applicant_name: CFG.is_deceased ? 'মৃত ব্যক্তির নাম' : 'নাম',
+                applicant_name: isDeceased ? 'মৃত ব্যক্তির নাম' : 'নাম',
                 id_no: idType === 'birth_reg' ? 'জন্ম নিবন্ধন নম্বর' : (idType === 'death_reg' ? 'মৃত্যু নিবন্ধন নম্বর' : 'জাতীয় পরিচয়পত্র নম্বর'),
                 father_name: 'পিতার নাম',
                 mother_name: 'মাতার নাম',
-                spouse_name: 'স্বামী / স্ত্রীর নাম',
+                spouse_name: spouseLabelBn,
                 ward_no: `${CFG.holder_label} ওয়ার্ড নম্বর`,
                 holding_no: 'হোল্ডিং নম্বর',
                 mohalla: 'মহল্লা / গ্রাম',
                 upazila: 'উপজেলা / জেলা',
             };
             const labelsEn = {
-                applicant_name: CFG.is_deceased ? 'Name of Deceased' : 'Name',
+                applicant_name: isDeceased ? 'Name of Deceased' : 'Name',
                 id_no: idType === 'birth_reg' ? 'Birth Registration No' : (idType === 'death_reg' ? 'Death Registration No' : 'National ID (NID) No'),
                 father_name: "Father's Name",
                 mother_name: "Mother's Name",
-                spouse_name: 'Husband / Wife Name',
+                spouse_name: spouseLabelEn,
                 ward_no: 'Ward No',
                 holding_no: 'Holding No',
                 mohalla: 'Village / Road / Mohalla',
@@ -554,21 +584,45 @@
             };
             const lbls = isEn ? labelsEn : labelsBn;
 
+            const showFather = guardianRelation === 'father' || guardianRelation === 'both';
+            const showSpouse = guardianRelation === 'husband' || guardianRelation === 'both' || (!formGuardianRel && spouseName);
+
             let rowsHtml = '';
+            let handledGuardian = false;
+
             (CFG.person_fields || []).forEach(pf => {
                 if (pf === 'district') return;
-                if (pf === 'spouse_name' && !spouseName) return;
                 if (pf === 'upazila') {
                     const upVal = isEn
                         ? `Upazila: ${esc(upazila)}, District: ${esc(district)}`
-                        : `উপজেলা: ${esc(upazila)}, জেলা: ${esc(district)} — এর ${CFG.is_deceased ? 'স্থায়ী বাসিন্দা ছিলেন' : 'স্থায়ী বাসিন্দা'}`;
+                        : `উপজেলা: ${esc(upazila)}, জেলা: ${esc(district)} — এর ${isDeceased ? 'স্থায়ী বাসিন্দা ছিলেন' : 'স্থায়ী বাসিন্দা'}`;
                     rowsHtml += `<tr><td>${esc(lbls.upazila)}</td><td>:</td><td>${upVal}</td></tr>`;
+                    return;
+                }
+                if (pf === 'father_name') {
+                    handledGuardian = true;
+                    if (showFather) {
+                        rowsHtml += `<tr><td>${esc(lbls.father_name)}</td><td>:</td><td>${esc(dataMap.father_name || '-')}</td></tr>`;
+                    }
+                    if (showSpouse) {
+                        rowsHtml += `<tr><td>${esc(lbls.spouse_name)}</td><td>:</td><td>${esc(spouseName || '-')}</td></tr>`;
+                    }
+                    return;
+                }
+                if (pf === 'spouse_name') {
+                    if (!handledGuardian && showSpouse) {
+                        rowsHtml += `<tr><td>${esc(lbls.spouse_name)}</td><td>:</td><td>${esc(spouseName || '-')}</td></tr>`;
+                    }
                     return;
                 }
                 if (lbls[pf]) {
                     rowsHtml += `<tr><td>${esc(lbls[pf])}</td><td>:</td><td>${esc(dataMap[pf] || '-')}</td></tr>`;
                 }
             });
+
+            if (!handledGuardian && showSpouse) {
+                rowsHtml += `<tr><td>${esc(lbls.spouse_name)}</td><td>:</td><td>${esc(spouseName || '-')}</td></tr>`;
+            }
 
             // Repeater tables
             let repHtml = '';

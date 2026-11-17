@@ -127,14 +127,18 @@ class ApplicationController extends Controller
         $paymentStatus = $r->input('payment_status', $application->payment_status);
         $attachments   = \Municipal\Attestation\Support\AttachmentHelper::processUploads($r, $application->attachments ?? []);
 
+        $guardianRel = $r->input('data.guardian_relation');
+        $fatherName  = ($guardianRel === 'husband') ? null : $r->input('father_name');
+        $spouseName  = ($guardianRel === 'father') ? null : $r->input('spouse_name');
+
         $application->update([
             'applicant_name' => $r->input('applicant_name'),
             'mobile'         => $r->input('mobile'),
             'id_type'        => $r->input('id_type', 'nid'),
             'id_no'          => $r->input('id_no'),
-            'father_name'    => $r->input('father_name'),
+            'father_name'    => $fatherName,
             'mother_name'    => $r->input('mother_name'),
-            'spouse_name'    => $r->input('spouse_name'),
+            'spouse_name'    => $spouseName,
             'ward_no'        => $r->input('ward_no'),
             'holding_no'     => $r->input('holding_no'),
             'mohalla'        => $r->input('mohalla'),
