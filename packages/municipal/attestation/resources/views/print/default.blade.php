@@ -647,7 +647,6 @@
         <div class="qr" id="qr"></div>
         <div class="txt">
           <b>{{ $isEnglish ? 'Verify Online' : 'অনলাইনে যাচাই করুন' }}</b>
-          {{ $isEnglish ? 'Scan QR code to verify authenticity of this certificate.' : 'QR কোড স্ক্যান করে প্রত্যয়নের সত্যতা যাচাই করা যাবে।' }}
           <div class="code">{{ $isEnglish ? 'Code:' : 'কোড:' }} {{ $certificate->verification_code }}</div>
         </div>
       </div>
