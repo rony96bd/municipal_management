@@ -8,8 +8,17 @@ use Illuminate\Support\Str;
 
 class AttachmentHelper
 {
-    public static function coreSlots(): array
+    public static function coreSlots(string $lang = 'bn'): array
     {
+        if ($lang === 'en') {
+            return [
+                'nid'       => 'National ID (NID)',
+                'birth'     => 'Online Birth Registration Certificate',
+                'passport'  => 'Passport (Optional)',
+                'affidavit' => 'Affidavit Copy (Optional)',
+            ];
+        }
+
         return [
             'nid'       => 'এনআইডি কার্ড (NID)',
             'birth'     => 'অনলাইন জন্ম নিবন্ধন',

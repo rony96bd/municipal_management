@@ -370,25 +370,25 @@
 <div class="att-live-preview-col" id="livePreviewCol">
     <div class="att-preview-toolbar">
         <div class="t-title">
-            <span>👁️ লাইভ A4 সনদ প্রিভিউ</span>
+            <span>👁️ {{ $isEnglish ? 'Live A4 Preview' : 'লাইভ A4 সনদ প্রিভিউ' }}</span>
             <span id="directEditBadge" style="display:none;background:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:999px;font-size:11.5px;">
-                সরাসরি সম্পাদিত
+                {{ $isEnglish ? 'Directly Edited' : 'সরাসরি সম্পাদিত' }}
             </span>
         </div>
         <div class="t-btns">
             <button type="button" class="att-preview-btn" id="togglePadModeBtn">
-                {{ $withHeader ? '📄 প্যাড মোড দেখুন' : '🏛️ লেটারহেড মোড দেখুন' }}
+                {{ $withHeader ? ($isEnglish ? '📄 View Pad Mode' : '📄 প্যাড মোড দেখুন') : ($isEnglish ? '🏛️ View Letterhead Mode' : '🏛️ লেটারহেড মোড দেখুন') }}
             </button>
             <div id="livePadControls" style="display:{{ $withHeader ? 'none' : 'inline-flex' }};align-items:center;gap:4px;background:#fff;border:1px solid #cbd5e1;border-radius:6px;padding:3px 8px;font-size:12px;">
-                <span style="color:#0f6b3a;font-weight:600;">⬍ প্যাড:</span>
+                <span style="color:#0f6b3a;font-weight:600;">⬍ {{ $isEnglish ? 'Pad:' : 'প্যাড:' }}</span>
                 <input type="number" id="livePadTopInput" min="0" max="6" step="0.1" value="{{ (float) ($type->print_options['pad_top'] ?? 1.5) }}" style="width:52px;padding:2px 4px;border:1px solid #cbd5e1;border-radius:4px;text-align:center;font-weight:700;">
-                <span style="color:#64748b;">ইঞ্চি</span>
+                <span style="color:#64748b;">{{ $isEnglish ? 'inch' : 'ইঞ্চি' }}</span>
             </div>
             <button type="button" class="att-preview-btn" id="toggleDirectEditBtn">
-                ✎ সরাসরি এডিট
+                ✎ {{ $isEnglish ? 'Direct Edit' : 'সরাসরি এডিট' }}
             </button>
             <button type="button" class="att-preview-btn" id="resetDirectEditBtn" style="display:none;color:#dc2626;border-color:#fca5a5;">
-                ↻ ফর্ম থেকে পুনরায় তৈরি
+                ↻ {{ $isEnglish ? 'Reset from Form' : 'ফর্ম থেকে পুনরায় তৈরি' }}
             </button>
         </div>
     </div>
@@ -403,6 +403,7 @@
 <script>
     (function () {
         const CFG = @json($previewConfig);
+        const isEn = CFG.language === 'en';
         const sheet = document.getElementById('liveA4Sheet');
         const scalerWrap = document.getElementById('a4ScalerWrap');
         const previewCol = document.getElementById('livePreviewCol');
@@ -450,15 +451,25 @@
 
             const applicantName = readFormVal('applicant_name') || (isEn ? '....................' : '....................');
             const idType = readFormVal('id_type') || 'nid';
-            const idNo = readFormVal('id_no');
+            let idNo = readFormVal('id_no');
             const fatherName = readFormVal('father_name') || '-';
             const motherName = readFormVal('mother_name') || '-';
             const spouseName = readFormVal('spouse_name') || '';
-            const wardNo = readFormVal('ward_no');
-            const holdingNo = readFormVal('holding_no');
+            let wardNo = readFormVal('ward_no');
+            let holdingNo = readFormVal('holding_no');
             const mohalla = readFormVal('mohalla') || '-';
-            const upazila = readFormVal('upazila') || (isEn ? 'Alamdanga' : (CFG.org.default_upazila || 'আলমডাঙ্গা'));
-            const district = readFormVal('district') || (isEn ? 'Chuadanga' : (CFG.org.default_district || 'চুয়াডাঙ্গা'));
+            let upazila = readFormVal('upazila') || (isEn ? (CFG.org.default_upazila_en || 'Alamdanga') : (CFG.org.default_upazila || 'আলমডাঙ্গা'));
+            let district = readFormVal('district') || (isEn ? (CFG.org.default_district_en || 'Chuadanga') : (CFG.org.default_district || 'চুয়াডাঙ্গা'));
+
+            if (isEn) {
+                const bnToEn = {'০':'0','১':'1','২':'2','৩':'3','৪':'4','৫':'5','৬':'6','৭':'7','৮':'8','৯':'9'};
+                if (idNo) idNo = String(idNo).replace(/[০-৯]/g, d => bnToEn[d] || d);
+                if (wardNo) wardNo = String(wardNo).replace(/[০-৯]/g, d => bnToEn[d] || d);
+                if (holdingNo) holdingNo = String(holdingNo).replace(/[০-৯]/g, d => bnToEn[d] || d);
+                if (upazila === 'আলমডাঙ্গা' || !upazila) upazila = (CFG.org.default_upazila_en || 'Alamdanga');
+                if (district === 'চুয়াডাঙ্গা' || !district) district = (CFG.org.default_district_en || 'Chuadanga');
+            }
+
             const issueDateRaw = readFormVal('issue_date') || new Date().toISOString().slice(0, 10);
             const [yy, mm, dd] = issueDateRaw.split('-');
             const formattedDate = dd && mm && yy ? (isEn ? `${dd}/${mm}/${yy}` : toBn(`${dd}/${mm}/${yy}`)) : '';
@@ -514,17 +525,23 @@
                         <div class="att-a4-header">
                             <img src="${esc(CFG.logo)}" alt="logo">
                             <div class="h-titles">
-                                <div class="h-bismillah">${esc(CFG.org.bismillah || 'বিসমিল্লাহির রাহমানির রাহিম')}</div>
-                                <div class="h-gov">${esc(CFG.org.gov_line || 'গণপ্রজাতন্ত্রী বাংলাদেশ সরকার')}</div>
-                                <div class="h-org">${esc(CFG.org.name || 'আলমডাঙ্গা পৌরসভা')}</div>
-                                <div class="h-sub">${esc(CFG.org.address || CFG.org.sub_title || 'আলমডাঙ্গা, চুয়াডাঙ্গা')}</div>
+                                ${isEn ? `
+                                    <div class="h-gov">Government of the People's Republic of Bangladesh</div>
+                                    <div class="h-org">Office of the Alamdanga Pourashava</div>
+                                    <div class="h-sub">Alamdanga, Chuadanga</div>
+                                ` : `
+                                    <div class="h-bismillah">${esc(CFG.org.bismillah || 'বিসমিল্লাহির রাহমানির রাহিম')}</div>
+                                    <div class="h-gov">${esc(CFG.org.gov_line || 'গণপ্রজাতন্ত্রী বাংলাদেশ সরকার')}</div>
+                                    <div class="h-org">${esc(CFG.org.name || 'আলমডাঙ্গা পৌরসভা')}</div>
+                                    <div class="h-sub">${esc(CFG.org.address || CFG.org.sub_title || 'আলমডাঙ্গা, চুয়াডাঙ্গা')}</div>
+                                `}
                             </div>
                             <div style="width:21mm"></div>
                         </div>`;
                 }
             } else {
                 const padVal = livePadInput ? (parseFloat(livePadInput.value) || 1.5) : (CFG.pad_top || 1.5);
-                headerHtml = `<div class="att-a4-pad-spacer">[ ⬍ প্যাড মার্জিন: ${padVal} ইঞ্চি ফাঁকা (নিচে প্রিন্ট শুরু) ]</div>`;
+                headerHtml = `<div class="att-a4-pad-spacer">[ ⬍ ${isEn ? `Pad Margin: ${padVal} inch gap (print starts below)` : `প্যাড মার্জিন: ${padVal} ইঞ্চি ফাঁকা (নিচে প্রিন্ট শুরু)`} ]</div>`;
             }
 
             // Meta
@@ -670,11 +687,11 @@
                 guardianHtml = `
                     <div style="display:flex;justify-content:space-around;margin-top:8mm;font-size:12px;text-align:center;">
                         <div style="border-top:1px dashed #1b2430;padding-top:3px;min-width:48mm;">
-                            <b>১ম অভিভাবকের স্বাক্ষর</b>
+                            <b>${isEn ? "1st Guardian's Signature" : '১ম অভিভাবকের স্বাক্ষর'}</b>
                             <div>${esc(g1)} ${g1r ? '(' + esc(g1r) + ')' : ''}</div>
                         </div>
                         <div style="border-top:1px dashed #1b2430;padding-top:3px;min-width:48mm;">
-                            <b>২য় অভিভাবকের স্বাক্ষর</b>
+                            <b>${isEn ? "2nd Guardian's Signature" : '২য় অভিভাবকের স্বাক্ষর'}</b>
                             <div>${esc(g2)} ${g2r ? '(' + esc(g2r) + ')' : ''}</div>
                         </div>
                     </div>`;
@@ -770,7 +787,9 @@
         if (togglePadBtn) {
             togglePadBtn.addEventListener('click', function () {
                 showHeader = !showHeader;
-                this.textContent = showHeader ? '📄 প্যাড মোড দেখুন' : '🏛️ লেটারহেড মোড দেখুন';
+                this.textContent = showHeader
+                    ? (isEn ? '📄 View Pad Mode' : '📄 প্যাড মোড দেখুন')
+                    : (isEn ? '🏛️ View Letterhead Mode' : '🏛️ লেটারহেড মোড দেখুন');
                 if (livePadControls) {
                     livePadControls.style.display = showHeader ? 'none' : 'inline-flex';
                 }
@@ -788,7 +807,9 @@
             toggleEditBtn.addEventListener('click', function () {
                 isDirectEdit = !isDirectEdit;
                 this.classList.toggle('active', isDirectEdit);
-                this.textContent = isDirectEdit ? '✔ সরাসরি এডিট বন্ধ করুন' : '✎ সরাসরি এডিট';
+                this.textContent = isDirectEdit
+                    ? (isEn ? '✔ Stop Direct Edit' : '✔ সরাসরি এডিট বন্ধ করুন')
+                    : (isEn ? '✎ Direct Edit' : '✎ সরাসরি এডিট');
                 if (isDirectEdit) {
                     sheet.setAttribute('contenteditable', 'true');
                     sheet.setAttribute('spellcheck', 'false');
@@ -810,12 +831,12 @@
 
         if (resetEditBtn) {
             resetEditBtn.addEventListener('click', function () {
-                if (!confirm('সরাসরি করা সব সম্পাদনা বাদ দিয়ে ফর্মের তথ্য থেকে পত্রটি পুনরায় তৈরি করবেন?')) return;
+                if (!confirm(isEn ? 'Discard all direct edits and regenerate from form values?' : 'সরাসরি করা সব সম্পাদনা বাদ দিয়ে ফর্মের তথ্য থেকে পত্রটি পুনরায় তৈরি করবেন?')) return;
                 if (overrideInput) overrideInput.value = '';
                 isDirectEdit = false;
                 if (toggleEditBtn) {
                     toggleEditBtn.classList.remove('active');
-                    toggleEditBtn.textContent = '✎ সরাসরি এডিট';
+                    toggleEditBtn.textContent = isEn ? '✎ Direct Edit' : '✎ সরাসরি এডিট';
                 }
                 sheet.removeAttribute('contenteditable');
                 updatePreview();

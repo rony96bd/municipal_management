@@ -131,6 +131,17 @@ class ApplicationController extends Controller
         $fatherName  = ($guardianRel === 'husband') ? null : $r->input('father_name');
         $spouseName  = ($guardianRel === 'father') ? null : $r->input('spouse_name');
 
+        $isEnglish    = (($application->type?->language ?? 'bn') === 'en');
+        $org          = config('attestation.organization', []);
+        $rawUpazila   = $r->input('upazila');
+        $rawDistrict  = $r->input('district');
+        $upazila      = $isEnglish
+            ? (!empty($rawUpazila) && $rawUpazila !== 'আলমডাঙ্গা' ? $rawUpazila : ($org['default_upazila_en'] ?? 'Alamdanga'))
+            : (!empty($rawUpazila) ? $rawUpazila : ($org['default_upazila'] ?? 'আলমডাঙ্গা'));
+        $district     = $isEnglish
+            ? (!empty($rawDistrict) && $rawDistrict !== 'চুয়াডাঙ্গা' ? $rawDistrict : ($org['default_district_en'] ?? 'Chuadanga'))
+            : (!empty($rawDistrict) ? $rawDistrict : ($org['default_district'] ?? 'চুয়াডাঙ্গা'));
+
         $application->update([
             'applicant_name' => $r->input('applicant_name'),
             'mobile'         => $r->input('mobile'),
@@ -142,8 +153,8 @@ class ApplicationController extends Controller
             'ward_no'        => $r->input('ward_no'),
             'holding_no'     => $r->input('holding_no'),
             'mohalla'        => $r->input('mohalla'),
-            'upazila'        => $r->input('upazila'),
-            'district'       => $r->input('district'),
+            'upazila'        => $upazila,
+            'district'       => $district,
             'data'           => $r->input('data', $application->data ?? []),
             'attachments'    => $attachments,
             'payment_status' => $paymentStatus,

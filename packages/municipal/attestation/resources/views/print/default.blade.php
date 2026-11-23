@@ -427,21 +427,21 @@
   <div class="toolbar">
     <div class="toolbar-row">
       <div class="toolbar-nav">
-        <a href="{{ route('attestation.certificates.show', $certificate) }}" class="btn-tool btn-outline">← বিস্তারিত পেজ</a>
+        <a href="{{ route('attestation.certificates.show', $certificate) }}" class="btn-tool btn-outline">{{ $isEnglish ? '← Details Page' : '← বিস্তারিত পেজ' }}</a>
         <a href="{{ route('attestation.certificates.print', [$certificate, 'with_header' => $withHeader ? 0 : 1, 'watermark' => $withWatermark ? 1 : 0]) }}" class="btn-tool btn-outline">
-          {{ $withHeader ? '📄 প্যাড মোড (হেডার ছাড়া)' : '🏛️ লেটারহেড মোড (হেডার সহ)' }}
+          {{ $withHeader ? ($isEnglish ? '📄 Pad Mode (Without Header)' : '📄 প্যাড মোড (হেডার ছাড়া)') : ($isEnglish ? '🏛️ Letterhead Mode (With Header)' : '🏛️ লেটারহেড মোড (হেডার সহ)') }}
         </a>
         <a href="{{ route('attestation.certificates.print', [$certificate, 'with_header' => $withHeader ? 1 : 0, 'watermark' => $withWatermark ? 0 : 1]) }}" class="btn-tool btn-outline">
-          {{ $withWatermark ? '💧 জলছাপ বন্ধ' : '💧 জলছাপ চালু' }}
+          {{ $withWatermark ? ($isEnglish ? '💧 Watermark Off' : '💧 জলছাপ বন্ধ') : ($isEnglish ? '💧 Watermark On' : '💧 জলছাপ চালু') }}
         </a>
 
         @unless ($withHeader)
           <div style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid #cbd5e1;border-radius:7px;padding:3px 8px;font:600 12.5px inherit;color:#1b2430">
-            <span style="color:#0f6b3a;">⬍ প্যাড মার্জিন:</span>
-            <button type="button" onclick="stepPad(-0.1)" title="০.১ ইঞ্চি কমান" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;padding:2px 6px;font-weight:700;cursor:pointer;color:#0f6b3a;">−</button>
+            <span style="color:#0f6b3a;">⬍ {{ $isEnglish ? 'Pad Margin:' : 'প্যাড মার্জিন:' }}</span>
+            <button type="button" onclick="stepPad(-0.1)" title="{{ $isEnglish ? 'Decrease 0.1 inch' : '০.১ ইঞ্চি কমান' }}" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;padding:2px 6px;font-weight:700;cursor:pointer;color:#0f6b3a;">−</button>
             <input type="number" id="padTopInput" min="0" max="6" step="0.1" value="{{ $padTop }}" style="width:52px;padding:2px 4px;border:1px solid #cbd5e1;border-radius:4px;text-align:center;font-weight:700;font-size:12px;">
-            <span style="font-size:11.5px;color:#64748b;">ইঞ্চি</span>
-            <button type="button" onclick="stepPad(0.1)" title="০.১ ইঞ্চি বাড়ান" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;padding:2px 6px;font-weight:700;cursor:pointer;color:#0f6b3a;">+</button>
+            <span style="font-size:11.5px;color:#64748b;">{{ $isEnglish ? 'inch' : 'ইঞ্চি' }}</span>
+            <button type="button" onclick="stepPad(0.1)" title="{{ $isEnglish ? 'Increase 0.1 inch' : '০.১ ইঞ্চি বাড়ান' }}" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;padding:2px 6px;font-weight:700;cursor:pointer;color:#0f6b3a;">+</button>
             <div style="display:inline-flex;gap:3px;margin-left:3px;">
               <button type="button" onclick="setPadVal(1.0)" class="pad-preset-btn">1.0″</button>
               <button type="button" onclick="setPadVal(1.5)" class="pad-preset-btn">1.5″</button>
@@ -451,20 +451,20 @@
           </div>
         @endunless
 
-        <button type="button" class="btn-tool btn-outline" id="directEditBtn" onclick="togglePrintEdit()">✎ সরাসরি এডিট</button>
+        <button type="button" class="btn-tool btn-outline" id="directEditBtn" onclick="togglePrintEdit()">✎ {{ $isEnglish ? 'Direct Edit' : 'সরাসরি এডিট' }}</button>
         <button type="button" class="btn-tool btn-outline" onclick="exportDocFile()">📄 Word (.doc)</button>
       </div>
 
       <div class="toolbar-nav">
-        <button type="button" class="btn-tool btn-primary" onclick="window.print()">🖨 প্রিন্ট করুন (A4)</button>
+        <button type="button" class="btn-tool btn-primary" onclick="window.print()">🖨 {{ $isEnglish ? 'Print (A4)' : 'প্রিন্ট করুন (A4)' }}</button>
       </div>
     </div>
 
     <div class="ctrl-bar">
       <div class="ctrl-item">
-        <span class="ctrl-label">ফন্ট:</span>
+        <span class="ctrl-label">{{ $isEnglish ? 'Font:' : 'ফন্ট:' }}</span>
         <select id="ctrlFont" class="ctrl-select">
-          <option value="{{ $siteFont }}">সাইটের ফন্ট ({{ $siteFont }})</option>
+          <option value="{{ $siteFont }}">{{ $isEnglish ? 'Site Font' : 'সাইটের ফন্ট' }} ({{ $siteFont }})</option>
           <option value="Tiro Bangla">Tiro Bangla (টিরো বাংলা)</option>
           <option value="Hind Siliguri">Hind Siliguri (হিন্দ শিলিগুড়ি)</option>
           <option value="Noto Sans Bengali">Noto Sans (নোতো সান্স)</option>
@@ -476,45 +476,45 @@
       </div>
 
       <div class="ctrl-item">
-        <span class="ctrl-label">ফন্ট সাইজ:</span>
+        <span class="ctrl-label">{{ $isEnglish ? 'Font Size:' : 'ফন্ট সাইজ:' }}</span>
         <div class="ctrl-stepper">
-          <button type="button" class="btn-step" id="btnFontMinus" title="ফন্ট সাইজ কমান">A−</button>
+          <button type="button" class="btn-step" id="btnFontMinus" title="{{ $isEnglish ? 'Decrease font size' : 'ফন্ট সাইজ কমান' }}">A−</button>
           <input type="range" class="ctrl-slider" id="rngFontSize" min="10" max="18" step="0.5" value="{{ $numFontSize }}">
           <span class="ctrl-badge" id="valFontSize">{{ $numFontSize }}px</span>
-          <button type="button" class="btn-step" id="btnFontPlus" title="ফন্ট সাইজ বাড়ান">A+</button>
+          <button type="button" class="btn-step" id="btnFontPlus" title="{{ $isEnglish ? 'Increase font size' : 'ফন্ট সাইজ বাড়ান' }}">A+</button>
         </div>
       </div>
 
       <div class="ctrl-item">
-        <span class="ctrl-label">লাইন হাইট:</span>
+        <span class="ctrl-label">{{ $isEnglish ? 'Line Height:' : 'লাইন হাইট:' }}</span>
         <div class="ctrl-stepper">
-          <button type="button" class="btn-step" id="btnLhMinus" title="লাইন হাইট কমান">−</button>
+          <button type="button" class="btn-step" id="btnLhMinus" title="{{ $isEnglish ? 'Decrease line height' : 'লাইন হাইট কমান' }}">−</button>
           <input type="range" class="ctrl-slider" id="rngLineHeight" min="1.2" max="2.3" step="0.05" value="{{ $numLineHeight }}">
           <span class="ctrl-badge" id="valLineHeight">{{ $numLineHeight }}</span>
-          <button type="button" class="btn-step" id="btnLhPlus" title="লাইন হাইট বাড়ান">+</button>
+          <button type="button" class="btn-step" id="btnLhPlus" title="{{ $isEnglish ? 'Increase line height' : 'লাইন হাইট বাড়ান' }}">+</button>
         </div>
       </div>
 
       <div class="ctrl-item">
-        <span class="ctrl-label">স্পেস:</span>
+        <span class="ctrl-label">{{ $isEnglish ? 'Spacing:' : 'স্পেস:' }}</span>
         <select id="ctrlSpacing" class="ctrl-select">
-          <option value="compact">আঁটোসাঁটো (Compact)</option>
-          <option value="normal">স্বাভাবিক (Normal)</option>
-          <option value="spacious">খোলামেলা (Spacious)</option>
+          <option value="compact">{{ $isEnglish ? 'Compact' : 'আঁটোসাঁটো (Compact)' }}</option>
+          <option value="normal">{{ $isEnglish ? 'Normal' : 'স্বাভাবিক (Normal)' }}</option>
+          <option value="spacious">{{ $isEnglish ? 'Spacious' : 'খোলামেলা (Spacious)' }}</option>
         </select>
       </div>
 
       <div class="ctrl-item">
-        <button type="button" class="btn-tool btn-autofit" id="btnAutoFit" title="লেখা যেন স্বাক্ষরের ভিতরে না যায়, স্বয়ংক্রিয়ভাবে ১ পাতায় সাজান">
-          ⚡ এক পাতায় ফিট
+        <button type="button" class="btn-tool btn-autofit" id="btnAutoFit" title="{{ $isEnglish ? 'Auto-fit content on 1 page' : 'লেখা যেন স্বাক্ষরের ভিতরে না যায়, স্বয়ংক্রিয়ভাবে ১ পাতায় সাজান' }}">
+          ⚡ {{ $isEnglish ? 'Fit to 1 Page' : 'এক পাতায় ফিট' }}
         </button>
-        <button type="button" class="btn-tool btn-reset" id="btnReset" title="মূল সাইজে রিসেট করুন">
-          🔄 রিসেট
+        <button type="button" class="btn-tool btn-reset" id="btnReset" title="{{ $isEnglish ? 'Reset to default' : 'মূল সাইজে রিসেট করুন' }}">
+          🔄 {{ $isEnglish ? 'Reset' : 'রিসেট' }}
         </button>
       </div>
 
       <div id="statusBadge" class="status-indicator status-ok">
-        <span id="statusText">✓ ১ পাতায় সম্পূর্ণ ফিট</span>
+        <span id="statusText">{{ $isEnglish ? '✓ Fits on 1 page (Ready to print)' : '✓ ১ পাতায় সম্পূর্ণ ফিট' }}</span>
       </div>
     </div>
   </div>
@@ -556,7 +556,7 @@
       </header>
     @else
       <div class="pad-spacer" id="padSpacer">
-        <span>[ ⬍ প্যাড মার্জিন: <b id="padGuideVal">{{ $padTop }}</b> ইঞ্চি ফাঁকা (নিচে প্রিন্ট শুরু) ]</span>
+        <span>[ ⬍ {{ $isEnglish ? 'Pad Margin: ' : 'প্যাড মার্জিন: ' }}<b id="padGuideVal">{{ $padTop }}</b> {{ $isEnglish ? 'inch gap (print starts below)' : 'ইঞ্চি ফাঁকা (নিচে প্রিন্ট শুরু)' }} ]</span>
       </div>
     @endif
 
@@ -622,7 +622,7 @@
         <div class="guardians">
           <div class="guardian-box">
             <div class="line">
-              ১ম অভিভাবকের স্বাক্ষর
+              {{ $isEnglish ? "1st Guardian's Signature" : '১ম অভিভাবকের স্বাক্ষর' }}
               <div style="font-weight:400;color:var(--muted);font-size:11.5px;">
                 {{ $snapshot['data']['guardian_1_name'] ?? '' }}
                 {{ !empty($snapshot['data']['guardian_1_relation']) ? '(' . $snapshot['data']['guardian_1_relation'] . ')' : '' }}
@@ -631,7 +631,7 @@
           </div>
           <div class="guardian-box">
             <div class="line">
-              ২য় অভিভাবকের স্বাক্ষর
+              {{ $isEnglish ? "2nd Guardian's Signature" : '২য় অভিভাবকের স্বাক্ষর' }}
               <div style="font-weight:400;color:var(--muted);font-size:11.5px;">
                 {{ $snapshot['data']['guardian_2_name'] ?? '' }}
                 {{ !empty($snapshot['data']['guardian_2_relation']) ? '(' . $snapshot['data']['guardian_2_relation'] . ')' : '' }}
@@ -779,13 +779,18 @@
     const isOverflowing = contentRect.bottom > (footerRect.top - 6);
 
     if (statusBadge && statusText) {
+      const isEn = @json($isEnglish);
       if (isOverflowing) {
         statusBadge.className = 'status-indicator status-warn';
-        statusText.textContent = '⚠️ লেখা স্বাক্ষরে ঢুকে গেছে! সাইজ কমান বা "এক পাতায় ফিট" চাপুন';
+        statusText.textContent = isEn
+          ? '⚠️ Content overflowing into signature! Reduce size or click "Fit to 1 Page"'
+          : '⚠️ লেখা স্বাক্ষরে ঢুকে গেছে! সাইজ কমান বা "এক পাতায় ফিট" চাপুন';
         sheet.classList.add('has-overflow');
       } else {
         statusBadge.className = 'status-indicator status-ok';
-        statusText.textContent = '✓ ১ পাতায় সম্পূর্ণ ফিট (প্রিন্টের জন্য প্রস্তুত)';
+        statusText.textContent = isEn
+          ? '✓ Fits on 1 page (Ready to print)'
+          : '✓ ১ পাতায় সম্পূর্ণ ফিট (প্রিন্টের জন্য প্রস্তুত)';
         sheet.classList.remove('has-overflow');
       }
     }
@@ -1014,8 +1019,11 @@
     isPrintEditable = !isPrintEditable;
     const btn = document.getElementById('directEditBtn');
     if (btn) {
+      const isEn = @json($isEnglish);
       btn.classList.toggle('active-edit', isPrintEditable);
-      btn.textContent = isPrintEditable ? '✔ সরাসরি এডিট বন্ধ করুন' : '✎ সরাসরি এডিট';
+      btn.textContent = isPrintEditable
+        ? (isEn ? '✔ Stop Direct Edit' : '✔ সরাসরি এডিট বন্ধ করুন')
+        : (isEn ? '✎ Direct Edit' : '✎ সরাসরি এডিট');
     }
     if (isPrintEditable) {
       sheet.setAttribute('contenteditable', 'true');

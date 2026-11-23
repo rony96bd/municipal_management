@@ -71,6 +71,16 @@ class ApplyController extends Controller
         $fatherName  = ($guardianRel === 'husband') ? null : $r->input('father_name');
         $spouseName  = ($guardianRel === 'father') ? null : $r->input('spouse_name');
 
+        $isEnglish    = ($type->language === 'en');
+        $rawUpazila   = $r->input('upazila');
+        $rawDistrict  = $r->input('district');
+        $upazila      = $isEnglish
+            ? (!empty($rawUpazila) && $rawUpazila !== 'আলমডাঙ্গা' ? $rawUpazila : ($org['default_upazila_en'] ?? 'Alamdanga'))
+            : (!empty($rawUpazila) ? $rawUpazila : ($org['default_upazila'] ?? 'আলমডাঙ্গা'));
+        $district     = $isEnglish
+            ? (!empty($rawDistrict) && $rawDistrict !== 'চুয়াডাঙ্গা' ? $rawDistrict : ($org['default_district_en'] ?? 'Chuadanga'))
+            : (!empty($rawDistrict) ? $rawDistrict : ($org['default_district'] ?? 'চুয়াডাঙ্গা'));
+
         $app = AttestationApplication::create([
             'tracking_no'         => $trackingNo,
             'attestation_type_id' => $type->id,
@@ -84,8 +94,8 @@ class ApplyController extends Controller
             'ward_no'             => $r->input('ward_no'),
             'holding_no'          => $r->input('holding_no'),
             'mohalla'             => $r->input('mohalla'),
-            'upazila'             => $r->input('upazila', $org['default_upazila'] ?? 'আলমডাঙ্গা'),
-            'district'            => $r->input('district', $org['default_district'] ?? 'চুয়াডাঙ্গা'),
+            'upazila'             => $upazila,
+            'district'            => $district,
             'data'                => $r->input('data', []),
             'attachments'         => $attachments,
             'status'              => ApplicationStatus::Pending,

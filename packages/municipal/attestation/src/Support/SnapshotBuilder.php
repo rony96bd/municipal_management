@@ -31,8 +31,12 @@ class SnapshotBuilder
             'ward_no'        => $formatNum($app->ward_no),
             'holding_no'     => $formatNum($app->holding_no),
             'mohalla'        => $app->mohalla ?: '-',
-            'upazila'        => $app->upazila ?: ($isEnglish ? 'Alamdanga' : ($org['default_upazila'] ?? 'আলমডাঙ্গা')),
-            'district'       => $app->district ?: ($isEnglish ? 'Chuadanga' : ($org['default_district'] ?? 'চুয়াডাঙ্গা')),
+            'upazila'        => $isEnglish
+                ? (!empty($app->upazila) && $app->upazila !== 'আলমডাঙ্গা' ? $app->upazila : ($org['default_upazila_en'] ?? 'Alamdanga'))
+                : ($app->upazila ?: ($org['default_upazila'] ?? 'আলমডাঙ্গা')),
+            'district'       => $isEnglish
+                ? (!empty($app->district) && $app->district !== 'চুয়াডাঙ্গা' ? $app->district : ($org['default_district_en'] ?? 'Chuadanga'))
+                : ($app->district ?: ($org['default_district'] ?? 'চুয়াডাঙ্গা')),
         ];
 
         $data = is_array($app->data) ? $app->data : [];

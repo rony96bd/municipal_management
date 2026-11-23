@@ -22,9 +22,15 @@ return [
         'email'            => 'alamdangapourashava@gmail.com',
         'post_code'        => '৭২১০',
         'short_name'       => 'আঃপৌঃ', // used in memo number prefix
-        'default_upazila'  => 'আলমডাঙ্গা',
-        'default_district' => 'চুয়াডাঙ্গা',
-        'holder_label'     => 'পৌর', // "পৌর ওয়ার্ড নম্বর" / union: "ইউনিয়ন ওয়ার্ড নম্বর"
+        'name_en'          => 'Alamdanga Pourashava',
+        'sub_title_en'     => 'Alamdanga, Chuadanga',
+        'gov_line_en'      => "Government of the People's Republic of Bangladesh",
+        'address_en'       => 'Post: Alamdanga, Upazila: Alamdanga, District: Chuadanga',
+        'default_upazila'     => 'আলমডাঙ্গা',
+        'default_district'    => 'চুয়াডাঙ্গা',
+        'default_upazila_en'  => 'Alamdanga',
+        'default_district_en' => 'Chuadanga',
+        'holder_label'        => 'পৌর', // "পৌর ওয়ার্ড নম্বর" / union: "ইউনিয়ন ওয়ার্ড নম্বর"
     ],
 
     // ---- Logo resolution --------------------------------------------------

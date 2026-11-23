@@ -5,39 +5,40 @@
     $app = $application ?? null;
     $existingData = old('data', $app?->data ?? []);
     $isDeceased = $type->subject_status === 'deceased';
+    $isEnglish = ($type->language ?? 'bn') === 'en';
 @endphp
 
 <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-bottom:18px;">
     <h3 style="font-size:16px;font-weight:700;color:#0f6b3a;margin:0 0 12px 0;">
-        👤 {{ $isDeceased ? 'মৃত ব্যক্তি ও আবেদনকারীর মৌলিক তথ্য' : 'প্রত্যয়ন-প্রাপকের মৌলিক তথ্য (Person Block)' }}
+        👤 {{ $isDeceased ? ($isEnglish ? 'Deceased & Applicant Basic Information' : 'মৃত ব্যক্তি ও আবেদনকারীর মৌলিক তথ্য') : ($isEnglish ? 'Basic Information of the Person' : 'প্রত্যয়ন-প্রাপকের মৌলিক তথ্য (Person Block)') }}
     </h3>
 
     <div class="att-grid att-grid-3">
         <div class="att-field">
-            <label>{{ $isDeceased ? 'মৃত ব্যক্তির নাম' : 'পূর্ণ নাম' }} <span style="color:#dc2626">*</span></label>
+            <label>{{ $isDeceased ? ($isEnglish ? 'Name of Deceased' : 'মৃত ব্যক্তির নাম') : ($isEnglish ? 'Full Name' : 'পূর্ণ নাম') }} <span style="color:#dc2626">*</span></label>
             <input type="text" name="applicant_name" class="att-input" required
                 value="{{ old('applicant_name', $app?->applicant_name) }}"
-                placeholder="{{ $isDeceased ? 'মৃত ব্যক্তির নাম লিখুন' : 'নাম লিখুন' }}">
+                placeholder="{{ $isDeceased ? ($isEnglish ? 'Enter name of deceased' : 'মৃত ব্যক্তির নাম লিখুন') : ($isEnglish ? 'Enter full name' : 'নাম লিখুন') }}">
         </div>
 
         <div class="att-field">
-            <label>আবেদনকারীর মোবাইল নম্বর {!! !empty($requireMobile) ? '<span style="color:#dc2626">*</span>' : '' !!}</label>
+            <label>{{ $isEnglish ? "Applicant's Mobile Number" : 'আবেদনকারীর মোবাইল নম্বর' }} {!! !empty($requireMobile) ? '<span style="color:#dc2626">*</span>' : '' !!}</label>
             <input type="text" name="mobile" class="att-input" {{ !empty($requireMobile) ? 'required' : '' }}
                 value="{{ old('mobile', $app?->mobile) }}" placeholder="01XXXXXXXXX">
         </div>
 
         @if (in_array('id_no', $activePersonFields))
             <div class="att-field">
-                <label>পরিচয়পত্রের ধরন ও নম্বর</label>
+                <label>{{ $isEnglish ? 'ID Type & Number' : 'পরিচয়পত্রের ধরন ও নম্বর' }}</label>
                 <div style="display:flex;gap:6px;">
                     <select name="id_type" class="att-select" style="width:42%;">
                         @php $curIdType = old('id_type', $app?->id_type ?? ($isDeceased ? 'death_reg' : 'nid')); @endphp
-                        <option value="nid" {{ $curIdType === 'nid' ? 'selected' : '' }}>এনআইডি (NID)</option>
-                        <option value="birth_reg" {{ $curIdType === 'birth_reg' ? 'selected' : '' }}>জন্ম নিবন্ধন</option>
-                        <option value="death_reg" {{ $curIdType === 'death_reg' ? 'selected' : '' }}>মৃত্যু নিবন্ধন</option>
+                        <option value="nid" {{ $curIdType === 'nid' ? 'selected' : '' }}>{{ $isEnglish ? 'National ID (NID)' : 'এনআইডি (NID)' }}</option>
+                        <option value="birth_reg" {{ $curIdType === 'birth_reg' ? 'selected' : '' }}>{{ $isEnglish ? 'Birth Registration' : 'জন্ম নিবন্ধন' }}</option>
+                        <option value="death_reg" {{ $curIdType === 'death_reg' ? 'selected' : '' }}>{{ $isEnglish ? 'Death Registration' : 'মৃত্যু নিবন্ধন' }}</option>
                     </select>
                     <input type="text" name="id_no" class="att-input" style="width:58%;"
-                        value="{{ old('id_no', $app?->id_no) }}" placeholder="নম্বর লিখুন">
+                        value="{{ old('id_no', $app?->id_no) }}" placeholder="{{ $isEnglish ? 'Enter ID number' : 'নম্বর লিখুন' }}">
                 </div>
             </div>
         @endif
@@ -68,35 +69,35 @@
             <div style="grid-column: 1 / -1; background: #ffffff; border: 1.5px solid #86efac; border-radius: 8px; padding: 12px 14px; margin: 4px 0 10px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
                     <label style="font-weight:700; color:#166534; font-size:13.5px; margin:0; display:flex; align-items:center; gap:6px;">
-                        <span>👥</span> অভিভাবক / সম্পর্কের ধরন নির্বাচন করুন:
+                        <span>👥</span> {{ $isEnglish ? 'Select Guardian / Relation Type:' : 'অভিভাবক / সম্পর্কের ধরন নির্বাচন করুন:' }}
                     </label>
                     <div style="display:inline-flex; background:#f1f5f9; padding:3px; border-radius:7px; gap:4px; border:1px solid #cbd5e1;">
                         <label class="guardian-rel-btn {{ $savedRelation === 'father' ? 'active' : '' }}" style="display:inline-flex; align-items:center; gap:5px; cursor:pointer; padding:5px 12px; border-radius:5px; font-size:13px; font-weight:600; user-select:none; transition:all .15s; {{ $savedRelation === 'father' ? 'background:#0f6b3a;color:#ffffff;' : 'background:transparent;color:#334155;' }}">
                             <input type="radio" name="data[guardian_relation]" value="father" {{ $savedRelation === 'father' ? 'checked' : '' }} onchange="toggleGuardianRelation('father')" style="margin:0;">
-                            <span>👨 পিতার নাম</span>
+                            <span>👨 {{ $isEnglish ? "Father's Name" : 'পিতার নাম' }}</span>
                         </label>
                         <label class="guardian-rel-btn {{ $savedRelation === 'husband' ? 'active' : '' }}" style="display:inline-flex; align-items:center; gap:5px; cursor:pointer; padding:5px 12px; border-radius:5px; font-size:13px; font-weight:600; user-select:none; transition:all .15s; {{ $savedRelation === 'husband' ? 'background:#0f6b3a;color:#ffffff;' : 'background:transparent;color:#334155;' }}">
                             <input type="radio" name="data[guardian_relation]" value="husband" {{ $savedRelation === 'husband' ? 'checked' : '' }} onchange="toggleGuardianRelation('husband')" style="margin:0;">
-                            <span>💍 স্বামীর নাম</span>
+                            <span>💍 {{ $isEnglish ? "Husband's Name" : 'স্বামীর নাম' }}</span>
                         </label>
                         <label class="guardian-rel-btn {{ $savedRelation === 'both' ? 'active' : '' }}" style="display:inline-flex; align-items:center; gap:5px; cursor:pointer; padding:5px 12px; border-radius:5px; font-size:13px; font-weight:600; user-select:none; transition:all .15s; {{ $savedRelation === 'both' ? 'background:#0f6b3a;color:#ffffff;' : 'background:transparent;color:#334155;' }}">
                             <input type="radio" name="data[guardian_relation]" value="both" {{ $savedRelation === 'both' ? 'checked' : '' }} onchange="toggleGuardianRelation('both')" style="margin:0;">
-                            <span>👨💍 উভয়ই (পিতা ও স্বামী)</span>
+                            <span>👨💍 {{ $isEnglish ? 'Both (Father & Husband)' : 'উভয়ই (পিতা ও স্বামী)' }}</span>
                         </label>
                     </div>
                 </div>
 
                 <div class="att-grid att-grid-2" style="margin-bottom:0; gap:12px;">
                     <div class="att-field" id="guardian_father_wrap" style="{{ in_array($savedRelation, ['father', 'both']) ? '' : 'display:none;' }}; {{ $savedRelation === 'father' ? 'grid-column: 1 / -1;' : '' }} margin-bottom:0;">
-                        <label style="font-size:13px; font-weight:600; color:#334155;">পিতার নাম</label>
+                        <label style="font-size:13px; font-weight:600; color:#334155;">{{ $isEnglish ? "Father's Name" : 'পিতার নাম' }}</label>
                         <input type="text" name="father_name" id="father_name_input" class="att-input"
-                            value="{{ old('father_name', $app?->father_name) }}" placeholder="পিতার নাম লিখুন">
+                            value="{{ old('father_name', $app?->father_name) }}" placeholder="{{ $isEnglish ? "Enter father's name" : 'পিতার নাম লিখুন' }}">
                     </div>
 
                     <div class="att-field" id="guardian_spouse_wrap" style="{{ in_array($savedRelation, ['husband', 'both']) ? '' : 'display:none;' }}; {{ $savedRelation === 'husband' ? 'grid-column: 1 / -1;' : '' }} margin-bottom:0;">
-                        <label style="font-size:13px; font-weight:600; color:#334155;">স্বামীর নাম</label>
+                        <label style="font-size:13px; font-weight:600; color:#334155;">{{ $isEnglish ? "Husband's Name" : 'স্বামীর নাম' }}</label>
                         <input type="text" name="spouse_name" id="spouse_name_input" class="att-input"
-                            value="{{ old('spouse_name', $app?->spouse_name) }}" placeholder="স্বামীর নাম লিখুন">
+                            value="{{ old('spouse_name', $app?->spouse_name) }}" placeholder="{{ $isEnglish ? "Enter husband's name" : 'স্বামীর নাম লিখুন' }}">
                     </div>
                 </div>
             </div>
@@ -104,19 +105,26 @@
 
         @if (in_array('mother_name', $activePersonFields))
             <div class="att-field">
-                <label>মাতার নাম</label>
+                <label>{{ $isEnglish ? "Mother's Name" : 'মাতার নাম' }}</label>
                 <input type="text" name="mother_name" class="att-input"
-                    value="{{ old('mother_name', $app?->mother_name) }}" placeholder="মাতার নাম">
+                    value="{{ old('mother_name', $app?->mother_name) }}" placeholder="{{ $isEnglish ? "Enter mother's name" : 'মাতার নাম' }}">
             </div>
         @endif
 
         @if (in_array('ward_no', $activePersonFields))
             <div class="att-field">
-                <label>{{ $holderLabel }} ওয়ার্ড নম্বর</label>
+                <label>{{ $isEnglish ? 'Ward Number' : ($holderLabel . ' ওয়ার্ড নম্বর') }}</label>
                 <select name="ward_no" class="att-select">
-                    <option value="">-- ওয়ার্ড নির্বাচন করুন --</option>
-                    @foreach (['০১','০২','০৩','০৪','০৫','০৬','০৭','০৮','০৯'] as $w)
-                        <option value="{{ $w }}" {{ old('ward_no', $app?->ward_no) === $w ? 'selected' : '' }}>ওয়ার্ড নং {{ $w }}</option>
+                    <option value="">{{ $isEnglish ? '-- Select Ward --' : '-- ওয়ার্ড নির্বাচন করুন --' }}</option>
+                    @foreach (['০১','০২','০৩','০৪','০৫','০৬','০৭','০৮','০৯'] as $idx => $w)
+                        @php
+                            $wEn = sprintf('%02d', $idx + 1);
+                            $curWard = old('ward_no', $app?->ward_no);
+                            $isSelected = ($curWard === $w || $curWard === $wEn || $curWard === (string)($idx + 1));
+                        @endphp
+                        <option value="{{ $isEnglish ? $wEn : $w }}" {{ $isSelected ? 'selected' : '' }}>
+                            {{ $isEnglish ? "Ward No. {$wEn}" : "ওয়ার্ড নং {$w}" }}
+                        </option>
                     @endforeach
                 </select>
             </div>
@@ -124,33 +132,33 @@
 
         @if (in_array('holding_no', $activePersonFields))
             <div class="att-field">
-                <label>হোল্ডিং নম্বর</label>
+                <label>{{ $isEnglish ? 'Holding Number' : 'হোল্ডিং নম্বর' }}</label>
                 <input type="text" name="holding_no" class="att-input"
-                    value="{{ old('holding_no', $app?->holding_no) }}" placeholder="যেমন: ০৪৬০-০০">
+                    value="{{ old('holding_no', $app?->holding_no) }}" placeholder="{{ $isEnglish ? 'e.g. 0460-00' : 'যেমন: ০৪৬০-০০' }}">
             </div>
         @endif
 
         @if (in_array('mohalla', $activePersonFields))
             <div class="att-field">
-                <label>মহল্লা / গ্রাম</label>
+                <label>{{ $isEnglish ? 'Village / Road / Mohalla' : 'মহল্লা / গ্রাম' }}</label>
                 <input type="text" name="mohalla" class="att-input"
-                    value="{{ old('mohalla', $app?->mohalla) }}" placeholder="মহল্লা বা গ্রামের নাম">
+                    value="{{ old('mohalla', $app?->mohalla) }}" placeholder="{{ $isEnglish ? 'Village or road or mohalla' : 'মহল্লা বা গ্রামের নাম' }}">
             </div>
         @endif
 
         @if (in_array('upazila', $activePersonFields))
             <div class="att-field">
-                <label>উপজেলা</label>
+                <label>{{ $isEnglish ? 'Upazila' : 'উপজেলা' }}</label>
                 <input type="text" name="upazila" class="att-input"
-                    value="{{ old('upazila', $app?->upazila ?? ($org['default_upazila'] ?? 'আলমডাঙ্গা')) }}">
+                    value="{{ old('upazila', $app?->upazila ?? ($isEnglish ? ($org['default_upazila_en'] ?? 'Alamdanga') : ($org['default_upazila'] ?? 'আলমডাঙ্গা'))) }}">
             </div>
         @endif
 
         @if (in_array('district', $activePersonFields))
             <div class="att-field">
-                <label>জেলা</label>
+                <label>{{ $isEnglish ? 'District' : 'জেলা' }}</label>
                 <input type="text" name="district" class="att-input"
-                    value="{{ old('district', $app?->district ?? ($org['default_district'] ?? 'চুয়াডাঙ্গা')) }}">
+                    value="{{ old('district', $app?->district ?? ($isEnglish ? ($org['default_district_en'] ?? 'Chuadanga') : ($org['default_district'] ?? 'চুয়াডাঙ্গা'))) }}">
             </div>
         @endif
     </div>
@@ -159,7 +167,7 @@
 @if (!empty($type->fields) && count($type->fields) > 0)
     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-bottom:18px;">
         <h3 style="font-size:16px;font-weight:700;color:#0f6b3a;margin:0 0 12px 0;">
-            📝 "{{ $type->name }}"-এর অতিরিক্ত তথ্যসমূহ
+            📝 {{ $isEnglish ? 'Additional Information for "' . $type->name . '"' : '"' . $type->name . '"-এর অতিরিক্ত তথ্যসমূহ' }}
         </h3>
 
         <div class="att-grid att-grid-2">
@@ -186,7 +194,7 @@
                                         @foreach ($cols as $col)
                                             <th>{{ $col['label'] ?? $col['key'] }}</th>
                                         @endforeach
-                                        <th style="width:70px;text-align:center;">অ্যাকশন</th>
+                                        <th style="width:70px;text-align:center;">{{ $isEnglish ? 'Action' : 'অ্যাকশন' }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -212,7 +220,7 @@
                         <div style="margin-top:8px;">
                             <button type="button" class="att-btn att-btn-outline att-btn-sm"
                                 onclick='addRepeaterRow("{{ $fKey }}", @json($cols))'>
-                                ➕ নতুন সারি যোগ করুন
+                                ➕ {{ $isEnglish ? 'Add New Row' : 'নতুন সারি যোগ করুন' }}
                             </button>
                         </div>
                     </div>
@@ -225,7 +233,7 @@
                     <div class="att-field">
                         <label>{{ $fLabel }} {!! $fReq ? '<span style="color:#dc2626">*</span>' : '' !!}</label>
                         <select name="data[{{ $fKey }}]" class="att-select" {{ $fReq ? 'required' : '' }}>
-                            <option value="">-- নির্বাচন করুন --</option>
+                            <option value="">{{ $isEnglish ? '-- Select --' : '-- নির্বাচন করুন --' }}</option>
                             @foreach ($f['options'] ?? [] as $opt)
                                 <option value="{{ $opt }}" {{ (string) $fVal === (string) $opt ? 'selected' : '' }}>{{ $opt }}</option>
                             @endforeach
@@ -239,14 +247,14 @@
                     </div>
                 @elseif ($fType === 'amount_with_words')
                     <div class="att-field">
-                        <label>{{ $fLabel }} (সংখ্যায়) {!! $fReq ? '<span style="color:#dc2626">*</span>' : '' !!}</label>
+                        <label>{{ $fLabel }} ({{ $isEnglish ? 'In Numbers' : 'সংখ্যায়' }}) {!! $fReq ? '<span style="color:#dc2626">*</span>' : '' !!}</label>
                         <input type="text" name="data[{{ $fKey }}]" class="att-input"
-                            value="{{ is_scalar($fVal) ? $fVal : '' }}" placeholder="যেমন: 60000" {{ $fReq ? 'required' : '' }}>
+                            value="{{ is_scalar($fVal) ? $fVal : '' }}" placeholder="{{ $isEnglish ? 'e.g. 60000' : 'যেমন: 60000' }}" {{ $fReq ? 'required' : '' }}>
                     </div>
                     <div class="att-field">
-                        <label>{{ $fLabel }} (কথায় — ফাঁকা রাখলে স্বয়ংক্রিয়ভাবে বসবে)</label>
+                        <label>{{ $fLabel }} ({{ $isEnglish ? 'In Words — leave empty to auto-generate' : 'কথায় — ফাঁকা রাখলে স্বয়ংক্রিয়ভাবে বসবে' }})</label>
                         <input type="text" name="data[{{ $fKey }}_words]" class="att-input"
-                            value="{{ $existingData[$fKey . '_words'] ?? '' }}" placeholder="যেমন: ষাট হাজার">
+                            value="{{ $existingData[$fKey . '_words'] ?? '' }}" placeholder="{{ $isEnglish ? 'e.g. Sixty Thousand' : 'যেমন: ষাট হাজার' }}">
                     </div>
                 @else
                     <div class="att-field">
@@ -262,7 +270,6 @@
 
 @if (empty($requireMobile))
     @php
-        $isEnglish = ($type->language ?? 'bn') === 'en';
         $defaultLead = $isEnglish
             ? 'This is to certify that,'
             : ($isDeceased ? 'এই মর্মে প্রত্যয়ন পত্র প্রদান করা যাচ্ছে যে,' : 'এতদ্বারা প্রত্যয়ন করা যাচ্ছে যে,');
@@ -274,18 +281,18 @@
 
     <details style="background:#f4fbf7;border:1px solid #cce3d6;border-radius:8px;padding:12px 14px;margin-bottom:18px;">
         <summary style="cursor:pointer;font-weight:700;color:#0f6b3a;font-size:14.5px;user-select:none;">
-            📝 শিরোনাম, স্থির লেখা ও স্বাক্ষর এডিট করুন (প্রয়োজনে পরিবর্তন করুন)
+            📝 {{ $isEnglish ? 'Edit Title, Fixed Text & Signatures (Override if needed)' : 'শিরোনাম, স্থির লেখা ও স্বাক্ষর এডিট করুন (প্রয়োজনে পরিবর্তন করুন)' }}
         </summary>
         <div style="margin-top:12px;">
             <div class="att-grid att-grid-2">
                 <div class="att-field">
-                    <label>প্রিন্টের শিরোনাম (Title Override)</label>
+                    <label>{{ $isEnglish ? 'Title Override' : 'প্রিন্টের শিরোনাম (Title Override)' }}</label>
                     <input type="text" name="data[_override_title]" class="att-input"
                         value="{{ $existingData['_override_title'] ?? '' }}"
                         placeholder="{{ $type->name }}">
                 </div>
                 <div class="att-field">
-                    <label>শুরুর বাক্য (Lead Line Override)</label>
+                    <label>{{ $isEnglish ? 'Lead Line Override' : 'শুরুর বাক্য (Lead Line Override)' }}</label>
                     <input type="text" name="data[_override_lead]" class="att-input"
                         value="{{ $existingData['_override_lead'] ?? '' }}"
                         placeholder="{{ $defaultLead }}">
@@ -293,20 +300,22 @@
             </div>
 
             <div class="att-field">
-                <label>মূল বক্তব্যের টেমপ্লেট (Body Override — ফাঁকা রাখলে ডিফল্ট বসবে)</label>
+                <label>{{ $isEnglish ? 'Body Override (leave empty for default)' : 'মূল বক্তব্যের টেমপ্লেট (Body Override — ফাঁকা রাখলে ডিফল্ট বসবে)' }}</label>
                 <textarea name="data[_override_body]" rows="2" class="att-textarea exclude-tyne"
                     placeholder="{{ $type->body_template }}">{{ $existingData['_override_body'] ?? '' }}</textarea>
             </div>
 
             <div class="att-field">
-                <label>সমাপনী দোয়া / মঙ্গল কামনা লাইন (Closing Line Override)</label>
+                <label>{{ $isEnglish ? 'Closing Line Override' : 'সমাপনী দোয়া / মঙ্গল কামনা লাইন (Closing Line Override)' }}</label>
                 <input type="text" name="data[_override_closing]" class="att-input"
                     value="{{ $existingData['_override_closing'] ?? '' }}"
                     placeholder="{{ $type->closing_line }}">
             </div>
 
             <div style="border-top:1px dashed #b9decb;padding-top:10px;margin-top:6px;">
-                <strong style="font-size:13.5px;color:#0f5a3e;display:block;margin-bottom:8px;">✍️ স্বাক্ষরকারীগণের নাম ও পদবী (এই সনদের জন্য ওভাররাইড):</strong>
+                <strong style="font-size:13.5px;color:#0f5a3e;display:block;margin-bottom:8px;">
+                    ✍️ {{ $isEnglish ? 'Signatories Name & Designation (Override for this certificate):' : 'স্বাক্ষরকারীগণের নাম ও পদবী (এই সনদের জন্য ওভাররাইড):' }}
+                </strong>
                 <div class="att-grid att-grid-3">
                     @foreach ($sigSlots as $sIdx => $slot)
                         @php
@@ -317,21 +326,21 @@
                         @endphp
                         <div style="background:#fff;border:1px solid #d1e7dd;border-radius:7px;padding:10px;">
                             <div style="font-size:12.5px;font-weight:700;color:#0f6b3a;margin-bottom:6px;">
-                                স্লট #{{ $sIdx + 1 }} {{ !empty($slot['label']) ? "({$slot['label']})" : '' }}
+                                {{ $isEnglish ? 'Slot #' . ($sIdx + 1) : 'স্লট #' . ($sIdx + 1) }} {{ !empty($slot['label']) ? "({$slot['label']})" : '' }}
                             </div>
                             <div class="att-field" style="margin-bottom:6px;">
-                                <label style="font-size:12px;">কর্মকর্তার নাম</label>
+                                <label style="font-size:12px;">{{ $isEnglish ? "Officer's Name" : 'কর্মকর্তার নাম' }}</label>
                                 <input type="text" name="data[_override_signatories][{{ $sIdx }}][name]" class="att-input"
                                     style="padding:6px 9px;font-size:13px;"
                                     value="{{ $ovSig['name'] ?? '' }}"
-                                    placeholder="{{ $defName ?: 'নাম লিখুন' }}">
+                                    placeholder="{{ $defName ?: ($isEnglish ? 'Enter name' : 'নাম লিখুন') }}">
                             </div>
                             <div class="att-field" style="margin-bottom:0;">
-                                <label style="font-size:12px;">পদবী</label>
+                                <label style="font-size:12px;">{{ $isEnglish ? 'Designation' : 'পদবী' }}</label>
                                 <input type="text" name="data[_override_signatories][{{ $sIdx }}][designation]" class="att-input"
                                     style="padding:6px 9px;font-size:13px;"
                                     value="{{ $ovSig['designation'] ?? '' }}"
-                                    placeholder="{{ $defDesig ?: 'পদবী লিখুন' }}">
+                                    placeholder="{{ $defDesig ?: ($isEnglish ? 'Enter designation' : 'পদবী লিখুন') }}">
                             </div>
                         </div>
                     @endforeach
