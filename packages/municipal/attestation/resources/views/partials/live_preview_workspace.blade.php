@@ -324,10 +324,11 @@
     .att-a4-qrbox {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        text-align: center;
         gap: 3px;
         flex: 0 0 auto;
-        width: 30mm;
+        width: 26mm;
     }
     .att-a4-qr {
         width: 21mm;
@@ -730,9 +731,9 @@
                 <div class="att-a4-footer">
                     <div class="att-a4-qrbox">
                         <div class="att-a4-qr">QR<br>Code</div>
-                        <div style="font-size:8.5px;color:#000000;max-width:30mm;line-height:1.35;">
-                            <b style="color:#000000;display:block;font-size:9.5px;">${isEn ? 'Verify' : 'যাচাই করুন'}</b>
-                            <div style="font-family:monospace;font-size:8.5px;white-space:nowrap;color:#000000;font-weight:700;letter-spacing:.8px;">AP-XXXX-XXXX</div>
+                        <div style="font-size:8.5px;color:#000000;width:100%;text-align:center;line-height:1.35;">
+                            <b style="color:#000000;display:block;font-size:9.5px;text-align:center;">${isEn ? 'Verify' : 'যাচাই করুন'}</b>
+                            <div style="font-family:monospace;font-size:8.5px;white-space:nowrap;color:#000000;font-weight:700;letter-spacing:.8px;text-align:center;">AP-XXXX-XXXX</div>
                         </div>
                     </div>
                     <div class="att-a4-signs">${sigsHtml}</div>

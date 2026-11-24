@@ -384,12 +384,12 @@
     gap: 6mm;
     z-index: 10;
   }
-  .verify { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; flex: 0 0 auto; width: 30mm; }
+  .verify { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 3px; flex: 0 0 auto; width: 26mm; }
   .qr { flex: 0 0 auto; padding: 4px; border: 1px solid var(--line); border-radius: 10px; background: #fff; line-height: 0; }
   .qr svg, .qr img { width: 22mm; height: 22mm; display: block; }
-  .verify .txt { font-size: 8.5px; color: #000000; line-height: 1.35; max-width: 30mm; }
-  .verify .txt b { display: block; color: #000000; font-size: 9.5px; }
-  .verify .code { font-family: monospace; font-size: 8.5px; white-space: nowrap; color: #000000; font-weight: 700; letter-spacing: .8px; }
+  .verify .txt { font-size: 8.5px; color: #000000; line-height: 1.35; width: 100%; text-align: center; }
+  .verify .txt b { display: block; color: #000000; font-size: 9.5px; text-align: center; }
+  .verify .code { font-family: monospace; font-size: 8.5px; white-space: nowrap; color: #000000; font-weight: 700; letter-spacing: .8px; text-align: center; }
 
   .signs { display: flex; align-items: flex-end; justify-content: flex-end; gap: 4mm; flex: 1 1 auto; min-width: 0; }
   .sign { text-align: center; flex: 1 1 0; min-width: 0; max-width: 62mm; font-size: 11.5px; }
