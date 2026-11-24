@@ -508,6 +508,27 @@ class AttestationTypeSeeder extends Seeder
                 'fee'            => 0,
             ],
 
+            // 17-B. মৃত্যু প্রত্যয়ন পত্র (পৌরসভা প্রতিষ্ঠিত হওয়ার পূর্বে)
+            [
+                'order'          => 17,
+                'name'           => 'মৃত্যু প্রত্যয়ন পত্র (পৌরসভা প্রতিষ্ঠিত হওয়ার পূর্বে)',
+                'slug'           => 'mrityu-pratyayan-pourasava-purbe',
+                'memo_name'      => 'মৃত্যু প্রত্যয়ন',
+                'description'    => 'পৌরসভা প্রতিষ্ঠার পূর্বে মৃত্যুবরণকারী ব্যক্তির জন্য (মৃত্যু রেজিস্টারে তথ্য নেই)',
+                'subject_status' => 'deceased',
+                'person_fields'  => $deceasedPerson,
+                'fields'         => [
+                    ['key' => 'death_cause', 'label' => 'মৃত্যুর কারণ', 'type' => 'text', 'required' => true, 'default' => 'বার্ধক্য জনিত'],
+                    ['key' => 'investigator_designation', 'label' => 'তদন্তকারীর পদবী', 'type' => 'text', 'required' => true, 'default' => 'টিকাদানকারী'],
+                    ['key' => 'investigator_name', 'label' => 'তদন্তকারীর নাম', 'type' => 'text', 'required' => true, 'default' => 'মোঃ মানোয়ার হোসেন'],
+                ],
+                'body_template'  => 'উল্লেখিত মৃত ব্যক্তি পৌরসভা প্রতিষ্ঠিত হওয়ার পূর্বে **{{death_cause}}** কারণে মৃত্যু বরণ করেছেন। যার কারণে পৌরসভার মৃত্যু রেজিস্টারে মৃত্যু তথ্য লিপিবদ্ধ হয় নাই। অত্রাফিসের {{investigator_designation}} **{{investigator_name}}** এর সরেজমিনে তদন্ত পূর্বক অত্র মৃত্যু প্রত্যয়ন পত্র প্রদান করা হলো।',
+                'closing_line'   => $wishDeceased,
+                'signatories'    => $presetE,
+                'print_options'  => ['with_header' => false, 'watermark' => true, 'icon' => '🕯️', 'language' => 'bn', 'certificate_title' => 'মৃত্যু প্রত্যয়ন পত্র'],
+                'fee'            => 0,
+            ],
+
             // 18. রোহিঙ্গা নয় প্রত্যয়ন পত্র
             [
                 'order'          => 18,

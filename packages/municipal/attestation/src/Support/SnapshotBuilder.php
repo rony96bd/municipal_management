@@ -261,7 +261,7 @@ class SnapshotBuilder
 
         return [
             'type_id'             => $type->id,
-            'type_name'           => !empty($data['_override_title']) ? $data['_override_title'] : $type->name,
+            'type_name'           => !empty($data['_override_title']) ? $data['_override_title'] : ($type->print_options['certificate_title'] ?? $type->name),
             'type_slug'           => $type->slug,
             'memo_name'           => $type->memo_name,
             'language'            => $isEnglish ? 'en' : 'bn',

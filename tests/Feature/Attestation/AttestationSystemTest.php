@@ -170,6 +170,26 @@ class AttestationSystemTest extends TestCase
         $this->assertSame('A:P:/Character Certificate/2030/01', $mEn['memo_no']);
     }
 
+    public function test_pre_pourasava_death_certificate_type_exists_and_shares_memo_sequence(): void
+    {
+        $old = AttestationType::where('slug', 'mrityu-pratyayan')->firstOrFail();
+        $new = AttestationType::where('slug', 'mrityu-pratyayan-pourasava-purbe')->firstOrFail();
+
+        $this->assertSame('মৃত্যু প্রত্যয়ন', $new->memo_name);
+        $this->assertStringContainsString('পৌরসভা প্রতিষ্ঠিত হওয়ার পূর্বে', $new->body_template);
+
+        $m1 = MemoGenerator::next($old->id, $old->memo_name, 2035);
+        $m2 = MemoGenerator::next($new->id, $new->memo_name, 2035);
+        $this->assertSame($m1['serial'] + 1, $m2['serial']);
+        $this->assertNotSame($m1['memo_no'], $m2['memo_no']);
+
+        $admin = User::factory()->create();
+        $form = $this->actingAs($admin)->get(route('attestation.certificates.create', ['type_id' => $new->id]));
+        $form->assertStatus(200);
+        $form->assertSee('বার্ধক্য জনিত');
+        $form->assertSee('মোঃ মানোয়ার হোসেন');
+    }
+
     public function test_cancelled_certificate_can_be_deleted_from_admin(): void
     {
         $admin = User::factory()->create();

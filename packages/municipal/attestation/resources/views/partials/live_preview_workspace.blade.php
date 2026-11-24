@@ -44,7 +44,7 @@
     }
 
     $previewConfig = [
-        'type_name'           => $type->name,
+        'type_name'           => $type->print_options['certificate_title'] ?? $type->name,
         'memo_name'           => $type->memo_name,
         'language'            => $isEnglish ? 'en' : 'bn',
         'is_deceased'         => $isDeceased,

@@ -16,6 +16,13 @@ class MemoGenerator
         $year = $year ?? (int) now()->format('Y');
         $result = ['memo_no' => '', 'year' => $year, 'serial' => 1];
 
+        // Types sharing the same memo name share one serial sequence
+        // (memo_no is unique, so they must never produce the same number).
+        $sharedTypeId = DB::table('attestation_types')->where('memo_name', $memoName)->min('id');
+        if ($sharedTypeId) {
+            $typeId = (int) $sharedTypeId;
+        }
+
         DB::transaction(function () use ($typeId, $year, $memoName, &$result) {
             $sequence = DB::table('attestation_sequences')
                 ->where('attestation_type_id', $typeId)

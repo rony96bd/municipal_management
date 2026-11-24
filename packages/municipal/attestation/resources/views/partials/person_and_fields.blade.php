@@ -177,7 +177,7 @@
                     $fLabel = $f['label'] ?? $fKey;
                     $fType  = $f['type'] ?? 'text';
                     $fReq   = !empty($f['required']);
-                    $fVal   = $existingData[$fKey] ?? '';
+                    $fVal   = $existingData[$fKey] ?? ($f['default'] ?? '');
                 @endphp
 
                 @if ($fType === 'repeater')

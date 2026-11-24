@@ -163,6 +163,9 @@ class TypeController extends Controller
                     if (!empty($f['columns']) && is_array($f['columns'])) {
                         $item['columns'] = array_values($f['columns']);
                     }
+                    if (isset($f['default']) && $f['default'] !== '') {
+                        $item['default'] = $f['default'];
+                    }
                     $fields[] = $item;
                 }
             }
