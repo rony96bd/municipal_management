@@ -112,8 +112,7 @@
     <div class="verify">
       <div class="qr" id="qr"></div>
       <div class="txt">
-        <b>অনলাইনে যাচাই করুন</b>
-        QR কোড স্ক্যান করে প্রত্যয়নের সত্যতা যাচাই করা যাবে।
+        <b>যাচাই করুন</b>
         <div class="code" id="code"></div>
       </div>
     </div>
@@ -136,7 +135,7 @@
   const url  = 'https://alamdangapouroshava.org/attestation/verify/' + code;
   const qr = qrcode(0, 'M'); qr.addData(url); qr.make();
   document.getElementById('qr').innerHTML = qr.createSvgTag({cellSize: 4, margin: 0, scalable: true});
-  document.getElementById('code').textContent = 'কোড: ' + code;
+  document.getElementById('code').textContent = code;
 </script>
 </body>
 </html>

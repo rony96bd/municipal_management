@@ -654,8 +654,8 @@
       <div class="verify">
         <div class="qr" id="qr"></div>
         <div class="txt">
-          <b>{{ $isEnglish ? 'Verify Online' : 'অনলাইনে যাচাই করুন' }}</b>
-          <div class="code">{{ $isEnglish ? 'Code:' : 'কোড:' }} {{ $certificate->verification_code }}</div>
+          <b>{{ $isEnglish ? 'Verify' : 'যাচাই করুন' }}</b>
+          <div class="code">{{ $certificate->verification_code }}</div>
         </div>
       </div>
 

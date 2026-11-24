@@ -323,8 +323,11 @@
     }
     .att-a4-qrbox {
         display: flex;
-        align-items: center;
-        gap: 8px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 3px;
+        flex: 0 0 auto;
+        width: 30mm;
     }
     .att-a4-qr {
         width: 21mm;
@@ -727,9 +730,9 @@
                 <div class="att-a4-footer">
                     <div class="att-a4-qrbox">
                         <div class="att-a4-qr">QR<br>Code</div>
-                        <div style="font-size:9.5px;color:#000000;max-width:42mm;line-height:1.45;">
-                            <b style="color:#000000;display:block;">${isEn ? 'Verify Online' : 'অনলাইনে যাচাই করুন'}</b>
-                            ${isEn ? 'QR code will be generated upon issue.' : 'ইস্যুর পর স্বয়ংক্রিয় QR কোড যুক্ত হবে।'}
+                        <div style="font-size:8.5px;color:#000000;max-width:30mm;line-height:1.35;">
+                            <b style="color:#000000;display:block;font-size:9.5px;">${isEn ? 'Verify' : 'যাচাই করুন'}</b>
+                            <div style="font-family:monospace;font-size:8.5px;white-space:nowrap;color:#000000;font-weight:700;letter-spacing:.8px;">AP-XXXX-XXXX</div>
                         </div>
                     </div>
                     <div class="att-a4-signs">${sigsHtml}</div>
