@@ -55,6 +55,13 @@
                                 <td style="text-align:right;white-space:nowrap;">
                                     <a href="{{ route('attestation.certificates.print', $cert) }}" target="_blank" class="att-btn att-btn-primary att-btn-sm">🖨 প্রিন্ট</a>
                                     <a href="{{ route('attestation.certificates.show', $cert) }}" class="att-btn att-btn-outline att-btn-sm">বিস্তারিত</a>
+                                    @if ($cert->is_cancelled)
+                                        <form action="{{ route('attestation.certificates.destroy', $cert) }}" method="POST" style="display:inline-block;margin:0 0 0 4px;vertical-align:middle;" onsubmit="return confirm('আপনি কি নিশ্চিতভাবে এই বাতিল প্রত্যয়নটি স্থায়ীভাবে ডিলিট করতে চান?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="att-btn att-btn-danger att-btn-sm">🗑 ডিলিট</button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @empty

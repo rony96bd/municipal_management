@@ -169,4 +169,59 @@ class AttestationSystemTest extends TestCase
         $mEn = MemoGenerator::next($enType->id, $enType->memo_name, 2030);
         $this->assertSame('A:P:/Character Certificate/2030/01', $mEn['memo_no']);
     }
+
+    public function test_cancelled_certificate_can_be_deleted_from_admin(): void
+    {
+        $admin = User::factory()->create();
+        $type = AttestationType::firstOrFail();
+
+        $cert = Attestation::create([
+            'attestation_type_id' => $type->id,
+            'memo_no'             => 'আঃপৌঃ/চারিত্রিক সনদ/২০২৬/৯৯',
+            'year'                => 2026,
+            'serial'              => 99,
+            'issue_date'          => today(),
+            'verification_code'   => Attestation::generateVerificationCode(),
+            'snapshot'            => ['fields' => []],
+            'subject_name'        => 'পরীক্ষামূলক নাগরিক',
+            'id_no'               => '1234567890',
+            'fee'                 => 100,
+            'payment_status'      => 'paid',
+            'paid_amount'         => 100,
+            'issued_by'           => $admin->id,
+            'is_cancelled'        => false,
+        ]);
+
+        // 1. Initially active certificate should NOT have delete button on index
+        $indexResponse = $this->actingAs($admin)->get(route('attestation.certificates.index'));
+        $indexResponse->assertStatus(200);
+        $indexResponse->assertSee($cert->memo_no);
+        $indexResponse->assertDontSee('🗑 ডিলিট');
+
+        // Trying to delete active certificate should be blocked
+        $failDelete = $this->actingAs($admin)->delete(route('attestation.certificates.destroy', $cert));
+        $failDelete->assertRedirect(route('attestation.certificates.index'));
+        $this->assertDatabaseHas('attestations', ['id' => $cert->id, 'deleted_at' => null]);
+
+        // 2. Cancel certificate
+        $cancelResponse = $this->actingAs($admin)->post(route('attestation.certificates.cancel', $cert), [
+            'cancel_reason' => 'ভুল তথ্যের কারণে বাতিল',
+        ]);
+        $cancelResponse->assertRedirect(route('attestation.certificates.index'));
+        $cert->refresh();
+        $this->assertTrue($cert->is_cancelled);
+
+        // 3. Cancelled certificate should now show delete button on index
+        $indexResponseAfterCancel = $this->actingAs($admin)->get(route('attestation.certificates.index'));
+        $indexResponseAfterCancel->assertStatus(200);
+        $indexResponseAfterCancel->assertSee('বাতিল');
+        $indexResponseAfterCancel->assertSee('🗑 ডিলিট');
+
+        // 4. Delete cancelled certificate
+        $deleteResponse = $this->actingAs($admin)->delete(route('attestation.certificates.destroy', $cert));
+        $deleteResponse->assertRedirect(route('attestation.certificates.index'));
+
+        // Certificate should now be soft deleted
+        $this->assertSoftDeleted('attestations', ['id' => $cert->id]);
+    }
 }

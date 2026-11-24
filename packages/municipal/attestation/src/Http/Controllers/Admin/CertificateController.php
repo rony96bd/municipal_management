@@ -248,7 +248,7 @@ class CertificateController extends Controller
         return back()->with('success', 'প্রত্যয়নটি হস্তান্তরিত হিসেবে নথিভুক্ত হয়েছে।');
     }
 
-    public function destroy(Request $r, Attestation $certificate)
+    public function cancel(Request $r, Attestation $certificate)
     {
         $certificate->update([
             'is_cancelled'  => true,
@@ -261,6 +261,26 @@ class CertificateController extends Controller
 
         return redirect()->route('attestation.certificates.index')
             ->with('success', "প্রত্যয়ন ({$certificate->memo_no}) বাতিল করা হয়েছে।");
+    }
+
+    public function destroy(Request $r, Attestation $certificate)
+    {
+        if (!$certificate->is_cancelled) {
+            return redirect()->route('attestation.certificates.index')
+                ->with('error', 'শুধুমাত্র বাতিলকৃত প্রত্যয়ন ডিলিট করা যাবে। আগে প্রত্যয়নটি বাতিল করুন।');
+        }
+
+        $memoNo = $certificate->memo_no;
+
+        AttestationLog::record($certificate, 'deleted', [
+            'memo_no' => $memoNo,
+            'reason'  => $certificate->cancel_reason ?? 'অ্যাডমিন কর্তৃক ডিলিট করা হয়েছে',
+        ]);
+
+        $certificate->delete();
+
+        return redirect()->route('attestation.certificates.index')
+            ->with('success', "বাতিলকৃত প্রত্যয়ন ({$memoNo}) সফলভাবে ডিলিট করা হয়েছে।");
     }
 }
 

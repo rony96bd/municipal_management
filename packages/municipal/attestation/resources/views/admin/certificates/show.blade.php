@@ -62,14 +62,18 @@
                     @endif
 
                     @if (!$certificate->is_cancelled)
-                        <form action="{{ route('attestation.certificates.destroy', $certificate) }}" method="POST" style="margin-top:18px;" onsubmit="return confirm('আপনি কি নিশ্চিতভাবে এই সনদটি বাতিল করতে চান?');">
+                        <form action="{{ route('attestation.certificates.cancel', $certificate) }}" method="POST" style="margin-top:18px;" onsubmit="return confirm('আপনি কি নিশ্চিতভাবে এই সনদটি বাতিল করতে চান?');">
                             @csrf
-                            @method('DELETE')
                             <input type="text" name="cancel_reason" class="att-input" placeholder="বাতিলের কারণ (ঐচ্ছিক)" style="margin-bottom:8px;">
                             <button type="submit" class="att-btn att-btn-danger att-btn-sm">সনদ বাতিল (Revoke) করুন</button>
                         </form>
                     @else
                         <div class="att-alert att-alert-danger" style="margin-top:12px;">এই সনদটি বাতিল করা হয়েছে। কারণ: {{ $certificate->cancel_reason }}</div>
+                        <form action="{{ route('attestation.certificates.destroy', $certificate) }}" method="POST" style="margin-top:12px;" onsubmit="return confirm('আপনি কি নিশ্চিতভাবে এই বাতিল প্রত্যয়নটি স্থায়ীভাবে ডিলিট করতে চান?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="att-btn att-btn-danger att-btn-sm">🗑 বাতিল সনদ ডিলিট করুন</button>
+                        </form>
                     @endif
                 </div>
             </div>

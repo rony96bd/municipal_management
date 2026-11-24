@@ -35,6 +35,8 @@ Route::get('certificates/{certificate}/print', [CertificateController::class, 'p
     ->name('certificates.print');
 Route::post('certificates/{certificate}/handover', [CertificateController::class, 'handover'])
     ->name('certificates.handover');
+Route::post('certificates/{certificate}/cancel', [CertificateController::class, 'cancel'])
+    ->name('certificates.cancel');
 
 // Reports & CSV Export
 Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
