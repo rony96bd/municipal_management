@@ -62,6 +62,21 @@ class AttestationType extends Model
         return $this->hasMany(Attestation::class, 'attestation_type_id');
     }
 
+    public function getSignatoriesAttribute($value)
+    {
+        $decoded = is_string($value) ? json_decode($value, true) : $value;
+        if (($this->slug ?? '') === 'paribarik-sonod' || ($this->name ?? '') === 'পারিবারিক সনদ পত্র') {
+            if (empty($decoded) || count($decoded) < 3) {
+                return [
+                    ['preset_key' => 'D1', 'label' => 'প্রস্তুতকারী'],
+                    ['preset_key' => 'C1', 'label' => 'যাচাইকারী'],
+                    ['preset_key' => 'D3', 'label' => 'অনুমোদনকারী কর্মকর্তা'],
+                ];
+            }
+        }
+        return $decoded ?: [];
+    }
+
     public function getIconAttribute(): string
     {
         return $this->print_options['icon'] ?? '📜';

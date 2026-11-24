@@ -359,7 +359,7 @@ class AttestationTypeSeeder extends Seeder
                 ],
                 'body_template'  => 'নিম্নবর্ণিত ব্যক্তিগণ **{{applicant_name}}** এর পরিবারের সদস্য হিসেবে প্রতীয়মান হওয়ায় নিম্নে তাদের নাম ও বিবরণ প্রদত্ত হলোঃ',
                 'closing_line'   => $wishPlural,
-                'signatories'    => $presetC,
+                'signatories'    => $presetD,
                 'print_options'  => ['with_header' => true, 'watermark' => true, 'icon' => '👨‍👩‍👧', 'language' => 'bn'],
                 'fee'            => 0,
             ],
