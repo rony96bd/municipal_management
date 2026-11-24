@@ -72,7 +72,7 @@
                         <form action="{{ route('attestation.certificates.destroy', $certificate) }}" method="POST" style="margin-top:12px;" onsubmit="return confirm('আপনি কি নিশ্চিতভাবে এই বাতিল প্রত্যয়নটি স্থায়ীভাবে ডিলিট করতে চান?');">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="att-btn att-btn-danger att-btn-sm">🗑 বাতিল সনদ ডিলিট করুন</button>
+                            <button type="submit" class="att-btn att-btn-danger att-btn-sm" style="background:#dc2626 !important;background-color:#dc2626 !important;color:#ffffff !important;border:1px solid #dc2626 !important;font-family:inherit;font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:5px;line-height:1.4;cursor:pointer;vertical-align:middle;display:inline-flex;align-items:center;gap:4px;">🗑 বাতিল সনদ ডিলিট করুন</button>
                         </form>
                     @endif
                 </div>

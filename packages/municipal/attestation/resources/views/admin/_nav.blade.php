@@ -12,14 +12,39 @@
     .att-card { background: #ffffff; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); padding: 20px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
     .att-card-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-bottom: 14px; margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; }
     .att-title { font-size: 20px; font-weight: 700; color: #0f172a; margin: 0; }
-    .att-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 7px; font-size: 14px; font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: opacity .15s; }
+    .att-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border-radius: 7px;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.4;
+        text-decoration: none;
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition: opacity .15s, background .15s;
+        vertical-align: middle;
+        box-sizing: border-box;
+    }
+    button.att-btn {
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.4;
+    }
     .att-btn:hover { opacity: .92; }
-    .att-btn-primary { background: #0f6b3a; color: #fff; }
-    .att-btn-secondary { background: #475569; color: #fff; }
-    .att-btn-outline { background: #f8fafc; color: #334155; border: 1px solid #cbd5e1; }
-    .att-btn-danger { background: #dc2626; color: #fff; }
-    .att-btn-warning { background: #d97706; color: #fff; }
-    .att-btn-sm { padding: 5px 10px; font-size: 12.5px; border-radius: 5px; }
+    .att-btn-primary { background: #0f6b3a !important; color: #ffffff !important; border-color: #0f6b3a !important; }
+    .att-btn-secondary { background: #475569 !important; color: #ffffff !important; border-color: #475569 !important; }
+    .att-btn-outline { background: #f8fafc !important; color: #334155 !important; border-color: #cbd5e1 !important; }
+    .att-btn-danger { background: #dc2626 !important; background-color: #dc2626 !important; color: #ffffff !important; border-color: #dc2626 !important; }
+    .att-btn-danger:hover { background: #b91c1c !important; background-color: #b91c1c !important; color: #ffffff !important; }
+    .att-btn-warning { background: #d97706 !important; color: #ffffff !important; border-color: #d97706 !important; }
+    .att-btn-sm { padding: 5px 10px !important; font-size: 12.5px !important; border-radius: 5px !important; line-height: 1.4 !important; }
+    button.att-btn-sm { font-size: 12.5px !important; line-height: 1.4 !important; }
     .att-table { width: 100%; border-collapse: collapse; font-size: 14px; }
     .att-table th { background: #f8fafc; color: #334155; font-weight: 700; text-align: left; padding: 11px 12px; border-bottom: 2px solid #e2e8f0; }
     .att-table td { padding: 11px 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
