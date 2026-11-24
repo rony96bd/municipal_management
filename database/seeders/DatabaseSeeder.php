@@ -15,9 +15,20 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        User::firstOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name' => 'Test User',
+                'password' => bcrypt('password'),
+            ]
+        );
+
+        if (class_exists(\Municipal\Attestation\Database\Seeders\AttestationSignatorySeeder::class)) {
+            $this->call(\Municipal\Attestation\Database\Seeders\AttestationSignatorySeeder::class);
+        }
+
+        if (class_exists(\Municipal\Attestation\Database\Seeders\AttestationTypeSeeder::class)) {
+            $this->call(\Municipal\Attestation\Database\Seeders\AttestationTypeSeeder::class);
+        }
     }
 }
