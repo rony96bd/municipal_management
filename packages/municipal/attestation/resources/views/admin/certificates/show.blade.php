@@ -25,7 +25,7 @@
                     <table class="att-table">
                         @foreach ($certificate->snapshot['person_rows'] ?? [] as $row)
                             <tr>
-                                <td style="width:40%;color:#64748b;">{{ $row['label'] }}</td>
+                                <td style="width:40%;color:#000000;font-weight:600;">{{ $row['label'] }}</td>
                                 <td><strong>{{ $row['value'] }}</strong></td>
                             </tr>
                         @endforeach

@@ -40,8 +40,8 @@
   :root {
     --brand: #0f6b3a;
     --brand-2: #14a05a;
-    --ink: #1b2430;
-    --muted: #5d6b7a;
+    --ink: #000000;
+    --muted: #000000;
     --line: #d9e2dc;
     --paper: #fff;
     --pad-top: {{ $padTop }}in;
@@ -272,7 +272,7 @@
     margin-top: calc(var(--section-spacing) * 0.9);
     font-size: calc(var(--content-font-size) - 0.5px);
   }
-  .meta b { color: var(--brand); font-weight: 600; }
+  .meta b { color: #000000; font-weight: 700; }
 
   .title {
     position: relative;
@@ -309,9 +309,9 @@
     border-bottom: 1px dashed var(--line);
     vertical-align: top;
   }
-  .details td:first-child { width: 36%; color: var(--muted); }
-  .details td:nth-child(2) { width: 14px; color: var(--muted); }
-  .details td:last-child { font-weight: 600; }
+  .details td:first-child { width: 36%; color: #000000; font-weight: 600; }
+  .details td:nth-child(2) { width: 14px; color: #000000; }
+  .details td:last-child { font-weight: 600; color: #000000; }
 
   .body {
     position: relative;
@@ -334,7 +334,7 @@
   .rep-title {
     font-size: calc(var(--content-font-size) - 0.5px);
     font-weight: 700;
-    color: var(--brand);
+    color: #000000;
     margin-bottom: 3px;
   }
   .rep-table {
@@ -370,7 +370,7 @@
     min-width: 52mm;
     font-size: calc(var(--content-font-size) - 1.5px);
   }
-  .guardian-box .line { border-top: 1px dashed var(--ink); padding-top: 4px; font-weight: 600; }
+  .guardian-box .line { border-top: 1px dashed #000000; padding-top: 4px; font-weight: 600; color: #000000; }
 
   /* Footer Area (QR & Signatures) */
   .footer {
@@ -387,21 +387,21 @@
   .verify { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; flex: 0 0 auto; width: 30mm; }
   .qr { flex: 0 0 auto; padding: 4px; border: 1px solid var(--line); border-radius: 10px; background: #fff; line-height: 0; }
   .qr svg, .qr img { width: 22mm; height: 22mm; display: block; }
-  .verify .txt { font-size: 8.5px; color: var(--muted); line-height: 1.35; max-width: 30mm; }
-  .verify .txt b { display: block; color: var(--ink); font-size: 9.5px; }
-  .verify .code { font-family: monospace; font-size: 8.5px; white-space: nowrap; color: var(--brand); letter-spacing: .8px; }
+  .verify .txt { font-size: 8.5px; color: #000000; line-height: 1.35; max-width: 30mm; }
+  .verify .txt b { display: block; color: #000000; font-size: 9.5px; }
+  .verify .code { font-family: monospace; font-size: 8.5px; white-space: nowrap; color: #000000; font-weight: 700; letter-spacing: .8px; }
 
   .signs { display: flex; align-items: flex-end; justify-content: flex-end; gap: 4mm; flex: 1 1 auto; min-width: 0; }
   .sign { text-align: center; flex: 1 1 0; min-width: 0; max-width: 62mm; font-size: 11.5px; }
   .sign .space { height: var(--sign-space, 14mm); }
-  .sign .line { border-top: 1px solid var(--ink); padding-top: 4px; font-weight: 600; }
-  .sign small { display: block; color: var(--muted); font-weight: 400; line-height: 1.35; }
-  .bottomnote { position: absolute; left: 0; right: 0; bottom: 8.4mm; text-align: center; font-size: 9.5px; color: var(--muted); }
+  .sign .line { border-top: 1px solid #000000; padding-top: 4px; font-weight: 600; color: #000000; }
+  .sign small { display: block; color: #000000; font-weight: 400; line-height: 1.35; }
+  .bottomnote { position: absolute; left: 0; right: 0; bottom: 8.4mm; text-align: center; font-size: 9.5px; color: #000000; }
 
   /* Print Stylesheet */
   @page { size: A4; margin: 0; }
   @media print {
-    body { background: none; padding: 0; }
+    body { background: none; padding: 0; color: #000000 !important; }
     .toolbar-wrapper, .no-print { display: none !important; }
     .sheet {
       box-shadow: none;
@@ -415,6 +415,14 @@
       page-break-inside: avoid;
       outline: none !important;
       background: #fff !important;
+      color: #000000 !important;
+    }
+    .sheet * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .details td:first-child, .details td:nth-child(2), .details td:last-child, .sign small, .bismillah, .gov, .sub, .bottomnote, .verify .txt, .meta b, .rep-title {
+      color: #000000 !important;
     }
     .pad-spacer { border-bottom: none !important; margin-bottom: 0 !important; }
     .pad-spacer * { display: none !important; }
@@ -1038,7 +1046,7 @@
     if (!sheet) return;
     const clone = sheet.cloneNode(true);
     clone.removeAttribute('contenteditable');
-    const html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>{{ $certificate->memo_no }}</title></head><body style="font-family:\'Tiro Bangla\',serif;font-size:12pt;">' + clone.innerHTML + '</body></html>';
+    const html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>{{ $certificate->memo_no }}</title></head><body style="font-family:\'Tiro Bangla\',serif;font-size:12pt;color:#000000;">' + clone.innerHTML + '</body></html>';
     const blob = new Blob(['\ufeff' + html], { type: 'application/msword;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);

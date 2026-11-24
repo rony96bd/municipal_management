@@ -126,7 +126,8 @@ class AttestationSystemTest extends TestCase
         $printResponse->assertSee($cert->memo_no);
         $printResponse->assertSee($cert->verification_code);
         $printResponse->assertSee('Tiro Bangla');
-        $printResponse->assertDontSee('Noto Sans Bengali');
+        $printResponse->assertSee('--ink: #000000;');
+        $printResponse->assertSee('--muted: #000000;');
 
         // 4b. Pad mode print view with custom margin
         $padPrintResponse = $this->actingAs($admin)

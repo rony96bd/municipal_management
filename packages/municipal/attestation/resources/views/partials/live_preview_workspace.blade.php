@@ -166,7 +166,7 @@
         background: #ffffff;
         padding: 14mm 16mm 44mm;
         box-shadow: 0 8px 30px rgba(0,0,0,.18);
-        color: #1b2430;
+        color: #000000;
         font-family: 'Tiro Bangla', serif;
         overflow: hidden;
         transform-origin: top center;
@@ -238,10 +238,10 @@
         flex: 1;
         text-align: center;
     }
-    .att-a4-header .h-bismillah { font-size: 11px; color: #5d6b7a; }
-    .att-a4-header .h-gov { font-size: 11.5px; color: #5d6b7a; }
+    .att-a4-header .h-bismillah { font-size: 11px; color: #000000; }
+    .att-a4-header .h-gov { font-size: 11.5px; color: #000000; }
     .att-a4-header .h-org { font-size: 24px; font-weight: 700; color: #0f6b3a; line-height: 1.25; }
-    .att-a4-header .h-sub { font-size: 12px; color: #5d6b7a; }
+    .att-a4-header .h-sub { font-size: 12px; color: #000000; }
     .att-a4-pad-spacer {
         position: relative;
         width: 100%;
@@ -262,7 +262,7 @@
         margin-top: 4mm;
         font-size: 13.5px;
     }
-    .att-a4-meta b { color: #0f6b3a; }
+    .att-a4-meta b { color: #000000; font-weight: 700; }
     .att-a4-title {
         position: relative;
         text-align: center;
@@ -295,9 +295,9 @@
         border-bottom: 1px dashed #d9e2dc;
         vertical-align: top;
     }
-    .att-a4-details td:first-child { width: 36%; color: #5d6b7a; }
-    .att-a4-details td:nth-child(2) { width: 12px; color: #5d6b7a; }
-    .att-a4-details td:last-child { font-weight: 600; color: #1b2430; }
+    .att-a4-details td:first-child { width: 36%; color: #000000; font-weight: 600; }
+    .att-a4-details td:nth-child(2) { width: 12px; color: #000000; }
+    .att-a4-details td:last-child { font-weight: 600; color: #000000; }
     .att-a4-body {
         position: relative;
         font-size: 14px;
@@ -306,7 +306,7 @@
         margin-bottom: 3.5mm;
     }
     .att-a4-rep-wrap { position: relative; margin: 3.5mm 0; }
-    .att-a4-rep-title { font-size: 13.5px; font-weight: 700; color: #0f6b3a; margin-bottom: 3px; }
+    .att-a4-rep-title { font-size: 13.5px; font-weight: 700; color: #000000; margin-bottom: 3px; }
     .att-a4-rep-table { width: 100%; border-collapse: collapse; font-size: 12px; }
     .att-a4-rep-table th, .att-a4-rep-table td { border: 1px solid #cbd5e1; padding: 4px 6px; text-align: left; }
     .att-a4-rep-table th { background: #f1f5f9; font-weight: 700; }
@@ -354,8 +354,8 @@
         font-size: 12px;
     }
     .att-a4-sign .s-space { height: 12mm; }
-    .att-a4-sign .s-line { border-top: 1px solid #1b2430; padding-top: 3px; font-weight: 600; }
-    .att-a4-sign small { display: block; color: #5d6b7a; font-weight: 400; line-height: 1.3; }
+    .att-a4-sign .s-line { border-top: 1px solid #000000; padding-top: 3px; font-weight: 600; color: #000000; }
+    .att-a4-sign small { display: block; color: #000000; font-weight: 400; line-height: 1.3; }
     .att-a4-bottomnote {
         position: absolute;
         left: 0;
@@ -363,7 +363,7 @@
         bottom: 8mm;
         text-align: center;
         font-size: 9.5px;
-        color: #5d6b7a;
+        color: #000000;
     }
 </style>
 
@@ -686,11 +686,11 @@
                 const g2r = readFormVal('data[guardian_2_relation]');
                 guardianHtml = `
                     <div style="display:flex;justify-content:space-around;margin-top:8mm;font-size:12px;text-align:center;">
-                        <div style="border-top:1px dashed #1b2430;padding-top:3px;min-width:48mm;">
+                        <div style="border-top:1px dashed #000000;padding-top:3px;min-width:48mm;color:#000000;">
                             <b>${isEn ? "1st Guardian's Signature" : '১ম অভিভাবকের স্বাক্ষর'}</b>
                             <div>${esc(g1)} ${g1r ? '(' + esc(g1r) + ')' : ''}</div>
                         </div>
-                        <div style="border-top:1px dashed #1b2430;padding-top:3px;min-width:48mm;">
+                        <div style="border-top:1px dashed #000000;padding-top:3px;min-width:48mm;color:#000000;">
                             <b>${isEn ? "2nd Guardian's Signature" : '২য় অভিভাবকের স্বাক্ষর'}</b>
                             <div>${esc(g2)} ${g2r ? '(' + esc(g2r) + ')' : ''}</div>
                         </div>
@@ -727,8 +727,8 @@
                 <div class="att-a4-footer">
                     <div class="att-a4-qrbox">
                         <div class="att-a4-qr">QR<br>Code</div>
-                        <div style="font-size:9.5px;color:#5d6b7a;max-width:42mm;line-height:1.45;">
-                            <b style="color:#1b2430;display:block;">${isEn ? 'Verify Online' : 'অনলাইনে যাচাই করুন'}</b>
+                        <div style="font-size:9.5px;color:#000000;max-width:42mm;line-height:1.45;">
+                            <b style="color:#000000;display:block;">${isEn ? 'Verify Online' : 'অনলাইনে যাচাই করুন'}</b>
                             ${isEn ? 'QR code will be generated upon issue.' : 'ইস্যুর পর স্বয়ংক্রিয় QR কোড যুক্ত হবে।'}
                         </div>
                     </div>
