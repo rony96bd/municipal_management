@@ -396,7 +396,6 @@
   .sign .space { height: var(--sign-space, 14mm); }
   .sign .line { border-top: 1px solid #000000; padding-top: 4px; font-weight: 600; color: #000000; }
   .sign small { display: block; color: #000000; font-weight: 400; line-height: 1.35; }
-  .bottomnote { position: absolute; left: 0; right: 0; bottom: 8.4mm; text-align: center; font-size: 9.5px; color: #000000; }
 
   /* Print Stylesheet */
   @page { size: A4; margin: 0; }
@@ -678,10 +677,6 @@
           </div>
         @endforeach
       </div>
-    </div>
-
-    <div class="bottomnote">
-      {{ $isEnglish ? 'Computer generated certificate; invalid without authorized signature and seal.' : 'এটি কম্পিউটার-নির্মিত প্রত্যয়ন; কর্তৃপক্ষের স্বাক্ষর ও সিল ব্যতীত বৈধ নয়।' }}
     </div>
   @endif
 </div>
